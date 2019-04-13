@@ -1,37 +1,47 @@
-<nav class="navbar navbar-expand-lg navbar-light banner px-4">
-    <a class="navbar-brand" href="#">
-        <div class="row">
-            <div class="column">
-                <img class="logo" src="assets/images/LOGO_PATACON.BMP" alt="">
-            </div>
-            <div class="column ml-2 my-auto">
-                <span class=" nav-text ">Vinicola <br> Patacon</span>
-            </div>
-        </div>
-    </a>
-    <button class="navbar-toggler " type="button " data-toggle="collapse " data-target="#navbarSupportedContent " aria-controls="navbarSupportedContent " aria-expanded="false " aria-label="Toggle navigation ">
-      <span class="navbar-toggler-icon "></span>
-    </button>
-    <div class="collapse navbar-collapse " id="navbarSupportedContent ">
-        <ul class="navbar-nav mr-auto ">
-            <li class="nav-item">
-                <a class="nav-link nav-text " [routerLink]="[ '/' ] " RouterLinkActive="active">Inicio <span class="sr-only ">(current)</span></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link nav-text " [routerLink]="[ '' ] " RouterLinkActive="active"> Viaje</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link nav-text " [routerLink]="[ '' ] " RouterLinkActive="active">Eventos</a>
-            </li>
-        </ul>
-
-        <div class="dropdown mr-4">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Username
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Desconectar</a>
-            </div>
-        </div>
+<nav class=" navbar navbar-dark navbar-expand-md banner px-4">
+  <a class="navbar-brand" href="#">
+    <div class="row">
+      <div class="column">
+        <img class="logo" src="assets/images/LOGO_PATACON.BMP" alt="">
+      </div>
+      <div class="column ml-2 my-auto">
+        <span class=" nav-text ">Vinicola <br> Patacon</span>
+      </div>
     </div>
+  </a>
+  <div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="logout" *ngIf="isMobile" type="button">
+      <img src="assets/icons/logout.svg" alt="Desconectar">
+    </button>
+
+  </div>
+  <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto ">
+      <li class="nav-item">
+        <a class="nav-link nav-text ">Inicio <span class="sr-only ">(current)</span></a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link nav-text "> Viaje</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link nav-text ">Eventos</a>
+      </li>
+    </ul>
+
+    <!-- Usar variables de angular y ngIf-->
+    <div class="dropdown mr-4" *ngIf="!isMobile">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Username
+      </button>
+
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button class="dropdown-item" type="button">Desconectar</button>
+      </div>
+    </div>
+  </div>
 </nav>
