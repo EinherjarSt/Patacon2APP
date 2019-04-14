@@ -1,0 +1,18 @@
+<table class="table">
+  <thead class="table-header">
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Punto de inicio</th>
+      <th scope="col">Destino</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let trip of TRIPS">
+      <th scope="row">{{trip.id}}</th>
+      <td>{{trip.status}}</td>
+      <td>{{trip.start_point}}</td>
+      <td>{{trip.end_point}}</td>
+    </tr>
+  </tbody>
+</table>
