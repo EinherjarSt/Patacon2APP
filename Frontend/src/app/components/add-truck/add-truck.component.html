@@ -1,23 +1,70 @@
-<title>
-  Agregar Camión
-</title>
+<h3 class="title">
+  Registrar Camión
+</h3>
 
-<form>
-  <div class="form-group">
-    <label for="truckModel">Modelo</label>
-    <input class="form-control" id="truckModel" placeholder="Ingrese el modelo del camión">
-  </div>
-  <div>
-    <label for="brand">Marca</label>
-    <input class="form-control" id="brand" placeholder="Ingrese la marca del camión">
-  </div>
-  <div class="form-group">
-    <label for="year">Año</label>
-    <input class="form-control" id="year" placeholder="Ingrese el año del camión">
-  </div>
-  <div class="form-group">
-    <label for="patent">Patente</label>
-    <input class="form-control" id="patent" placeholder="Ingrese la patente del camión">
-  </div>
-  <button type="submit" class="btn btn-primary">Agregar</button>
-</form>
+<hr>
+<div class="background-div">
+  <form> 
+    <div class="form-group row">
+        <div class="label-div">
+          <label for="truckModel" class="col-sm-2 col-form-label label">Modelo</label>
+        </div>
+        
+        <div class="col-sm-10">
+          <input class="form-control input" id="truckModel" aria-describedby="helpModel">
+          <small id="helpModel" class="form-text text-muted">
+            Ingrese el modelo del camión.
+          </small>
+        </div>   
+    </div>
+    
+    <div class="form-group row">
+      <div class="label-div">
+        <label for="brand" class="col-sm-2 col-form-label label">Marca</label>
+      </div>
+      
+      <div class="col-sm-10">
+        <input class="form-control input" id="brand" aria-describedby="helpBrand">
+        <small id="helpBrand" class="form-text text-muted">
+          Ingrese la marca del camión.
+        </small>
+      </div>
+    </div>
+        
+    <div class="form-group row">
+      <div class="label-div">
+        <label for="year" class="col-sm-2 col-form-label label">Año</label>
+      </div>
+      
+      <div class="col-sm-10">
+        <input class="form-control input" id="year" aria-describedby="helpYear">
+        <small id="helpYear" class="form-text text-muted">
+          Ingrese el año del modelo del camión.
+        </small>
+      </div>
+    </div>
+    
+    <div class="form-group row">
+      <div class="label-div">
+        <label for="patent" class="col-sm-2 col-form-label label">Patente</label>
+      </div>
+      
+      <div class="col-sm-10">
+        <input class="form-control input" id="patent" aria-describedby="helpPatent">
+        <small id="helpPatent" class="form-text text-muted">
+          Ingrese la patente del camión.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group row"> 
+      <div class="label-div">
+        <label class="col-sm-2 col-form-label label"></label>
+      </div>
+      
+      <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary submit-button">Registrar</button>
+      </div>
+    </div>
+  </form>
+</div>
