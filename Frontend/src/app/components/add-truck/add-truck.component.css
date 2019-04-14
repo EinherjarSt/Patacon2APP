@@ -23,6 +23,7 @@ input:focus{
 
 .submit-button{
     background-color: #800000;
+    margin-right: 10px;
 }
 
 .label-div{
