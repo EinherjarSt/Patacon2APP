@@ -5,18 +5,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { AddTruckComponent } from './components/add-truck/add-truck.component';
+import { ResizeService } from './services/resize.service';
+import { LoginViewComponent } from './components/login-view/login-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    LoginViewComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    ResizeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
