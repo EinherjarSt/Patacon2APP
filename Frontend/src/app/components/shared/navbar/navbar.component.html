@@ -1,4 +1,9 @@
 <nav class=" navbar navbar-dark navbar-expand-md banner px-4">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
   <a class="navbar-brand" href="#">
     <div class="row">
       <div class="column">
@@ -9,16 +14,11 @@
       </div>
     </div>
   </a>
-  <div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <button class="logout" *ngIf="isMobile" type="button">
-      <img src="assets/icons/logout.svg" alt="Desconectar">
-    </button>
 
-  </div>
+  <button class="logout" *ngIf="isMobile" type="button">
+    <img src="assets/icons/logout.svg" alt="Desconectar">
+  </button>
+
   <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ">
       <li class="nav-item">
