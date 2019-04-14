@@ -1,3 +1,43 @@
-<p>
-  navbar works!
-</p>
+<nav class=" navbar navbar-dark navbar-expand-md banner px-4">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <a class="navbar-brand" href="#">
+    <div class="row">
+      <div class="column">
+        <img class="logo" src="assets/images/LogoProvisorio.png" alt="">
+      </div>
+    </div>
+  </a>
+  <button class="logout" *ngIf="isMobile" type="button">
+    <img src="assets/icons/logout.svg" alt="Desconectar">
+  </button>
+
+  <div class="collapse navbar-collapse ml-5" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto ">
+      <li class="nav-item">
+        <a class="nav-link nav-text ">Inicio <span class="sr-only ">(current)</span></a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link nav-text "> Viaje</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link nav-text ">Eventos</a>
+      </li>
+    </ul>
+
+    <!-- Usar variables de angular y ngIf-->
+    <div class="dropdown mr-4" *ngIf="!isMobile">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        Username
+      </button>
+
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button class="dropdown-item" type="button">Desconectar</button>
+      </div>
+    </div>
+  </div>
+</nav>
