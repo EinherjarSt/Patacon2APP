@@ -7,13 +7,15 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { AddTruckComponent } from './components/add-truck/add-truck.component';
 import { ResizeService } from './services/resize.service';
 import { LoginViewComponent } from './components/login-view/login-view.component';
+import { CreateUserViewComponent } from './components/create-user-view/create-user-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    AddTruckComponent,
-    LoginViewComponent
+    LoginViewComponent,
+    CreateUserViewComponent,
+    AddTruckComponent
   ],
   imports: [
     BrowserModule,
