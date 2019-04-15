@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { TripListComponent } from './components/trip-list/trip-list.component';
 import { AddTruckComponent } from './components/add-truck/add-truck.component';
 import { ResizeService } from './services/resize.service';
 import { LoginViewComponent } from './components/login-view/login-view.component';
@@ -15,6 +16,7 @@ import { CreateUserViewComponent } from './components/create-user-view/create-us
   declarations: [
     AppComponent,
     NavbarComponent,
+    TripListComponent
     AddDriverComponent,
     AddTruckComponent,
     LoginViewComponent,
