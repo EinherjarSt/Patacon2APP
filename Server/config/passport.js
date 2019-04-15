@@ -27,7 +27,7 @@ passport.use(new LocalStrategy({
             if (!user.verifyPassword(password)) {
                 return done(null, false);
             }
-            return done(null, user);
+            return done(null, {name : user.name});
         });
     }
 ));
