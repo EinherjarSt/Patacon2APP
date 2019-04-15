@@ -8,6 +8,7 @@ import { AddTruckComponent } from './components/add-truck/add-truck.component';
 import { ResizeService } from './services/resize.service';
 import { LoginViewComponent } from './components/login-view/login-view.component';
 import { AddProducerComponent } from './components/add-producer/add-producer.component';
+import { CreateUserViewComponent } from './components/create-user-view/create-user-view.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,10 @@ import { AddProducerComponent } from './components/add-producer/add-producer.com
     NavbarComponent,
     AddTruckComponent,
     LoginViewComponent,
-    AddProducerComponent
+    AddProducerComponent,
+    LoginViewComponent,
+    CreateUserViewComponent,
+    AddTruckComponent
   ],
   imports: [
     BrowserModule,
