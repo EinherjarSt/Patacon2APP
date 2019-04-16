@@ -25,7 +25,11 @@ app.post('/login', function (req, res, next) {
                 if (err) {
                     res.send(err);
                 }
-                const token = jwt.sign(JSON.stringify(user), 'your_jwt_secret');
+                const token = jwt.sign(user,
+                    process.env.JWT_SECRET, {
+                        expiresIn: 60 * 60
+                    }
+                );
 
                 return res.json({
                     user,
@@ -40,6 +44,7 @@ app.post('/login', function (req, res, next) {
 
 app.get('/logout', function (req, res) {
     req.logout();
+    res.status(200).end();
 });
 
 module.exports = app;

@@ -34,10 +34,24 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: 'your_jwt_secret'
+        secretOrKey: process.env.JWT_SECRET
     },
     function (jwtPayload, done) {
-
+        console.log(`JWTStrategy ${JSON.stringify(jwtPayload)}` )
+        User.findOne({
+            username: jwtPayload.username
+        }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+            if (!user) {
+                return done(null, false);
+            }
+            if (!user.verifyPassword(password)) {
+                return done(null, false);
+            }
+            return done(null, {name : user.name});
+        });
         // //find the user in db if needed
         // return UserModel.findOneById(jwtPayload.id)
         //     .then(user => {
