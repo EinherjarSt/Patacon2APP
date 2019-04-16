@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import {LoginViewComponent} from './components/login-view/login-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    LoginViewComponent
   ],
   imports: [
     BrowserModule,

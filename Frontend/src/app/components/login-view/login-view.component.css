@@ -3,7 +3,9 @@
     height:100%; 
     position: absolute; 
     z-index: -2; 
-    top: 0; 
+    top: 0;
+    right: 0;
+    bottom: 0; 
     left:0;
 }
 label{
@@ -17,17 +19,21 @@ label{
     z-index: -1; 
     background-image: radial-gradient(circle, rgba(255, 255, 255, 0.192), rgba(0, 0, 0, 0.432))
 }
-.card{
-    padding-bottom: 55px;
+.mat-card{
+    padding-bottom: 75px;
     box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background: rgba(255, 255, 255, 0.842);
     margin-top: 14%;
     
 }
-input{
+.full{
     font-size: 14px;
+    min-width: 50px;
+    max-width: 270px;
+    width: 100%;
 }
 .btn{
+    color: white;
     font-size: 14px;
     position: absolute;
     bottom: 12px;
@@ -36,16 +42,16 @@ input{
     border-color: rgb(68, 11, 11);
     
 }
-.card-header{
-    background: rgba(128, 0, 0);
-}
+
 .restore{
     position: absolute;
-    font-size: 14px;
+    font-size: 12px;
     right: 20px;
-    bottom: 70px;
+    bottom: 63px;
 }
-.logo{
+#logo{
+    margin-top: 0px;
+    margin-left: 5px;
     width:85%; 
     height:50%; 
 
