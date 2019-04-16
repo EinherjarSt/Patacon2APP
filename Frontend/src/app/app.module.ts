@@ -7,14 +7,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
+import { UserListComponent } from './components/user-list/user-list.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    ListaUsuariosComponent
+    UserListComponent
   ],
   imports: [
     BrowserModule,
