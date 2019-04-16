@@ -1,0 +1,108 @@
+<div layout="row">
+  <div>
+      <mat-checkbox id="enTransitoCheckBox"(change)="handleStatusCheckBoxChange($event)" >En tránsito</mat-checkbox>
+      <mat-checkbox id="detenidoCheckBox" (change)="handleStatusCheckBoxChange($event)" >Detenido</mat-checkbox>
+      <mat-checkbox id="cargandoCheckBox" (change)="handleStatusCheckBoxChange($event)" >Cargando</mat-checkbox>
+
+  </div>
+
+  <div>
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="shipment">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Carga </th>
+        <td mat-cell *matCellDef="let element"> {{element.shipment}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="departure_time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora de salida </th>
+        <td mat-cell *matCellDef="let element"> {{element.departure_time}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="arrival_time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Hora de llegada </th>
+        <td mat-cell *matCellDef="let element"> {{element.arrival_time}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
+
+</div>
+
+
+
+<!--
+
+<div class="container-fluid root">
+  <div class="row">
+    <div class="col">Banner</div>
+  </div>
+  
+  <div class="row">
+    
+    <div class="col filter-form-container">
+        <div class="custom-control custom-checkbox">
+            <input (change)="handleStatusCheckBoxChange($event)" type="checkbox" class="custom-control-input" id="enTransitoCheckBox">
+            <label class="custom-control-label" for="enTransitoCheckBox">En tránsito</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+            <input (change)="handleStatusCheckBoxChange($event)" type="checkbox" class="custom-control-input" id="cargandoCheckBox">
+            <label class="custom-control-label" for="cargandoCheckBox">Cargando</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+            <input (change)="handleStatusCheckBoxChange($event)" type="checkbox" class="custom-control-input" id="detenidoCheckBox">
+            <label class="custom-control-label" for="detenidoCheckBox">Detenido</label>
+        </div>
+    </div>
+
+    <div class="col">
+
+      <table class="table">
+        <thead class="table-header">
+          <tr>
+            <th scope="col">Estado</th>
+            <th scope="col">Carga</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Hora de salida</th>
+            <th scope="col">Hora de llegada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trip of (TRIPS | filterTripsByStatus:selected_status)">
+            <td>{{trip.status}}</td>
+            <td>{{trip.shipment}}</td>
+            <td>{{trip.date}}</td>
+            <td>{{trip.departure_time}}</td>
+            <td>{{trip.arrival_time}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+-->
