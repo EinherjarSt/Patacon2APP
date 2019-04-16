@@ -8,13 +8,15 @@ import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
+import { TruckViewComponent } from './components/truck-view/truck-view.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    ListaUsuariosComponent
+    ListaUsuariosComponent,
+    TruckViewComponent
   ],
   imports: [
     BrowserModule,
