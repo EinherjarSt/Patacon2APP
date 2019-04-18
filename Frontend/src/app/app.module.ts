@@ -5,8 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import {LoginViewComponent} from './components/login-view/login-view.component';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import {LoginViewComponent} from './components/login-view/login-view.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule
+   
   ],
   providers: [],
   bootstrap: [AppComponent]
