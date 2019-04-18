@@ -8,6 +8,7 @@ import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { LoginViewComponent } from './components/login-view/login-view.component';
 
 
 
@@ -15,7 +16,9 @@ import { UserListComponent } from './components/user-list/user-list.component';
   declarations: [
     AppComponent,
     ToolbarComponent,
+    LoginViewComponent,
     UserListComponent
+
   ],
   imports: [
     BrowserModule,
@@ -29,3 +32,6 @@ import { UserListComponent } from './components/user-list/user-list.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+   
