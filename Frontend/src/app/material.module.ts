@@ -4,6 +4,9 @@ import {
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,
+    MatCardModule,
+    MatInputModule,
+    MatFormFieldModule,
     MatListModule,
     MatSidenavModule,
     MatMenuModule
@@ -17,6 +20,8 @@ from '@angular/material';
         MatButtonModule,
         MatToolbarModule,
         MatIconModule,
+        MatCardModule,
+        MatInputModule,
         MatListModule,
         MatSidenavModule,
         MatMenuModule
@@ -25,6 +30,9 @@ from '@angular/material';
         MatButtonModule,
         MatToolbarModule,
         MatIconModule,
+        MatCardModule,
+        MatInputModule,
+        MatFormFieldModule,
         MatListModule,
         MatSidenavModule,
         MatMenuModule

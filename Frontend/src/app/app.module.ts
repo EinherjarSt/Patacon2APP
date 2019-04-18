@@ -7,14 +7,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
+import {LoginViewComponent} from './components/login-view/login-view.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    ListaUsuariosComponent
+    LoginViewComponent
   ],
   imports: [
     BrowserModule,
