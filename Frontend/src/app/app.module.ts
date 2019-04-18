@@ -5,26 +5,33 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import {LoginViewComponent} from './components/login-view/login-view.component';
+
+import { UserListComponent } from './components/user-list/user-list.component';
+import { LoginViewComponent } from './components/login-view/login-view.component';
+import { NotFoundComponent } from './core/not-found/not-found.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent,
-    LoginViewComponent
+    LoginViewComponent,
+    UserListComponent,
+    NotFoundComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FlexLayoutModule
    
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+   
