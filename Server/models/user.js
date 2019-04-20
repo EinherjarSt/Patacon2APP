@@ -24,13 +24,14 @@ let Users = [
 
 function findOne(username, callback){
     let user;
+    console.log("findOne: %j ", username)
     for (let element of Users){
         if(element.name == username.username){
             user = element;
             break;
         }
     }
-    console.log(user)
+    console.log("user: %j", user)
     if (user){
         callback(null, user);
         return;

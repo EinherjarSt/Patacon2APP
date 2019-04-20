@@ -16,8 +16,9 @@ passport.use(new LocalStrategy({
         console.log(`LocalStrategy ${username} : ${password}`);
 
         User.findOne({
-            username: username
+            username
         }, function (err, user) {
+            console.log("err local: " + err);
             if (err) {
                 return done(err);
             }
@@ -37,17 +38,15 @@ passport.use(new JWTStrategy({
         secretOrKey: process.env.JWT_SECRET
     },
     function (jwtPayload, done) {
-        console.log(`JWTStrategy ${JSON.stringify(jwtPayload)}` )
+        console.log("JWTStrategy %j ", jwtPayload )
         User.findOne({
-            username: jwtPayload.username
+            username: jwtPayload.name
         }, function (err, user) {
             if (err) {
+                console.log("err jwt %j ",err);
                 return done(err);
             }
             if (!user) {
-                return done(null, false);
-            }
-            if (!user.verifyPassword(password)) {
                 return done(null, false);
             }
             return done(null, {name : user.name});

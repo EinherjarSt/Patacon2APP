@@ -5,13 +5,13 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 /* POST login. */
-app.post('/login', function (req, res, next) {
+app.post('/login', function (req, res) {
     console.log("/login")
 
     passport.authenticate('local', {
             session: false
         }, (err, user, info) => {
-            console.log(err);
+            console.log("login error: %j", err);
             if (err || !user) {
                 return res.status(400).json({
                     message: info ? info.message : 'Login failed',

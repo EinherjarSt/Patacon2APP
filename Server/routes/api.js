@@ -3,7 +3,7 @@ const app = express();
 
 const passport = require('passport');
 
-app.get('/camiones', passport.authenticate('jwt', { session: false }), (req, res) =>{
+app.get('/camiones', passport.authenticate('jwt', { session: false}), (req, res) =>{
     let data = [{
         patente: 'ABC',
         chofer: 'Alfonso' 
@@ -11,10 +11,8 @@ app.get('/camiones', passport.authenticate('jwt', { session: false }), (req, res
         patente: 'CDE',
         chofer: 'Benjamin' 
     }]
-    return res.json({
-        patente: 'ABC',
-        chofer: 'Alfonso' 
-    });
+    console.log("camiones: " + data);
+    return res.json(data);
 })
 
 module.exports = app;
