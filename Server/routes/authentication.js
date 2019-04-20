@@ -32,7 +32,6 @@ app.post('/login', function (req, res) {
                 );
 
                 return res.json({
-                    user,
                     token
                 });
             });
