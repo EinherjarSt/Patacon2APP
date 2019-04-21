@@ -1,1 +1,39 @@
-<button mat-raised-button color="primary" (click)="openDialog()">Modal</button>
+
+<div class="register-button">
+    <button mat-raised-button color="primary" class="button" (click)="openDialog()">Registrar</button>
+</div>
+
+<div class="table-div">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="model">
+            <th mat-header-cell *matHeaderCellDef> Modelo </th>
+            <td mat-cell *matCellDef="let element"> {{element.model}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="brand">
+            <th mat-header-cell *matHeaderCellDef> Marca </th>
+            <td mat-cell *matCellDef="let element"> {{element.brand}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="year">
+            <th mat-header-cell *matHeaderCellDef> Año </th>
+            <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="patent">
+            <th mat-header-cell *matHeaderCellDef> Patente </th>
+            <td mat-cell *matCellDef="let element"> {{element.patent}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button color="primary" class="button">Modificar</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
+</div>
+

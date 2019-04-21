@@ -6,30 +6,50 @@
 
 <form>
     <mat-list>
-        <mat-list-item>
-            <mat-form-field appearance="outline">
-                <mat-label>Modelo</mat-label>
-            </mat-form-field>
+        <mat-list-item class="item">
+            <div class="input-div">
+                <mat-form-field appearance="outline" class="input">
+                    <mat-label>Modelo</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </div>   
         </mat-list-item>
 
-        <mat-list-item>
-            <mat-form-field appearance="outline">
-                <mat-label>Marca</mat-label>
-            </mat-form-field>
+        <mat-list-item class="item">
+            <div class="input-div">
+                <mat-form-field appearance="outline" class="input">
+                    <mat-label>Marca</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </div>
         </mat-list-item>
 
-        <mat-list-item>
-            <mat-form-field appearance="outline">
-                <mat-label>Año</mat-label>
-            </mat-form-field>
+        <mat-list-item class="item">
+            <div class="input-div">
+                <mat-form-field appearance="outline" class="input">
+                    <mat-label>Año</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </div>
         </mat-list-item>
 
-        <mat-list-item>
-            <mat-form-field appearance="outline">
-                <mat-label>Patente</mat-label>
-            </mat-form-field>
+        <mat-list-item class="item">
+            <div class="input-div">
+                <mat-form-field appearance="outline" class="input">
+                    <mat-label>Patente</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item class="action-buttons">
+            <div class="button-div">
+                <button mat-raised-button color="primary" class="button">Registrar</button>
+            </div>
+
+            <div class="button-div">
+                <button mat-raised-button color="primary" class="button">Cancelar</button>
+            </div>
         </mat-list-item>
     </mat-list>
-
-    <button mat-raised-button color="primary">Registrar</button>
 </form>
