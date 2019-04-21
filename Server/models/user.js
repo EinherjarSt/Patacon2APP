@@ -13,7 +13,7 @@ class User {
     }
 
     verifyPassword(password){
-        return password = this.password;
+        return password === this.password;
     }
 }
 

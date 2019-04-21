@@ -12,6 +12,8 @@ app.post('/login', function (req, res) {
             session: false
         }, (err, user, info) => {
             console.log("login error: %j", err);
+            console.log("login user: %j", user);
+
             if (err || !user) {
                 return res.status(400).json({
                     message: info ? info.message : 'Login failed',
@@ -31,6 +33,7 @@ app.post('/login', function (req, res) {
                     }
                 );
 
+              
                 return res.json({
                     token
                 });

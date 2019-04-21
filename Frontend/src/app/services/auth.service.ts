@@ -1,23 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment as env} from '../../environments/environment';
+import { environment as env} from '@env/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private jwtHelper:JwtHelperService) { }
 
   /* Request to server to verify if a user exist and return his token.
   *  If the token exist save it in localstorage with key access_token.
   */
-  login(username: string, password: string): Observable<boolean> {
-    return this.http.post<{token: string}>(env.api.concat('/login') , {username: username, password: password})
+  login(email: string, password: string): Observable<boolean> {
+
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+      });
+    let options = { headers: headers };
+
+    const body = new HttpParams()
+    .set('email', email)
+    .set('password', password);
+
+    return this.http.post<{token: string}>(env.api.concat('/login') , body, options)
       .pipe(
         map(result => {
+          console.log("token recibido");
           localStorage.setItem('access_token', result.token);
           return true;
         })
@@ -31,6 +44,10 @@ export class AuthService {
     localStorage.removeItem('access_token');
   }
 
-  public get loggedIn(): boolean {
-    return (localStorage.getItem('access_token') !== null);
-  }}
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('access_token');
+    // Check whether the token is expired and return
+    // true or false
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+}
