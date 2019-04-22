@@ -5,4 +5,7 @@ table {
   th.mat-sort-header-sorted {
     color: black;
   }
-  
+
+.list-container {
+  padding: 5% 5% 5% 5%;
+}
