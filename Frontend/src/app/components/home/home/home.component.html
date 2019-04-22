@@ -39,11 +39,11 @@
       </mat-toolbar-row>
       <td></td>
       <mat-toolbar-row class="toolbar-2">
-          <a routerLink="/usuarios" mat-button>
+          <a [routerLink]="['usuarios']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"mat-button>
               
               Usuarios
             </a>
-          <a routerLink="/camiones" mat-button>
+          <a routerLink="camiones" mat-button>
               
               Camiones
             </a>
