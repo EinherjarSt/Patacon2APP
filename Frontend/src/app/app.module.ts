@@ -8,7 +8,8 @@ import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
-import { TruckViewComponent, AddTruckDialog } from './components/truck-view/truck-view.component';
+import { TruckViewComponent } from './components/truck-view/truck-view.component';
+import { AddTruckComponent } from './components/add-truck/add-truck.component';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { TruckViewComponent, AddTruckDialog } from './components/truck-view/truc
     ToolbarComponent,
     ListaUsuariosComponent,
     TruckViewComponent,
-    AddTruckDialog
+    AddTruckComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +31,7 @@ import { TruckViewComponent, AddTruckDialog } from './components/truck-view/truc
   providers: [],
   bootstrap: [AppComponent],
   entryComponents:[
-    AddTruckDialog
+    AddTruckComponent
   ]
 })
 export class AppModule { }

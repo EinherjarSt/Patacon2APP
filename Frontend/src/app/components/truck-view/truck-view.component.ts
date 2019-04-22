@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { AddTruckComponent } from '../add-truck/add-truck.component';
 
 export interface truck{
   model: string,
@@ -36,7 +37,7 @@ export class TruckViewComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(AddTruckDialog, {
+    const dialogRef = this.dialog.open(AddTruckComponent, {
       width: '500px',
     });
   
@@ -47,19 +48,3 @@ export class TruckViewComponent implements OnInit {
 
 }
 
-@Component({
-  selector: 'add-truck-dialog',
-  templateUrl: 'add-truck-view.component.html',
-  styleUrls: ['./truck-view.component.css']
-})
-export class AddTruckDialog {
-
-  constructor(public dialogRef: MatDialogRef<AddTruckDialog>) {
-
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}
