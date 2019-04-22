@@ -1,27 +1,30 @@
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-<div class="transparente" ></div>
-<body id ="fondo"  class="fondo">
-<div class="container p-5">
+<div class="transparente"></div>
+
+<body id="fondo" class="fondo">
+  <div class="container p-5">
     <div class="row">
-        <div class = "col-md-4 offset-md-4">
-            <mat-card class="animated fadeInDown" >
-                <mat-card-header id= "header">
-                    <img mat-card-image src="../../../assets/images/LogoProvisorio.png" id = "logo"/>
-                </mat-card-header>
-                <mat-card-content class= "body">
-                        <mat-form-field class="full">
-                            <input matInput type="email"  cols="30" rows="10" placeholder="Email"/> 
-                        </mat-form-field>
-                        <mat-form-field class="full">
-                            <input matInput  placeholder="Contraseña"  type="password"  cols="30" rows="10" /> 
-                        </mat-form-field>
-                    
-                    <a href="" class="restore">¿Olvidaste tu contraseña?</a>
-                    <button mat-button href="#" class="btn">Iniciar Sesión</button>
-                </mat-card-content>
-            </mat-card>
-        </div>
+      <div class="col-md-4 offset-md-4">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+          <mat-card class="animated fadeInDown">
+            <mat-card-header id="header">
+              <img mat-card-image src="../../../assets/images/LogoProvisorio.png" id="logo" />
+            </mat-card-header>
+            <mat-card-content class="body">
+              <mat-form-field class="full">
+                <input matInput type="email" cols="30" rows="10" placeholder="Email" formControlName="email"/>
+              </mat-form-field>
+              <mat-form-field class="full">
+                <input matInput placeholder="Contraseña" type="password" cols="30" rows="10" formControlName="password"/>
+              </mat-form-field>
+
+              <a href="" class="restore">¿Olvidaste tu contraseña?</a>
+              <button mat-button href="#" class="btn" type="submit">Iniciar Sesión</button>
+            </mat-card-content>
+          </mat-card>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
 </body>
