@@ -5,12 +5,18 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { JwtModule } from '@auth0/angular-jwt';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { TripListComponent } from  './components/trip-list/trip-list.component'
+import {AddTripComponent} from './components/add-trip/add-trip.component';
 
+import { MatPaginatorModule, MatProgressSpinnerModule, 
+  MatSortModule, MatTableModule, MatFormFieldModule, MatInputModule,MatDialogModule} from "@angular/material";
+import {MatCheckboxModule} from '@angular/material/checkbox'; 
+import { FlexLayoutModule } from '@angular/flex-layout';  
 import { LoginViewComponent } from './components/login-view/login-view.component';
 import { NotFoundComponent } from './components/core/not-found/not-found.component';
 import {environment as env} from '@env/environment'
@@ -19,15 +25,25 @@ import {environment as env} from '@env/environment'
 @NgModule({
   declarations: [
     AppComponent,
+    TripListComponent,
+    ToolbarComponent,
+    AddTripComponent,
     LoginViewComponent,
     NotFoundComponent
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatCheckboxModule, 
+    FlexLayoutModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -40,7 +56,8 @@ import {environment as env} from '@env/environment'
     })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AddTripComponent]
 })
 export class AppModule { }
 
