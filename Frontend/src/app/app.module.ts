@@ -8,13 +8,15 @@ import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import {LoginViewComponent} from './components/login-view/login-view.component';
+import { DriversListComponent } from './components/drivers-list/drivers-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    LoginViewComponent
+    LoginViewComponent,
+    DriversListComponent
   ],
   imports: [
     BrowserModule,

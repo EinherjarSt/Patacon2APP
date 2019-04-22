@@ -1,0 +1,16 @@
+table {
+    width: 50%;
+  }
+#title{
+  margin-top: 10px;
+  margin-left: 35px;
+}
+  th{
+      color:white;
+      background: rgb(179, 0, 0);
+      font-size: 14px;
+  }
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  
