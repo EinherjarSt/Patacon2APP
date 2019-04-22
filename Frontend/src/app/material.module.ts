@@ -12,10 +12,7 @@ import {
     MatSidenavModule,
     MatMenuModule,
     MatDialogModule,
-    
-
-    
-    
+    MatTableModule
 }
 from '@angular/material';
 
@@ -27,21 +24,13 @@ from '@angular/material';
         MatToolbarModule,
         MatIconModule,
         MatCardModule,
-        MatInputModule,
         MatListModule,
         MatSidenavModule,
         MatMenuModule,
-        MatInputModule,
-        MatFormFieldModule,
-        FlexLayoutModule,
         MatDialogModule,
-
- 
-        
- 
-   
-
-
+        MatFormFieldModule,
+        MatInputModule,
+        MatTableModule,
     ],
     exports: [
         MatButtonModule,
@@ -53,12 +42,9 @@ from '@angular/material';
         MatListModule,
         MatSidenavModule,
         MatMenuModule,
-        MatInputModule,
-        MatFormFieldModule,
+        MatDialogModule,
+        MatTableModule,
         FlexLayoutModule,
-        MatDialogModule
-
-
     ]
    
   })
