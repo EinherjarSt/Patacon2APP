@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 
-import { UserListComponent } from './components/user-list/user-list.component';
 import { LoginViewComponent } from './components/login-view/login-view.component';
 import { NotFoundComponent } from './components/core/not-found/not-found.component';
 import {environment as env} from '@env/environment'
@@ -21,8 +20,8 @@ import {environment as env} from '@env/environment'
   declarations: [
     AppComponent,
     LoginViewComponent,
-    UserListComponent,
-    NotFoundComponent,
+    NotFoundComponent
+
   ],
   imports: [
     BrowserModule,

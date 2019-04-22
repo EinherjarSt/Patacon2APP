@@ -11,8 +11,10 @@ import {
     MatListModule,
     MatSidenavModule,
     MatMenuModule,
+    MatDialogModule,
     
 
+    
     
 }
 from '@angular/material';
@@ -31,7 +33,15 @@ from '@angular/material';
         MatMenuModule,
         MatInputModule,
         MatFormFieldModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        MatDialogModule,
+
+ 
+        
+ 
+   
+
+
     ],
     exports: [
         MatButtonModule,
@@ -45,7 +55,10 @@ from '@angular/material';
         MatMenuModule,
         MatInputModule,
         MatFormFieldModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        MatDialogModule
+
+
     ]
    
   })

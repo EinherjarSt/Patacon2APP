@@ -19,7 +19,7 @@
             Mensajes
           </a>
   
-          <a href="#" mat-button [matMenuTriggerFor]="menu">
+          <a  mat-button [matMenuTriggerFor]="menu">
             
               <mat-icon>account_box</mat-icon> Usuario
         
@@ -39,11 +39,11 @@
       </mat-toolbar-row>
       <td></td>
       <mat-toolbar-row class="toolbar-2">
-          <a routerLink="/usuarios" mat-button>
+          <a [routerLink]="['usuarios']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"mat-button>
               
               Usuarios
             </a>
-          <a href="#" mat-button>
+          <a routerLink="camiones" mat-button>
               
               Camiones
             </a>
@@ -85,6 +85,7 @@
       <mat-sidenav-content fxFlexFill>
   
           <!--Aqui va el contenido principal-->
+          <router-outlet></router-outlet>
   
       </mat-sidenav-content>
     </mat-sidenav-container>
