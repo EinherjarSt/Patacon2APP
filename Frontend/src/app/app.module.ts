@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule }    from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +17,9 @@ import { MatPaginatorModule, MatProgressSpinnerModule,
   MatSortModule, MatTableModule, MatFormFieldModule, MatInputModule,MatDialogModule} from "@angular/material";
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
 import { FlexLayoutModule } from '@angular/flex-layout';  
+import { LoginViewComponent } from './components/login-view/login-view.component';
+import { NotFoundComponent } from './components/core/not-found/not-found.component';
+import {environment as env} from '@env/environment'
 
 
 @NgModule({
@@ -21,7 +27,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AppComponent,
     TripListComponent,
     ToolbarComponent,
-    AddTripComponent
+    AddTripComponent,
+    LoginViewComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -36,10 +44,22 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCheckboxModule, 
     FlexLayoutModule,
     MatDialogModule,
-    HttpClientModule
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('access_token'),
+        whitelistedDomains: [env.api],
+        blacklistedRoutes: [`${env.api}/login`]
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [AddTripComponent]
 })
 export class AppModule { }
+
+
+   
