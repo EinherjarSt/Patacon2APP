@@ -8,7 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { MaterialModule } from '../../material.module';
 import { AddUserComponent } from './add-user/add-user.component';
-
+import { ProducerListComponent } from './producers/producer-list/producer-list.component';
+import { AddProducerComponent } from './producers/add-producer/add-producer.component';
 
 
 
@@ -17,7 +18,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 @NgModule({
   declarations: [
     HomeComponent, 
-    UsersComponent, AddUserComponent
+    UsersComponent, AddUserComponent, ProducerListComponent, AddProducerComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +28,8 @@ import { AddUserComponent } from './add-user/add-user.component';
     MaterialModule,
   ],
   entryComponents: [
-    AddUserComponent
+    AddUserComponent,
+    AddProducerComponent
   ],
 })
 export class HomeModule { }
