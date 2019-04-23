@@ -9,10 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import {LoginViewComponent} from './components/login-view/login-view.component';
-import { DriversListComponent } from './components/drivers-list/drivers-list.component';
 import { TripListComponent } from  './components/trip-list/trip-list.component'
 import {AddTripComponent} from './components/add-trip/add-trip.component';
 import { TruckViewComponent } from './components/truck-view/truck-view.component';
@@ -30,9 +26,6 @@ import {environment as env} from '@env/environment'
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent,
-    LoginViewComponent,
-    DriversListComponent
     TripListComponent,
     TruckViewComponent,
     AddTruckComponent,
