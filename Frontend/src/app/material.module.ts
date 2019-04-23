@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import {
     MatButtonModule,
@@ -9,9 +10,10 @@ import {
     MatFormFieldModule,
     MatListModule,
     MatSidenavModule,
-    MatMenuModule,
-    MatTableModule,
     MatSortModule
+    MatMenuModule,
+    MatDialogModule,
+    MatTableModule
 }
 from '@angular/material';
 
@@ -23,10 +25,12 @@ from '@angular/material';
         MatToolbarModule,
         MatIconModule,
         MatCardModule,
-        MatInputModule,
         MatListModule,
         MatSidenavModule,
         MatMenuModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
         MatTableModule,
         MatSortModule
     ],
@@ -40,7 +44,9 @@ from '@angular/material';
         MatListModule,
         MatSidenavModule,
         MatMenuModule,
+        MatDialogModule,
         MatTableModule,
+        FlexLayoutModule,
         MatSortModule
     ]
    
