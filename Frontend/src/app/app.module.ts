@@ -20,6 +20,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FlexLayoutModule } from '@angular/flex-layout';  
 import { LoginViewComponent } from './components/login-view/login-view.component';
 import { NotFoundComponent } from './components/core/not-found/not-found.component';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {environment as env} from '@env/environment'
 
 
@@ -34,6 +35,7 @@ import {environment as env} from '@env/environment'
     NotFoundComponent
   ],
   imports: [
+    AmazingTimePickerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

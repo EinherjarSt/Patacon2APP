@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from "@angular/material";
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-add-trip',
@@ -18,8 +20,15 @@ export class AddTripComponent implements OnInit {
   ngOnInit() {
   }
 
-  close() {
-    this.dialogRef.close();
+  onCloseConfirm(){
+    this.dialogRef.close('Confirm');
+
+  }
+
+  onCloseCancel(){
+    this.dialogRef.close('Cancel');
+
+
   }
 
 }
