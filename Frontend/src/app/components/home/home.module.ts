@@ -9,6 +9,8 @@ import { UsersComponent } from './users/users.component';
 import { MaterialModule } from '../../material.module';
 import { AddUserComponent } from './add-user/add-user.component';
 import { DriversListComponent } from '../drivers-list/drivers-list.component';
+import { AddDriverComponent } from '../add-driver/add-driver.component';
+
 
 
 @NgModule({
@@ -16,7 +18,8 @@ import { DriversListComponent } from '../drivers-list/drivers-list.component';
     HomeComponent, 
     UsersComponent, 
     AddUserComponent,
-    DriversListComponent
+    DriversListComponent,
+    AddDriverComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,8 @@ import { DriversListComponent } from '../drivers-list/drivers-list.component';
     MaterialModule,
   ],
   entryComponents: [
-    AddUserComponent
+    AddUserComponent,
+    AddDriverComponent
   ],
 })
 export class HomeModule { }
