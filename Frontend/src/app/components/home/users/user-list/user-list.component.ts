@@ -3,6 +3,7 @@ import { User } from 'src/app/model-classes/user';
 import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { UsersService } from 'src/app/services/users.service';
 
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -11,7 +12,7 @@ import { UsersService } from 'src/app/services/users.service';
 export class UserListComponent implements OnInit {
 
   users: User[];
-  displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "update", "delete"];
+  displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "delete"];
   dataSource: MatTableDataSource<User>;
 
   constructor(private usersService: UsersService, private dialog: MatDialog) { }
@@ -38,6 +39,7 @@ export class UserListComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
+
 
 
   
