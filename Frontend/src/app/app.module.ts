@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { LOCALE_ID } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +20,9 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { FlexLayoutModule } from '@angular/flex-layout';  
 import { LoginViewComponent } from './components/login-view/login-view.component';
 import { NotFoundComponent } from './components/core/not-found/not-found.component';
-import {environment as env} from '@env/environment';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
+import {environment as env} from '@env/environment'
+
 
 
 @NgModule({
@@ -34,6 +36,7 @@ import {environment as env} from '@env/environment';
     NotFoundComponent
   ],
   imports: [
+    AmazingTimePickerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -57,7 +60,9 @@ import {environment as env} from '@env/environment';
       }
     })
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es-CL' }
+  ],
   bootstrap: [AppComponent],
   entryComponents:[
     AddTruckComponent,

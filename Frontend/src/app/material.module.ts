@@ -14,6 +14,9 @@ import {
     MatMenuModule,
     MatDialogModule,
     MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
     MatPaginatorModule
 }
 from '@angular/material';
@@ -33,6 +36,9 @@ from '@angular/material';
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatAutocompleteModule
         MatSortModule,
         MatPaginatorModule
     ],
@@ -49,6 +55,12 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         FlexLayoutModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatAutocompleteModule,
+        MatSortModule,
+        MatPaginatorModule
+
     ]
    
   })
