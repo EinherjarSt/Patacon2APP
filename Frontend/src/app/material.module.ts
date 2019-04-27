@@ -10,6 +10,7 @@ import {
     MatFormFieldModule,
     MatListModule,
     MatSidenavModule,
+    MatSortModule,
     MatMenuModule,
     MatDialogModule,
     MatTableModule,
@@ -32,6 +33,7 @@ from '@angular/material';
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
+        MatSortModule,
         MatPaginatorModule
     ],
     exports: [
@@ -47,7 +49,6 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         FlexLayoutModule,
-        MatPaginatorModule
     ]
    
   })
