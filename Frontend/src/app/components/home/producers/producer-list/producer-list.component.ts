@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import { AddProducerComponent } from '../add-producer/add-producer.component';
+import { Producer } from 'src/app/model-classes/producer';
+import { ProducersService } from 'src/app/services/producers.service';
 
 @Component({
   selector: 'app-producer-list',
@@ -9,9 +11,32 @@ import { AddProducerComponent } from '../add-producer/add-producer.component';
 })
 export class ProducerListComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  producers: Producer[];
+  displayedColumns: string[] = ["name", "rut", "manager", "location", "telephone", "details", "delete"];
+  dataSource: MatTableDataSource<Producer>;
 
+  constructor(private producerService: ProducersService, private dialog: MatDialog) { }
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
   ngOnInit() {
+    this.getProducers();
+    this.dataSource = new MatTableDataSource(this.producers);
+    this.dataSource.sort = this.sort;
+  }
+
+  getProducers(): void{
+    this.producers = this.producerService.getProducers();
+  }
+
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   openDialog(): void {

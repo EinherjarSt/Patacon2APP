@@ -12,7 +12,8 @@ import {
     MatSidenavModule,
     MatMenuModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
 }
 from '@angular/material';
 
@@ -31,6 +32,7 @@ from '@angular/material';
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
+        MatPaginatorModule
     ],
     exports: [
         MatButtonModule,
@@ -45,6 +47,7 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         FlexLayoutModule,
+        MatPaginatorModule
     ]
    
   })
