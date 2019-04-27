@@ -10,15 +10,18 @@ import { MaterialModule } from '../../material.module';
 import { AddUserComponent } from './add-user/add-user.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
 import { AddProducerComponent } from './producers/add-producer/add-producer.component';
-
-
-
+import { DriversListComponent } from '../drivers-list/drivers-list.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent, 
-    UsersComponent, AddUserComponent, ProducerListComponent, AddProducerComponent
+    AddUserComponent, 
+    ProducerListComponent, 
+    AddProducerComponent
+    UsersComponent, 
+    AddUserComponent,
+    DriversListComponent
   ],
   imports: [
     CommonModule,
