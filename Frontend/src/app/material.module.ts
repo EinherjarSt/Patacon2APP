@@ -38,7 +38,7 @@ from '@angular/material';
         MatTableModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
         MatSortModule,
         MatPaginatorModule
     ],
@@ -55,6 +55,8 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         FlexLayoutModule,
+        MatSortModule,
+        MatPaginatorModule,
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,

@@ -15,13 +15,14 @@ import { TruckViewComponent } from './components/truck-view/truck-view.component
 import { AddTruckComponent } from './components/add-truck/add-truck.component';
 
 import { MatPaginatorModule, MatProgressSpinnerModule, 
-  MatSortModule, MatTableModule, MatFormFieldModule, MatInputModule,MatDialogModule} from "@angular/material";
+  MatSortModule, MatTableModule, MatFormFieldModule, MatInputModule,MatDialogModule, MatPaginatorIntl} from "@angular/material";
 import {MatCheckboxModule} from '@angular/material/checkbox'; 
 import { FlexLayoutModule } from '@angular/flex-layout';  
 import { LoginViewComponent } from './components/login-view/login-view.component';
 import { NotFoundComponent } from './components/core/not-found/not-found.component';
+import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
-import {environment as env} from '@env/environment'
+import {environment as env} from '@env/environment';
 
 
 
@@ -33,7 +34,7 @@ import {environment as env} from '@env/environment'
     AddTruckComponent,
     AddTripComponent,
     LoginViewComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     AmazingTimePickerModule,
@@ -61,6 +62,7 @@ import {environment as env} from '@env/environment'
     })
   ],
   providers: [
+    { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
     { provide: LOCALE_ID, useValue: 'es-CL' }
   ],
   bootstrap: [AppComponent],
