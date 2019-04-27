@@ -11,6 +11,8 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
 import { AddProducerComponent } from './producers/add-producer/add-producer.component';
 import { DriversListComponent } from '../drivers-list/drivers-list.component';
+import { AddDriverComponent } from '../add-driver/add-driver.component';
+
 
 
 @NgModule({
@@ -21,7 +23,8 @@ import { DriversListComponent } from '../drivers-list/drivers-list.component';
     AddProducerComponent
     UsersComponent, 
     AddUserComponent,
-    DriversListComponent
+    DriversListComponent,
+    AddDriverComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +35,7 @@ import { DriversListComponent } from '../drivers-list/drivers-list.component';
   ],
   entryComponents: [
     AddUserComponent,
+    AddDriverComponent,
     AddProducerComponent
   ],
 })

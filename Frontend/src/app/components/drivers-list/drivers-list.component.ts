@@ -1,7 +1,8 @@
 import { Component, OnInit , ViewChild} from '@angular/core';
-
 import {MatSort, MatTableDataSource, MatPaginator} from '@angular/material';
 import { MatDialog, MatDialogConfig } from "@angular/material";
+import{ AddDriverComponent } from '../add-driver/add-driver.component';
+
 export interface Driver {
   run: string;
   name: string;
@@ -16,14 +17,16 @@ const datos: Driver[] = [
   {run: "9877467-2", name: 'Gilberto', lastName1: "Gonzalez", lastName2: "Arias", phoneNumber: "988745612"},
   {run: "8445721-2", name: 'Ariel', lastName1: "Muñoz", lastName2: "Leiva", phoneNumber: "911244878"},
 ];
-
 @Component({
   selector: 'app-drivers-list',
   templateUrl: './drivers-list.component.html',
   styleUrls: ['./drivers-list.component.css']
+
 })
 
 export class DriversListComponent implements OnInit {
+  dialogResult ="";
+  constructor( public dialog: MatDialog) { }
 
   displayedColumns: string[] = ['run','name','lastName1','lastName2','phoneNumber','details','delete'];
   dataSource = new MatTableDataSource<Driver>(datos);
@@ -42,14 +45,10 @@ public doFilter = (value: string) => {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-/*
-  openDialog() {
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    this.dialog.open(AddDriverComponent, dialogConfig);
-  }*/
+  openDialog():void {
+    this.dialog.open(AddDriverComponent, {
+      width: '400px'
+    });
+    
+  }
 }

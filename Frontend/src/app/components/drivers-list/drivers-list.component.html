@@ -1,15 +1,14 @@
 <h2 id="title">Choferes</h2>
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
   <div fxLayout="row" fxFlex="50" align-items>
-    <div fxFlex="85">
-      <!--button mat-raised-button (click)="openDialog()"-->
-      <button mat-raised-button>
+    <div fxFlex="70">
+      <button mat-raised-button (click)="openDialog()">
         <mat-icon>add</mat-icon>
         Agregar Chofer
       </button>
     </div>
-    <div fxFlex="15">
-      <mat-form-field>
+    <div fxFlex="30">
+      <mat-form-field >
         <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
       </mat-form-field>
 
