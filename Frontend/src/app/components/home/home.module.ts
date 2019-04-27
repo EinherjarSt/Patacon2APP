@@ -5,15 +5,30 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
-import { UsersComponent } from './users/users.component';
 import { MaterialModule } from '../../material.module';
-import { AddUserComponent } from './add-user/add-user.component';
+
+import { UsersComponent } from './users/users.component';
+import { AddUserComponent } from './users/add-user/add-user.component';
 import { UserListComponent } from './users/user-list/user-list.component';
-import { AddTripComponent } from '../add-trip/add-trip.component';
+
+import { ProducersComponent } from './producers/producers.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
 import { AddProducerComponent } from './producers/add-producer/add-producer.component';
-import { DriversListComponent } from '../drivers-list/drivers-list.component';
-import { AddDriverComponent } from '../add-driver/add-driver.component';
+
+import { DriversComponent } from './drivers/drivers.component';
+import { DriversListComponent } from './drivers/drivers-list/drivers-list.component';
+import { AddDriverComponent } from './drivers/add-driver/add-driver.component';
+
+import { TripsComponent } from './trips/trips.component';
+import { AddTripComponent } from './trips/add-trip/add-trip.component';
+import { TripListComponent } from './trips/trip-list/trip-list.component';
+
+import { TrucksComponent } from './trucks/trucks.component';
+import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
+import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+
+
+
 
 
 
@@ -23,16 +38,18 @@ import { AddDriverComponent } from '../add-driver/add-driver.component';
     AddUserComponent, 
     UserListComponent,
     UsersComponent, 
-    AddUserComponent,
     AddTripComponent,
     DriversListComponent,
-    AddUserComponent, 
     ProducerListComponent, 
     AddProducerComponent,
-    UsersComponent, 
-    AddUserComponent,
-    DriversListComponent,
-    AddDriverComponent
+    AddDriverComponent,
+    TripsComponent,
+    ProducersComponent,
+    TrucksComponent,
+    DriversComponent,
+    TripListComponent,
+    TruckViewComponent,
+    AddTruckComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +62,8 @@ import { AddDriverComponent } from '../add-driver/add-driver.component';
     AddUserComponent,
     AddTripComponent,
     AddDriverComponent,
-    AddProducerComponent
+    AddProducerComponent,
+    AddTruckComponent
   ],
 })
 export class HomeModule { }

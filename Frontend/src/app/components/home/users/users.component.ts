@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog} from '@angular/material';
-import { AddUserComponent } from '../add-user/add-user.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 @Component({
   selector: 'app-users',

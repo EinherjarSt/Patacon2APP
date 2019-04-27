@@ -1,5 +1,5 @@
 .fondo{
-    background:url("../../../assets/images/fondoProvisorio.jpg");
+    background:url("../../../../assets/images/fondoProvisorio.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: static; 
@@ -7,7 +7,7 @@
 }
 @media (max-width: 650px) {
     .fondo {
-        background:url("../../../assets/images/testResponsive.jpg");
+        background:url("../../../../assets/images/testResponsive.jpg");
         background-repeat: no-repeat;
         background-size: 100% 100%;
     }
