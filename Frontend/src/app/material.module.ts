@@ -12,7 +12,10 @@ import {
     MatSidenavModule,
     MatMenuModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule
 }
 from '@angular/material';
 
@@ -31,6 +34,9 @@ from '@angular/material';
         MatFormFieldModule,
         MatInputModule,
         MatTableModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatAutocompleteModule
     ],
     exports: [
         MatButtonModule,
@@ -45,6 +51,9 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         FlexLayoutModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatAutocompleteModule
     ]
    
   })

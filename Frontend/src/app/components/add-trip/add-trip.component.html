@@ -1,32 +1,51 @@
-<div fxFlex=column>
+<div fxFlex=column class="my-form-container">
   <h2 mat-dialog-title>Agregar viaje</h2>
   <hr>
   <mat-dialog-content>
 
-    <div class="container">
-      <mat-form-field appearance="standard">
+    <form class="example-form">
+
+      <mat-form-field class="example-full-width" appearance="standard">
         <mat-label>Carga</mat-label>
         <input matInput placeholder="">
         <mat-hint></mat-hint>
       </mat-form-field>
-    </div>
-    
 
-    <div class="container">
-      <mat-form-field appearance="standard">
-        <mat-label>Hora estimada de llegada a la viña</mat-label>
-        <input atp-time-picker value="19:00"/>
-        <mat-hint></mat-hint>
+      <mat-form-field class="example-full-width">
+        <input type="text" placeholder="Elige un productor" aria-label="Number" matInput [formControl]="producerControl"
+          [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let producerOption of filteredProducerOptions | async" [value]="producerOption">
+            {{producerOption}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-    </div>
 
-    <div class="container">
-      <mat-form-field appearance="standard">
+      <mat-form-field class="example-full-width">
+        <input type="text" placeholder="Asigna un chofer" aria-label="Number" matInput [formControl]="driverControl"
+          [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let driverOption of filteredDriverOptions | async" [value]="driverOption">
+            {{driverOption}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Fecha</mat-label>
+        <input id="selectorFecha" matInput [matDatepicker]="picker" placeholder="">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="standard">
         <mat-label>Hora estimada de llegada a Patacón</mat-label>
         <input matInput placeholder="">
         <mat-hint></mat-hint>
       </mat-form-field>
-    </div>
+
+    </form>
+
 
 
 

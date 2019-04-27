@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
 import { MaterialModule } from '../../material.module';
 import { AddUserComponent } from './add-user/add-user.component';
+import { AddTripComponent } from '../add-trip/add-trip.component';
 
 
 
@@ -17,7 +18,8 @@ import { AddUserComponent } from './add-user/add-user.component';
 @NgModule({
   declarations: [
     HomeComponent, 
-    UsersComponent, AddUserComponent
+    UsersComponent, AddUserComponent,
+    AddTripComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { AddUserComponent } from './add-user/add-user.component';
     MaterialModule,
   ],
   entryComponents: [
-    AddUserComponent
+    AddUserComponent,
+    AddTripComponent
   ],
 })
 export class HomeModule { }
