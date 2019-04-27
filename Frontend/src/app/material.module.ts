@@ -25,24 +25,27 @@ from '@angular/material';
 @NgModule({
 
     imports: [
+        FlexLayoutModule,
         MatButtonModule,
         MatToolbarModule,
         MatIconModule,
         MatCardModule,
+        MatInputModule,
+        MatFormFieldModule,
         MatListModule,
         MatSidenavModule,
+        MatSortModule,
         MatMenuModule,
         MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
         MatTableModule,
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatSortModule,
         MatPaginatorModule
+       
     ],
     exports: [
+        FlexLayoutModule,
         MatButtonModule,
         MatToolbarModule,
         MatIconModule,
@@ -51,17 +54,15 @@ from '@angular/material';
         MatFormFieldModule,
         MatListModule,
         MatSidenavModule,
+        MatSortModule,
         MatMenuModule,
         MatDialogModule,
         MatTableModule,
-        FlexLayoutModule,
-        MatSortModule,
-        MatPaginatorModule,
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatSortModule,
         MatPaginatorModule
+        
 
     ]
    
