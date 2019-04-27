@@ -24,6 +24,7 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {environment as env} from '@env/environment'
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +67,6 @@ import {environment as env} from '@env/environment'
   entryComponents:[
     AddTruckComponent,
     AddTripComponent
-    
   ]
 })
 export class AppModule { }
