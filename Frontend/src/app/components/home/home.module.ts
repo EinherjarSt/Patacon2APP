@@ -9,17 +9,15 @@ import { UsersComponent } from './users/users.component';
 import { MaterialModule } from '../../material.module';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AddTripComponent } from '../add-trip/add-trip.component';
-
-
-
-
+import { DriversListComponent } from '../drivers-list/drivers-list.component';
 
 
 @NgModule({
   declarations: [
     HomeComponent, 
     UsersComponent, AddUserComponent,
-    AddTripComponent
+    AddTripComponent,
+    DriversListComponent
   ],
   imports: [
     CommonModule,

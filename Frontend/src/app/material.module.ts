@@ -10,12 +10,14 @@ import {
     MatFormFieldModule,
     MatListModule,
     MatSidenavModule,
+    MatSortModule,
     MatMenuModule,
     MatDialogModule,
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatPaginatorModule
 }
 from '@angular/material';
 
@@ -37,6 +39,8 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule
+        MatSortModule,
+        MatPaginatorModule
     ],
     exports: [
         MatButtonModule,
@@ -54,6 +58,8 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule
+        MatSortModule,
+        MatPaginatorModule
     ]
    
   })
