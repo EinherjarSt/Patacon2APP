@@ -49,8 +49,6 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         FlexLayoutModule,
-        MatSortModule,
-        MatPaginatorModule
     ]
    
   })

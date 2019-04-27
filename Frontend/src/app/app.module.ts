@@ -62,7 +62,6 @@ import {environment as env} from '@env/environment';
   entryComponents:[
     AddTruckComponent,
     AddTripComponent
-    
   ]
 })
 export class AppModule { }
