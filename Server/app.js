@@ -1,14 +1,9 @@
 require('./config/config');
 require('./config/passport');
 var cleanup = require('./cleanup').Cleanup(cleanup);
-
 const mysql = require('./mysql/mysql');
-
 const express = require('express');
 const app = express();
-
-const path = require('path');
-
 const bodyParser = require('body-parser');
 
 function cleanup (){

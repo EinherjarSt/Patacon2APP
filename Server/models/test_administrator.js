@@ -35,13 +35,13 @@ Administrator.addAdministrator(new Administrator(
 });
 
 Administrator.updateAdministrator(new Administrator(
-    "190840041",
+    "123656850",
     "Gabriel Sanhueza",
     "gsan@gmail.cl",
     "password",
     "Gerente"
 ),(err, results) => {
-    console.log("getAllAdministrator");
+    console.log("updateAdministrator");
     if(err){
         console.log(err);
     }

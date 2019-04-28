@@ -19,7 +19,7 @@ passport.use(new LocalStrategy({
                 return done(err);
             }
             if (!user.verifyPassword(password)) {
-                return done(null, false, {message: "Username or (password) incorrect"});
+                return done(null, false, {error : {message: "Username or (password) incorrect"}});
             }
             return done(null, {
                 run : user.run,
