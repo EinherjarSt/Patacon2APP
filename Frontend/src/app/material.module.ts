@@ -10,9 +10,14 @@ import {
     MatFormFieldModule,
     MatListModule,
     MatSidenavModule,
+    MatSortModule,
     MatMenuModule,
     MatDialogModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatPaginatorModule
 }
 from '@angular/material';
 
@@ -20,19 +25,27 @@ from '@angular/material';
 @NgModule({
 
     imports: [
+        FlexLayoutModule,
         MatButtonModule,
         MatToolbarModule,
         MatIconModule,
         MatCardModule,
+        MatInputModule,
+        MatFormFieldModule,
         MatListModule,
         MatSidenavModule,
+        MatSortModule,
         MatMenuModule,
         MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
         MatTableModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatAutocompleteModule,
+        MatPaginatorModule
+       
     ],
     exports: [
+        FlexLayoutModule,
         MatButtonModule,
         MatToolbarModule,
         MatIconModule,
@@ -41,10 +54,16 @@ from '@angular/material';
         MatFormFieldModule,
         MatListModule,
         MatSidenavModule,
+        MatSortModule,
         MatMenuModule,
         MatDialogModule,
         MatTableModule,
-        FlexLayoutModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatAutocompleteModule,
+        MatPaginatorModule
+        
+
     ]
    
   })

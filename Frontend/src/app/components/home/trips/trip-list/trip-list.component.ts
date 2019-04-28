@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatTableDataSource, MatSortBase, MatPaginator } from '@angular/material';
-import { AddTripComponent } from '../add-trip/add-trip.component';
+
 import { MatDialog, MatDialogConfig } from "@angular/material";
-import { Trip } from '../../model-classes/trip'
-import { TripsService } from '../../services/trips.service';
+import { Trip } from '../../../../model-classes/trip'
+import { TripsService } from '../../../../services/trips.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
+import { AddTripComponent } from '../add-trip/add-trip.component';
 
 
 /**
