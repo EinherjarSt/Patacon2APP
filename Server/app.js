@@ -1,12 +1,20 @@
 require('./config/config');
 require('./config/passport');
+var cleanup = require('./cleanup').Cleanup(cleanup);
+
+const mysql = require('./mysql/mysql');
 
 const express = require('express');
-const path = require('path');
-
 const app = express();
 
+const path = require('path');
+
 const bodyParser = require('body-parser');
+
+function cleanup (){
+    console.log("Clean pool of connections");
+    mysql.pool.end();
+}
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))

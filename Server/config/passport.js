@@ -6,29 +6,27 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = passportJWT.Strategy;
 
-const User = require('../models/user');
+const User = require('../models/administrator');
 
 passport.use(new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
     },
-    function (username, password, done) {
-        console.log(`LocalStrategy ${username} : ${password}`);
-
-        User.findOne({
-            username
-        }, function (err, user) {
-            console.log("err local: " + err);
+    function (email, password, done) {
+        console.log(`LocalStrategy ${email} : ${password}`);
+        User.getAdministrator(email, (err, user) => {
             if (err) {
                 return done(err);
             }
-            if (!user) {
-                return done(null, false);
-            }
             if (!user.verifyPassword(password)) {
-                return done(null, false);
+                return done(null, false, {message: "Username or (password) incorrect"});
             }
-            return done(null, {name : user.name});
+            return done(null, {
+                run : user.run,
+                name : user.name,
+                email : user.email,
+                position : user.position,
+            });
         });
     }
 ));
@@ -39,18 +37,19 @@ passport.use(new JWTStrategy({
     },
     function (jwtPayload, done) {
         console.log("JWTStrategy %j ", jwtPayload )
-        User.findOne({
-            username: jwtPayload.name
-        }, function (err, user) {
-            if (err) {
-                console.log("err jwt %j ",err);
-                return done(err);
-            }
-            if (!user) {
-                return done(null, false);
-            }
-            return done(null, {name : user.name});
-        });
+        done(null, true);
+        // User.findOne({
+        //     username: jwtPayload.name
+        // }, function (err, user) {
+        //     if (err) {
+        //         console.log("err jwt %j ",err);
+        //         return done(err);
+        //     }
+        //     if (!user) {
+        //         return done(null, false);
+        //     }
+        //     return done(null, {name : user.name});
+        // });
         // //find the user in db if needed
         // return UserModel.findOneById(jwtPayload.id)
         //     .then(user => {
