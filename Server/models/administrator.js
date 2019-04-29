@@ -51,10 +51,10 @@ class Administrator {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({error: {message : "There isn't result"}});
+                return callback({message : "There isn't result"});
             }
             if (results.length > 1) {
-                return callback({error: {message : "There is an error in database because the user is not unique"}});
+                return callback({message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
             return callback(null, new Administrator(result.run, result.name, result.email, result.password, result.position));
@@ -101,7 +101,7 @@ class Administrator {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({error : { message: "This user don't exist"}});
+                return callback({ message: "This user don't exist"});
             }
             return callback(null, true);
         });
@@ -127,7 +127,7 @@ class Administrator {
             // console.log(fields);
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({error: {messege : err.sqlMessage}});
+                    return callback({message : err.sqlMessage});
                 }
                 return callback(err);
             }

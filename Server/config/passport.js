@@ -20,17 +20,15 @@ passport.use(new LocalStrategy({
             }
             user.verifyPassword(password, (error, isPassword) => {
                 if (error){
+                    console.log("here");
+                    console.log(error);
                     return done(null, false, {
-                        error: {
                             message: error.message
-                        }
                     });
                 }
                 if (!isPassword) {
                     return done(null, false, {
-                        error: {
                             message: "Username or (password) incorrect"
-                        }
                     });
                 }
                 return done(null, {
