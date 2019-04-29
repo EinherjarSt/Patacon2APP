@@ -7,3 +7,7 @@ process.env.MYSQL_PORT = process.env.MYSQL_PORT || '3306';
 process.env.MYSQL_USER = process.env.MYSQL_USER || 'patacon';
 process.env.MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || 'pataconpassword';
 process.env.MYSQL_DBNAME = process.env.MYSQL_DBNAME || 'patacon';
+
+// Password encrypt with bcrypt
+
+process.env.BCRYPT_SALT = process.env.BCRYPT_SALT || 10;

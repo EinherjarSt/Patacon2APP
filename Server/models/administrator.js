@@ -1,5 +1,5 @@
 const pool = require('../mysql/mysql').pool;
-
+const bcrypt = require('bcrypt');
 class Administrator {
     constructor(run, name, email, password, position) {
         this._run = run;
@@ -33,8 +33,10 @@ class Administrator {
     }
     //#endregion
 
-    verifyPassword(password) {
-        return password === this.password;
+    verifyPassword(password, callback) {
+        bcrypt.compare(myPlaintextPassword, hash, function(err, res) {
+            callback(res);
+        });
     }
 
     static getAdministrator(email, callback) {
