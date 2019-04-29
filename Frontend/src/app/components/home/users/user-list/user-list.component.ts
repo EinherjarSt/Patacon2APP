@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/model-classes/user';
 import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { UsersService } from 'src/app/services/users.service';
+import { AddUserComponent } from '../add-user/add-user.component';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class UserListComponent implements OnInit {
   users: User[];
   displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "delete"];
   dataSource: MatTableDataSource<User>;
+  dialogResult = "";
 
   constructor(private usersService: UsersService, private dialog: MatDialog) { }
 
@@ -38,6 +40,17 @@ export class UserListComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  openDialog(){
+    let dialogRef = this.dialog.open(AddUserComponent, {
+      width: '450px',
+      data: 'This text is passed into the dialog'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed: ${result}');
+      this.dialogResult = result;
+    })
   }
 
 

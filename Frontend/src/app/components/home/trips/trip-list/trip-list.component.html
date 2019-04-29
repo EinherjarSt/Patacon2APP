@@ -1,18 +1,18 @@
-<div class="list-container" fxLayout="column" fxLayoutGap="10px" >
+<h2 id="title">Planificación</h2>
+<div class="list-container" fxLayout="column" fxLayoutGap="10px">
   <div fxLayout="row" fxFlex="50" align-items>
-    <div fxFlex="50">
-      <mat-form-field>
-        
-        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
+    <div fxFlex="70">
+        <button mat-raised-button (click)="openDialog()"> 
+          <mat-icon>add</mat-icon> Agregar viaje
+        </button>
+    </div>
+    <div fxFlex="30">
+      <mat-form-field >
+          <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
       </mat-form-field>
 
     </div>
-    <div fxFlex="50">
-      <button mat-raised-button (click)="openDialog()">
-        <mat-icon>add</mat-icon>
-        Agregar viaje
-      </button>
-    </div>
+
   </div>
 
   <div fxFlex="50">
@@ -68,7 +68,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 15, 20, 30, 50]">
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[10, 15, 20, 30, 50]" class="mat-elevation-z8">
     </mat-paginator>
 
   </div>
