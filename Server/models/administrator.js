@@ -34,8 +34,11 @@ class Administrator {
     //#endregion
 
     verifyPassword(password, callback) {
-        bcrypt.compare(myPlaintextPassword, hash, function(err, res) {
-            callback(res);
+        bcrypt.compare(password, this.password, function(err, res) {
+            if(err){
+                callback(err);
+            }
+            return callback(null, res);
         });
     }
 

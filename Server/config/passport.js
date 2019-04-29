@@ -18,14 +18,28 @@ passport.use(new LocalStrategy({
             if (err) {
                 return done(err);
             }
-            if (!user.verifyPassword(password)) {
-                return done(null, false, {error : {message: "Username or (password) incorrect"}});
-            }
-            return done(null, {
-                run : user.run,
-                name : user.name,
-                email : user.email,
-                position : user.position,
+            user.verifyPassword(password, (error, isPassword) => {
+                if (error){
+                    return done(null, false, {
+                        error: {
+                            message: error.message
+                        }
+                    });
+                }
+                if (!isPassword) {
+                    return done(null, false, {
+                        error: {
+                            message: "Username or (password) incorrect"
+                        }
+                    });
+                }
+                return done(null, {
+                    run: user.run,
+                    name: user.name,
+                    email: user.email,
+                    position: user.position,
+                });
+
             });
         });
     }
@@ -36,7 +50,7 @@ passport.use(new JWTStrategy({
         secretOrKey: process.env.JWT_SECRET
     },
     function (jwtPayload, done) {
-        console.log("JWTStrategy %j ", jwtPayload )
+        console.log("JWTStrategy %j ", jwtPayload)
         done(null, true);
         // User.findOne({
         //     username: jwtPayload.name
