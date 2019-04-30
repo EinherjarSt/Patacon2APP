@@ -17,7 +17,8 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatExpansionModule,
 }
 from '@angular/material';
 
@@ -41,7 +42,8 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatExpansionModule
        
     ],
     exports: [
@@ -61,7 +63,8 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatExpansionModule
         
 
     ]

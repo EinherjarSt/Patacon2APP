@@ -26,6 +26,7 @@ import { TripListComponent } from './trips/trip-list/trip-list.component';
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
 
 
 
@@ -49,7 +50,8 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
     DriversComponent,
     TripListComponent,
     TruckViewComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    PlanificationListComponent
   ],
   imports: [
     CommonModule,
