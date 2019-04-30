@@ -1,39 +1,66 @@
 
-<div class="register-button">
-    <button mat-raised-button color="primary" class="button" (click)="openDialog()">Registrar</button>
-</div>
+<h2 id="title">Camiones</h2>
+<div class="list-container" fxLayout="column" fxLayoutGap="10px">
+  <div fxLayout="row" fxFlex="50" align-items>
+    <div fxFlex="70">
+        <button mat-raised-button (click)="openDialog()"> 
+          <mat-icon>add</mat-icon> Agregar camion
+        </button>
+    </div>
+    <div fxFlex="30">
+      <mat-form-field >
+          <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
+      </mat-form-field>
 
-<div class="table-div">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    </div>
+
+  </div>
+
+  <div fxFlex="50">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="model">
-            <th mat-header-cell *matHeaderCellDef> Modelo </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header > Modelo </th>
             <td mat-cell *matCellDef="let element"> {{element.model}} </td>
         </ng-container>
 
         <ng-container matColumnDef="brand">
-            <th mat-header-cell *matHeaderCellDef> Marca </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
             <td mat-cell *matCellDef="let element"> {{element.brand}} </td>
         </ng-container>
 
         <ng-container matColumnDef="year">
-            <th mat-header-cell *matHeaderCellDef> Año </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Año </th>
             <td mat-cell *matCellDef="let element"> {{element.year}} </td>
         </ng-container>
 
         <ng-container matColumnDef="patent">
-            <th mat-header-cell *matHeaderCellDef> Patente </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Patente </th>
             <td mat-cell *matCellDef="let element"> {{element.patent}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+       <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef> Detalles </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+              <mat-icon class="mat-18">reorder</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
             <td mat-cell *matCellDef="let element">
-                <button mat-raised-button color="primary" class="button">Modificar</button>
+              <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+                  <mat-icon class="mat-18">delete</mat-icon>
+              </button>
             </td>
-        </ng-container>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" class="mat-elevation-z8">
+        </mat-paginator>
+    </div>
 </div>
 
