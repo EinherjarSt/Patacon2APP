@@ -6,6 +6,7 @@ import { ProducersComponent } from './producers/producers.component';
 import { DriversComponent } from './drivers/drivers.component';
 import { TrucksComponent } from './trucks/trucks.component';
 import { TripsComponent } from './trips/trips.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 
@@ -14,6 +15,7 @@ const routes: Routes = [
   {
     path: '', component: HomeComponent,
     children:[
+    {path: '',component: DashboardComponent},
      {path: 'usuarios',component: UsersComponent},
      {path: 'productores', component: ProducersComponent},
      {path: 'choferes',component: DriversComponent},

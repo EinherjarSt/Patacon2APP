@@ -26,6 +26,11 @@ import { TripListComponent } from './trips/trip-list/trip-list.component';
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+
+import { AgmCoreModule } from '@agm/core';
+import { FiltersComponent } from './dashboard/filters/filters.component';
 
 
 
@@ -49,7 +54,9 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
     DriversComponent,
     TripListComponent,
     TruckViewComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    DashboardComponent,
+    FiltersComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +64,9 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+    })
   ],
   entryComponents: [
     AddUserComponent,

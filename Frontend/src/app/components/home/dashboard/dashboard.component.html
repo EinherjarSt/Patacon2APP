@@ -1,0 +1,24 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-8">
+      <!--Aqui va el mapa-->
+      <agm-map [latitude]="lat" [longitude]="lng">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+      </agm-map>
+    </div>
+    <div class="col-4">
+       <!--Aqui va la tabla con los filtros-->
+       <app-filters></app-filters>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8">
+      <!--Aqui va los ultimos eventos-->
+    </div>
+    <div class="col-4">
+      <!--Aqui va el detalle del camion-->
+    </div>
+  </div>
+</div>
+
