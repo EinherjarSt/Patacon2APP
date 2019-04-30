@@ -3,27 +3,27 @@
   <hr>
   <mat-dialog-content>
 
-    <form class="example-form">
+    <form [formGroup]="registerDispatchForm"  (ngSubmit)="onFormSubmit(registerDispatchForm.value)" class="example-form">
+      <input type="hidden" formControlName="$key">
 
-      <mat-form-field class="example-full-width" appearance="standard">
-        <mat-label>Carga</mat-label>
-        <input matInput placeholder="">
-        <mat-hint></mat-hint>
-      </mat-form-field>
 
+      <!--
+        <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input type="text" placeholder="Pick one" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+</form>
+
+        
+      -->
       <mat-form-field class="example-full-width">
-        <input type="text" placeholder="Elige un productor" aria-label="Number" matInput [formControl]="producerControl"
-          [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let producerOption of filteredProducerOptions | async" [value]="producerOption">
-            {{producerOption}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <input type="text" placeholder="Asigna un chofer" aria-label="Number" matInput [formControl]="driverControl"
-          [matAutocomplete]="auto">
+        <input formControlName="driver" [formControl]="form.get('driver')" type="text" placeholder="Asigna un chofer"
+          aria-label="Number" matInput [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let driverOption of filteredDriverOptions | async" [value]="driverOption">
             {{driverOption}}
@@ -32,15 +32,42 @@
       </mat-form-field>
 
       <mat-form-field class="example-full-width">
-        <mat-label>Fecha</mat-label>
-        <input id="selectorFecha" matInput [matDatepicker]="picker" placeholder="">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input formControlName="truck" type="text" placeholder="Asigna un camión" aria-label="Number" matInput
+          [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let truckOption of filteredTruckOptions | async" [value]="truckOption">
+            {{truckOption}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Fecha estimada de ida a productor</mat-label>
+        <input formControlName="estimatedArrivalDateToProducer" matInput [matDatepicker]="arrivalProducerDatepicker"
+          placeholder="">
+        <mat-datepicker-toggle matSuffix [for]="arrivalProducerDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #arrivalProducerDatepicker></mat-datepicker>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Hora estimada de ida al productor</mat-label>
+        <input formControlName="estimatedArrivalTimeToProducer" matInput placeholder="">
+        <mat-hint></mat-hint>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Fecha estimada de vuelta a Patacón</mat-label>
+        <input formControlName="estimatedArrivalDateToPatacon" matInput [matDatepicker]="pataconArrivalDatepicker"
+          placeholder="">
+        <mat-datepicker-toggle matSuffix [for]="pataconArrivalDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #pataconArrivalDatepicker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="example-full-width" appearance="standard">
-        <mat-label>Hora estimada de llegada a Patacón</mat-label>
-        <input matInput placeholder="">
+        <mat-label>Hora estimada de vuelta a Patacón</mat-label>
+        <input formControlName="estimatedArrivalTimeToPatacon" matInput placeholder="">
         <mat-hint></mat-hint>
       </mat-form-field>
 

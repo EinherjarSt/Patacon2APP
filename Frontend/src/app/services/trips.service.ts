@@ -18,17 +18,17 @@ export class TripsService {
     {code: "6", status: "DETENIDO", shipment : "TTRO", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "10/05/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "7", status: "DESCARGANDO", shipment : "CARIG", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/07/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "8", status: "DETENIDO", shipment : "CHARD", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/05/2019", departure_time: "13:12", arrival_time: "22:30" },
-    {code: "9", status: "EN TRANSITO", shipment : "CHARD", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/08/2019", departure_time: "13:12", arrival_time: "22:30" },
+    {code: "9", status: "EN TRANSITO", shipment : "CHAR ", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/08/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "10", status: "TERMINADO", shipment : "TTRO", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/09/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "1", status: "DETENIDO", shipment : "CARIG", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/10/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "1", status: "TERMINADO", shipment : "SEMILLON", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/11/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "1", status: "EN TRANSITO", shipment : "SEMILLON", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/09/2019", departure_time: "13:12", arrival_time: "22:30" },
-
+    
 
     
   ]
- 
-  constructor() {}
+  
+  constructor(private _http: HttpClient) {}
 
     /*
   getTrips() : Observable<Trip[]> {
@@ -36,8 +36,15 @@ export class TripsService {
   }
   */
 
+  _add_trip_url = ''
+
+
   getTrips() {
     return this.TRIPS;
+  }
+
+  registerTrip(trip:Trip) {
+
   }
 }
 

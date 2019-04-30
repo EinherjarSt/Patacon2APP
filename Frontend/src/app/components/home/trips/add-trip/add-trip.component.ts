@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatDatepicker } from "@angular/material";
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MatDatepicker, MatInput } from "@angular/material";
+
+import { MAT_DIALOG_DATA , MatAutocomplete} from '@angular/material';
+import { FormGroup,  FormControl, Validators } from '@angular/forms';
+
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -14,41 +16,43 @@ import { Observable } from 'rxjs';
 })
 export class AddTripComponent implements OnInit {
 
+  title: String = "Agregar despacho";
 
-  title: String;
 
-  driverControl = new FormControl();
-  driverOptions: string[] = ['Por definir','Pedro Ruminot', 'Vladimir Putin', 'Nyango Star' ];
+  public : FormGroup = new FormGroup({
+    $key: new FormControl(null),
+    driver: new FormControl(''),
+    truck: new FormControl(''),
+    estimatedArrivalDateToProducer: new FormControl(''),
+    estimatedArrivalTimeToProducer: new FormControl(''),
+    estimatedArrivalDateAtPatacon: new FormControl(''),
+    estimatedArrivalTimeToPatacon: new FormControl(''),
+    //status: new FormControl(''),
+    //kilograms: new FormControl(0),
+
+    //container : new FormGroup({
+      //bin: new FormControl(''),
+      //tubs: new FormControl('')
+    //})
+    
+  });
+
+
+  driverOptions: string[] = ['Por definir','Pedro Ruminot', 'Vladimir Putin', 'Nyango Star'];
   filteredDriversOptions: Observable<string[]>;
 
-  producerControl = new FormControl();
-  producerOptions: string[] = ['CARLOS SCHENEIDER', 'AGR. EL SAUCE ROMERAL', 'MIGUEL FUENZALIDA', 'SAN JORGE'];
-  filteredProducerOptions: Observable<string[]>;
-
   ngOnInit() {
-    this.filteredDriversOptions = this.driverControl.valueChanges
+    this.filteredDriversOptions = this.form.get('driver').valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterDrivers(value))
       );
-
-    this.filteredProducerOptions = this.producerControl.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterProducers(value))
-    );
   }
 
   private _filterDrivers(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.driverOptions.filter(option => option.toLowerCase().includes(filterValue));
-  }
-
-  private _filterProducers(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.producerOptions.filter(option => option.toLowerCase().includes(filterValue));
   }
   
   constructor(private dialogRef: MatDialogRef<AddTripComponent>) {

@@ -41,7 +41,9 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatFormFieldModule
+        
        
     ],
     exports: [
@@ -61,7 +63,8 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatFormFieldModule
         
 
     ]
