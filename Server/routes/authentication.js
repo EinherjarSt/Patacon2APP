@@ -11,7 +11,7 @@ app.post('/login', function (req, res) {
     passport.authenticate('local', {
             session: false
         }, (err, user, info) => {
-            console.log("login error: %j", err);
+            //console.log("login error: %j", err);
             console.log("login user: %j", user);
             console.log(info);
             if (err || !user) {

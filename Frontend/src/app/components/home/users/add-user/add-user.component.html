@@ -1,63 +1,79 @@
 <div>
   <h2 mat-dialog-title>Agregar usuario</h2>
-  <hr>
+  <hr />
   <mat-dialog-content>
-    <div class="container">
-        <mat-form-field appearance= "standard">
-            <mat-label>R.U.N</mat-label>
-            <input matInput placeholder="11.111.111-1" required>
-            <mat-hint></mat-hint>
-          </mat-form-field>
-
-    </div>
-   
-    <div class="container">
-      <mat-form-field appearance= "standard">
-        <mat-label>Nombre</mat-label>
-        <input matInput placeholder="">
-        <mat-hint></mat-hint>
-      </mat-form-field>
-    </div>
-    
-    <div class="container">
-      <mat-form-field appearance= "standard">
-        <mat-label>Apellido Paterno</mat-label>
-        <input matInput placeholder="">
-        <mat-hint></mat-hint>
-      </mat-form-field>
-    </div>
-    
-    <div class="container">
-      <mat-form-field appearance= "standard">
-          <mat-label>Apellido Materno</mat-label>
-          <input matInput placeholder="">
+    <form [formGroup]="form">
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>R.U.N</mat-label>
+          <input
+            matInput
+            placeholder="11.111.111-1"
+            formControlName="run"
+            required
+          />
           <mat-hint></mat-hint>
         </mat-form-field>
-    </div>
+      </div>
 
-    <div class="container">
-      <mat-form-field appearance= "standard">
-            <mat-label>Correo electrónico</mat-label>
-            <input matInput placeholder="ejemplo@patacon.cl" [formControl]="email" required>
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-            <mat-hint></mat-hint>
-          </mat-form-field>
-    </div>
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="" formControlName="name" />
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
 
-    <div class="container">
-       <mat-form-field appearance= "standard">
-              <mat-label>Contraseña</mat-label>
-              <input matInput placeholder=" Ingrese su contraseña" [type]="hide ? 'password' : 'text'">
-              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              <mat-hint></mat-hint>
-            </mat-form-field>
-    </div>     
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Apellido Paterno</mat-label>
+          <input matInput placeholder="" formControlName="f_surname" />
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
 
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Apellido Materno</mat-label>
+          <input matInput placeholder="" formControlName="m_surname" />
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Correo electrónico</mat-label>
+          <input
+            matInput
+            placeholder="ejemplo@patacon.cl"
+            formControlName="email"
+            required
+          />
+          <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            placeholder=" Ingrese su contraseña"
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+          />
+          <mat-icon matSuffix (click)="hide = !hide">{{
+            hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+    </form>
   </mat-dialog-content>
-  <hr>
+  <hr />
   <mat-dialog-actions>
     <button mat-raised-button (click)="onCloseConfirm()">Agregar</button>
     <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
   </mat-dialog-actions>
-
 </div>

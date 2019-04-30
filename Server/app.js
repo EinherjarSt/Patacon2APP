@@ -35,3 +35,7 @@ app.use(require('./routes/index'));
 app.listen(process.env.PORT, () => {
     console.log('Escuchando puerto: ', process.env.PORT);
 });
+
+mysql.pool.on('acquire', function (connection) {
+    console.log('Connection %d acquired', connection.threadId);
+  });
