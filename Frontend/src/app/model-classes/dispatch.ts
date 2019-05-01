@@ -1,4 +1,4 @@
-export class Trip {
+export class Dispatch {
     code: String;
     status: String;
     shipment: String; 

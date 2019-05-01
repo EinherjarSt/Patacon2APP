@@ -1,7 +1,7 @@
-import { Trip } from './trip';
+import { Dispatch } from './dispatch';
 
-describe('Trip', () => {
+describe('Dispatch', () => {
   it('should create an instance', () => {
-    expect(new Trip()).toBeTruthy();
+    expect(new Dispatch()).toBeTruthy();
   });
 });

@@ -2,43 +2,43 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatTableDataSource, MatSortBase, MatPaginator } from '@angular/material';
 
 import { MatDialog, MatDialogConfig } from "@angular/material";
-import { Trip } from '../../../../model-classes/trip'
-import { TripsService } from '../../../../services/trips.service';
+import { Dispatch } from '../../../../model-classes/dispatch'
+import { DispatchesService } from '../../../../services/dispatches.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { AddTripComponent } from '../add-trip/add-trip.component';
+import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
 
 
 /**
  * @title Table with sorting
  */
 @Component({
-  selector: 'trip-list',
-  styleUrls: ['trip-list.component.css'],
-  templateUrl: 'trip-list.component.html',
+  selector: 'dispatch-list',
+  styleUrls: ['dispatch-list.component.css'],
+  templateUrl: 'dispatch-list.component.html',
 })
-export class TripListComponent implements OnInit {
+export class DispatchListComponent implements OnInit {
 
-  trips: Trip[];
+  dispatches: Dispatch[];
   displayedColumns: string[] = ["status", "shipment", "date", "departure_time", "arrival_time", "details", "delete"];
-  dataSource: MatTableDataSource<Trip>;
+  dataSource: MatTableDataSource<Dispatch>;
 
 
 
-  constructor(private tripService: TripsService, private dialog: MatDialog) { }
+  constructor(private dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.getTrips();
-    this.dataSource = new MatTableDataSource(this.trips);
+    this.getDispatches();
+    this.dataSource = new MatTableDataSource(this.dispatches);
     this.dataSource.sort = this.sort;
   }
 
-  getTrips(): void {
-    this.trips = this.tripService.getTrips();
+  getDispatches(): void {
+    this.dispatches = this.dispatchesService.getDispatches();
   }
 
   public doFilter = (value: string) => {
@@ -57,25 +57,10 @@ export class TripListComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    this.dialog.open(AddTripComponent, dialogConfig);
+    this.dialog.open(RegisterDispatchComponent, dialogConfig);
   }
 }
 
-/*
-export class TripDataSource extends DataSource<any> {
-  constructor(private tripService: TripsService){
-    super();
-  }
-  
-  connect(): Observable<Trip[]> {
-    return this.tripService.getTrips();
-  }
-
-  disconnect(){
-
-  }
-}
-*/
 
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Trip } from '../model-classes/trip';
+import { Dispatch } from '../model-classes/dispatch';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class TripsService {
+export class DispatchesService {
   private dataUrl = 'http://localhost:1234/fake_trips_data.json';
-  TRIPS:Trip[] = [
+  DISPATCHES:Dispatch[] = [
     {code: "1", status: "EN TRANSITO", shipment : "CARIG", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "16/05/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "2", status: "EN TRANSITO", shipment : "CHARD", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "20/05/2019", departure_time: "13:12", arrival_time: "22:30" },
     {code: "3", status: "EN TRANSITO", shipment : "TTRO", departure_point :"JORGE AMENABAR", arrival_point : "PATACON", date: "13/05/2019", departure_time: "13:12", arrival_time: "22:30" },
@@ -39,11 +39,11 @@ export class TripsService {
   _add_trip_url = ''
 
 
-  getTrips() {
-    return this.TRIPS;
+  getDispatches() {
+    return this.DISPATCHES;
   }
 
-  registerTrip(trip:Trip) {
+  registerDispatch(dispatch: Dispatch) {
 
   }
 }
