@@ -20,7 +20,8 @@ import { RegisterDispatchComponent } from '../register-dispatch/register-dispatc
 export class DispatchListComponent implements OnInit {
 
   dispatches: Dispatch[];
-  displayedColumns: string[] = ["status", "shipment", "date", "departure_time", "arrival_time", "details", "delete"];
+  displayedColumns: string[] = ["status", "driver", "shippedKilograms", "estimatedDateArrivalAtProducer", 
+  "estimatedTimeArrivalAtProducer", "estimatedDateArrivalAtPatacon", "estimatedTimeArrivalAtProducer","containers", "details", "delete"];
   dataSource: MatTableDataSource<Dispatch>;
 
 
@@ -38,7 +39,8 @@ export class DispatchListComponent implements OnInit {
   }
 
   getDispatches(): void {
-    this.dispatches = this.dispatchesService.getDispatches();
+    //this.dispatches = this.dispatchesService.getDispatches();
+    this.dispatches = [];
   }
 
   public doFilter = (value: string) => {

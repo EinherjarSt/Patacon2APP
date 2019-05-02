@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatDatepicker, MatInput, MatSelect, MatRadioButton, MatSnackBar } from "@angular/material";
 
 import { MAT_DIALOG_DATA, MatAutocomplete } from '@angular/material';
-import { FormGroup, FormControl, AbstractControl,  Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl, Validators, FormBuilder } from '@angular/forms';
 import { EstimatedDatesValidator } from './register-dispatch.custom.validators';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { DispatchesService } from '../../../../services/dispatches.service';
 
 
 
@@ -16,7 +17,13 @@ import { Observable } from 'rxjs';
 })
 export class RegisterDispatchComponent implements OnInit {
 
-  title: String = "Agregar despacho";
+  title: String;
+
+
+  constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<RegisterDispatchComponent>,
+    private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService) {
+    this.title = "Registrar despacho";
+  }
 
   driverOptions: string[] = ['Por definir', 'Pedro Ruminot', 'Vladimir Putin', 'Nyango Star'];
   driverFilteredOptions: Observable<string[]>;
@@ -25,7 +32,7 @@ export class RegisterDispatchComponent implements OnInit {
   truckFilteredOptions: Observable<string[]>;
 
   statusOptions: string[] = ['En tránsito a viña', 'Cargando', 'En patio',
-  'En tránsito a viña', 'Detenido', 'Terminado'];
+    'En tránsito a viña', 'Detenido', 'Terminado'];
 
 
 
@@ -41,12 +48,7 @@ export class RegisterDispatchComponent implements OnInit {
     status: [this.statusOptions[0]],
     container: ['BINS']
 
-  }, {validator: EstimatedDatesValidator});
-
-
-
-
-
+  }, { validator: EstimatedDatesValidator });
 
   ngOnInit() {
     this.driverFilteredOptions = this.registerDispatchForm.get('driver').valueChanges
@@ -73,12 +75,9 @@ export class RegisterDispatchComponent implements OnInit {
     return this.truckOptions.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<RegisterDispatchComponent>, private _formBuilder: FormBuilder) {
-    this.title = "Registrar despacho";
-  }
 
 
-  public hasError = (controlName: string, errorName: string) =>{
+  public hasError = (controlName: string, errorName: string) => {
     return this.registerDispatchForm.get(controlName).hasError(errorName);
   }
 
@@ -87,17 +86,24 @@ export class RegisterDispatchComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log(this.registerDispatchForm.value);
+    this.submitData(this.registerDispatchForm.value);
     this.onCloseSubmit();
-    this.openSucessMessage();
+    this.openSuccessMessage();
 
   }
-  openSucessMessage() {
+
+  submitData(data) {
+    this._dispatchesService.registerDispatch(this.registerDispatchForm.value).subscribe(
+      response => console.log('Success', response), 
+      error => console.error('Error', error));
+  }
+
+  openSuccessMessage() {
     this.snackBar.open('El despacho ha sido registrado.', 'Cerrar', {
       duration: 2000,
     });
   }
-  
+
   onCloseSubmit() {
     this.dialogRef.close('Confirm');
 
