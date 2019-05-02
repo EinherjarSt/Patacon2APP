@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+
+
 import {
     MatButtonModule,
     MatToolbarModule,
@@ -17,7 +19,10 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatSnackBarModule
 }
 from '@angular/material';
 
@@ -41,7 +46,12 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatSnackBarModule
+        
        
     ],
     exports: [
@@ -61,7 +71,11 @@ from '@angular/material';
         MatDatepickerModule,
         MatNativeDateModule,
         MatAutocompleteModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatSnackBarModule
         
 
     ]

@@ -19,9 +19,8 @@ import { DriversComponent } from './drivers/drivers.component';
 import { DriversListComponent } from './drivers/drivers-list/drivers-list.component';
 import { AddDriverComponent } from './drivers/add-driver/add-driver.component';
 
-import { TripsComponent } from './trips/trips.component';
-import { AddTripComponent } from './trips/add-trip/add-trip.component';
-import { TripListComponent } from './trips/trip-list/trip-list.component';
+import { DispatchListComponent } from './dispatch/dispatch-list/dispatch-list.component';
+import { RegisterDispatchComponent } from './dispatch/register-dispatch/register-dispatch.component';
 
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
@@ -43,16 +42,15 @@ import { FiltersComponent } from './dashboard/filters/filters.component';
     AddUserComponent, 
     UserListComponent,
     UsersComponent, 
-    AddTripComponent,
+    RegisterDispatchComponent,
     DriversListComponent,
     ProducerListComponent, 
     AddProducerComponent,
     AddDriverComponent,
-    TripsComponent,
     ProducersComponent,
     TrucksComponent,
     DriversComponent,
-    TripListComponent,
+    DispatchListComponent,
     TruckViewComponent,
     AddTruckComponent,
     DashboardComponent,
@@ -70,7 +68,7 @@ import { FiltersComponent } from './dashboard/filters/filters.component';
   ],
   entryComponents: [
     AddUserComponent,
-    AddTripComponent,
+    RegisterDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent
