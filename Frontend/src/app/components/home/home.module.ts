@@ -28,6 +28,7 @@ import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
 import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
 import { DetailsComponent } from './planification/planification-list/details/details.component';
+import { AddPlanificationComponent } from './planification/add-planification/add-planification.component';
 
 
 
@@ -53,7 +54,8 @@ import { DetailsComponent } from './planification/planification-list/details/det
     TruckViewComponent,
     AddTruckComponent,
     PlanificationListComponent,
-    DetailsComponent
+    DetailsComponent,
+    AddPlanificationComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +70,8 @@ import { DetailsComponent } from './planification/planification-list/details/det
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
-    DetailsComponent
+    DetailsComponent,
+    AddPlanificationComponent
   ],
 })
 export class HomeModule { }

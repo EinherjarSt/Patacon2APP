@@ -1,0 +1,24 @@
+<div>
+  <h2 mat-dialog-title>Agregar Planificación</h2>
+  <hr>
+  <mat-dialog-content>
+    <div class="container">
+        <mat-form-field appearance= "standard">
+          <input type="text" placeholder="Seleccione Productor" aria-label="Productor" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+          </mat-form-field>
+
+    </div>
+   
+  </mat-dialog-content>
+  <hr>
+  <mat-dialog-actions >
+    <button mat-raised-button (click)="onCloseConfirm()">Agregar</button>
+    <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+  </mat-dialog-actions>
+
+</div>

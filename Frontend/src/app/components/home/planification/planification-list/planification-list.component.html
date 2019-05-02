@@ -1,16 +1,26 @@
 <h2 id="title">Planificación</h2>
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
-  <div fxFlex="70">
-    <mat-form-field >
+  <div fxLayout="row" fxFlex="50" align-items>
+    <div fxFlex="70">
+      <button mat-raised-button (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+        Agregar Planificación
+      </button>
+    </div>
+    <div fxFlex="30">
+      <mat-form-field >
         <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
       </mat-form-field>
+
+    </div>
+
   </div>
 <div fxFlex="50">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Cosecha</th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
       </ng-container>
 
       <ng-container matColumnDef="producer">
@@ -28,10 +38,12 @@
         <td mat-cell *matCellDef="let element"> {{element.variety}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Cosecha</th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      <ng-container matColumnDef="kg">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kg </th>
+        <td mat-cell *matCellDef="let element"> {{element.kg}} </td>
       </ng-container>
+
+      
 
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef> Detalles </th>

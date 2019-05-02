@@ -3,7 +3,7 @@ import {MatSort, MatTableDataSource, MatPaginator,MatDialog} from '@angular/mate
 import{ PlanificationService} from '../../../../services/planification.service';
 import{Planification} from '../../../../model-classes/planification';
 import {DetailsComponent} from './details/details.component';
-import { element } from '@angular/core/src/render3';
+import{ AddPlanificationComponent} from '../add-planification/add-planification.component';
 
 @Component({
   selector: 'app-planification-list',
@@ -12,7 +12,7 @@ import { element } from '@angular/core/src/render3';
 })
 export class PlanificationListComponent implements OnInit {
   planifications : Planification[];
-  displayedColumns: string[] = ['id','producer','location','variety','date','details','dispatch'];
+  displayedColumns: string[] = ['date','producer','location','variety','kg','details','dispatch'];
   dataSource: MatTableDataSource<Planification>;
 
   dialogResult ="";
@@ -51,9 +51,13 @@ public doFilter = (value: string) => {
       width: '400px',
       data: selected
     });
-    
   }
-  
+  openDialog():void {
+
+    this.dialog.open(AddPlanificationComponent, {
+      width: '400px'
+    });
+  }
  
 
 }
