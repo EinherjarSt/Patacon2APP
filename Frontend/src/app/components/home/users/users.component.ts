@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog} from '@angular/material';
 import { AddUserComponent } from './add-user/add-user.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 @Component({
   selector: 'app-users',
@@ -9,22 +10,13 @@ import { AddUserComponent } from './add-user/add-user.component';
 })
 export class UsersComponent implements OnInit {
 
-  dialogResult = "";
+  
 
-  constructor( public dialog: MatDialog) { }
+  constructor( ) { }
 
   ngOnInit() {
   }
 
-  openDialog(){
-    let dialogRef = this.dialog.open(AddUserComponent, {
-      width: '450px',
-      data: 'This text is passed into the dialog'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog closed: ${result}');
-      this.dialogResult = result;
-    })
-  }
+
 
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { AddTruckComponent } from '../add-truck/add-truck.component';
 
 export interface truck{
@@ -26,8 +26,8 @@ const truckList: truck[] = [
 })
 export class TruckViewComponent implements OnInit {
 
-  columns: string[] = ["model","brand","year","patent","actions"];
-  dataSource = truckList;
+  displayedColumns: string[] = ["model","brand","year","patent", "details", "delete"];
+  dataSource = new MatTableDataSource(truckList);
 
   constructor(public dialog: MatDialog) { 
 
@@ -35,6 +35,9 @@ export class TruckViewComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddTruckComponent, {
@@ -44,6 +47,15 @@ export class TruckViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
 }
