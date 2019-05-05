@@ -18,16 +18,11 @@ export class AuthService {
   */
   login(email: string, password: string): Observable<boolean> {
 
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-      });
-    let options = { headers: headers };
-
     const body = new HttpParams()
     .set('email', email)
     .set('password', password);
 
-    return this.http.post<{token: string}>(env.api.concat('/login') , body, options)
+    return this.http.post<{token: string}>(env.api.concat('/login') , body)
       .pipe(
         map(result => {
           console.log("token recibido");

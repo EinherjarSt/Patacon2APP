@@ -20,19 +20,5 @@
 }
 
 #lastInput{
-  margin-bottom: 10px !important;
+  margin-bottom: 25px !important;
 }
-
-  ::ng-deep .mat-focused .mat-form-field-label {
-    /*change color of label*/
-    color: rgb(0, 0, 0) !important;
-   }
-  
-   ::ng-deep.mat-form-field-underline {
-    /*change color of underline*/
-    background-color: rgb(0, 0, 0) !important;
-  } 
-  ::ng-deep.mat-form-field-ripple {
-   /*change color of underline when focused*/
-   background-color: rgb(167, 0, 0) !important;;
-  }

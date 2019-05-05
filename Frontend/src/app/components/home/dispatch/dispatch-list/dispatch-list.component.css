@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+}
+#title{
+font-size: 24px;
+margin-top: 10px;
+margin-left: 5%;
+margin-bottom: 15px;
+}
+.list-container{
+padding-left: 5%;
+padding-right: 5%;
+}
+th.mat-sort-header-sorted {
+  color: black;
+}
