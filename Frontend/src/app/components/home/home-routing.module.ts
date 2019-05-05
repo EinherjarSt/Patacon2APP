@@ -7,6 +7,7 @@ import { DriversComponent } from './drivers/drivers.component';
 import { TrucksComponent } from './trucks/trucks.component';
 import { TripsComponent } from './trips/trips.component';
 import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
+import { DispatchListComponent } from './dispatch/dispatch-list/dispatch-list.component';
 
 
 
@@ -18,6 +19,7 @@ const routes: Routes = [
      {path: 'productores', component: ProducersComponent},
      {path: 'choferes',component: DriversComponent},
      {path: 'camiones', component: TrucksComponent},
+     {path: 'despachos', component: DispatchListComponent}
      {path: 'viajes', component: TripsComponent},
      {path: 'planificacion',component: PlanificationListComponent},
     ]
