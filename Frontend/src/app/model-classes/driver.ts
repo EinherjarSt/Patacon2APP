@@ -1,7 +1,7 @@
 export interface Driver {
   run: string;
   name: string;
-  lastName1: string;
-  lastName2: string;
+  surname: string;
+  surname2: string;
   phoneNumber: string;
 }

@@ -1,12 +1,12 @@
 const pool = require('../mysql/mysql').pool;
 
 class Driver {
-    constructor(run, name, surname, surname2, telephone) {
+    constructor(run, name, surname, surname2, phone_number) {
         this.run = run;
         this.name = name;
         this.surname = surname;
         this.surname2 = surname2;
-        this.telephone = telephone;
+        this.phoneNumber = phone_number;
     }
 
     static getAllDrivers(callback) {
@@ -19,7 +19,7 @@ class Driver {
             }
             let drivers = []
             for (const driver of results) {
-                drivers.push(new Driver(driver.run, driver.name, driver.surname, driver.surname2, driver.telephone));
+                drivers.push(new Driver(driver.run, driver.name, driver.surname, driver.surname2, driver.phone_number));
             }
             return callback(null, drivers);
         });
@@ -34,7 +34,7 @@ class Driver {
             driver.name,
             driver.surname,
             driver.surname2,
-            driver.telephone,
+            driver.phoneNumber,
         ], function (err, results, fields) {
             if (err) {
                 return callback(err);
@@ -56,7 +56,7 @@ class Driver {
             driver.name,
             driver.surname,
             driver.surname2,
-            driver.telephone,
+            driver.phoneNumber,
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){

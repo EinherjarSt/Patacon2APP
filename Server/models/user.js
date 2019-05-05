@@ -52,7 +52,7 @@ class User {
             }
             let users = []
             for (const user of results) {
-                users.push(new User(user.run, user.name, user.surname, user.surname2, user.email, user.password, user.position));
+                users.push(new User(user.run, user.name, user.surname, user.surname2, user.email, "", user.position));
             }
             return callback(null, users);
         });
