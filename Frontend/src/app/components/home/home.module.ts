@@ -30,6 +30,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { AgmCoreModule } from '@agm/core';
 import { FiltersComponent } from './dashboard/filters/filters.component';
+import { GpsComponent } from './gps/gps.component';
+import { GpsListComponent } from './gps/gps-list/gps-list.component';
+import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 
 
 
@@ -54,7 +57,10 @@ import { FiltersComponent } from './dashboard/filters/filters.component';
     TruckViewComponent,
     AddTruckComponent,
     DashboardComponent,
-    FiltersComponent
+    FiltersComponent,
+    GpsComponent,
+    GpsListComponent,
+    AddGpsComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +77,8 @@ import { FiltersComponent } from './dashboard/filters/filters.component';
     RegisterDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    AddGpsComponent
   ],
 })
 export class HomeModule { }

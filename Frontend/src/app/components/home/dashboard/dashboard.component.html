@@ -1,25 +1,24 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-8">
+    <div class="col-md-8">
       <!--Aqui va el mapa-->
       <agm-map [latitude]="lat" [longitude]="lng">
         <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
       </agm-map>
     </div>
-    <div class="col-4">
+    <div class="col-md-4">
+      <p>Despachos</p>
        <!--Aqui va la tabla con los filtros-->
        <app-filters></app-filters>
     </div>
   </div>
   <div class="row">
-    <div class="col-8">
+    <div class="col-md-8">
+      <p>Ultimos eventos</p>
       <!--Aqui va los ultimos eventos-->
     </div>
-    <div class="col-4">
-      <!--Aqui va el detalle del camion-->
-      <button mat-raised-button color="primary">Click me</button>
-    </div>
+
   </div>
 </div>
 
