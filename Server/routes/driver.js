@@ -10,7 +10,7 @@ app.put("/driver/add",
     (req, res) => {
         console.log(req.body);
         let body = req.body;
-        let newDriver = new Driver(body.run, body.name);
+        let newDriver = new Driver(body.run, body.name, body.surname, body.surname2, body.telephone);
         Driver.addDriver(newDriver, (err, result) => {
             if (err) {
                 return res.status(400).json(err);
@@ -31,7 +31,7 @@ app.post("/driver/update",
         console.log(req.body);
 
         let body = req.body;
-        let updatedDriver = new Driver(body.run, body.name);
+        let updatedDriver = new Driver(body.run, body.name, body.surname, body.surname2, body.telephone);
         Driver.updateDriver(updatedDriver, (err, result) => {
             if (err) {
                 return res.status(400).json(err);

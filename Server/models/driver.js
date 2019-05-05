@@ -1,9 +1,12 @@
 const pool = require('../mysql/mysql').pool;
 
 class Driver {
-    constructor(run, name) {
+    constructor(run, name, surname, surname2, telephone) {
         this.run = run;
         this.name = name;
+        this.surname = surname;
+        this.surname2 = surname2;
+        this.telephone = telephone;
     }
 
     static getAllDrivers(callback) {
@@ -16,7 +19,7 @@ class Driver {
             }
             let drivers = []
             for (const driver of results) {
-                drivers.push(new Driver(driver.run, driver.name));
+                drivers.push(new Driver(driver.run, driver.name, driver.surname, driver.surname2, driver.telephone));
             }
             return callback(null, drivers);
         });
@@ -26,9 +29,12 @@ class Driver {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL update_driver(?, ?)`, [
+        pool.query(`CALL update_driver(?, ?, ?, ?, ?)`, [
             driver.run,
             driver.name,
+            driver.surname,
+            driver.surname2,
+            driver.telephone,
         ], function (err, results, fields) {
             if (err) {
                 return callback(err);
@@ -45,9 +51,12 @@ class Driver {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL add_driver(?, ?)`, [
+        pool.query(`CALL add_driver(?, ?, ?, ?, ?)`, [
             driver.run,
             driver.name,
+            driver.surname,
+            driver.surname2,
+            driver.telephone,
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
