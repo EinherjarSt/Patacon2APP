@@ -24,13 +24,16 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.getTrips();
-    this.dataSource = new MatTableDataSource(this.users);
+    this.getUser();
+    this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
   }
 
-  getTrips(): void {
-    this.users = this.usersService.getUsers();
+  getUser(): void {
+    this.usersService.getAllUsers().subscribe({
+      next: (result) => {this.dataSource.data = result;},
+      error: (err) => {console.log(err);}
+    });
   }
 
   public doFilter = (value: string) => {

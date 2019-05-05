@@ -11,9 +11,9 @@ app.post('/login', function (req, res) {
     passport.authenticate('local', {
             session: false
         }, (err, user, info) => {
-            console.log("login error: %j", err);
+            //console.log("login error: %j", err);
             console.log("login user: %j", user);
-
+            console.log(info);
             if (err || !user) {
                 return res.status(400).json({
                     message: info ? info.message : 'Login failed',
