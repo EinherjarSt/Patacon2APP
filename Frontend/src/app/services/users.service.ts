@@ -17,11 +17,6 @@ export class UsersService {
    * @param data Data to send to backend
    */
   createUser(data: User): Observable<boolean> {
-    let headers = new HttpHeaders({
-      "Content-Type": "application/x-www-form-urlencoded"
-    });
-    let options = { headers };
-
     const body = new HttpParams()
       .set("run", data.run)
       .set("name", data.name)
@@ -32,7 +27,7 @@ export class UsersService {
       .set("position", data.position);
 
     return this.http
-      .put<{ msg: string }>(env.api.concat("/user/add"), body, options)
+      .put<{ msg: string }>(env.api.concat("/user/add"), body)
       .pipe(
         map(result => {
           console.log(result.msg);
@@ -45,11 +40,6 @@ export class UsersService {
    * @param data Data to send to backend
    */
   updateUser(data: User): Observable<boolean> {
-    let headers = new HttpHeaders({
-      "Content-Type": "application/x-www-form-urlencoded"
-    });
-    let options = { headers };
-
     const body = new HttpParams()
       .set("run", data.run)
       .set("name", data.name)
@@ -61,9 +51,8 @@ export class UsersService {
 
     return this.http
       .put<{ msg: string }>(
-        env.api.concat("/user/update/", data.run),
-        body,
-        options
+        env.api.concat("/user/update"),
+        body
       )
       .pipe(
         map(result => {
@@ -88,5 +77,26 @@ export class UsersService {
         return result;
       })
     );
+  }
+
+  /** Request to server to update a user.
+   * @param data Data to send to backend
+   */
+  updateUserStatus(data: {run:string, status:boolean}): Observable<boolean> {
+    const body = new HttpParams()
+      .set("run", data.run)
+      .set("status", data.status ? 'true' : 'false');
+
+    return this.http
+      .put<{ msg: string }>(
+        env.api.concat("/user/update-status", data.run),
+        body,
+      )
+      .pipe(
+        map(result => {
+          console.log(result.msg);
+          return true;
+        })
+      );
   }
 }

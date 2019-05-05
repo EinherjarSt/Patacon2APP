@@ -6,4 +6,5 @@ export class User {
     email: string;
     password: string;
     position: string;
+    status: boolean;
 }

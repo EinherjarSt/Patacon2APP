@@ -1,7 +1,7 @@
 const pool = require('../mysql/mysql').pool;
 const bcrypt = require('bcrypt');
 class User {
-    constructor(run, name, surname, surname2, email, password, position) {
+    constructor(run, name, surname, surname2, email, password, position, status = true) {
         this.run = run;
         this.surname = surname;
         this.surname2 = surname2;
@@ -9,6 +9,7 @@ class User {
         this.email = email;
         this.password = password;
         this.position = position;
+        this.status = status
 
     }
 
@@ -69,6 +70,32 @@ class User {
             user.email,
             user.password,
             user.position
+        ], function (err, results, fields) {
+            // console.log("update_user");
+            // console.log("error:")
+            // console.log(err);
+            // console.log("results:");
+            // console.log(results);
+            // console.log("fields:");
+            // console.log(fields);
+            if (err) {
+                return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({ message: "This user don't exist"});
+            }
+            return callback(null, true);
+        });
+    }
+
+    static update_user_status(run, status, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL update_user_status(?, ?)`, [
+           run,
+           status
         ], function (err, results, fields) {
             // console.log("update_user");
             // console.log("error:")

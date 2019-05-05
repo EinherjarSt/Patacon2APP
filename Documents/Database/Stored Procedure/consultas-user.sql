@@ -41,5 +41,15 @@ IN `_position` text
        WHERE `user`.`run` = _run;
   END IF;
 END//
+
+DROP PROCEDURE IF EXISTS `update_user_status`//
+CREATE PROCEDURE `update_user_status`(
+IN `_run` VARCHAR(13), 
+IN `_status` TINYINT
+) BEGIN
+     UPDATE `user` SET 
+      `status` = _status
+       WHERE `user`.`run` = _run;
+END//
 DELIMITER ;
 

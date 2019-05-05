@@ -25,16 +25,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json());
 
-app.use(function (req,res, next){
-    console.log("headers ------------------------------------------");
-    console.log(req.headers);
-    console.log("rawHeaders ------------------------------------------");
-    console.log(req.rawHeaders);
-    console.log(req.body);
-    console.log("all ---------------------");
-    console.log(req);
-    next();
-})
+// app.use(function (req,res, next){
+//     console.log("headers ------------------------------------------");
+//     console.log(req.headers);
+//     console.log("rawHeaders ------------------------------------------");
+//     console.log(req.rawHeaders);
+//     console.log(req.body);
+//     console.log("all ---------------------");
+//     console.log(req);
+//     next();
+// })
 
 // Configuración global de rutas
 app.use(require('./routes/index'));

@@ -33,7 +33,7 @@ app.put('/user/add', passport.authenticate('jwt', {
     });
 })
 
-app.post('/user/update/:run', passport.authenticate('jwt', {
+app.post('/user/update', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     console.log("user/update");
@@ -69,6 +69,25 @@ app.post('/user/update/:run', passport.authenticate('jwt', {
             });
         });
     }
+})
+
+app.post('/user/update-status', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("user/update");
+    console.log(req.params);
+    console.log(req.body);
+
+    let body = req.body;
+    let status = body.status == 'true' ? true:false;
+    User.update_user_status(body.run, status, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "User has been modified"
+        });
+    });
 })
 
 app.get('/user/getall', passport.authenticate('jwt', {
