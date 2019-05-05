@@ -2,13 +2,13 @@ const express = require('express');
 const app = express();
 
 const passport = require('passport');
-const Administrator = require('../models/administrator');
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
-app.post('/administrator/add', passport.authenticate('jwt', {
+app.put('/user/add', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("administrator/create");
+    console.log("user/create");
     console.log(req.body);
     let body = req.body;
     let salt = parseInt(process.env.BCRYPT_SALT);
@@ -21,8 +21,8 @@ app.post('/administrator/add', passport.authenticate('jwt', {
             });
         }
 
-        let newAdministrator = new Administrator(body.run, body.name, body.email, hashedPassword, body.position);
-        Administrator.addAdministrator(newAdministrator, (err, result) => {
+        let newUser = new User(body.run, body.name, body.surname, body.surname2, body.email, hashedPassword, body.position);
+        User.addUser(newUser, (err, result) => {
             if (err) {
                 return res.status(400).json(err);
             }
@@ -33,10 +33,10 @@ app.post('/administrator/add', passport.authenticate('jwt', {
     });
 })
 
-app.post('/administrator/update/:run', passport.authenticate('jwt', {
+app.post('/user/update/:run', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("administrator/update");
+    console.log("user/update");
     console.log(req.params);
     console.log(req.body);
 
@@ -47,19 +47,20 @@ app.post('/administrator/update/:run', passport.authenticate('jwt', {
             if (err) {
                 return res.status(400).json(err);
             }
-            let newAdministrator = new Administrator(body.run, body.name, body.email, hashedPassword, body.position);
-            Administrator.addAdministrator(newAdministrator, (err, result) => {
+            
+            let newUser = new User(body.run, body.name, body.surname, body.surname2, body.email, hashedPassword, body.position);
+            User.updateUser(newUser, (err, result) => {
                 if (err) {
                     return res.status(400).json(err);
                 }
                 return res.json({
-                    message: "User has been added"
+                    message: "User has been modified"
                 });
             });
         });
     } else {
-        let updatedAdministrator = new Administrator(req.params.run, body.name, body.email, body.password, body.position);
-        Administrator.updateAdministrator(updatedAdministrator, (err, result) => {
+        let updatedUser = new User(req.params.run, body.name, body.surname, body.surname2, body.email, body.password, body.position);
+        User.updateUser(updatedUser, (err, result) => {
             if (err) {
                 return res.status(400).json(err);
             }
@@ -68,6 +69,23 @@ app.post('/administrator/update/:run', passport.authenticate('jwt', {
             });
         });
     }
+})
+
+app.get('/user/getall', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("user/getall");
+    console.log(req.body);
+
+    let body = req.body;
+
+    User.getAllUsers((err, users) =>{
+        console.log(err);
+        if (err){
+            return res.status(400).json(err);
+        }
+        return res.json(users);
+    });
 })
 
 

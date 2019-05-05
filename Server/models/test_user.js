@@ -2,46 +2,46 @@
 
 require('../config/config');
 const pool = require('../mysql/mysql').pool;
-const Administrator = require('./administrator')
+const User = require('./user')
 
-Administrator.getAllAdministrator((err, results) => {
-    console.log("getAllAdministrator");
+User.getAllUser((err, results) => {
+    console.log("getAllUser");
     if(err){
         console.log(err);
     }
     console.log(results);
 });
 
-Administrator.getAdministrator("gsan@gmail.com" ,(err, results) => {
-    console.log("getAdministrator");
+User.getUser("gsan@gmail.com" ,(err, results) => {
+    console.log("getUser");
     if(err){
         console.log(err);
     }
     console.log(results);
 });
 
-Administrator.addAdministrator(new Administrator(
+User.addUser(new User(
     "123651242",
     "Alguienasdasd",
     "alguien@algo.cl",
     "password",
     "Gerente"
 ),(err, results) => {
-    console.log("addAdministrator");
+    console.log("addUser");
     if(err){
         console.log(err);
     }
     console.log(results);
 });
 
-Administrator.updateAdministrator(new Administrator(
+User.updateUser(new User(
     "123656850",
     "Gabriel Sanhueza",
     "gsan@gmail.cl",
     "password",
     "Gerente"
 ),(err, results) => {
-    console.log("updateAdministrator");
+    console.log("updateUser");
     if(err){
         console.log(err);
     }

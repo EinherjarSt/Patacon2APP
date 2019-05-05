@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LOCALE_ID } from '@angular/core';
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -15,6 +15,7 @@ import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {environment as env} from '@env/environment';
 import { MatPaginatorIntl } from '@angular/material';
+import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 
 
 
@@ -40,7 +41,9 @@ import { MatPaginatorIntl } from '@angular/material';
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
-    { provide: LOCALE_ID, useValue: 'es-CL' }
+    { provide: LOCALE_ID, useValue: 'es-CL' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
+
   ],
   bootstrap: [AppComponent],
   entryComponents:[

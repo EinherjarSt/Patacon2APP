@@ -1,8 +1,9 @@
 export class User {
-    run: String;
-    name: String;
-    surname: String;
-    surname2: String;
-    email: String;
-    password: String;
+    run: string;
+    name: string;
+    surname: string;
+    surname2: string;
+    email: string;
+    password: string;
+    position: string;
 }

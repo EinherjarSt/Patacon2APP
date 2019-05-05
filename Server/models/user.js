@@ -1,37 +1,16 @@
 const pool = require('../mysql/mysql').pool;
 const bcrypt = require('bcrypt');
-class Administrator {
-    constructor(run, name, email, password, position) {
-        this._run = run;
-        this._name = name;
-        this._email = email;
-        this._password = password;
-        this._position = position;
+class User {
+    constructor(run, name, surname, surname2, email, password, position) {
+        this.run = run;
+        this.surname = surname;
+        this.surname2 = surname2;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.position = position;
 
     }
-
-    //#region getters
-
-    get run() {
-        return this._run;
-    }
-
-    get name() {
-        return this._name;
-    }
-
-    get email() {
-        return this._email;
-    }
-
-    get password() {
-        return this._password;
-    }
-
-    get position() {
-        return this._position;
-    }
-    //#endregion
 
     verifyPassword(password, callback) {
         bcrypt.compare(password, this.password, function(err, res) {
@@ -42,11 +21,11 @@ class Administrator {
         });
     }
 
-    static getAdministrator(email, callback) {
+    static getUser(email, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        let query = pool.query(`SELECT * FROM administrator WHERE email = ?`, [email], function (err, results, fields) {
+        let query = pool.query(`SELECT * FROM user WHERE email = ?`, [email], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
@@ -57,39 +36,41 @@ class Administrator {
                 return callback({message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
-            return callback(null, new Administrator(result.run, result.name, result.email, result.password, result.position));
+            return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position));
         });
         console.log(query);
     }
 
-    static getAllAdministrator(callback) {
+    static getAllUsers(callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`SELECT * FROM administrator`, function (err, results, fields) {
+        pool.query(`SELECT * FROM user`, function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
-            let administrators = []
-            for (const administrator of results) {
-                administrators.push(new Administrator(administrator.run, administrator.name, administrator.email, administrator.password, administrator.position));
+            let users = []
+            for (const user of results) {
+                users.push(new User(user.run, user.name, user.surname, user.surname2, user.email, user.password, user.position));
             }
-            return callback(null, administrators);
+            return callback(null, users);
         });
     }
 
-    static updateAdministrator(administrator, callback) {
+    static updateUser(user, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL update_administrator(?, ?, ?, ?, ?)`, [
-            administrator.run,
-            administrator.name,
-            administrator.email,
-            administrator.password,
-            administrator.position
+        pool.query(`CALL update_user(?, ?, ?, ?, ?, ?, ?)`, [
+            user.run,
+            user.name,
+            user.surname,
+            user.surname2,
+            user.email,
+            user.password,
+            user.position
         ], function (err, results, fields) {
-            // console.log("update_Administrator");
+            // console.log("update_user");
             // console.log("error:")
             // console.log(err);
             // console.log("results:");
@@ -107,18 +88,20 @@ class Administrator {
         });
     }
 
-    static addAdministrator(administrator, callback) {
+    static addUser(user, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL add_administrator(?, ?, ?, ?, ?)`, [
-            administrator.run,
-            administrator.name,
-            administrator.email,
-            administrator.password,
-            administrator.position
+        pool.query(`CALL add_user(?, ?, ?, ?, ?, ?, ?)`, [
+            user.run,
+            user.name,
+            user.surname,
+            user.surname2,
+            user.email,
+            user.password,
+            user.position
         ], function (err, results, fields) {
-            // console.log("add_Administrator");
+            // console.log("add_user");
             // console.log("error:")
             // console.log(err);
             // console.log("results:");
@@ -137,4 +120,4 @@ class Administrator {
     }
 }
 
-module.exports = Administrator
+module.exports = User

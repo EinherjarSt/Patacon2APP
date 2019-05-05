@@ -10,7 +10,6 @@
             matInput
             placeholder="11.111.111-1"
             formControlName="run"
-            required
           />
           <mat-hint></mat-hint>
         </mat-form-field>
@@ -27,7 +26,7 @@
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Apellido Paterno</mat-label>
-          <input matInput placeholder="" formControlName="f_surname" />
+          <input matInput placeholder="" formControlName="surname" />
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>
@@ -35,7 +34,7 @@
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Apellido Materno</mat-label>
-          <input matInput placeholder="" formControlName="m_surname" />
+          <input matInput placeholder="" formControlName="surname2" />
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>
@@ -47,9 +46,8 @@
             matInput
             placeholder="ejemplo@patacon.cl"
             formControlName="email"
-            required
           />
-          <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+          <mat-error *ngIf="form.controls['email'].invalid">{{ getErrorMessage() }}</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>

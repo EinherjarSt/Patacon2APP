@@ -6,7 +6,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = passportJWT.Strategy;
 
-const User = require('../models/administrator');
+const User = require('../models/user');
 
 passport.use(new LocalStrategy({
         usernameField: 'email',
@@ -14,7 +14,7 @@ passport.use(new LocalStrategy({
     },
     function (email, password, done) {
         console.log(`LocalStrategy ${email} : ${password}`);
-        User.getAdministrator(email, (err, user) => {
+        User.getUser(email, (err, user) => {
             if (err) {
                 return done(err);
             }
