@@ -27,7 +27,10 @@ export class ProducerListComponent implements OnInit {
   }
 
   getProducers(): void{
-    this.producers = this.producerService.getProducers();
+    this.producerService.getProducers().subscribe({
+      next: (result) => {this.dataSource.data = result;},
+      error: (err) => {console.log(err)}
+    });
   }
 
   public doFilter = (value: string) => {
