@@ -12,7 +12,6 @@ import { MaterialModule } from './material.module';
 
 import { NotFoundComponent } from './components/core/not-found/not-found.component';
 import { getSpanishPaginatorIntl } from './spanish-paginator-intl';
-import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {environment as env} from '@env/environment';
 import { MatPaginatorIntl } from '@angular/material';
 import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
@@ -25,7 +24,6 @@ import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
     NotFoundComponent,
   ],
   imports: [
-    AmazingTimePickerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
