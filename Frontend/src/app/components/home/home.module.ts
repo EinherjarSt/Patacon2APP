@@ -25,6 +25,15 @@ import { RegisterDispatchComponent } from './dispatch/register-dispatch/register
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+
+import { AgmCoreModule } from '@agm/core';
+import { FiltersComponent } from './dashboard/filters/filters.component';
+import { GpsComponent } from './gps/gps.component';
+import { GpsListComponent } from './gps/gps-list/gps-list.component';
+import { AddGpsComponent } from './gps/add-gps/add-gps.component';
+import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 
 
 
@@ -47,7 +56,13 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
     DriversComponent,
     DispatchListComponent,
     TruckViewComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    DashboardComponent,
+    FiltersComponent,
+    GpsComponent,
+    GpsListComponent,
+    AddGpsComponent,
+    LatestEventsComponent
   ],
   imports: [
     CommonModule,
@@ -55,13 +70,17 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+    })
   ],
   entryComponents: [
     AddUserComponent,
     RegisterDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    AddGpsComponent
   ],
 })
 export class HomeModule { }

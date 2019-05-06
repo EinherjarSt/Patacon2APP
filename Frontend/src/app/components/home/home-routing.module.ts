@@ -7,6 +7,8 @@ import { DriversComponent } from './drivers/drivers.component';
 import { TrucksComponent } from './trucks/trucks.component';
 import { AuthGuard } from '../../guard/auth.guard';
 import { DispatchListComponent } from './dispatch/dispatch-list/dispatch-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { GpsComponent } from './gps/gps.component';
 
 
 
@@ -17,11 +19,13 @@ const routes: Routes = [
     canActivate:[AuthGuard],
     canActivateChild:[AuthGuard],
     children:[
-     {path: 'usuarios',component: UsersComponent, },
+    {path: '',component: DashboardComponent},
+     {path: 'usuarios',component: UsersComponent},
      {path: 'productores', component: ProducersComponent},
      {path: 'choferes',component: DriversComponent},
      {path: 'camiones', component: TrucksComponent},
-     {path: 'despachos', component: DispatchListComponent}
+     {path: 'despachos', component: DispatchListComponent},
+     {path: 'gps', component: GpsComponent}
     ]
   }
 ];
