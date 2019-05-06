@@ -1,4 +1,4 @@
-export interface Filter {
+export class Filter {
     id: string;
     truck: string;
     state: string;
