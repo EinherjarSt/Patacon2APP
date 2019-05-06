@@ -1,13 +1,13 @@
 export interface Planification {
-    id: number;
+    code: number;
     producer: string;
     location: string;
-    kg: number;
+    kilos: number; //kg
     container: string;
-    type: string;
+    harvest: string;//type
     quality: string;
-    transport: string;
-    observations:string;
+    freight: string; //transport
+    comment:string;
     variety: string;
     date: string;
 }

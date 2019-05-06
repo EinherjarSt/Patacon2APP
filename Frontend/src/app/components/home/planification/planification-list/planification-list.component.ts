@@ -40,10 +40,10 @@ public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  openDetails(id):void {
+  openDetails(code):void {
     var selected;
     this.planifications.forEach(element => {
-      if(element.id==id){
+      if(element.code==code){
           selected = element;
       }
     });

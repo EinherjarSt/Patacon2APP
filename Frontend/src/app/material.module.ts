@@ -22,8 +22,8 @@ import {
     MatPaginatorModule,
     MatSelectModule,
     MatRadioModule,
-    MatSnackBarModule
-    MatExpansionModule,
+    MatSnackBarModule,
+    MatExpansionModule
 }
 from '@angular/material';
 
@@ -51,8 +51,7 @@ from '@angular/material';
         MatFormFieldModule,
         MatSelectModule,
         MatRadioModule,
-        MatSnackBarModule
-        
+        MatSnackBarModule,
         MatExpansionModule
        
     ],
@@ -77,7 +76,7 @@ from '@angular/material';
         MatFormFieldModule,
         MatSelectModule,
         MatRadioModule,
-        MatSnackBarModule
+        MatSnackBarModule,
         MatExpansionModule
         
 

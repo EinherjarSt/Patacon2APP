@@ -1,23 +1,111 @@
 <div>
-  <h2 mat-dialog-title>Agregar Planificación</h2>
+  <h2 mat-dialog-title >Agregar Planificación</h2>
   <hr>
   <mat-dialog-content>
-    <div class="container">
-        <mat-form-field appearance= "standard">
-          <input type="text" placeholder="Seleccione Productor" aria-label="Productor" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <form [formGroup]="registerPlanificationForm" class="example-form">
+      <div class="container i1">
+        <mat-form-field appearance="standard">
+          <mat-label>Productor</mat-label>
+          <input formControlName="producer" matInput placeholder="">
+          <!--input type="text" placeholder="Seleccione Productor" aria-label="Productor" matInput [formControl]="myControl" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{option}}
             </mat-option>
-          </mat-autocomplete>
-          </mat-form-field>
-
-    </div>
-   
+          </mat-autocomplete-->
+        </mat-form-field>
+      </div>
+      <div class="container" id ="location">
+        <mat-form-field appearance="standard">
+          <mat-label>Ubicación</mat-label>
+          <input formControlName="location" matInput placeholder="Ej: Molina">
+          
+        </mat-form-field>
+      </div>
+      <div class="container" id ="date">
+        <mat-form-field appearance="standard">
+          <mat-label>Fecha de Cosecha</mat-label>
+          <input [min]="minDate" formControlName="date" matInput [matDatepicker]="datepicker"
+            placeholder="Escoja una fecha">
+          <mat-datepicker-toggle matSuffix [for]="datepicker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #datepicker></mat-datepicker>
+          <mat-error *ngIf="hasError('date', 'required')">La fecha debe ser ingresada</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="container" id = "kg">
+        <mat-form-field appearance="standard">
+          <mat-label>Kg a cosechar</mat-label>
+          <input formControlName="kilos" matInput placeholder="">
+          <mat-error *ngIf="hasError('kilos', 'required')">Debe ingresar la cantidad de kg</mat-error>
+          <mat-error *ngIf="hasError('kilos', 'pattern')">Debe ingresar solo números</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="container" id ="variety">
+        <mat-form-field appearance="standard">
+          <mat-label>Variedad</mat-label>
+          <mat-select formControlName="variety">
+            <mat-option *ngFor="let variety of varietyOptions" [value]="variety">
+              {{variety}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="container">
+        <mat-form-field class="example-full-width">
+          <mat-label>Calidad</mat-label>
+          <mat-select formControlName="quality">
+            <mat-option *ngFor="let quality of qualityOptions" [value]="quality">
+              {{quality}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div id="selectors" class="container">
+        <label class="lchoice">Tipo de envase:</label>
+        <mat-radio-group formControlName="container">
+          <div fxFlex="48">
+            <mat-radio-button value="BIN">Bin</mat-radio-button>
+          </div>
+          <div fxFlex="52">
+            <mat-radio-button value="TINA">Tina</mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+      <div id="selectors" class="container">
+        <label class="lchoice">Tipo de cosecha:</label>
+        <mat-radio-group formControlName="harvest">
+          <div fxFlex="48">
+            <mat-radio-button value="MANO">Mano</mat-radio-button>
+          </div>
+          <div fxFlex="52">
+            <mat-radio-button value="MAQUINA">Máquina</mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+      <div id="selectors" class="container">
+        <label class="lchoice">Flete:</label>
+        <mat-radio-group formControlName="freight">
+          <div fxFlex="48">
+            <mat-radio-button value="CAMILO">Camilo</mat-radio-button>
+          </div>
+          <div fxFlex="52">
+            <mat-radio-button value="PROPIO">Propio</mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+      <div class="container" id = "obs">
+        <mat-form-field appearance="standard">
+          <mat-label>Observaciones</mat-label>
+          <input formControlName="comment" matInput placeholder="">
+        </mat-form-field>
+      </div>
+    </form>
   </mat-dialog-content>
   <hr>
-  <mat-dialog-actions >
-    <button mat-raised-button (click)="onCloseConfirm()">Agregar</button>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onFormSubmit()" [disabled]="registerPlanificationForm.invalid">Agregar</button>
     <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
   </mat-dialog-actions>
 
