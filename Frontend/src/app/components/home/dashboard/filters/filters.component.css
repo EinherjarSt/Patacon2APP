@@ -1,10 +1,23 @@
+.filter-table-container {
+    height: 450px;
+    overflow: auto;
+    
+  }
 table {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    min-width: 400px;
+    min-width: 350px;
+    
 }
  
 th.mat-header-cell {
     text-align: left;
 }
+
+td.mat-cell {
+ font-size: small;
+}
+
+
+  
