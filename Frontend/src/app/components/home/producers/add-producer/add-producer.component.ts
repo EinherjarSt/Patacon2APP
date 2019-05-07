@@ -37,7 +37,9 @@ export class AddProducerComponent implements OnInit {
         console.log(result);
         this.dialogRef.close();
       },
-      error: result => {}
+      error: result => {
+        console.log("error");
+      }
     });
     
   }

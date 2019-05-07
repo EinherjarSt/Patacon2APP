@@ -1,28 +1,24 @@
 const pool = require('../mysql/mysql').pool;
+const bcrypt = require('bcrypt');
 
 class Producer{
-    constructor(name, rut, location, telephone, manager, ){
-        this._name = name;
-        this._rut = rut;
-        this._location = location;
-        this._telephone = telephone;
-        this._manager = manager;
+    constructor(name, rut, telephone, manager, ){
+        this.name = name;
+        this.rut = rut;
+        this.telephone = telephone;
+        this.manager = manager;
     }
 
     get name(){
-        return this._name;
+        return this.name;
     }
 
     get rut(){
-        return this._rut;
-    }
-
-    get location(){
-        return this._location;
+        return this.rut;
     }
 
     get telephone(){
-        return this._telephone;
+        return this.telephone;
     }
 
     get manager(){
@@ -47,7 +43,7 @@ class Producer{
 
             let result = results[0];
 
-            return callback(null, new Producer(result._name, result._rut, result._location, result._telephone, result._manager));
+            return callback(null, new Producer(result.name, result.rut, result.telephone, result.manager));
         });
     }
 
@@ -63,9 +59,10 @@ class Producer{
             let producers = [];
 
             for(const producer of results){
-                producers.push(new Producer(producer._name, producer._rut, producer._location, producer._telephone, producer._manager));
+                producers.push(new Producer(producer.name, producer.rut, producer.telephone, producer.manager));
             }
-
+            let newProducer = new Producer(body.name, body.rut, body.location, body.telephone, body.manager);
+            producers.push(newProducer);
             return callback(null, producers);
         });
     }
@@ -74,12 +71,11 @@ class Producer{
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
         }
-        pool.query('CALL update_producer(?, ?, ?, ?, ?)', [
-            producer._name,
-            producer._rut,
-            producer._location,
-            producer._telephone,
-            producer._manager
+        pool.query('CALL update_producer(?, ?, ?, ?)', [
+            producer.name,
+            producer.rut,
+            producer.telephone,
+            producer.manager
         ], function(err, result, fields){
             if(err){
                 return callback({message: "The producer doesn't exist"});
@@ -94,12 +90,11 @@ class Producer{
             throw new Error('There is not a callback funtion. Please provide them');
         }
 
-        pool.query('CALL add_producer(?, ?, ?, ?, ?)', [
-            producer._name,
-            producer._rut,
-            producer._location,
-            producer._telephone,
-            producer._manager
+        pool.query('CALL add_producer(?, ?, ?, ?)', [
+            producer.name,
+            producer.rut,
+            producer.telephone,
+            producer.manager
         ], function(err, result, fields){
             if(err){
                 if(err.code == "ER_DUP_ENTRY"){
@@ -114,6 +109,4 @@ class Producer{
 
 }
 
-module.exports = {
-    Producer
-}
+module.exports = Producer

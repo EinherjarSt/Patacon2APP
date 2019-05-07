@@ -18,7 +18,6 @@ export class ProducersService {
     const body = new HttpParams()
     .set('name', data.name)
     .set('rut', data.rut)
-    .set('location', data.location)
     .set('telephone', data.telephone)
     .set('manager', data.manager);
 
@@ -35,7 +34,6 @@ export class ProducersService {
     const body = new HttpParams()
     .set('name', data.name)
     .set('rut', data.rut)
-    .set('location', data.location)
     .set('telephone', data.telephone)
     .set('manager', data.manager);
 
@@ -53,6 +51,7 @@ export class ProducersService {
     return this.http.get<Producer[]>(env.api.concat("/producer/getAll"))
     .pipe(
       map(result => {
+        console.log(result);
         return result;
       })
     );

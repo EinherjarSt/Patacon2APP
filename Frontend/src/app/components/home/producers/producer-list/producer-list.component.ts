@@ -12,7 +12,7 @@ import { ProducersService } from 'src/app/services/producers.service';
 export class ProducerListComponent implements OnInit {
 
   producers: Producer[];
-  displayedColumns: string[] = ["name", "rut", "manager", "location", "telephone", "details", "delete"];
+  displayedColumns: string[] = ["name", "rut", "manager", "telephone", "details", "delete"];
   dataSource: MatTableDataSource<Producer>;
 
   constructor(private producerService: ProducersService, private dialog: MatDialog) { }
@@ -22,7 +22,7 @@ export class ProducerListComponent implements OnInit {
   
   ngOnInit() {
     this.getProducers();
-    this.dataSource = new MatTableDataSource(this.producers);
+    this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
   }
 
