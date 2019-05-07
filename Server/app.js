@@ -41,30 +41,48 @@ function cleanup() {
 // --------------------------- GPS --------------------------------//
 var gps = require("gps-tracking");
 var gpsOptions = {
-  'debug'                 : true,
-  'port'                  : 9001,
-  'device_adapter'        : "TK103"
+  'debug': true,
+  'port': 9000,
+  'device_adapter': "TK103"
 }
 
-var server = gps.server(gpsOptions, function(device,connection){
- 
-  device.on("login_request",function(device_id,msg_parts){
+var server = gps.server(gpsOptions, function (device, connection) {
 
-      // Some devices sends a login request before transmitting their position
-      // Do some stuff before authenticate the device... 
-      
-      // Accept the login request. You can set false to reject the device.
-      this.login_authorized(true); 
+  device.on("login_request", function (device_id, msg_parts) {
+
+    // Some devices sends a login request before transmitting their position
+    // Do some stuff before authenticate the device... 
+
+    // Accept the login request. You can set false to reject the device.
+    this.login_authorized(true);
 
   });
 
+  device.on("login", function () {
+    console.log("Hi! i'm " + device.uid);
+  });
 
   //PING -> When the gps sends their position  
-  device.on("ping",function(data){
+  device.on("ping", function (data) {
 
-      //After the ping is received, but before the data is saved
-      return data;
+    //After the ping is received, but before the data is saved
+    console.log(data);
+    return data;
 
   });
+
+  device.on("alarm",function(alarm_code,alarm_data,msg_data){
+    console.log("Help! Something happend: "+alarm_code+" ("+alarm_data.msg+")");
+  }); 
+
+
+  connection.on("data", function (data) {
+
+    //After the ping is received, but before the data is saved
+    console.log("connection.data");
+    console.log(data.toString().trim());
+    return data;
+
+  })
 
 });
