@@ -19,9 +19,13 @@ export class AddPlanificationComponent implements OnInit {
   filteredOptions: Observable<Producer[]>;
   minDate = new Date(new Date().getFullYear(),new Date().getDay(),new Date().getMonth());
 
-  constructor(private dialogRef: MatDialogRef<AddPlanificationComponent>,private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar, private producerService: ProducersService, private planificationService: PlanificationService) { 
-    this.getProducers();
+  constructor(private dialogRef: MatDialogRef<AddPlanificationComponent>,
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar, 
+    private producerService: ProducersService, 
+    private planificationService: PlanificationService) { 
+    
+
   }
 
   varietyOptions: string[] = ['CARIG','TTRO','CHARD','S.B','S.BLANC',"SEMILLON","MER"];
@@ -39,19 +43,29 @@ export class AddPlanificationComponent implements OnInit {
     date: ['', [Validators.required]],
     container: ['BIN']
   });
-  getProducers(){
-    this.producers = this.producerService.getProducers();
-  }
 
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges
+  getProducers(){
+    this.producerService.getData().subscribe( data =>{
+      this.producers = data;
+      console.log(this.producers);
+      this.filteredOptions = this.registerPlanificationForm.get('producer').valueChanges
       .pipe(
         startWith(''),
         map(value => this.filter(value))
       );
+
+     },e=>{},()=>{
+     
+     });
+    
+  }
+  ngOnInit() {
+    this.getProducers();
+ 
   }
 
   private filter(value: Producer): Producer[] {
+    console.log(value.name);
     const filterValue = value.name.toLowerCase();
 
     return this.producers.filter(option => option.name.toLowerCase().includes(filterValue));

@@ -6,13 +6,12 @@
       <div class="container i1">
         <mat-form-field appearance="standard">
           <mat-label>Productor</mat-label>
-          <input formControlName="producer" matInput placeholder="">
-          <!--input type="text" placeholder="Seleccione Productor" aria-label="Productor" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <input formControlName="producer" type="text" placeholder="Seleccione Productor" aria-label="Productor" matInput [formControl]="myControl" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{option}}
             </mat-option>
-          </mat-autocomplete-->
+          </mat-autocomplete>
         </mat-form-field>
       </div>
       <div class="container" id ="location">
