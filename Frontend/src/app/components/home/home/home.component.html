@@ -39,32 +39,61 @@
       </mat-toolbar-row>
       <td></td>
       <mat-toolbar-row class="toolbar-2">
-          <a [routerLink]="['usuarios']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"mat-button>
-              
-              Usuarios
-            </a>
-          <a [routerLink]="['camiones']" mat-button>
-              
-              Camiones
-            </a>
-          <a [routerLink]="['choferes']" mat-button>
-              
-              Choferes
-            </a>
-          <a [routerLink]="['productores']" mat-button>
-              
-              Productores
-            </a>
-            <a [routerLink]="['viajes']" mat-button>
-              
-              Planificación
-            </a>
+          <div fxShow="true" fxHide.lt-md="true">
+            <a [routerLink]="['usuarios']" mat-button>
+                
+                Usuarios
+              </a>
+            <a [routerLink]="['camiones']" mat-button>
+                
+                Camiones
+              </a>
+            <a [routerLink]="['choferes']" mat-button>
+                
+                Choferes
+              </a>
+            <a [routerLink]="['productores']" mat-button>
+                
+                Productores
+              </a>
+              <a [routerLink]="['viajes']" mat-button>
+                
+                Planificación
+              </a>
+              <a [routerLink]="['gps']" mat-button>
+                
+                  Gps
+              </a>
+            </div>
         </mat-toolbar-row >
     </mat-toolbar>
   
     <mat-sidenav-container fxFlexFill>
       <mat-sidenav #sidenav>
         <mat-nav-list>
+          <a [routerLink]="['usuarios']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
+              
+              Usuarios
+            </a>
+          <a [routerLink]="['camiones']" mat-list-item>
+              
+              Camiones
+            </a>
+          <a [routerLink]="['choferes']" mat-list-item>
+              
+              Choferes
+            </a>
+          <a [routerLink]="['productores']" mat-list-item>
+              
+              Productores
+            </a>
+            <a [routerLink]="['viajes']" mat-list-item>
+              
+              Planificación
+            </a>
+            <a [routerLink]="['gps']" mat-list-item>
+                Gps
+            </a>
           <a href="#" mat-list-item>
             <mat-icon>notifications</mat-icon>
             Notificaciones
