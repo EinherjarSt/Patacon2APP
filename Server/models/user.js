@@ -39,7 +39,7 @@ class User {
             let result = results[0];
             return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position));
         });
-        console.log(query);
+        //console.log(query);
     }
 
     static getAllUsers(callback) {

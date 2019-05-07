@@ -8,41 +8,63 @@ var cors = require('cors')
 const bodyParser = require('body-parser');
 
 var corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
-
-function cleanup (){
-    console.log("Clean pool of connections");
-    mysql.pool.end();
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 app.use(cors(corsOptions))
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
 
 // parse application/json
 app.use(bodyParser.json());
-
-// app.use(function (req,res, next){
-//     console.log("headers ------------------------------------------");
-//     console.log(req.headers);
-//     console.log("rawHeaders ------------------------------------------");
-//     console.log(req.rawHeaders);
-//     console.log(req.body);
-//     console.log("all ---------------------");
-//     console.log(req);
-//     next();
-// })
 
 // Configuración global de rutas
 app.use(require('./routes/index'));
 
 app.listen(process.env.PORT, () => {
-    console.log('Escuchando puerto: ', process.env.PORT);
+  console.log('Escuchando puerto: ', process.env.PORT);
 });
 
 mysql.pool.on('acquire', function (connection) {
-    console.log('Connection %d acquired', connection.threadId);
+  console.log('Connection %d acquired', connection.threadId);
+});
+
+function cleanup() {
+  console.log("Clean pool of connections");
+  mysql.pool.end();
+}
+
+// --------------------------- GPS --------------------------------//
+var gps = require("gps-tracking");
+var gpsOptions = {
+  'debug'                 : true,
+  'port'                  : 9001,
+  'device_adapter'        : "TK103"
+}
+
+var server = gps.server(gpsOptions, function(device,connection){
+ 
+  device.on("login_request",function(device_id,msg_parts){
+
+      // Some devices sends a login request before transmitting their position
+      // Do some stuff before authenticate the device... 
+      
+      // Accept the login request. You can set false to reject the device.
+      this.login_authorized(true); 
+
   });
+
+
+  //PING -> When the gps sends their position  
+  device.on("ping",function(data){
+
+      //After the ping is received, but before the data is saved
+      return data;
+
+  });
+
+});
