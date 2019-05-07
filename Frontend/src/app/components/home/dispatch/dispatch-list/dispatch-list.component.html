@@ -2,7 +2,7 @@
 
   <div fxLayout="row" fxFlex="50" align-items>
     <div fxFlex="70">
-      <button mat-raised-button (click)="openDialog()">
+      <button mat-raised-button (click)="openRegisterDispatchDialog()">
         <mat-icon>add</mat-icon>
         Agregar despacho
       </button>
@@ -30,7 +30,7 @@
       <!-- Driver -->
       <ng-container matColumnDef="driver">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Chofer </th>
-        <td mat-cell *matCellDef="let element"> {{element.driver}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.refDriver}} </td>
       </ng-container>
 
       <!-- Kilograms -->
@@ -54,7 +54,7 @@
       <!-- Fecha de vuelta -->
       <ng-container matColumnDef="estimatedDateArrivalAtPatacon">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de vuelta </th>
-        <td mat-cell *matCellDef="let element"> {{element.estimatedDateArrivalAtPatacon}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.estimatedDateArrivalAtPatacon }} </td>
       </ng-container>
 
       <!-- Hora de vuelta -->
@@ -70,12 +70,12 @@
       </ng-container>
 
 
-      <!-- Details -->
+      <!-- Edit -->
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef> Detalles </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary">
-            <mat-icon class="mat-18">menu</mat-icon>
+          <button mat-icon-button color="primary" (click)="openEditDispatchDialog(element)">
+            <mat-icon class="mat-18">edit</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -93,6 +93,13 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <!--Progress spinner -->>
+    <mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
+
     <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 15, 20, 30, 50]">
     </mat-paginator>
 

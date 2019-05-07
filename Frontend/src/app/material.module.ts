@@ -23,7 +23,8 @@ import {
     MatSelectModule,
     MatRadioModule,
     MatSnackBarModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule
 }
 from '@angular/material';
 
@@ -52,7 +53,8 @@ from '@angular/material';
         MatSelectModule,
         MatRadioModule,
         MatSnackBarModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatProgressSpinnerModule
         
        
     ],
@@ -78,8 +80,9 @@ from '@angular/material';
         MatSelectModule,
         MatRadioModule,
         MatSnackBarModule,
-        MatCheckboxModule
-        
+        MatCheckboxModule,
+        MatProgressSpinnerModule
+       
 
     ]
    

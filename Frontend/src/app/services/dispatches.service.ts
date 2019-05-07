@@ -8,18 +8,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DispatchesService {
-  private dataUrl = 'http://www.json-generator.com/api/json/get/ceLHlMlAia?indent=2';
+  private _dataUrl = 'http://www.json-generator.com/api/json/get/bUqAZhvEjm?indent=2';
+  private _registrationUrl = 'http://localhost:3000/register_dispatch';
 
-  DISPATCHES:Dispatch[] = [
-    
-  ]
   
-  _registrationUrl = 'http://localhost:3000/register_dispatch';
-
   constructor(private _http: HttpClient) {}
 
   getDispatches() {
-    return this.DISPATCHES;
+    return this._http.get(this._dataUrl);
   }
 
   registerDispatch(dispatchData) {

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort, MatTableDataSource, MatSortBase, MatPaginator } from '@angular/material';
-
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { Dispatch } from '../../../../model-classes/dispatch'
 import { DispatchesService } from '../../../../services/dispatches.service';
@@ -20,9 +19,9 @@ import { RegisterDispatchComponent } from '../register-dispatch/register-dispatc
 export class DispatchListComponent implements OnInit {
 
   dispatches: Dispatch[];
-  displayedColumns: string[] = ["status", "driver", "shippedKilograms", "estimatedDateArrivalAtProducer", 
+  public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "estimatedDateArrivalAtProducer", 
   "estimatedTimeArrivalAtProducer", "estimatedDateArrivalAtPatacon", "estimatedTimeArrivalAtProducer","containers", "details", "delete"];
-  dataSource: MatTableDataSource<Dispatch>;
+  public dataSource = new  MatTableDataSource<Dispatch>();
 
 
 
@@ -31,16 +30,21 @@ export class DispatchListComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  isDataLoading = true;
 
   ngOnInit() {
     this.getDispatches();
-    this.dataSource = new MatTableDataSource(this.dispatches);
     this.dataSource.sort = this.sort;
   }
 
   getDispatches(): void {
-    //this.dispatches = this.dispatchesService.getDispatches();
-    this.dispatches = [];
+    this.dispatchesService.getDispatches().subscribe(
+        data => {
+          this.isDataLoading = false;
+          this.dataSource.data = data as Dispatch[];
+        }, 
+        error => this.isDataLoading = false
+    );
   }
 
   public doFilter = (value: string) => {
@@ -52,15 +56,23 @@ export class DispatchListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog() {
-
+  getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-
-    this.dialog.open(RegisterDispatchComponent, dialogConfig);
+    return dialogConfig;
   }
+
+  openRegisterDispatchDialog() {
+    this.dialog.open(RegisterDispatchComponent, this.getDialogConfig());
+  }
+
+  
+  openEditDispatchDialog(dispatch : Dispatch) {
+    //this.dialog.open(EditDispatchComponent, this.getDialogConfig());
+  }
+
 }
 
 
