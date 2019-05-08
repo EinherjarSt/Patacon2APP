@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProducersService } from '../../../../services/producers.service';
 import { PlanificationService } from '../../../../services/planification.service';
 import { Producer} from '../../../../model-classes/producer';
-import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatSnackBar,MatDialogRef } from "@angular/material";
@@ -14,9 +13,11 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
   styleUrls: ['./add-planification.component.css']
 })
 export class AddPlanificationComponent implements OnInit {
+
+
   producers :Producer[];
-  myControl = new FormControl();
   filteredOptions: Observable<Producer[]>;
+
   minDate = new Date(new Date().getFullYear(),new Date().getDay(),new Date().getMonth());
 
   constructor(private dialogRef: MatDialogRef<AddPlanificationComponent>,
@@ -24,15 +25,15 @@ export class AddPlanificationComponent implements OnInit {
     private snackBar: MatSnackBar, 
     private producerService: ProducersService, 
     private planificationService: PlanificationService) { 
-    
-
-  }
+     
+    }
 
   varietyOptions: string[] = ['CARIG','TTRO','CHARD','S.B','S.BLANC',"SEMILLON","MER"];
   qualityOptions: string[] = ['Generico', 'Varietal A','Varietal B'];
+  locationOptions: string[];
 
   registerPlanificationForm: FormGroup = this.formBuilder.group({
-    producer: ['', [Validators.required]],
+    producer: [ '',[Validators.required]],
     location: ['', [Validators.required]],
     kilos: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
     harvest: ['MANO'],
@@ -47,28 +48,35 @@ export class AddPlanificationComponent implements OnInit {
   getProducers(){
     this.producerService.getData().subscribe( data =>{
       this.producers = data;
-      console.log(this.producers);
+    },e=>{},()=>{
       this.filteredOptions = this.registerPlanificationForm.get('producer').valueChanges
       .pipe(
-        startWith(''),
-        map(value => this.filter(value))
+        startWith<string | Producer>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.producers)
       );
-
-     },e=>{},()=>{
-     
      });
-    
   }
   ngOnInit() {
     this.getProducers();
- 
   }
 
-  private filter(value: Producer): Producer[] {
-    console.log(value.name);
-    const filterValue = value.name.toLowerCase();
+  changeOptions(pr:Producer){
+    this.locationOptions = pr.location;
+  }
+  displayFn(val: Producer) {
+    if(val){
+      return val.name
+    }
+    else{
+      return val;
+    }
+  }
 
-    return this.producers.filter(option => option.name.toLowerCase().includes(filterValue));
+  private _filter(name: string): Producer[] {
+    const filterValue = name.toLowerCase();
+
+    return this.producers.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   public hasError = (controlName: string, errorName: string) => {

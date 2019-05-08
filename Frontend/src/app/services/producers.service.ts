@@ -8,16 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProducersService {
 
   PRODUCERS : Producer[] = [
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
-    {name: "nombre", rut:'11111111-1', manager:'nombre', location:'location', telephone:'12345678'},
+   
   ];
 
   constructor(private http: HttpClient) { }

@@ -6,19 +6,24 @@
       <div class="container i1">
         <mat-form-field appearance="standard">
           <mat-label>Productor</mat-label>
-          <input formControlName="producer" type="text" placeholder="Seleccione Productor" aria-label="Productor" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option}}
+          <input  formControlName="producer" placeholder="Seleccione Productor" matInput [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="changeOptions(option)">
+              {{option.name}}
             </mat-option>
           </mat-autocomplete>
+          <mat-error *ngIf="hasError('producer', 'required')">Debe ingresar un productor</mat-error>
         </mat-form-field>
       </div>
       <div class="container" id ="location">
         <mat-form-field appearance="standard">
           <mat-label>Ubicación</mat-label>
-          <input formControlName="location" matInput placeholder="Ej: Molina">
-          
+          <mat-select formControlName="location">
+            <mat-option *ngFor="let location of locationOptions" [value]="location">
+              {{location.location_nombre}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('location', 'required')">Debe seleccionar una ubicación</mat-error>
         </mat-form-field>
       </div>
       <div class="container" id ="date">
