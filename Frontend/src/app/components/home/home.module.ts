@@ -14,6 +14,7 @@ import { UserListComponent } from './users/user-list/user-list.component';
 import { ProducersComponent } from './producers/producers.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
 import { AddProducerComponent } from './producers/add-producer/add-producer.component';
+import { UpdateProducerComponent } from './producers/update-producer/update-producer.component';
 
 import { DriversComponent } from './drivers/drivers.component';
 import { DriversListComponent } from './drivers/drivers-list/drivers-list.component';
@@ -25,8 +26,18 @@ import { RegisterDispatchComponent } from './dispatch/register-dispatch/register
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
-import { UpdateProducerComponent } from './producers/update-producer/update-producer.component';
 
+import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
+import { DetailsComponent } from './planification/planification-list/details/details.component';
+import { AddPlanificationComponent } from './planification/add-planification/add-planification.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { AgmCoreModule } from '@agm/core';
+import { FiltersComponent } from './dashboard/filters/filters.component';
+import { GpsComponent } from './gps/gps.component';
+import { GpsListComponent } from './gps/gps-list/gps-list.component';
+import { AddGpsComponent } from './gps/add-gps/add-gps.component';
+import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 
 
 
@@ -49,7 +60,16 @@ import { UpdateProducerComponent } from './producers/update-producer/update-prod
     DispatchListComponent,
     TruckViewComponent,
     AddTruckComponent,
-    UpdateProducerComponent
+    UpdateProducerComponent,
+    PlanificationListComponent,
+    DetailsComponent,
+    AddPlanificationComponent,
+    DashboardComponent,
+    FiltersComponent,
+    GpsComponent,
+    GpsListComponent,
+    AddGpsComponent,
+    LatestEventsComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +77,9 @@ import { UpdateProducerComponent } from './producers/update-producer/update-prod
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+    })
   ],
   entryComponents: [
     AddUserComponent,
@@ -64,7 +87,10 @@ import { UpdateProducerComponent } from './producers/update-producer/update-prod
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
-    UpdateProducerComponent
+    UpdateProducerComponent,
+    DetailsComponent,
+    AddPlanificationComponent,
+    AddGpsComponent
   ],
 })
 export class HomeModule { }

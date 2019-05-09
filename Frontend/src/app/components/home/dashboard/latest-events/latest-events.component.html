@@ -1,0 +1,9 @@
+<mat-nav-list>
+    <h5>Últimos eventos</h5>
+    <a mat-list-item [routerLink]="['/detail']">
+      <span matLine><mat-icon>check_circle</mat-icon> BPTG-70   José Nuñez    Ha llegado a Patacón</span>
+      <button mat-icon-button (click)="redirectToDetails(element.id)">
+          <mat-icon>more_vert</mat-icon>
+      </button>
+    </a>
+  </mat-nav-list>

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment as env } from "@env/environment";
 import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,6 @@ import { Observable } from "rxjs";
 export class ProducersService {
   
   constructor(private http: HttpClient) { 
-
   }
 
   addProducer(data: Producer): Observable<boolean>{
@@ -72,6 +72,7 @@ export class ProducersService {
     
   }
 
-  
-
+  getData(){
+    return this.http.get<Producer[]>('http://www.json-generator.com/api/json/get/bQhbZtBTNe?indent=2');
+  }
 }
