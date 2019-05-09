@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
-import { Filter } from 'src/app/model-classes/Filter';
+import { Filter } from 'src/app/model-classes/filter';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
