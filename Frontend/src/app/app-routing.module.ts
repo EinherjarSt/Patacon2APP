@@ -10,7 +10,13 @@ const routes: Routes = [
   {path: 'inicio', loadChildren: './components/home/home.module#HomeModule'},
   {path: 'login',  loadChildren: './components/login/login.module#LoginModule' },
   {path: 'not-found', component: NotFoundComponent},
-  {path: '**', redirectTo: 'not-found'}
+  {
+    path: '',
+    redirectTo: '/inicio',
+    pathMatch: 'full'
+  },
+  {path: '**', redirectTo: 'not-found'},
+ 
   
   
 ];

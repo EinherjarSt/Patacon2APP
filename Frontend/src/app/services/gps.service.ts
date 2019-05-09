@@ -12,6 +12,10 @@ export class GpsService {
 
   constructor( private http: HttpClient) { }
 
+  getAllGps(){
+    return this.http.get("http://www.json-generator.com/api/json/get/cgyQKKXnhe?indent=2");
+  }
+
 
   createGps(data: Gps): Observable<boolean> {
     const body = new HttpParams()

@@ -54,7 +54,7 @@ from '@angular/material';
         MatRadioModule,
         MatSnackBarModule,
         MatExpansionModule,
-        MatCheckboxModule
+        MatCheckboxModule,
         
        
     ],

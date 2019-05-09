@@ -1,5 +1,5 @@
 .filter-table-container {
-    height: 450px;
+    height: 200px;
     overflow: auto;
     
   }
@@ -7,7 +7,7 @@ table {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    min-width: 350px;
+    min-width: 300px;
     
 }
  
@@ -16,7 +16,7 @@ th.mat-header-cell {
 }
 
 td.mat-cell {
- font-size: small;
+ font-size: x-small;
 }
 
 
