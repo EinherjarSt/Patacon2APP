@@ -28,7 +28,15 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
 import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
 import { DetailsComponent } from './planification/planification-list/details/details.component';
 import { AddPlanificationComponent } from './planification/add-planification/add-planification.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
+
+import { AgmCoreModule } from '@agm/core';
+import { FiltersComponent } from './dashboard/filters/filters.component';
+import { GpsComponent } from './gps/gps.component';
+import { GpsListComponent } from './gps/gps-list/gps-list.component';
+import { AddGpsComponent } from './gps/add-gps/add-gps.component';
+import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 
 
 
@@ -53,7 +61,13 @@ import { AddPlanificationComponent } from './planification/add-planification/add
     AddTruckComponent,
     PlanificationListComponent,
     DetailsComponent,
-    AddPlanificationComponent
+    AddPlanificationComponent,
+    DashboardComponent,
+    FiltersComponent,
+    GpsComponent,
+    GpsListComponent,
+    AddGpsComponent,
+    LatestEventsComponent
   ],
   imports: [
     CommonModule,
@@ -61,6 +75,9 @@ import { AddPlanificationComponent } from './planification/add-planification/add
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+    })
   ],
   entryComponents: [
     AddUserComponent,
@@ -69,7 +86,8 @@ import { AddPlanificationComponent } from './planification/add-planification/add
     AddProducerComponent,
     AddTruckComponent,
     DetailsComponent,
-    AddPlanificationComponent
+    AddPlanificationComponent,
+    AddGpsComponent
   ],
 })
 export class HomeModule { }
