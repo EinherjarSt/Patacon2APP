@@ -23,6 +23,7 @@ import {
     MatSelectModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatExpansionModule,
     MatCheckboxModule
 }
 from '@angular/material';
@@ -52,6 +53,7 @@ from '@angular/material';
         MatSelectModule,
         MatRadioModule,
         MatSnackBarModule,
+        MatExpansionModule,
         MatCheckboxModule
         
        
@@ -78,6 +80,7 @@ from '@angular/material';
         MatSelectModule,
         MatRadioModule,
         MatSnackBarModule,
+        MatExpansionModule,
         MatCheckboxModule
         
 

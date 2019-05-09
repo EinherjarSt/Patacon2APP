@@ -25,6 +25,9 @@ import { RegisterDispatchComponent } from './dispatch/register-dispatch/register
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
+import { DetailsComponent } from './planification/planification-list/details/details.component';
+import { AddPlanificationComponent } from './planification/add-planification/add-planification.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 
@@ -34,7 +37,6 @@ import { GpsComponent } from './gps/gps.component';
 import { GpsListComponent } from './gps/gps-list/gps-list.component';
 import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
-
 
 
 
@@ -57,6 +59,9 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
     DispatchListComponent,
     TruckViewComponent,
     AddTruckComponent,
+    PlanificationListComponent,
+    DetailsComponent,
+    AddPlanificationComponent,
     DashboardComponent,
     FiltersComponent,
     GpsComponent,
@@ -80,6 +85,8 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
+    DetailsComponent,
+    AddPlanificationComponent,
     AddGpsComponent
   ],
 })
