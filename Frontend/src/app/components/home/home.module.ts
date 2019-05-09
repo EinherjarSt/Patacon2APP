@@ -14,6 +14,7 @@ import { UserListComponent } from './users/user-list/user-list.component';
 import { ProducersComponent } from './producers/producers.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
 import { AddProducerComponent } from './producers/add-producer/add-producer.component';
+import { UpdateProducerComponent } from './producers/update-producer/update-producer.component';
 
 import { DriversComponent } from './drivers/drivers.component';
 import { DriversListComponent } from './drivers/drivers-list/drivers-list.component';
@@ -25,11 +26,11 @@ import { RegisterDispatchComponent } from './dispatch/register-dispatch/register
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+
 import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
 import { DetailsComponent } from './planification/planification-list/details/details.component';
 import { AddPlanificationComponent } from './planification/add-planification/add-planification.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
 
 import { AgmCoreModule } from '@agm/core';
 import { FiltersComponent } from './dashboard/filters/filters.component';
@@ -59,6 +60,7 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
     DispatchListComponent,
     TruckViewComponent,
     AddTruckComponent,
+    UpdateProducerComponent,
     PlanificationListComponent,
     DetailsComponent,
     AddPlanificationComponent,
@@ -85,6 +87,7 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
+    UpdateProducerComponent,
     DetailsComponent,
     AddPlanificationComponent,
     AddGpsComponent

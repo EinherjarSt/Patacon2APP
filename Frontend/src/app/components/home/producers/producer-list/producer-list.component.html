@@ -36,12 +36,6 @@
           <td mat-cell *matCellDef="let element"> {{element.manager}} </td>
         </ng-container>
   
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="location">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación </th>
-          <td mat-cell *matCellDef="let element"> {{element.location}} </td>
-        </ng-container>
-  
         <ng-container matColumnDef="telephone">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </th>
           <td mat-cell *matCellDef="let element"> {{element.telephone}} </td>
@@ -50,7 +44,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef> Detalles </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="openUpdateDialog(element.rut)">
               <mat-icon class="mat-18">menu</mat-icon>
             </button>
           </td>
@@ -59,7 +53,7 @@
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef> Delete </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+            <button mat-icon-button color="warn" (click)="deleteProducer(element.rut)">
               <mat-icon class="mat-18">delete</mat-icon>
             </button>
           </td>
