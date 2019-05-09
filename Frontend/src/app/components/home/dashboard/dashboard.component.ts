@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit {
   lng: number = -71.2308186;
   shouldRun:boolean;
 
+
   constructor() { }
 
   ngOnInit() {
