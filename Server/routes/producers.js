@@ -4,6 +4,19 @@ const app = express();
 const Producer = require('../models/producer');
 const passport = require('passport');
 
+app.get('/producer/get/:rut',  passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	let rut = req.params.rut;
+
+    Producer.getProducer(rut, (err, producer) => {
+    	if(err){
+    		return res.status(400).json(err);
+    	}
+    	return res.json(producer);
+    })
+});
+
 app.get('/producer/getall', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
@@ -21,7 +34,7 @@ app.put('/producer/add',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 	let body = req.body;
-	let newProducer = new Producer(body.name, body.rut, body.telephone, body.manager);
+	let newProducer = new Producer(body.name, body.rut, body.manager, body.telephone);
 	
 	Producer.addProducer(newProducer, (err, result) => {
 		if(err){
@@ -34,11 +47,11 @@ app.put('/producer/add',  passport.authenticate('jwt', {
 	});
 });
 
-app.post('/producer/update',  passport.authenticate('jwt', {
+app.put('/producer/update',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 	let body = req.body;
-	let newProducer = new Producer(body.name, body.rut, body.location, body.telephone, body.manager);
+	let newProducer = new Producer(body.name, body.rut, body.manager, body.telephone);
 
 	Producer.updateProducer(newProducer, (err, result) => {
 		if(err){
@@ -56,11 +69,5 @@ app.post('/producer/delete',  passport.authenticate('jwt', {
 }), (req, res) => {
 	console.log('/delete-producer');
 },)
-
-app.get('/producer/get',  passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
-    res.send('/producers');
-});
 
 module.exports = app;

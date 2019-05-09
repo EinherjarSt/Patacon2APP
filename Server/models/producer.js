@@ -2,27 +2,11 @@ const pool = require('../mysql/mysql').pool;
 const bcrypt = require('bcrypt');
 
 class Producer{
-    constructor(name, rut, telephone, manager, ){
+    constructor(name, rut, telephone, manager ){
         this.name = name;
         this.rut = rut;
-        this.telephone = telephone;
         this.manager = manager;
-    }
-
-    get name(){
-        return this.name;
-    }
-
-    get rut(){
-        return this.rut;
-    }
-
-    get telephone(){
-        return this.telephone;
-    }
-
-    get manager(){
-        return this.manager;
+        this.telephone = telephone;
     }
 
     static getProducer(rut, callback){
@@ -42,8 +26,9 @@ class Producer{
             }
 
             let result = results[0];
+            let producer = new Producer(result.name, result.rut, result.telephone, result.manager);
 
-            return callback(null, new Producer(result.name, result.rut, result.telephone, result.manager));
+            return callback(null, producer);
         });
     }
 
@@ -51,7 +36,7 @@ class Producer{
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
         }
-        pool.query('SELECT * FROM producer', function(err, results, fields){
+        pool.query(`SELECT name, rut, telephone, manager FROM producer`, function(err, results, fields){
             if(err){
                 return callback(err);
             }
@@ -61,8 +46,7 @@ class Producer{
             for(const producer of results){
                 producers.push(new Producer(producer.name, producer.rut, producer.telephone, producer.manager));
             }
-            let newProducer = new Producer(body.name, body.rut, body.location, body.telephone, body.manager);
-            producers.push(newProducer);
+
             return callback(null, producers);
         });
     }
@@ -72,8 +56,8 @@ class Producer{
             throw new Error('There is not a callback funtion. Please provide them');
         }
         pool.query('CALL update_producer(?, ?, ?, ?)', [
-            producer.name,
             producer.rut,
+            producer.name,
             producer.telephone,
             producer.manager
         ], function(err, result, fields){
@@ -93,8 +77,8 @@ class Producer{
         pool.query('CALL add_producer(?, ?, ?, ?)', [
             producer.name,
             producer.rut,
-            producer.telephone,
-            producer.manager
+            producer.manager,
+            producer.telephone
         ], function(err, result, fields){
             if(err){
                 if(err.code == "ER_DUP_ENTRY"){

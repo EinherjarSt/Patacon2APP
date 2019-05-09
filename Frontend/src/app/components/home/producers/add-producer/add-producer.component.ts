@@ -14,7 +14,6 @@ export class AddProducerComponent implements OnInit {
     name: new FormControl(''),
     rut: new FormControl(''),
     manager: new FormControl(''),
-    location: new FormControl(''),
     telephone: new FormControl('')
   });
 
@@ -28,13 +27,10 @@ export class AddProducerComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.producerForm.value);
-    
     let producerData = this.producerForm.value;
 
     this.producersService.addProducer(producerData).subscribe({
       next: result => {
-        console.log(result);
         this.dialogRef.close();
       },
       error: result => {

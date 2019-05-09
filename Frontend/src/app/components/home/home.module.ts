@@ -25,6 +25,7 @@ import { RegisterDispatchComponent } from './dispatch/register-dispatch/register
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+import { UpdateProducerComponent } from './producers/update-producer/update-producer.component';
 
 
 
@@ -47,7 +48,8 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
     DriversComponent,
     DispatchListComponent,
     TruckViewComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    UpdateProducerComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +63,8 @@ import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
     RegisterDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
-    AddTruckComponent
+    AddTruckComponent,
+    UpdateProducerComponent
   ],
 })
 export class HomeModule { }

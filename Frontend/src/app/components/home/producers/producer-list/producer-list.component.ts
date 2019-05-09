@@ -3,6 +3,7 @@ import { MatDialog, MatSort, MatPaginator, MatTableDataSource } from '@angular/m
 import { AddProducerComponent } from '../add-producer/add-producer.component';
 import { Producer } from 'src/app/model-classes/producer';
 import { ProducersService } from 'src/app/services/producers.service';
+import { UpdateProducerComponent } from '../update-producer/update-producer.component';
 
 @Component({
   selector: 'app-producer-list',
@@ -50,6 +51,21 @@ export class ProducerListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  openUpdateDialog(rut: string){
+    const dialogRef = this.dialog.open(UpdateProducerComponent, {
+      data: rut,
+      width: '500px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  deleteProducer(rut: string){
+
   }
 
 }
