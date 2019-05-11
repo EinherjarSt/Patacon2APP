@@ -37,7 +37,6 @@ app.post('/user/update', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     console.log("user/update");
-    console.log(req.params);
     console.log(req.body);
 
     let body = req.body;
@@ -59,7 +58,7 @@ app.post('/user/update', passport.authenticate('jwt', {
             });
         });
     } else {
-        let updatedUser = new User(req.params.run, body.name, body.surname, body.surname2, body.email, body.password, body.position);
+        let updatedUser = new User(body.run, body.name, body.surname, body.surname2, body.email, body.password, body.position);
         User.updateUser(updatedUser, (err, result) => {
             if (err) {
                 return res.status(400).json(err);
@@ -75,7 +74,6 @@ app.post('/user/update-status', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     console.log("user/update");
-    console.log(req.params);
     console.log(req.body);
 
     let body = req.body;
@@ -94,9 +92,6 @@ app.get('/user/getall', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     console.log("user/getall");
-    console.log(req.body);
-
-    let body = req.body;
 
     User.getAllUsers((err, users) =>{
         console.log(err);

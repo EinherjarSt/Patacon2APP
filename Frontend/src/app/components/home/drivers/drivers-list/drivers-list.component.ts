@@ -16,10 +16,11 @@ import { DriversService} from '../../../../services/drivers.service';
 export class DriversListComponent implements OnInit {
   dialogResult ="";
   drivers: Driver[];
-  displayedColumns: string[] = ['run','name','lastName1','lastName2','phoneNumber','details','delete'];
+  displayedColumns: string[] = ['run','name','surname','surname2','phoneNumber','details','delete'];
   dataSource: MatTableDataSource<Driver>;
+
   constructor( private driversService : DriversService,public dialog: MatDialog) { 
-    driversService.getData().subscribe(data =>{
+    driversService.getAllDrivers().subscribe(data =>{
       this.drivers = data;
       this.dataSource = new MatTableDataSource<Driver>(this.drivers);
       this.dataSource.sort = this.sort;
