@@ -6,5 +6,6 @@ app.use(require('./authentication'));
 app.use(require('./user'));
 app.use(require('./driver'));
 app.use(require('./producers'));
+app.use(require('./gps'));
 
 module.exports = app;
