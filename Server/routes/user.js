@@ -70,15 +70,16 @@ app.post('/user/update', passport.authenticate('jwt', {
     }
 })
 
-app.post('/user/update-status', passport.authenticate('jwt', {
+app.post('/user/disable', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("user/update");
-    console.log(req.body);
-
+    console.log("user/disable");
+    console.log(req.body);+
+    console.log("borrar");
+    console.log(req.body.status);
     let body = req.body;
-    let status = body.status == 'true' ? true:false;
-    User.update_user_status(body.run, status, (err, result) => {
+    let disabled = body.disabled === 'true' ? true : false;
+    User.disableUser(body.run, disabled, (err, result) => {
         if (err) {
             return res.status(400).json(err);
         }

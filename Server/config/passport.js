@@ -17,6 +17,9 @@ passport.use(new LocalStrategy({
             if (err) {
                 return done(err);
             }
+            if (user.disabled){
+                return done(null, false, {message: "Login Failed (deshabilitado)"});
+            }
             user.verifyPassword(password, (error, isPassword) => {
                 if (error){
                     console.log("here");
@@ -27,7 +30,7 @@ passport.use(new LocalStrategy({
                 }
                 if (!isPassword) {
                     return done(null, false, {
-                            message: "Username or (password) incorrect"
+                            message: "Login Failed (password)"
                     });
                 }
                 return done(null, {
