@@ -38,6 +38,7 @@ var adapter = function (device) {
       cmd: dataArray['cmd'],
       rawData: dataArray['rawData']
     }
+    console.log(msg_parts);
     switch (msg_parts.cmd) {
       case "login_request":
         msg_parts.action = "login_request";
@@ -68,6 +69,9 @@ var adapter = function (device) {
   this.run_other = function (cmd, msg_parts) {
     if (cmd === 'heartbeat'){
       this.send_comand(null, "ON");
+    }
+    else if (cmd === 'do-nothing'){
+      console.log(msg_parts);
     }
   }
 

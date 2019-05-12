@@ -36,6 +36,9 @@ var parser = {
         if (dataArray && dataArray[4] && dataArray[4] === "F") {
             returnedObject['cmd'] = "ping"
         }
+        else{
+            returnedObject['cmd']="do-nothing";
+        }
 
         returnedObject['rawData'] = dataArray;
 
