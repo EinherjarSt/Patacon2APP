@@ -7,6 +7,8 @@ import {
     HttpEvent,
     HttpErrorResponse
 } from '@angular/common/http';
+import { environment as env } from "@env/environment";
+
 
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, retryWhen } from 'rxjs/operators';
@@ -16,7 +18,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     constructor() { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const token: string = localStorage.getItem('access_token');
-        if (token) {
+        if (token && request.url.includes(env.api)) {
             request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
         }
 

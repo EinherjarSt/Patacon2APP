@@ -38,7 +38,6 @@ var adapter = function (device) {
       cmd: dataArray['cmd'],
       rawData: dataArray['rawData']
     }
-    console.log(msg_parts);
     switch (msg_parts.cmd) {
       case "login_request":
         msg_parts.action = "login_request";
@@ -60,7 +59,7 @@ var adapter = function (device) {
    * Is called when you call device.login_authorized(true).
    */
   this.authorize = function () {
-    this.send_comand(null, "LOAD");
+    this.send_command(null, "LOAD");
   }
 
   /** Required if your action is other
@@ -68,7 +67,7 @@ var adapter = function (device) {
    */
   this.run_other = function (cmd, msg_parts) {
     if (cmd === 'heartbeat'){
-      this.send_comand(null, "ON");
+      this.send_command(null, "ON");
     }
     else if (cmd === 'do-nothing'){
       console.log(msg_parts);
@@ -113,7 +112,7 @@ var adapter = function (device) {
    * You can listening subscribing to device
    * Ex: device.on('send_data', gpsdata, msg_parts)
    */
-  this.send_comand = function (cmd, data) {
+  this.send_command = function (cmd, data) {
     var msg = data;
     this.device.send(msg);
   }
@@ -132,15 +131,15 @@ var adapter = function (device) {
    * NOTE: The method recive interval and duration but because js hasn't types and is not validate the types
    * of interval or duration I will use one of this to pass the imei.
    */
-  this.set_refresh_time = function (interval, imei) {
-    if(util.isEmpty || !util.isInt(interval)){
-      throw new Error("Interval can't be empty and has to be a integer");
-    }
-    if(util.isEmpty || !util.isInt(imei)){
-      throw new Error("Imei can't be empty and has to be a integer");
-    }
-    let msg = `**,imei:${imei},C,${interval}s`
-  }
+  // this.set_refresh_time = function (interval, imei) {
+  //   if(util.isEmpty || !util.isInt(interval)){
+  //     throw new Error("Interval can't be empty and has to be a integer");
+  //   }
+  //   if(util.isEmpty || !util.isInt(imei)){
+  //     throw new Error("Imei can't be empty and has to be a integer");
+  //   }
+  //   let msg = `**,imei:${imei},C,${interval}s`
+  // }
 
   /**
    * Optional 

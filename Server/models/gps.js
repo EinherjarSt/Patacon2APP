@@ -17,7 +17,7 @@ class GPSDevice {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : "There isn't result"});
+                return callback({message : `Imei ${imei} don't registered`});
             }
             if (results.length > 1) {
                 return callback({message : "There is an error in database because the gps imei is not unique"});

@@ -55,5 +55,30 @@ app.get('/gps/getall', passport.authenticate('jwt', {
     });
 })
 
+app.get('/gps/getposition', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let gps;
+    try{
+        gps = req.query['gps'];
+        console.log("query: " + gps);
+        if (gps === undefined || gps == '[]'){
+            return res.json(GPS_POSITIONS);
+        }
+        let gpsArray = JSON.parse(gps);
+        console.log(GPS_POSITIONS);
+        let sendData = {};
+        for (const imei of gpsArray) {
+            if(GPS_POSITIONS[imei]){
+                sendData[imei] = GPS_POSITIONS[imei];
+            }
+        }
+        return res.json(sendData);
+    }
+    catch{
+        return res.status(400).json({message: "Error en los parametros enviados"});
+    }
+})
+
 
 module.exports = app;

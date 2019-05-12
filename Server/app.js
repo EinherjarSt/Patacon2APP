@@ -1,5 +1,6 @@
 require('./config/config');
 require('./config/passport');
+require('./gps/indexGPS');
 var cleanup = require('./cleanup').Cleanup(cleanup);
 const mysql = require('./mysql/mysql');
 const express = require('express');
@@ -37,46 +38,3 @@ function cleanup() {
   console.log("Clean pool of connections");
   mysql.pool.end();
 }
-
-// --------------------------- GPS --------------------------------//
-var gps = require("gps-tracking");
-var gpsOptions = {
-  'debug': true,
-  'port': 9001,
-  'device_adapter': require('./gps/adapter-tk103')
-}
-
-var server = gps.server(gpsOptions, function (device, connection) {
-  device.on("login_request", function (device_id, msg_parts) {
-
-    // Some devices sends a login request before transmitting their position
-    // Do some stuff before authenticate the device... 
-
-    // Accept the login request. You can set false to reject the device.
-    console.log("login_request");
-    console.log(msg_parts);
-    this.login_authorized(true);
-  });
-
-  device.on("login", function () {
-    console.log("Hi! i'm " + device.uid);
-  });
-
-  //PING -> When the gps sends their position  
-  device.on("ping", function (gpsData) {
-
-    //After the ping is received, but before the data is saved
-    console.log('data');
-    console.log(gpsData);
-    return gpsData;
-  });
-
-  connection.on("data", function (data) {
-
-    //After the ping is received, but before the data is saved
-    // console.log("connection.data");
-    // console.log(data.toString().trim());
-    return data;
-  })
-
-});

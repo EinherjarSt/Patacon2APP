@@ -62,7 +62,7 @@ export class UsersService {
       );
   }
 
-  /** Request to server to update a user.
+  /** Request to server to get all user.
    * @param data Data to send to backend
    */
   getAllUsers(): Observable<User[]> {
