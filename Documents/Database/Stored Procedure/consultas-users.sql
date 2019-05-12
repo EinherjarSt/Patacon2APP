@@ -42,13 +42,13 @@ IN `_position` text
   END IF;
 END//
 
-DROP PROCEDURE IF EXISTS `update_user_status`//
-CREATE PROCEDURE `update_user_status`(
+DROP PROCEDURE IF EXISTS `disable_user`//
+CREATE PROCEDURE `disable_user`(
 IN `_run` VARCHAR(13), 
-IN `_status` TINYINT
+IN `_disabled` TINYINT
 ) BEGIN
      UPDATE `user` SET 
-      `status` = _status
+      `disabled` = _disabled
        WHERE `user`.`run` = _run;
 END//
 DELIMITER ;

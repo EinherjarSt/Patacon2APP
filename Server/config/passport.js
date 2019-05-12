@@ -7,16 +7,18 @@ const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = passportJWT.Strategy;
 
 const User = require('../models/user');
-
 passport.use(new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
     },
     function (email, password, done) {
-        console.log(`LocalStrategy ${email} : ${password}`);
+        //console.log(`LocalStrategy ${email} : ${password}`);
         User.getUser(email, (err, user) => {
             if (err) {
                 return done(err);
+            }
+            if (user.disabled){
+                return done(null, false, {message: "Login Failed (deshabilitado)"});
             }
             user.verifyPassword(password, (error, isPassword) => {
                 if (error){
@@ -28,7 +30,7 @@ passport.use(new LocalStrategy({
                 }
                 if (!isPassword) {
                     return done(null, false, {
-                            message: "Username or (password) incorrect"
+                            message: "Login Failed (password)"
                     });
                 }
                 return done(null, {
@@ -48,7 +50,7 @@ passport.use(new JWTStrategy({
         secretOrKey: process.env.JWT_SECRET
     },
     function (jwtPayload, done) {
-        console.log("JWTStrategy %j ", jwtPayload)
+        //console.log("JWTStrategy %j ", jwtPayload)
         done(null, true);
         // User.findOne({
         //     username: jwtPayload.name
