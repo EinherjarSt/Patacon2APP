@@ -8,12 +8,19 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DispatchesService } from '../../../../services/dispatches.service';
 
-
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'register-dispatch',
   templateUrl: './register-dispatch.component.html',
-  styleUrls: ['./register-dispatch.component.css']
+  styleUrls: ['./register-dispatch.component.css'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+    
+  ]
 })
 export class RegisterDispatchComponent implements OnInit {
 
@@ -28,7 +35,7 @@ export class RegisterDispatchComponent implements OnInit {
   driverOptions: string[] = ['Por definir', 'Pedro Ruminot', 'Vladimir Putin', 'Nyango Star'];
   driverFilteredOptions: Observable<string[]>;
 
-  truckOptions: string[] = ['CL12KAP', 'AX12MP1', '1ASLPMQ'];
+  truckOptions: string[] = ['CL12KAP', 'AX12MP1', '1ASLPMQ',];
   truckFilteredOptions: Observable<string[]>;
 
   statusOptions: string[] = ['En tránsito a viña', 'Cargando', 'En patio',
@@ -37,26 +44,26 @@ export class RegisterDispatchComponent implements OnInit {
 
 
   registerDispatchForm: FormGroup = this._formBuilder.group({
-    $key: ['1'],
-    driver: ['', [Validators.required]],
-    truck: ['', [Validators.required]],
+    driverReference: ['', [Validators.required]],
+    truckReference: ['', [Validators.required]],
+    planificationReference: [1, []],
     shippedKilograms: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
-    estimatedArrivalDateAtProducer: ['', [Validators.required]],
-    estimatedArrivalTimeAtProducer: ['', [Validators.required]],
-    estimatedArrivalDateAtPatacon: ['', [Validators.required]],
-    estimatedArrivalTimeAtPatacon: ['', [Validators.required]],
+    arrivalAtVineyardDate: ['', []],
+    arrivalAtVineyardTime: ['', []],
+    arrivalAtPataconDate: ['', []],
+    arrivalAtPataconTime: ['', []],
     status: [this.statusOptions[0]],
-    container: ['BINS']
+    containerType: ['BINS']
 
-  }, { validator: EstimatedDatesValidator });
+  });
 
   ngOnInit() {
-    this.driverFilteredOptions = this.registerDispatchForm.get('driver').valueChanges
+    this.driverFilteredOptions = this.registerDispatchForm.get('driverReference').valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterDrivers(value))
       );
-    this.truckFilteredOptions = this.registerDispatchForm.get('truck').valueChanges
+    this.truckFilteredOptions = this.registerDispatchForm.get('truckReference').valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterTrucks(value))
@@ -93,9 +100,14 @@ export class RegisterDispatchComponent implements OnInit {
   }
 
   submitData(data) {
-    this._dispatchesService.registerDispatch(this.registerDispatchForm.value).subscribe(
-      response => console.log('Success', response), 
-      error => console.error('Error', error));
+
+    var dispatchData = this.registerDispatchForm.value;
+    this._dispatchesService.registerDispatch(dispatchData).subscribe({
+      next: result => {
+        console.log(result);
+      },
+      error: result => { }
+    });
   }
 
   openSuccessMessage() {
