@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 app.get('/despachos', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("despachos");
 
     Dispatch.getDispatches((err, dispatches) =>{
         console.log(err);
@@ -18,8 +17,21 @@ app.get('/despachos', passport.authenticate('jwt', {
     });
 })
 
+app.get('/despachos/despacho', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
 
-app.put('/dispatches/register', passport.authenticate('jwt', {
+    Dispatch.getDispatch(req.params.id, (err, dispatch) =>{
+        console.log(err);
+        if (err){
+            return res.status(400).json(err);
+        }
+        return res.json(dispatch);
+    });
+})
+
+
+app.put('/despachos/registrar', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     console.log(req.body);
@@ -35,6 +47,22 @@ app.put('/dispatches/register', passport.authenticate('jwt', {
         }
         return res.json({
             message: "Dispatch has been added"
+        });
+    });
+    
+})
+
+app.delete('/despachos/eliminar/:id', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("ACCAAAA");
+    console.log(req);
+    Dispatch.deleteDispatch(req.params.id, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Dispatch has been deleted"
         });
     });
     

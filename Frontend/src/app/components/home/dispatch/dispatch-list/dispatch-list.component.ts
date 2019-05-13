@@ -54,6 +54,15 @@ export class DispatchListComponent implements OnInit {
     });
   }
 
+  deleteDispatch(dispatch_id) {
+    this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
+      next: result => {
+        console.log(result);
+      },
+      error: result => { }
+    });  
+  }
+
   refreshTable() {
     this.getDispatches();
   }
@@ -76,7 +85,7 @@ export class DispatchListComponent implements OnInit {
   }
 
   openRegisterDispatchDialog() {
-    this.dialog.open(RegisterDispatchComponent, this.getDialogConfig());
+    this.dialog.open(RegisterDispatchComponent, this.getDialogConfig()).afterClosed();
   }
 
   
