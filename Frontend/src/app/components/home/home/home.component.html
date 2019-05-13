@@ -1,6 +1,6 @@
-<div style="height: 100vh;">
-    <mat-toolbar color="primary">
-      <mat-toolbar-row>
+<div class="toolbar">
+    <mat-toolbar color="primary" class="toolbar-content"> 
+      <mat-toolbar-row class="row1"> 
         <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
           <mat-icon>menu</mat-icon>
         </button>
@@ -9,7 +9,6 @@
         <div fxShow="true" fxHide.lt-md="true">
           <!-- The following menu items will be hidden on both SM and XS screen sizes -->
     
-          
           <a href="#" mat-button>
             <mat-icon>notifications</mat-icon>
             Notificaciones
@@ -38,7 +37,7 @@
         </div>
       </mat-toolbar-row>
       <td></td>
-      <mat-toolbar-row class="toolbar-2">
+      <mat-toolbar-row class="row2">
           <div fxShow="true" fxHide.lt-md="true">
             <a [routerLink]="['usuarios']" mat-button>
                 
@@ -67,31 +66,35 @@
             </div>
         </mat-toolbar-row >
     </mat-toolbar>
-  
-    <mat-sidenav-container fxFlexFill>
+  </div>
+  <div class="content">
+    <mat-sidenav-container class="content2">
       <mat-sidenav #sidenav>
         <mat-nav-list>
           <a [routerLink]="['usuarios']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
-              
+            <mat-icon>people</mat-icon>
               Usuarios
             </a>
           <a [routerLink]="['camiones']" mat-list-item>
+              <mat-icon>local_shipping</mat-icon>
               
               Camiones
             </a>
           <a [routerLink]="['choferes']" mat-list-item>
+              <mat-icon>airline_seat_recline_normal</mat-icon>
               
               Choferes
             </a>
           <a [routerLink]="['productores']" mat-list-item>
-              
+              <mat-icon>nature_people</mat-icon>
               Productores
             </a>
             <a [routerLink]="['planificacion']" mat-list-item>
-              
+                <mat-icon>table_chart</mat-icon>
               Planificación
             </a>
             <a [routerLink]="['gps']" mat-list-item>
+                <mat-icon>near_me</mat-icon>
                 Gps
             </a>
           <a href="#" mat-list-item>
@@ -115,7 +118,7 @@
           </a>
         </mat-nav-list>
       </mat-sidenav>
-      <mat-sidenav-content fxFlexFill>
+      <mat-sidenav-content>
   
           <!--Aqui va el contenido principal-->
           <router-outlet></router-outlet>

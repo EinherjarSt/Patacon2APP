@@ -24,7 +24,10 @@ import {
     MatRadioModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule
+   
 }
 from '@angular/material';
 
@@ -55,6 +58,8 @@ from '@angular/material';
         MatSnackBarModule,
         MatExpansionModule,
         MatCheckboxModule,
+        MatButtonToggleModule,
+        MatSlideToggleModule
         
        
     ],
@@ -81,7 +86,9 @@ from '@angular/material';
         MatRadioModule,
         MatSnackBarModule,
         MatExpansionModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatButtonToggleModule,
+        MatSlideToggleModule
         
 
     ]

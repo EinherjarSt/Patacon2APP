@@ -1,5 +1,5 @@
 
-<mat-sidenav-container class="example-container" *ngIf="shouldRun" >
+<mat-sidenav-container  class="example-container" *ngIf="shouldRun" >
   <mat-sidenav #sidenav [mode]="'side'"[position]="'end'" [opened]="'true'">
     <mat-accordion>
       <mat-expansion-panel [expanded]="'any'">
@@ -32,16 +32,16 @@
 
   <mat-sidenav-content>
  
-        <button mat-button style="float: right;" (click)="sidenav.toggle()"><mat-icon>vertical_split</mat-icon></button>
-      
-      <div>
-        <div>
+        <div class="map-content"> 
+          
+          <mat-button-toggle class="sidenav-button" mat-button 
+          (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
           <agm-map [latitude]="lat" [longitude]="lng">
            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
+         
         </div>
         
-      </div>
     
   </mat-sidenav-content>
 </mat-sidenav-container>
