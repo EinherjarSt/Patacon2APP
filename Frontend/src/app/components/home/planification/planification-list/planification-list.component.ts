@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatTableDataSource, MatPaginator,MatDialog} from '@angular/material';
 import{ PlanificationService} from '../../../../services/planification.service';
+import{ ProducersService} from '../../../../services/producers.service';
 import{Planification} from '../../../../model-classes/planification';
 import {DetailsComponent} from './details/details.component';
 import{ AddPlanificationComponent} from '../add-planification/add-planification.component';
@@ -16,13 +17,26 @@ export class PlanificationListComponent implements OnInit {
   dataSource: MatTableDataSource<Planification>;
 
   dialogResult ="";
-  constructor( private planificationService: PlanificationService ,public dialog: MatDialog) {
+  constructor(private producerService: ProducersService, private planificationService: PlanificationService ,public dialog: MatDialog) {
     this.getP();
     }
 
   getP(){
-    this.planificationService.getData().subscribe( data =>{
+    this.planificationService.getAllPlanifications().subscribe( data =>{
       this.planifications=data;
+      //obtain name of producer
+      this.planifications.forEach(element => {
+        this.producerService.getProducer(element.ref_producer).subscribe(pr =>{
+          element.ref_producer= pr.name;
+        });
+      });
+      //obtain name of location
+      this.planifications.forEach(element => {
+        this.producerService.getLocationName(element.ref_location).subscribe(pr =>{
+          element.ref_location= pr.address;
+        });
+      });
+
       this.dataSource = new MatTableDataSource<Planification>(this.planifications);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -43,7 +57,7 @@ public doFilter = (value: string) => {
   openDetails(code):void {
     var selected;
     this.planifications.forEach(element => {
-      if(element.code==code){
+      if(element.planification_id==code){
           selected = element;
       }
     });

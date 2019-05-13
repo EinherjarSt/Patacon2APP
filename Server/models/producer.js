@@ -32,6 +32,27 @@ class Producer{
         });
     }
 
+    static getLocationName(idLocation, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback funtion. Please provide them');
+        }
+
+        let query = pool.query('SELECT location.address FROM location WHERE id_location = ?', [idLocation], function(err, results, fields){
+            if(err){
+                return callback(err);
+            }
+            else if(results.length === 0){
+                return callback({message: "There are no registered producers with that RUT."});
+            }
+            else if(results.length > 1){
+                return callback({message: "There is an error in the database because the producer's RUT is not unique"});
+            }
+
+            let result = results[0];
+            
+            return callback(null, result.address);
+        });
+    }
     static getAllProducers(callback){
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');

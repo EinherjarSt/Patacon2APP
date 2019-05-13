@@ -46,7 +46,7 @@ export class AddPlanificationComponent implements OnInit {
   });
 
   getProducers(){
-    this.producerService.getData().subscribe( data =>{
+    this.producerService.getProducers().subscribe( data =>{
       this.producers = data;
     },e=>{},()=>{
       this.filteredOptions = this.registerPlanificationForm.get('producer').valueChanges
@@ -88,6 +88,7 @@ export class AddPlanificationComponent implements OnInit {
   }
 
   onFormSubmit() {
+    
     this.submitData(this.registerPlanificationForm.value);
     this.onCloseSubmit();
     this.openSuccessMessage();
@@ -95,7 +96,7 @@ export class AddPlanificationComponent implements OnInit {
   }
 
   submitData(data) {
-    this.planificationService.registerPlanification(this.registerPlanificationForm.value).subscribe(
+    this.planificationService.createPlanification(this.registerPlanificationForm.value).subscribe(
       response => console.log('Success', response), 
       error => console.error('Error', error));
   }

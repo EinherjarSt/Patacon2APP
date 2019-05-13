@@ -5,12 +5,14 @@ import { map } from 'rxjs/operators';
 import { environment as env } from "@env/environment";
 import { Observable } from "rxjs";
 
-
+class location {
+  address: string;
+}
 @Injectable({
   providedIn: 'root'
 })
 export class ProducersService {
-  
+
   constructor(private http: HttpClient) { 
   }
 
@@ -59,8 +61,18 @@ export class ProducersService {
   getProducer(rut: string): Observable<Producer>{
     const body = new HttpParams()
     .set('rut', rut);
-
     return this.http.get<Producer>(env.api.concat("/producer/get/"+rut))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+  
+  getLocationName(id: string): Observable<location>{
+    const body = new HttpParams()
+    .set('id', id);
+    return this.http.get<location>(env.api.concat("/producer/getlocationname/"+id))
     .pipe(
       map(result => {
         return result;
