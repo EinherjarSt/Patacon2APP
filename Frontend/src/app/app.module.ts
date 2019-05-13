@@ -16,6 +16,9 @@ import {environment as env} from '@env/environment';
 import { MatPaginatorIntl } from '@angular/material';
 import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 
+export function jwtTokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 
 @NgModule({
@@ -31,7 +34,7 @@ import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
     HttpClientModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => localStorage.getItem('access_token'),
+        tokenGetter: jwtTokenGetter,
         whitelistedDomains: [env.api],
         blacklistedRoutes: [`${env.api}/login`]
       }
