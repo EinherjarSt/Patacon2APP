@@ -22,7 +22,8 @@ import {
     MatRadioModule,
     MatSnackBarModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule,
 }
 from '@angular/material';
 
@@ -53,9 +54,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatRadioModule,
         MatSnackBarModule,
         MatCheckboxModule,
-        MatProgressSpinnerModule
-        
-       
+        MatProgressSpinnerModule,
+        MatExpansionModule       
     ],
     exports: [
         FlexLayoutModule,
@@ -80,8 +80,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatRadioModule,
         MatSnackBarModule,
         MatCheckboxModule,
-        MatProgressSpinnerModule
-       
+        MatProgressSpinnerModule,
+        MatExpansionModule,
 
     ]
    

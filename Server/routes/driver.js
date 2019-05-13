@@ -43,6 +43,25 @@ app.post("/driver/update",
     }
 );
 
+app.post('/driver/disable', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("driver/disable");
+    console.log(req.body);+
+    console.log("borrar");
+    console.log(req.body.status);
+    let body = req.body;
+    let disabled = body.disabled === 'true' ? true : false;
+    Driver.disableDriver(body.run, disabled, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Driver has been modified"
+        });
+    });
+})
+
 app.get("/driver/getall",
     passport.authenticate("jwt", {
         session: false

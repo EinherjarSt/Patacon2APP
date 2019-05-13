@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { Filter } from 'src/app/model-classes/filter';
 import { SelectionModel } from '@angular/cdk/collections';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-filters',
@@ -11,31 +12,21 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class FiltersComponent implements OnInit {
 
   displayedColumns: string[] = ["select","truck","state","origin","destination","details"];
-  dataSource: MatTableDataSource<Filter>;
+  dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
 
-  //Esto es para ver como se ve
-  testList: Filter[] = [
-    {id: '1', truck: 'BPTG-78', state: "Detenido", origin: 'Santa Catalina', destination: 'Patacon'},
-    {id: '2', truck: 'BPTG-78', state: "Detenido", origin: 'Santa Catalina 2', destination: 'Patacon'},
-    {id: '2', truck:  'BPTG-78',state: "Detenido", origin: 'Curico', destination: 'Patacon'},
-    {id: '4', truck: 'BPTG-78', state: "Detenido",origin: 'Santa Emilia', destination: 'Patacon'},
-    {id: '5', truck: 'BPTG-78', state: "Detenido",origin: 'Casablanca', destination: 'Patacon'},
-    {id: '6', truck: 'BPTG-78', state: "Detenido",origin: 'San Pedro', destination: 'Patacon'},
-    {id: '7', truck: 'BPTG-78',state: "Detenido", origin: 'Santa Catalina', destination: 'Patacon'},
-    {id: '8', truck: 'BPTG-78',state: "Detenido", origin: 'Santa Catalina', destination: 'Patacon'},
-    {id: '9', truck: 'BPTG-78', state: "Detenido",origin: 'Santa Catalina', destination: 'Patacon'},
-    {id: '10', truck: 'BPTG-78',state: "Detenido", origin: 'Santa Catalina', destination: 'Patacon'},
-    {id: '11', truck: 'BPTG-78',state: "Detenido", origin: 'Santa Catalina', destination: 'Patacon'},
-    {id: '12', truck: 'BPTG-78',state: "Detenido", origin: 'Santa Catalina', destination: 'Patacon'},
-  ];
-
-  constructor() { }
+  constructor(private filterService: FilterService) { }
 
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.testList);
+    this.filterService.getAllRows().subscribe(
+      data => {
+        this.dataSource.data = data as Filter[];
+      },
+      error => console.log("Error")
+    )
+    
   }
 
   public doFilter = (value: string) => {

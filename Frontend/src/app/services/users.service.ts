@@ -79,17 +79,17 @@ export class UsersService {
     );
   }
 
-  /** Request to server to update a user.
+  /** Request to server to disable a user.
    * @param data Data to send to backend
    */
-  updateUserStatus(data: {run:string, status:boolean}): Observable<boolean> {
+  disableUser(data: {run:string, disabled:boolean}): Observable<boolean> {
     const body = new HttpParams()
       .set("run", data.run)
-      .set("status", data.status ? 'true' : 'false');
+      .set("disabled", data.disabled ? 'true' : 'false');
 
     return this.http
       .put<{ msg: string }>(
-        env.api.concat("/user/update-status", data.run),
+        env.api.concat("/user/disable"),
         body,
       )
       .pipe(

@@ -1,12 +1,13 @@
 const pool = require('../mysql/mysql').pool;
 
 class Driver {
-    constructor(run, name, surname, surname2, phone_number) {
+    constructor(run, name, surname, surname2, phoneNumber, disabled) {
         this.run = run;
         this.name = name;
         this.surname = surname;
         this.surname2 = surname2;
-        this.phoneNumber = phone_number;
+        this.phoneNumber = phoneNumber;
+        this.disabled = disabled;
     }
 
     static getAllDrivers(callback) {
@@ -17,9 +18,11 @@ class Driver {
             if (err) {
                 return callback(err);
             }
-            let drivers = []
+            let drivers = [];
+            let disabled;
             for (const driver of results) {
-                drivers.push(new Driver(driver.run, driver.name, driver.surname, driver.surname2, driver.phone_number));
+                disabled = driver.disabled === 0 ? false: true;
+                drivers.push(new Driver(driver.run, driver.name, driver.surname, driver.surname2, driver.phoneNumber, disabled));
             }
             return callback(null, drivers);
         });
@@ -66,6 +69,32 @@ class Driver {
             }
             return callback(null, true);
 
+        });
+    }
+
+    static disableDriver(run, disabled, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL disable_driver(?, ?)`, [
+           run,
+           disabled
+        ], function (err, results, fields) {
+            // console.log("update_driver");
+            // console.log("error:")
+            // console.log(err);
+            // console.log("results:");
+            // console.log(results);
+            // console.log("fields:");
+            // console.log(fields);
+            if (err) {
+                return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({ message: "This driver don't exist"});
+            }
+            return callback(null, true);
         });
     }
 }
