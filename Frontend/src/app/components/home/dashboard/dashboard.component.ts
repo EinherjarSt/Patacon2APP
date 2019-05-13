@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.shouldRun = true;
 
-    timer(3000, 15000).subscribe( () => {
+    timer(3000, 5000).subscribe( () => {
       this.gpsService.getPositionOfAllGPS().subscribe({
         next: (gpsPosition) => {
           this.gpsKey = Object.keys(gpsPosition);
