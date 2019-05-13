@@ -76,5 +76,26 @@ export class DriversService {
     );
   }
 
+/** Request to server to disable a driver.
+   * @param data Data to send to backend
+   */
+  disableUser(data: {run:string, disabled:boolean}): Observable<boolean> {
+    const body = new HttpParams()
+      .set("run", data.run)
+      .set("disabled", data.disabled ? 'true' : 'false');
+
+    return this.http
+      .put<{ msg: string }>(
+        env.api.concat("/driver/disable"),
+        body,
+      )
+      .pipe(
+        map(result => {
+          console.log(result.msg);
+          return true;
+        })
+      );
+  }
+
 }
 

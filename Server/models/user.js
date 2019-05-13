@@ -1,7 +1,7 @@
 const pool = require('../mysql/mysql').pool;
 const bcrypt = require('bcrypt');
 class User {
-    constructor(run, name, surname, surname2, email, password, position, status = true) {
+    constructor(run, name, surname, surname2, email, password, position, disabled = false) {
         this.run = run;
         this.name = name;
         this.surname = surname;
@@ -9,7 +9,7 @@ class User {
         this.email = email;
         this.password = password;
         this.position = position;
-        this.status = status
+        this.disabled = disabled
 
     }
 
@@ -37,9 +37,9 @@ class User {
                 return callback({message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
-            return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position));
+            return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled));
         });
-        console.log(query);
+        //console.log(query);
     }
 
     static getAllUsers(callback) {
@@ -50,9 +50,11 @@ class User {
             if (err) {
                 return callback(err);
             }
-            let users = []
+            let users = [];
+            let disabled;
             for (const user of results) {
-                users.push(new User(user.run, user.name, user.surname, user.surname2, user.email, "", user.position));
+                disabled = user.disabled === 0 ? false : true;
+                users.push(new User(user.run, user.name, user.surname, user.surname2, user.email, undefined, user.position, disabled));
             }
             return callback(null, users);
         });
@@ -89,13 +91,13 @@ class User {
         });
     }
 
-    static update_user_status(run, status, callback) {
+    static disableUser(run, disabled, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL update_user_status(?, ?)`, [
+        pool.query(`CALL disable_user(?, ?)`, [
            run,
-           status
+           disabled
         ], function (err, results, fields) {
             // console.log("update_user");
             // console.log("error:")

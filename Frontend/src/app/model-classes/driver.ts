@@ -4,4 +4,5 @@ export interface Driver {
   surname: string;
   surname2: string;
   phoneNumber: string;
+  disabled: boolean;
 }
