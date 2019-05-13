@@ -4,8 +4,20 @@
     width: 100%;
 }
 
+.locations{
+    margin-left: 30px;
+}
+
+.item-test{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .input{
     width: 100%;
+    margin-top: -13px;
 }
 
 .button{
@@ -19,6 +31,7 @@
 
 .input-div{
     width:100%;
+    height: 100%;
 }
 
 .action-buttons{

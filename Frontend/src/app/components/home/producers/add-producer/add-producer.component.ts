@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { ProducersService } from 'src/app/services/producers.service';
 
 @Component({
@@ -10,14 +10,18 @@ import { ProducersService } from 'src/app/services/producers.service';
 })
 export class AddProducerComponent implements OnInit {
 
-  producerForm = new FormGroup({
-    name: new FormControl(''),
-    rut: new FormControl(''),
-    manager: new FormControl(''),
-    telephone: new FormControl('')
-  });
+  producerForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<AddProducerComponent>, private producersService: ProducersService) { }
+  constructor(public dialogRef: MatDialogRef<AddProducerComponent>, 
+    private producersService: ProducersService,
+    private fb: FormBuilder) { 
+
+      this.producerForm = this.fb.group({
+        name: new FormControl(''),
+        rut: new FormControl(''),
+        locations: this.fb.array([])
+      });
+    }
 
   ngOnInit() {
   }
@@ -28,7 +32,7 @@ export class AddProducerComponent implements OnInit {
 
   onSubmit(){
     let producerData = this.producerForm.value;
-
+    console.log(producerData);
     this.producersService.addProducer(producerData).subscribe({
       next: result => {
         this.dialogRef.close();
@@ -37,7 +41,18 @@ export class AddProducerComponent implements OnInit {
         console.log("error");
       }
     });
-    
+  }
+
+  addLocation(){
+    const locations = this.producerForm.get('locations') as FormArray;
+
+    locations.push(this.fb.group({
+      address: new FormControl(''),
+      latitude: new FormControl(''),
+      longitude: new FormControl(''),
+      manager: new FormControl(''),
+      phoneNumber: new FormControl('')
+    }));
   }
 
 }
