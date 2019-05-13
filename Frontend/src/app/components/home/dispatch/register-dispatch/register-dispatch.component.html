@@ -4,32 +4,31 @@
   <mat-dialog-content>
 
     <form [formGroup]="registerDispatchForm" class="example-form">
-      <input type="hidden" formControlName="$key">
-
+      <input formControlName="planificationReference" type="hidden">
       <!----------------- Driver  -------------->
 
       <mat-form-field class="example-full-width">
-        <input formControlName="driver" type="text" placeholder="Escoja un chofer" aria-label="Number" matInput
+        <input formControlName="driverReference" type="text" placeholder="Escoja un chofer" aria-label="Number" matInput
           [matAutocomplete]="driverAuto">
         <mat-autocomplete #driverAuto="matAutocomplete">
           <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
             {{driverOption}}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngIf="hasError('driver', 'required')">Un chofer debe ser asignado</mat-error>
+        <mat-error *ngIf="hasError('driverReference', 'required')">Un chofer debe ser asignado</mat-error>
       </mat-form-field>
 
       <!------------------ Truck  ------------------>
 
       <mat-form-field class="example-full-width">
-        <input formControlName="truck" type="text" placeholder="Escoja un camión" aria-label="Number" matInput
+        <input formControlName="truckReference" type="text" placeholder="Escoja un camión" aria-label="Number" matInput
           [matAutocomplete]="truckAuto">
         <mat-autocomplete #truckAuto="matAutocomplete">
           <mat-option *ngFor="let truckOption of truckFilteredOptions | async" [value]="truckOption">
             {{truckOption}}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngIf="hasError('truck', 'required')">Un camión debe ser asignado</mat-error>
+        <mat-error *ngIf="hasError('truckReference', 'required')">Un camión debe ser asignado</mat-error>
       </mat-form-field>
 
       <!-------- Shipped Kilograms of Grapes  -------------->
@@ -46,32 +45,33 @@
 
       <mat-form-field class="example-full-width">
         <mat-label>Fecha estimada de llegada a la viña</mat-label>
-        <input formControlName="estimatedArrivalDateAtProducer" matInput [matDatepicker]="arrivalProducerDatepicker"
+        <input formControlName="arrivalAtVineyardDate" matInput [matDatepicker]="arrivalAtVineyardDatepicker"
           placeholder="">
-        <mat-datepicker-toggle matSuffix [for]="arrivalProducerDatepicker"></mat-datepicker-toggle>
-        <mat-datepicker #arrivalProducerDatepicker></mat-datepicker>
-        <mat-error *ngIf="hasError('estimatedArrivalDateAtProducer', 'required')">La fecha de llegada debe ser ingresada</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="arrivalAtVineyardDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #arrivalAtVineyardDatepicker></mat-datepicker>
+        <mat-error *ngIf="hasError('arrivalAtVineyardDate', 'required')">La fecha de llegada debe ser ingresada</mat-error>
       </mat-form-field>
 
       <!----- Estimated arrival time at the vineyard   -------------->
 
       <mat-form-field class="example-full-width" appearance="standard">
         <mat-label>Hora estimada de llegada a la viña</mat-label>
-        <input type="time" formControlName="estimatedArrivalTimeAtProducer" matInput placeholder="">
+        <input type="time" formControlName="arrivalAtVineyardTime" matInput placeholder="">
         <mat-hint></mat-hint>
-        <mat-error *ngIf="hasError('estimatedArrivalTimeAtProducer', 'required')">Debe ingresar la hora de llegada a la viña </mat-error>
+        <mat-error *ngIf="hasError('arrivalAtVineyardTime', 'required')">Debe ingresar la hora de llegada a la viña </mat-error>
       </mat-form-field>
 
       <!------ Estimated arrival date at patacon  -------------->
 
       <mat-form-field class="example-full-width">
         <mat-label>Fecha estimada de vuelta a Patacón</mat-label>
-        <input formControlName="estimatedArrivalDateAtPatacon" matInput [matDatepicker]="pataconArrivalDatepicker"
+        <input formControlName="arrivalAtPataconDate" matInput [matDatepicker]="arrivalAtPataconDatepicker"
           placeholder="" >
-        <mat-datepicker-toggle matSuffix [for]="pataconArrivalDatepicker"></mat-datepicker-toggle>
-        <mat-datepicker #pataconArrivalDatepicker></mat-datepicker>
-        <mat-error *ngIf="hasError('estimatedArrivalDateAtPatacon', 'required')">La fecha de llegada debe ser ingresada</mat-error>
-        <mat-error *ngIf="hasFormError('returnBehindDepartureDate')">La fecha de vuelta a Patacon debe ser igual o posterior a la de ida a la viña</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="arrivalAtPataconDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #arrivalAtPataconDatepicker></mat-datepicker>
+        <mat-error *ngIf="registerDispatchForm.get('arrivalAtPataconDate').invalid">La fecha debe tener un formato dia/mes/año. Ejemplo: '3/4/2019'</mat-error>
+        
+          
       </mat-form-field>
 
 
@@ -79,9 +79,9 @@
 
       <mat-form-field class="example-full-width" appearance="standard">
         <mat-label>Hora estimada de vuelta a Patacón</mat-label>
-        <input type="time" formControlName="estimatedArrivalTimeAtPatacon" matInput placeholder="">
+        <input type="time" formControlName="arrivalAtPataconTime" matInput placeholder="">
         <mat-hint></mat-hint>
-        <mat-error *ngIf="hasError('estimatedArrivalTimeAtPatacon', 'required')">Debe ingresar la hora de llegada a Patacon </mat-error>
+        <mat-error *ngIf="hasError('arrivalAtPataconTime', 'required')">Debe ingresar la hora de llegada a Patacon </mat-error>
       </mat-form-field>
 
       <!------------------- Status ------------------>
@@ -97,7 +97,7 @@
 
       <!-- ------------------ Container ------------------>
       <div>
-        <mat-radio-group class="example-full-width" formControlName = "container" aria-label="Select an option" >
+        <mat-radio-group class="example-full-width" formControlName = "containerType" aria-label="Select an option" >
           <mat-radio-button value="BINS">Bins</mat-radio-button>
           <mat-radio-button value="TINAS">Tina</mat-radio-button>
         </mat-radio-group>

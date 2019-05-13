@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
-
 import {
     MatButtonModule,
     MatToolbarModule,
@@ -17,20 +16,20 @@ import {
     MatDialogModule,
     MatTableModule,
     MatDatepickerModule,
-    MatNativeDateModule,
     MatAutocompleteModule,
     MatPaginatorModule,
     MatSelectModule,
     MatRadioModule,
     MatSnackBarModule,
-    MatExpansionModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
     MatButtonToggleModule,
     MatSlideToggleModule
-   
 }
 from '@angular/material';
 
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 @NgModule({
 
@@ -49,19 +48,18 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         MatDatepickerModule,
-        MatNativeDateModule,
+        MatMomentDateModule,
         MatAutocompleteModule,
         MatPaginatorModule,
         MatFormFieldModule,
         MatSelectModule,
         MatRadioModule,
         MatSnackBarModule,
-        MatExpansionModule,
         MatCheckboxModule,
         MatButtonToggleModule,
-        MatSlideToggleModule
-        
-       
+        MatSlideToggleModule,
+        MatProgressSpinnerModule,
+        MatExpansionModule       
     ],
     exports: [
         FlexLayoutModule,
@@ -78,18 +76,19 @@ from '@angular/material';
         MatDialogModule,
         MatTableModule,
         MatDatepickerModule,
-        MatNativeDateModule,
+        MatMomentDateModule,
         MatAutocompleteModule,
         MatPaginatorModule,
         MatFormFieldModule,
         MatSelectModule,
         MatRadioModule,
         MatSnackBarModule,
+        MatCheckboxModule,
+        MatProgressSpinnerModule,
         MatExpansionModule,
         MatCheckboxModule,
         MatButtonToggleModule,
         MatSlideToggleModule
-        
 
     ]
    

@@ -51,6 +51,10 @@
                 
                 Choferes
               </a>
+              <a [routerLink]="['gps']" mat-button>
+                
+                Gps
+            </a>
             <a [routerLink]="['productores']" mat-button>
                 
                 Productores
@@ -59,10 +63,11 @@
                 
                 Planificación
               </a>
-              <a [routerLink]="['gps']" mat-button>
+              <a [routerLink]="['despachos']" mat-button>
                 
-                  Gps
+                Despachos
               </a>
+              
             </div>
         </mat-toolbar-row >
     </mat-toolbar>
@@ -89,14 +94,19 @@
               <mat-icon>nature_people</mat-icon>
               Productores
             </a>
+            <a [routerLink]="['gps']" mat-list-item>
+              <mat-icon>near_me</mat-icon>
+              Gps
+          </a>
             <a [routerLink]="['planificacion']" mat-list-item>
                 <mat-icon>table_chart</mat-icon>
               Planificación
             </a>
-            <a [routerLink]="['gps']" mat-list-item>
-                <mat-icon>near_me</mat-icon>
-                Gps
-            </a>
+            <a [routerLink]="['despachos']" mat-list-item>
+              <mat-icon>table_chart</mat-icon>
+            Despachos
+          </a>
+            
           <a href="#" mat-list-item>
             <mat-icon>notifications</mat-icon>
             Notificaciones

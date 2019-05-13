@@ -3,7 +3,7 @@ import { MatDialogRef, MatDatepicker, MatInput, MatSelect, MatRadioButton, MatSn
 
 import { MAT_DIALOG_DATA, MatAutocomplete } from '@angular/material';
 import { FormGroup, FormControl, AbstractControl, Validators, FormBuilder } from '@angular/forms';
-import { EstimatedDatesValidator } from './register-dispatch.custom.validators';
+import { EstimatedDatesValidator } from '../register-dispatch/register-dispatch.custom.validators';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DispatchesService } from '../../../../services/dispatches.service';
@@ -12,9 +12,9 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
-  selector: 'register-dispatch',
-  templateUrl: './register-dispatch.component.html',
-  styleUrls: ['./register-dispatch.component.css'],
+  selector: 'edit-dispatch',
+  templateUrl: './edit-dispatch.component.html',
+  styleUrls: ['./edit-dispatch.component.css'],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
@@ -22,14 +22,14 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
     
   ]
 })
-export class RegisterDispatchComponent implements OnInit {
+export class EditDispatchComponent implements OnInit {
 
   title: String;
 
 
-  constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<RegisterDispatchComponent>,
+  constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<EditDispatchComponent>,
     private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService) {
-    this.title = "Registrar despacho";
+    this.title = "Editar despacho";
   }
 
   driverOptions: string[] = ['Por definir', 'Pedro Ruminot', 'Vladimir Putin', 'Nyango Star'];
