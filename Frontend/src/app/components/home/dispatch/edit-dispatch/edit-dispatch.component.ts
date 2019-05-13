@@ -3,7 +3,7 @@ import { MatDialogRef, MatDatepicker, MatInput, MatSelect, MatRadioButton, MatSn
 
 import { MAT_DIALOG_DATA, MatAutocomplete } from '@angular/material';
 import { FormGroup, FormControl, AbstractControl, Validators, FormBuilder } from '@angular/forms';
-import { EstimatedDatesValidator } from './register-dispatch.custom.validators';
+import { EstimatedDatesValidator } from '../register-dispatch/register-dispatch.custom.validators';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DispatchesService } from '../../../../services/dispatches.service';
