@@ -9,7 +9,7 @@ import { trigger, transition, animate, style } from '@angular/animations';
   styleUrls: ['./dashboard.component.css'],
   animations:[
     trigger('direction', [
-      transition('left <=> right', [
+      transition('right <=> left', [
         style({
           transform: 'scale(1,5)',
           opacity:0
@@ -34,8 +34,8 @@ export class DashboardComponent implements OnInit {
     this.shouldRun = true;
   }
 
-  protected get direction(): 'left' | 'right'{
-    return this.state ? 'left':'right';
+  protected get direction(): 'right' | 'left'{
+    return this.state ? 'right':'left';
   }
 
 
