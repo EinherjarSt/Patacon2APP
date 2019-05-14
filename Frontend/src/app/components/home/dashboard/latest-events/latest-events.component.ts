@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Event} from 'src/app/model-classes/event';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
   selector: 'app-latest-events',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./latest-events.component.css']
 })
 export class LatestEventsComponent implements OnInit {
-  text: string = "BPTG-70\t José Nuñez\t ha llegado a Patacón";
-  constructor() { }
+  events: Event[];
+  constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
+    this.dashboardService.getAllEvents().subscribe(data =>{
+      console.log(data);
+      this.events = data;
+    });
   }
 
 }

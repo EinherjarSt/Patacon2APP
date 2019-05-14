@@ -1,8 +1,8 @@
 <mat-nav-list>
-  <a mat-list-item [routerLink]="['/detail']">
-    <span matLine><mat-icon>check_circle</mat-icon> {{ text }}</span>
-    <button mat-icon-button>
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </a>
+  <mat-list-item *ngFor="let event of events">
+     <mat-list-item>{{event.time}}{{event.description }}</mat-list-item>
+     <button mat-icon-button (click)="showDispatch(event.ref_Dispatch)">
+        <mat-icon>info</mat-icon>
+     </button>
+  </mat-list-item>
 </mat-nav-list>
