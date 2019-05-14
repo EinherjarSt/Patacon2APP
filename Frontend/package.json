@@ -7,7 +7,11 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "server-start": "pm2 start start.sh --name patacon-frontend",
+    "server-stop": "pm2 stop patacon-frontend",
+    "server-restart": "pm2 restart patacon-frontend",
+    "server-delete": "pm2 delete patacon-frontend"
   },
   "private": true,
   "dependencies": {

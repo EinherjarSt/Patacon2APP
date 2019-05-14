@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api:'http://localhost:3309'
+  api:'http://vpsgrifo.tk:3309'
 };

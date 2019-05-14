@@ -3,7 +3,8 @@ var GPSDevice = require("../models/gps");
 var gpsOptions = {
     'debug': true,
     'port': 9001,
-    'device_adapter': require('./adapter-tk103')
+    'device_adapter': require('./adapter-tk103'),
+    'host': '0.0.0.0'
 }
 
 // Global Variable
