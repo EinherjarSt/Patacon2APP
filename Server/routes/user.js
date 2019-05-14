@@ -89,6 +89,18 @@ app.post('/user/disable', passport.authenticate('jwt', {
     });
 })
 
+app.get('/user/get/:run', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let run = req.params.run;
+    User.getUserByRun(run, (err, user) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(user);
+    });
+})
+
 app.get('/user/getall', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
