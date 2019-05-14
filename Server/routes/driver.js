@@ -62,6 +62,18 @@ app.post('/driver/disable', passport.authenticate('jwt', {
     });
 })
 
+app.get('/driver/get/:run', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let run = req.params.run;
+    Driver.getDriver(run, (err, driver) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(driver);
+    });
+})
+
 app.get("/driver/getall",
     passport.authenticate("jwt", {
         session: false

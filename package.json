@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./Server/app.js"
+    "start": "nodemon ./Server/app.js",
+    "start-server": "pm2 start ./Server/app.js --name patacon-backend",
+    "stop-server": "pm2 stop patacon-backend",
+    "restart-server": "pm2 restart patacon-backend",
+    "delete-server": "pm2 delete patacon-backend"
   },
   "repository": {
     "type": "git",
@@ -19,10 +23,10 @@
   "homepage": "https://github.com/lgsilvestre/PataconAPP_G2#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "gps-tracking": "^1.1.1",
+    "gps-tracking": "git+https://github.com/EinherjarSt/gps-tracking-nodejs.git",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mysql": "github:mysqljs/mysql",

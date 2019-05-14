@@ -17,7 +17,7 @@ export class AddGpsComponent implements OnInit {
   ) { 
     this.form = new FormGroup({
       imei: new FormControl("", Validators.required),
-      number: new FormControl("", Validators.required),
+      simNumber: new FormControl("", Validators.required),
       brand: new FormControl(""),
       model: new FormControl("")
 
@@ -32,7 +32,7 @@ export class AddGpsComponent implements OnInit {
     console.log(this.form);
     console.log(this.form.value);
     let gpsData = this.form.value;
-    this.gpsService.createGps(gpsData).subscribe({
+    this.gpsService.createGPS(gpsData).subscribe({
       next: result => {
         console.log(result);
         this.thisDialogRef.close('Confirm');

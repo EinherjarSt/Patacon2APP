@@ -13,7 +13,7 @@ passport.use(new LocalStrategy({
     },
     function (email, password, done) {
         //console.log(`LocalStrategy ${email} : ${password}`);
-        User.getUser(email, (err, user) => {
+        User.getUserByEmail(email, (err, user) => {
             if (err) {
                 return done(err);
             }

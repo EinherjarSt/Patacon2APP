@@ -24,6 +24,8 @@ import {
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
+    MatButtonToggleModule,
+    MatSlideToggleModule
 }
 from '@angular/material';
 
@@ -54,6 +56,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatRadioModule,
         MatSnackBarModule,
         MatCheckboxModule,
+        MatButtonToggleModule,
+        MatSlideToggleModule,
         MatProgressSpinnerModule,
         MatExpansionModule       
     ],
@@ -82,6 +86,9 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatCheckboxModule,
         MatProgressSpinnerModule,
         MatExpansionModule,
+        MatCheckboxModule,
+        MatButtonToggleModule,
+        MatSlideToggleModule
 
     ]
    

@@ -12,7 +12,6 @@ import * as moment from 'moment';
 })
 export class DispatchesService {
 
-
   constructor(private _http: HttpClient) { }
 
   registerDispatch(data: any): Observable<boolean> {
