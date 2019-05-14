@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api:'https://vpsgrifo.tk:3309'
+  api:'https://www.api-patacon-2.tk'
 };

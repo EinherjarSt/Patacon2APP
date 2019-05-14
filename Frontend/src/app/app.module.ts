@@ -28,7 +28,6 @@ export function jwtTokenGetter() {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
@@ -38,7 +37,8 @@ export function jwtTokenGetter() {
         whitelistedDomains: [env.api],
         blacklistedRoutes: [`${env.api}/login`]
       }
-    })
+    }),
+    AppRoutingModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
