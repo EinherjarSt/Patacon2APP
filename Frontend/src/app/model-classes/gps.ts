@@ -1,6 +1,6 @@
 export class Gps {
     imei: string;
-    number: string;
+    simNumber: string;
     brand: string;
     model: string;
 

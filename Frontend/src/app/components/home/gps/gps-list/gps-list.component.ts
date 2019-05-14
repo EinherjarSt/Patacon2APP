@@ -22,7 +22,7 @@ export class GpsListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.gpsService.getAllGps().subscribe(
+    this.gpsService.getAllGPS().subscribe(
       data => {
         this.dataSource.data = data as Gps[];
       },
