@@ -61,16 +61,16 @@ export class AddPlanificationComponent implements OnInit {
   }
   ngOnInit() {
     this.getProducers();
-    const sp = this.data.date.split('-');
-    const day = parseInt(sp[0]);
-    const month = parseInt(sp[1]);
-    const year = parseInt(sp[2]);
+    
     if(this.data !=null){
       this.title ="Editar";
-      //SETEAR FOMULARIO
+      const sp = this.data.date.split('-');
+      const day = parseInt(sp[0]);
+      const month = parseInt(sp[1])-1;
+      const year = parseInt(sp[2]);
       this.registerPlanificationForm.setValue({
-        producer: this.data.ref_producer, //FALTA EL GET PRODUCER
-        location: this.data.ref_location , //FALTA GET LOCATION
+        producer: this.data.ref_producer, 
+        location: this.data.ref_location , 
         kilos: this.data.kilograms,
         harvest: this.data.harvestingType,
         quality: this.data.quality,
@@ -80,7 +80,8 @@ export class AddPlanificationComponent implements OnInit {
         date: new Date(year,month,day),
         container: this.data.containerType
       });
-    }else{
+    }
+    else{
       this.title ="Agregar";
     }
   }

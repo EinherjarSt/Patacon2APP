@@ -86,8 +86,7 @@ class Planification {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL add_planification(?, ?, ?, ?, ?, ?, ?, ?, ? ,?)`, [
-            planification.planification_id,
+        pool.query(`CALL add_planification( ?, ?, ?, ?, ?, ?, ?, ? ,?)`, [
             planification.ref_location,
             planification.grapeVariety,
             planification.harvestingType,

@@ -85,7 +85,7 @@ public doFilter = (value: string) => {
           i--;
         }
       }
-      this.dataSource = new MatTableDataSource<Planification>(this.planifications);
+      this.dataSource.data=this.planifications;
      }
    });
  }
