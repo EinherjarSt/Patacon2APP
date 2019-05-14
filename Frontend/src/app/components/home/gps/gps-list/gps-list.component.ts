@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Gps } from 'src/app/model-classes/gps';
-import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatSort, MatPaginator} from '@angular/material';
 import { GpsService } from 'src/app/services/gps.service';
 import { AddGpsComponent } from '../add-gps/add-gps.component';
 import { EditGpsComponent } from '../edit-gps/edit-gps.component';
@@ -58,7 +58,7 @@ export class GpsListComponent implements OnInit {
   redirectToDetails(imei: string){
     let dialogRef = this.dialog.open(EditGpsComponent, {
       width: '450px',
-      data: imei,
+      data: {imei},
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog closed: ${result}');

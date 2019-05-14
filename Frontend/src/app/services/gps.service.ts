@@ -54,7 +54,7 @@ export class GpsService {
   /* Request to server to gps information
    */
   getGPS(imei: string): Observable<Gps> {
-    return this.http.get<Gps>(env.api.concat("gps/get/", imei.trim())).pipe(
+    return this.http.get<Gps>(env.api.concat("gps/get/", imei)).pipe(
       map(result => {
         return result;
       })

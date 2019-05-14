@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject, Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { GpsService } from "src/app/services/gps.service";
@@ -13,7 +13,7 @@ export class EditGpsComponent implements OnInit {
 
   constructor(
     public thisDialogRef: MatDialogRef<EditGpsComponent>,
-    @Inject(MAT_DIALOG_DATA) public imei: string,
+    @Inject(MAT_DIALOG_DATA) private data ,
     private gpsService: GpsService
   ) {
     this.form = new FormGroup({
@@ -23,7 +23,7 @@ export class EditGpsComponent implements OnInit {
       model: new FormControl("")
     });
 
-    this.gpsService.getGPS(imei).subscribe({
+    this.gpsService.getGPS(data.imei).subscribe({
       next: gps => {
         this.form.setValue(gps);
       },
