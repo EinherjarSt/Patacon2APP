@@ -79,6 +79,18 @@ export class UsersService {
     );
   }
 
+  getUser(run: string): Observable<User>{
+    const body = new HttpParams()
+    .set('run', run);
+
+    return this.http.get<User>(env.api.concat("/user/get/"+run))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
   /** Request to server to disable a user.
    * @param data Data to send to backend
    */
