@@ -12,7 +12,7 @@ import { AddGpsComponent } from '../add-gps/add-gps.component';
 export class GpsListComponent implements OnInit {
 
   gps: Gps[];
-  displayedColumns: string[] = ["imei", "number", "brand", "model"];
+  displayedColumns: string[] = ["imei", "number", "brand", "model", 'edit'];
   dialogResult ="";
   dataSource = new MatTableDataSource<Gps>();
 
