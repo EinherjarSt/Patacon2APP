@@ -108,6 +108,25 @@ class Planification {
 
         });
     }
+    static deletePlanification(planification_id, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`DELETE FROM planification WHERE planification_id = ?`, [planification_id], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback({message : "There isn't result"});
+            }
+            if (results.length > 1) {
+                return callback({message : "There is an error in database because the user is not unique"});
+            }
+            return callback(null, true);
+        });
+        console.log(query);
+    }
+
 }
 
 module.exports = Planification

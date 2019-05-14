@@ -13,7 +13,7 @@ import{ AddPlanificationComponent} from '../add-planification/add-planification.
 })
 export class PlanificationListComponent implements OnInit {
   planifications : Planification[];
-  displayedColumns: string[] = ['date','producer','location','variety','kg','details','dispatch'];
+  displayedColumns: string[] = ['date','producer','location','variety','kg','details','dispatch','edit','delete'];
   dataSource: MatTableDataSource<Planification>;
 
   dialogResult ="";
@@ -33,6 +33,7 @@ export class PlanificationListComponent implements OnInit {
       //obtain name of location
       this.planifications.forEach(element => {
         this.producerService.getLocationName(element.ref_location).subscribe(pr =>{
+          
           element.ref_location= pr.address;
         });
       });
@@ -66,12 +67,39 @@ public doFilter = (value: string) => {
       data: selected
     });
   }
+
   openDialog():void {
 
     this.dialog.open(AddPlanificationComponent, {
       width: '400px'
     });
   }
- 
 
+ deletePlanification(id){
+   this.planificationService.deletePlanification(id).subscribe( r=>{
+     if(r){
+      for (let i = 0; i < this.planifications.length; i++) {
+        const element = this.planifications[i];
+        if(element.planification_id==id){
+          this.planifications.splice(i,1);
+          i--;
+        }
+      }
+      this.dataSource = new MatTableDataSource<Planification>(this.planifications);
+     }
+   });
+ }
+
+ editPlanification(id){
+  var selected;
+  this.planifications.forEach(element => {
+    if(element.planification_id==id){
+        selected = element;
+    }
+  });
+  this.dialog.open(AddPlanificationComponent, {
+    width: '400px',
+    data: selected
+  });
+ }
 }

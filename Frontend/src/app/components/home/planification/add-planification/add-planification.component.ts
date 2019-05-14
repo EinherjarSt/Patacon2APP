@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { ProducersService } from '../../../../services/producers.service';
 import { PlanificationService } from '../../../../services/planification.service';
 import { Producer} from '../../../../model-classes/producer';
+import { Planification} from '../../../../model-classes/planification';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import {MatSnackBar,MatDialogRef } from "@angular/material";
+import {MatSnackBar,MatDialogRef,MAT_DIALOG_DATA } from "@angular/material";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -14,7 +15,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class AddPlanificationComponent implements OnInit {
 
-
+  title:string;
   producers :Producer[];
   filteredOptions: Observable<Producer[]>;
 
@@ -24,7 +25,8 @@ export class AddPlanificationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar, 
     private producerService: ProducersService, 
-    private planificationService: PlanificationService) { 
+    private planificationService: PlanificationService,
+    @Inject(MAT_DIALOG_DATA)public data:Planification) { 
      
     }
 
@@ -59,6 +61,28 @@ export class AddPlanificationComponent implements OnInit {
   }
   ngOnInit() {
     this.getProducers();
+    const sp = this.data.date.split('-');
+    const day = parseInt(sp[0]);
+    const month = parseInt(sp[1]);
+    const year = parseInt(sp[2]);
+    if(this.data !=null){
+      this.title ="Editar";
+      //SETEAR FOMULARIO
+      this.registerPlanificationForm.setValue({
+        producer: this.data.ref_producer, //FALTA EL GET PRODUCER
+        location: this.data.ref_location , //FALTA GET LOCATION
+        kilos: this.data.kilograms,
+        harvest: this.data.harvestingType,
+        quality: this.data.quality,
+        comment: this.data.comment,
+        variety: this.data.grapeVariety,
+        freight: this.data.freight,
+        date: new Date(year,month,day),
+        container: this.data.containerType
+      });
+    }else{
+      this.title ="Agregar";
+    }
   }
 
   changeOptions(pr:Producer){
@@ -96,9 +120,16 @@ export class AddPlanificationComponent implements OnInit {
   }
 
   submitData(data) {
-    this.planificationService.createPlanification(this.registerPlanificationForm.value).subscribe(
+    if(this.data!=null){
+      //EDITAR
+      
+    }
+    else{
+      //AGREGAR
+      this.planificationService.createPlanification(this.registerPlanificationForm.value).subscribe(
       response => console.log('Success', response), 
       error => console.error('Error', error));
+    }
   }
 
   openSuccessMessage() {

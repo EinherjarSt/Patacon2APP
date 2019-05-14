@@ -1,5 +1,5 @@
 <div>
-  <h2 mat-dialog-title >Agregar Planificación</h2>
+  <h2 mat-dialog-title >{{title}}</h2>
   <hr>
   <mat-dialog-content>
     <form [formGroup]="registerPlanificationForm" class="example-form">
@@ -109,7 +109,7 @@
   </mat-dialog-content>
   <hr>
   <mat-dialog-actions>
-    <button mat-raised-button (click)="onFormSubmit()" [disabled]="registerPlanificationForm.invalid">Agregar</button>
+    <button mat-raised-button (click)="onFormSubmit()" [disabled]="registerPlanificationForm.invalid">{{title}}</button>
     <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
   </mat-dialog-actions>
 

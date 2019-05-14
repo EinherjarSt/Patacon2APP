@@ -62,5 +62,20 @@ app.get("/planification/getall",
         });
     }
 );
+app.get("/planification/delete/:id",
+    passport.authenticate("jwt", {
+        session: false
+    }),
+    (req, res) => {
+        let idLocation = req.params.id;
+        Planification.deletePlanification(idLocation,(err, resp) => {
+            console.log(err);
+            if (err) {
+                return res.status(400).json(err);
+            }
+            return res.json(resp);
+        });
+    }
+);
 
 module.exports = app;

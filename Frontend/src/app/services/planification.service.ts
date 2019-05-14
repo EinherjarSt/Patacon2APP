@@ -87,4 +87,15 @@ export class PlanificationService {
       })
     );
   }
+
+  deletePlanification(id: string): Observable<boolean>{
+    const body = new HttpParams()
+    .set('id', id);
+    return this.http.get<boolean>(env.api.concat("/planification/delete/"+id))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
 }

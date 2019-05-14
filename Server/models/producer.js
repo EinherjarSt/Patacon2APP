@@ -50,7 +50,7 @@ class Producer{
 
             let result = results[0];
             
-            return callback(null, result.address);
+            return callback(null, result);
         });
     }
     static getAllProducers(callback){
