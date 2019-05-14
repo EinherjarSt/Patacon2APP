@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Dispatch } from '../model-classes/dispatch';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment as env } from '@env/environment';
 
 
 @Injectable({
@@ -14,8 +15,6 @@ export class DispatchesService {
     
   ]
   
-  _registrationUrl = 'http://localhost:3000/register_dispatch';
-
   constructor(private _http: HttpClient) {}
 
   getDispatches() {
@@ -24,7 +23,7 @@ export class DispatchesService {
 
   registerDispatch(dispatchData) {
     //Requests the backend to register the data.
-    return this._http.post<any>(this._registrationUrl, dispatchData);
+    return this._http.post<any>(env.api.concat("register_dispatch"), dispatchData);
   }
 }
 

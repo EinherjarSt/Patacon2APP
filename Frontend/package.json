@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start-server": "pm2 start start.sh --name patacon-frontend",
+    "start-server": "pm2 start http-server --name patacon-frontend -- dist/Frontend/ -p 10001",
     "stop-server": "pm2 stop patacon-frontend",
     "restart-server": "pm2 restart patacon-frontend",
     "delete-server": "pm2 delete patacon-frontend"
