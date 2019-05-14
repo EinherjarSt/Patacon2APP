@@ -7,11 +7,12 @@ const Util = require('./util'),
 const util = new Util();
 
 var parser = {
-    dataProcess: function($monthsaje) {
-        let $data = $monthsaje.toString().trim();
-        console.log("---------------------------------------------------------------");
-        console.log($monthsaje);
+    dataProcess: function($message) {
+        let $data = $message.toString().trim();
+        console.log("-----------------------------parser----------------------------------");
+        console.log($message);
         console.log($data);
+        console.log("-----------------------------end parser----------------------------------");
         let regexpNumeros = new RegExp("^[0-9]{10,}$");
         if ($data.indexOf("imei", 0) === -1 && regexpNumeros.test($data.replace(";", "")) === false) {
         	console.log("Unknown error in parser");
@@ -30,11 +31,14 @@ var parser = {
         if (dataArray.length === 1) {
             returnedObject['cmd'] = "heartbeat"
         }
-        if (dataArray && dataArray[2] === "A;") {
+        else if (dataArray && dataArray[2] === "A;") {
             returnedObject['cmd'] = "login_request"
         }
-        if (dataArray && dataArray[4] && dataArray[4] === "F") {
+        else if (dataArray && dataArray[4] /*&& dataArray[4] === "L"*/) {
             returnedObject['cmd'] = "ping"
+        }
+        else{
+            returnedObject['cmd']="do-nothing";
         }
 
         returnedObject['rawData'] = dataArray;
@@ -76,7 +80,7 @@ var parser = {
             longitude: this.getCoordinates(dataArray[10]) * this.pointConverter(parseFloat(dataArray[9])),
             velocity: parseInt(dataArray[11], 10) * 1.85,
             orientation:parseInt(dataArray[12], 10),
-            maked: moment().format("YYYY-MM-DD HH:mm:ss")
+            recived: moment().format("YYYY-MM-DD HH:mm:ss")
         };
         return $dataObject;
     },
@@ -93,7 +97,7 @@ var parser = {
             return '0000-00-00 00:00:00';
         }
         let $dt = moment().get('year') + data.substr(2, 10);
-        console.log(data)
+        console.log("date-parser:"+ data)
         let $year = $dt.substr(0, 4);
         let $month = $dt.substr(4, 2);
         let $day = $dt.substr(6, 2);
