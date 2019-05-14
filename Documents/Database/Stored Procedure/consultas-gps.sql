@@ -22,4 +22,11 @@ IN `_model` VARCHAR(255)
       `model` = _model
        WHERE `gps`.`imei` = _imei;
 END//
+
+DROP PROCEDURE IF EXISTS `delete_gps`//
+CREATE PROCEDURE `delete_gps`(
+IN `_imei` VARCHAR(100)
+) BEGIN
+     DELETE from `gps` WHERE `imei`=_imei;
+END//
 DELIMITER ;

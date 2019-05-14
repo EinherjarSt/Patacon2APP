@@ -41,6 +41,20 @@ app.post('/gps/update', passport.authenticate('jwt', {
     });
 })
 
+app.get('/gps/get/:imei', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("gps/update");
+
+    let imei = req.params.imei;
+    GPSDevice.getGPS(imei, (err, gps) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({gps});
+    });
+})
+
 app.get('/gps/getall', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
@@ -80,5 +94,22 @@ app.get('/gps/getposition', passport.authenticate('jwt', {
     }
 })
 
+
+app.delete('/gps/delete', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("gps/update");
+    console.log(req.body);
+
+    let body = req.body;
+    GPSDevice.deleteGPS(body.imei, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "GPS device has been deleted"
+        });
+    });
+})
 
 module.exports = app;

@@ -84,6 +84,24 @@ class GPSDevice {
         });
     }
 
+    static deleteGPS(run, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL delete_gps(?)`, [
+           run
+        ], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({ message: "This gps don't exist"});
+            }
+            return callback(null, true);
+        });
+    }
+
 }
 
 module.exports = GPSDevice;
