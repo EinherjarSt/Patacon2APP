@@ -10,6 +10,26 @@ class Driver {
         this.disabled = disabled;
     }
 
+    static getDriver(run, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`SELECT * FROM driver WHERE run = ?`, [run], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback({message : "There isn't result"});
+            }
+            if (results.length > 1) {
+                return callback({message : "There is an error in database because the user is not unique"});
+            }
+            let result = results[0];
+            return callback(null, new Driver(result.run, result.name, result.surname, result.surname2, result.phoneNumber, result.disabled));
+        });
+    }
+
+
     static getAllDrivers(callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
