@@ -38,6 +38,7 @@ import { GpsComponent } from './gps/gps.component';
 import { GpsListComponent } from './gps/gps-list/gps-list.component';
 import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
+import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
 
 
 
@@ -69,7 +70,8 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
     GpsComponent,
     GpsListComponent,
     AddGpsComponent,
-    LatestEventsComponent
+    LatestEventsComponent,
+    EditDispatchComponent
   ],
   imports: [
     CommonModule,

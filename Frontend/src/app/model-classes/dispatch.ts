@@ -1,13 +1,17 @@
 export class Dispatch {
-    id: String;
-    refDriver: String;
-    refTruck: String;
-    refPlanification: String;
+
+    id: string;
+    driverReference: string;
+    truckReference: string;
+    planificationReference: string;
     shippedKilograms: number;
-    estimatedDateArrivalAtProducer: Date;
-    estimatedTimeArrivalAtProducer: String;
-    estimatedDateArrivalAtPatacon: Date;
-    estimatedTimeArrivalAtPatacon: String;
-    container: String;
-    status: String;
+    arrivalAtPataconDate: Date;
+    arrivalAtPataconTime: string;
+    arrivalAtVineyardDate: Date;
+    arrivalAtVineyardTime: string;
+    status: string;
+    containerType: string;
+    
   }
+
+  
