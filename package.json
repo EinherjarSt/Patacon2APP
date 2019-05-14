@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./Server/app.js",
-    "server-start": "pm2 start ./Server/app.js --name patacon-backend",
-    "server-stop": "pm2 stop patacon-backend",
-    "server-restart": "pm2 restart patacon-backend",
-    "server-delete": "pm2 delete patacon-backend"
+    "start-server": "pm2 start ./Server/app.js --name patacon-backend",
+    "stop-server": "pm2 stop patacon-backend",
+    "restart-server": "pm2 restart patacon-backend",
+    "delete-server": "pm2 delete patacon-backend"
   },
   "repository": {
     "type": "git",
