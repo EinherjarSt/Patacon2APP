@@ -23,16 +23,16 @@ export class GpsListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
+    this.getGps();
+  }
+
+  getGps(): void {
     this.gpsService.getAllGPS().subscribe(
       data => {
         this.dataSource.data = data as Gps[];
       },
       error => console.log("Error")
     )
-    
-  }
-
-  getGps(): void {
   }
 
   public doFilter = (value: string) => {
@@ -61,7 +61,7 @@ export class GpsListComponent implements OnInit {
       data: {imei},
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog closed: ${result}');
+      if (result == 'Confirm') this.getGps();
       this.dialogResult = result;
     })
   }

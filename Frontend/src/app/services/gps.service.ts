@@ -22,7 +22,9 @@ export class GpsService {
       .set("brand", data.brand)
       .set("model", data.model);
     return this.http
-      .put<{ msg: string }>(env.api.concat("/gps/add"), body)
+      .put<{
+        msg: string;
+      }>(env.api.concat("/gps/add"), body)
       .pipe(
         map(result => {
           console.log(result.msg);
@@ -42,7 +44,9 @@ export class GpsService {
       .set("model", data.model);
 
     return this.http
-      .put<{ msg: string }>(env.api.concat("/gps/update"), body)
+      .post<{
+        msg: string;
+      }>(env.api.concat("/gps/update"), body)
       .pipe(
         map(result => {
           console.log(result.msg);
@@ -54,7 +58,7 @@ export class GpsService {
   /* Request to server to gps information
    */
   getGPS(imei: string): Observable<Gps> {
-    return this.http.get<Gps>(env.api.concat("gps/get/", imei)).pipe(
+    return this.http.get<Gps>(env.api.concat("/gps/get/", imei)).pipe(
       map(result => {
         return result;
       })
@@ -80,7 +84,9 @@ export class GpsService {
     const query = new HttpParams().set("gps", gpsImei.toString());
 
     return this.http
-      .get<Gps[]>(env.api.concat("/gps/getposition"), { params: query })
+      .get<Gps[]>(env.api.concat("/gps/getposition"), {
+        params: query
+      })
       .pipe(
         map(result => {
           //console.log(result);

@@ -13,7 +13,7 @@ export class EditGpsComponent implements OnInit {
 
   constructor(
     public thisDialogRef: MatDialogRef<EditGpsComponent>,
-    @Inject(MAT_DIALOG_DATA) private data ,
+    @Inject(MAT_DIALOG_DATA) private data,
     private gpsService: GpsService
   ) {
     this.form = new FormGroup({
@@ -38,8 +38,6 @@ export class EditGpsComponent implements OnInit {
 
   onCloseConfirm() {
     // Here edit service to send data to backend
-    console.log(this.form);
-    console.log(this.form.value);
     let gpsData = this.form.value;
     this.gpsService.updateGPS(gpsData).subscribe({
       next: result => {
