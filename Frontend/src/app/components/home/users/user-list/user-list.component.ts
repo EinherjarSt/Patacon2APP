@@ -3,6 +3,7 @@ import { User } from 'src/app/model-classes/user';
 import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { UsersService } from 'src/app/services/users.service';
 import { AddUserComponent } from '../add-user/add-user.component';
+import { EditUserComponent } from '../edit-user/edit-user.component';
 
 
 @Component({
@@ -53,6 +54,17 @@ export class UserListComponent implements OnInit {
       console.log('Dialog closed: ${result}');
       this.dialogResult = result;
     })
+  }
+
+  openUpdateDialog(run: string){
+    const dialogRef = this.dialog.open(EditUserComponent, {
+      data: run,
+      width: '500px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 
