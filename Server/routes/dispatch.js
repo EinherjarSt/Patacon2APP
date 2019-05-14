@@ -17,11 +17,11 @@ app.get('/despachos', passport.authenticate('jwt', {
     });
 })
 
-app.get('/despachos/despacho', passport.authenticate('jwt', {
+app.get('/despachos/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 
-    Dispatch.getDispatch(req.params.id, (err, dispatch) =>{
+    Dispatch.getDispatchById(req.params.id, (err, dispatch) =>{
         console.log(err);
         if (err){
             return res.status(400).json(err);
@@ -47,6 +47,30 @@ app.put('/despachos/registrar', passport.authenticate('jwt', {
         }
         return res.json({
             message: "Dispatch has been added"
+        });
+    });
+    
+})
+
+app.put('/despachos/editar/:id', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("request");
+    console.log(req.body);
+    let body = req.body;
+        
+
+    let dispatch = new Dispatch(req.params.id, body.driverReference, body.truckReference, body.planificationReference, 
+        body.shippedKilograms, body.arrivalAtPataconDatetime, body.arrivalAtVineyardDatetime,
+        body.containerType, body.status);
+    console.log("dispatch");
+    console.log(dispatch);
+    Dispatch.editDispatch(dispatch, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Dispatch has been modified"
         });
     });
     

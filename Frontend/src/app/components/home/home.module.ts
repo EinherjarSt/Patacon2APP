@@ -51,6 +51,7 @@ import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.co
     UserListComponent,
     UsersComponent, 
     RegisterDispatchComponent,
+    EditDispatchComponent,
     DriversListComponent,
     ProducerListComponent, 
     AddProducerComponent,
@@ -86,6 +87,7 @@ import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.co
   entryComponents: [
     AddUserComponent,
     RegisterDispatchComponent,
+    EditDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,

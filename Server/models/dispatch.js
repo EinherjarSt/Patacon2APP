@@ -90,6 +90,38 @@ class Dispatch {
 
         });
     }
+
+    static editDispatch(dispatch, callback) {
+
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_dispatch(?,?,?,?,?,?,?,?,?)`, [
+            dispatch.id, dispatch.driverReference, dispatch.truckReference,
+            parseInt(dispatch.planificationReference), parseInt(dispatch.shippedKilograms),
+            dispatch.arrivalAtVineyardDate, dispatch.arrivalAtPataconDate,
+            dispatch.containerType, dispatch.status
+        ], function (err, results, fields) {
+
+            console.log("Errors");
+            console.log(err);
+
+            console.log("Results")
+            console.log(results);
+
+            console.log("fields");
+            console.log(fields);
+
+            if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ message: err.sqlMessage });
+                }
+                return callback(err);
+            }
+            return callback(null, true);
+
+        });
+    }
 }
 
 module.exports = Dispatch

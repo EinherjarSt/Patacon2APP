@@ -7,8 +7,8 @@ import { DispatchesService } from '../../../../services/dispatches.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
-
-
+import { EditDispatchComponent } from '../edit-dispatch/edit-dispatch.component'
+import * as moment from 'moment';
 
 
 /**
@@ -84,13 +84,30 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
+
+
   openRegisterDispatchDialog() {
-    this.dialog.open(RegisterDispatchComponent, this.getDialogConfig()).afterClosed();
+    this.dialog.open(RegisterDispatchComponent, this.getDialogConfig());
   }
 
   
-  openEditDispatchDialog(dispatch : Dispatch) {
-    //this.dialog.open(EditDispatchComponent, this.getDialogConfig());
+  openEditDispatchDialog(dispatch: Dispatch) {
+
+    
+    
+    var arrivalAtPataconDateTime = moment(dispatch.arrivalAtPataconDate).format('YYYY-MM-DD HH:mm').split(' ');
+    var arrivalAtVineyardDateTime = moment(dispatch.arrivalAtVineyardDate).format('YYYY-MM-DD HH:mm').split(' ');
+    dispatch.arrivalAtPataconDate = new Date(arrivalAtPataconDateTime[0]);
+    dispatch.arrivalAtPataconTime = arrivalAtPataconDateTime[1];
+
+    dispatch.arrivalAtVineyardDate = new Date(arrivalAtVineyardDateTime[0]);
+    dispatch.arrivalAtVineyardTime = arrivalAtVineyardDateTime[1];
+
+
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = dispatch;
+
+    this.dialog.open(EditDispatchComponent, dialogConfig);
   }
 
 }
