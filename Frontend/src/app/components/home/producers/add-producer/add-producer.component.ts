@@ -32,15 +32,26 @@ export class AddProducerComponent implements OnInit {
 
   onSubmit(){
     let producerData = this.producerForm.value;
-    console.log(producerData);
+
     this.producersService.addProducer(producerData).subscribe({
       next: result => {
-        this.dialogRef.close();
+        console.log("El productor se agregó correctamente");
       },
       error: result => {
         console.log("error");
       }
     });
+
+    for(let location of producerData.locations){
+      this.producersService.addLocation(producerData.rut ,location).subscribe({
+        next: result => {
+          this.dialogRef.close();
+        },
+        error: result =>{
+          console.log("error");
+        }
+      });
+    }
   }
 
   addLocation(){

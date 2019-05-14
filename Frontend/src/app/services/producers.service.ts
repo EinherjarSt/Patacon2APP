@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment as env } from "@env/environment";
 import { Observable } from "rxjs";
-
+import { Location } from '../model-classes/location';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +17,29 @@ export class ProducersService {
   addProducer(data: Producer): Observable<boolean>{
     const body = new HttpParams()
     .set('name', data.name)
-    .set('rut', data.rut)
-    .set('manager', data.manager)
-    .set('telephone', data.telephone);
+    .set('rut', data.rut);
 
     console.log(body);
     return this.http.put<{ msg: string}>(env.api.concat("/producer/add"), body)
+    .pipe(
+      map(result => {
+        console.log(result.msg);
+        return true;
+      })
+    );
+  }
+
+  addLocation(refProducer: string, data: Location): Observable<boolean>{
+    const body = new HttpParams()
+    .set('ref_producer', refProducer)
+    .set('address', data.address)
+    .set('latitude', data.latitude)
+    .set('longitude', data.longitude)
+    .set('manager', data.manager)
+    .set('managerPhoneNumber', data.phoneNumber);
+
+    console.log(body);
+    return this.http.put<{ msg: string}>(env.api.concat("/producer/addLocation"), body)
     .pipe(
       map(result => {
         console.log(result.msg);

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const Producer = require('../models/producer');
+const Location = require('../models/location');
 const passport = require('passport');
 
 app.get('/producer/get/:rut',  passport.authenticate('jwt', {
@@ -34,7 +35,7 @@ app.put('/producer/add',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 	let body = req.body;
-	let newProducer = new Producer(body.name, body.rut, body.manager, body.telephone);
+	let newProducer = new Producer(body.name, body.rut);
 	
 	Producer.addProducer(newProducer, (err, result) => {
 		if(err){
@@ -51,7 +52,7 @@ app.put('/producer/update',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 	let body = req.body;
-	let newProducer = new Producer(body.name, body.rut, body.manager, body.telephone);
+	let newProducer = new Producer(body.name, body.rut);
 
 	Producer.updateProducer(newProducer, (err, result) => {
 		if(err){
@@ -68,6 +69,25 @@ app.post('/producer/delete',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 	console.log('/delete-producer');
-},)
+});
+
+
+app.put('/producer/addLocation',  passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	let body = req.body;
+	let newLocation = new Location(body.ref_producer, body.address, body.latitude,
+	 body.longitude, body.manager, body.managerPhoneNumber);
+	
+	Location.addLocation(newLocation, (err, result) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json({
+			message: "The location has been added correctly"
+		});
+	});
+});
 
 module.exports = app;
