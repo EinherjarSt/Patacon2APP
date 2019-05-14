@@ -16,7 +16,7 @@ export class DispatchesService {
 
   registerDispatch(data: any): Observable<boolean> {
     console.log(data);
-
+    
     const body = new HttpParams()
       .set("driverReference", data.driverReference)
       .set("truckReference", data.truckReference)

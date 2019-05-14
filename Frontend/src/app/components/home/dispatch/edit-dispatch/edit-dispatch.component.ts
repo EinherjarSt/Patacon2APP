@@ -126,7 +126,7 @@ export class EditDispatchComponent implements OnInit {
   setFormValues(dispatch: Dispatch) {
     this.editDispatchForm.setValue(dispatch);
   }
-
+  
 
   submitData(data) {
 
@@ -146,12 +146,12 @@ export class EditDispatchComponent implements OnInit {
   }
 
   onCloseSubmit() {
-    this.dialogRef.close('Confirm');
+    this.dialogRef.close({submitted: true});
 
   }
 
   onCloseCancel() {
-    this.dialogRef.close('Cancel');
+    this.dialogRef.close({submitted: false});
   }
 
 

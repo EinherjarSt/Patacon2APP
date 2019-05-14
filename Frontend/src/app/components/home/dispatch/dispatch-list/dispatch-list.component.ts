@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
 import { EditDispatchComponent } from '../edit-dispatch/edit-dispatch.component'
 import * as moment from 'moment';
+import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 
 
 /**
@@ -57,10 +58,23 @@ export class DispatchListComponent implements OnInit {
   deleteDispatch(dispatch_id) {
     this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
       next: result => {
-        console.log(result);
+        
       },
       error: result => { }
     });  
+    this.showDeletionConfirmationDialog();
+  }
+
+  showDeletionConfirmationDialog() {
+    
+    var deletionDialogConfig = this.getDialogConfig();
+    deletionDialogConfig.data = { message: '¿Desea eliminar este despacho?'};
+    var deletionDialogRef = this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+
+    deletionDialogRef.afterClosed().subscribe(confirmation => {
+      console.log(`Dialog result: ${confirmation.confirmed}`);
+    });
+    
   }
 
   refreshTable() {
