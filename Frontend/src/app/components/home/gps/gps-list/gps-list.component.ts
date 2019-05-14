@@ -3,6 +3,7 @@ import { Gps } from 'src/app/model-classes/gps';
 import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { GpsService } from 'src/app/services/gps.service';
 import { AddGpsComponent } from '../add-gps/add-gps.component';
+import { EditGpsComponent } from '../edit-gps/edit-gps.component';
 
 @Component({
   selector: 'app-gps-list',
@@ -47,6 +48,17 @@ export class GpsListComponent implements OnInit {
     let dialogRef = this.dialog.open(AddGpsComponent, {
       width: '450px',
       data: 'This text is passed into the dialog'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed: ${result}');
+      this.dialogResult = result;
+    })
+  }
+
+  redirectToDetails(imei: string){
+    let dialogRef = this.dialog.open(EditGpsComponent, {
+      width: '450px',
+      data: imei,
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog closed: ${result}');
