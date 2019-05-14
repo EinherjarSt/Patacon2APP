@@ -94,7 +94,8 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
     UpdateProducerComponent,
     DetailsComponent,
     AddPlanificationComponent,
-    AddGpsComponent
+    AddGpsComponent,
+    EditUserComponent
   ],
 })
 export class HomeModule { }

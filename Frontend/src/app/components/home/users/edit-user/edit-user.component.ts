@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -15,15 +15,18 @@ export class EditUserComponent implements OnInit {
   surname: string;
   surname2: string;
   email: string;
+  password: string;
   position: string;
   disabled: boolean;
+
 
   userForm = new FormGroup({
     run: new FormControl(''),
     name: new FormControl(''),
     surname: new FormControl(''),
     surname2: new FormControl(''),
-    email: new FormControl(''),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    password: new FormControl(''),
     position: new FormControl(''),
     diable: new FormControl('')
 
@@ -39,21 +42,17 @@ export class EditUserComponent implements OnInit {
   getUserData() {
     this.userService.getUser(this.data).subscribe({
       next: result => {
-        this.run = result.run;
-        this.name = result.name;
-        this.surname = result.surname;
-        this.surname2 = result.surname2;
-        this.email = result.email;
-        this.position = result.position;
+        this.userForm.get('run').setValue(result.run);
+        this.userForm.get('name').setValue(result.name);
+        this.userForm.get('surname').setValue(result.surname);
+        this.userForm.get('surname2').setValue(result.surname2);
+        this.userForm.get('email').setValue(result.email);
+        this.userForm.get('password').setValue(result.password);
+        this.userForm.get('position').setValue(result.position);
         this.disabled = result.disabled;
+        //this.userForm.get('disabled').setValue(result.disabled);
 
-        this.userForm.get('run').setValue(this.run);
-        this.userForm.get('name').setValue(this.name);
-        this.userForm.get('surname').setValue(this.surname);
-        this.userForm.get('surname2').setValue(this.surname2);
-        this.userForm.get('email').setValue(this.email);
-        this.userForm.get('position').setValue(this.position);
-        this.userForm.get('disable').setValue(this.disabled);
+        
 
       },
       error: result => {
@@ -80,6 +79,15 @@ export class EditUserComponent implements OnInit {
       }
     });
     
+  }
+
+  getErrorMessage() {
+    let email = this.userForm.controls["email"];
+    return email.hasError("required")
+      ? "Debe ingresar un valor"
+      : email.hasError("email")
+      ? "No es un email válido"
+      : "";
   }
 
   

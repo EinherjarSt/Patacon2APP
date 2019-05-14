@@ -1,8 +1,8 @@
 <div>
-  <h2 mat-dialog-title>Agregar usuario</h2>
+  <h2 mat-dialog-title>Editar usuario</h2>
   <hr />
   <mat-dialog-content>
-    <form [formGroup]="form">
+    <form [formGroup]="userForm">
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>R.U.N</mat-label>
@@ -47,7 +47,7 @@
             placeholder="ejemplo@patacon.cl"
             formControlName="email"
           />
-          <mat-error *ngIf="form.controls['email'].invalid">{{ getErrorMessage() }}</mat-error>
+          <mat-error *ngIf="userForm.controls['email'].invalid">{{ getErrorMessage() }}</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>
@@ -71,7 +71,7 @@
   </mat-dialog-content>
   <hr />
   <mat-dialog-actions>
-    <button mat-raised-button (click)="onCloseConfirm()">Agregar</button>
+    <button mat-raised-button (click)="onCloseConfirm()">Editar</button>
     <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
   </mat-dialog-actions>
 </div>
