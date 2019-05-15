@@ -9,7 +9,7 @@ import { Truck } from '../../../../model-classes/truck';
   templateUrl: './truck-view.component.html',
   styleUrls: ['./truck-view.component.css']
 })
-export class TruckListComponent implements OnInit {
+export class TruckViewComponent implements OnInit {
 
   dialogResult="";
   trucks: Truck[];
