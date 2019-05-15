@@ -95,12 +95,9 @@ app.get('/gps/getposition', passport.authenticate('jwt', {
 })
 
 
-app.delete('/gps/delete', passport.authenticate('jwt', {
+app.post('/gps/delete', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("gps/update");
-    console.log(req.body);
-
     let body = req.body;
     GPSDevice.deleteGPS(body.imei, (err, result) => {
         if (err) {

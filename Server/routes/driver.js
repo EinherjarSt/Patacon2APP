@@ -62,6 +62,22 @@ app.post('/driver/disable', passport.authenticate('jwt', {
     });
 })
 
+app.post('/driver/delete', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("driver/delete");
+    console.log(req.body);
+    let body = req.body;
+    Driver.deleteDriver(body.run, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Driver has been deleted"
+        });
+    });
+})
+
 app.get('/driver/get/:run', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
