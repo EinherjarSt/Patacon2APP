@@ -1,20 +1,61 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { MAT_DIALOG_DATA } from "@angular/material";
+import { TrucksService } from '../../../../services/trucks.service';
 
 @Component({
-  selector: 'app-add-truck',
-  templateUrl: './add-truck.component.html',
-  styleUrls: ['./add-truck.component.css']
+  selector: "app-add-truck",
+  templateUrl: "./add-truck.component.html",
+  styleUrls: ["./add-truck.component.css"]
 })
+
 export class AddTruckComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AddTruckComponent>) { }
+  addTruckForm: FormGroup;
 
-  ngOnInit() {
+  constructor(private snackBar: MatSnackBar,
+    public thisDialogRef: MatDialogRef<AddTruckComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string, 
+    private truckService: TrucksService) 
+  { 
+    this.addTruckForm = new FormGroup({
+      licencePlate: new FormControl(""),
+      brand: new FormControl(""),
+      model: new FormControl(""),
+      year: new FormControl(""),
+      maxLoad: new FormControl(""),
+      owner: new FormControl(""),
+      color: new FormControl("")
+    });
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  ngOnInit() {
+  }  
+
+  onCloseConfirm() {
+    // Here add service to send data to backend
+    //console.log(this.form);
+    //console.log(this.form.value);
+    let truckData = this.addTruckForm.value;
+    this.truckService.createTruck(truckData).subscribe({
+      next: result => {
+        console.log(result);
+        this.openSuccessMessage();
+        this.thisDialogRef.close('Confirm');
+      },
+      error: result => {}
+    });
+  }
+
+  onCloseCancel(){
+    this.thisDialogRef.close('Cancel');
+  }
+
+  openSuccessMessage() {
+    this.snackBar.open("El camion ha sido registrado.", "Cerrar", {
+      duration: 2000
+    });
   }
 
 }
