@@ -85,7 +85,7 @@ app.post('/truck/disable', passport.authenticate('jwt', {
     });
 })
 
-app.get("/truck/getall",
+app.get('/truck/getall',
     passport.authenticate("jwt", {
         session: false
     }),
