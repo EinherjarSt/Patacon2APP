@@ -4,17 +4,20 @@
   <mat-dialog-content>
 
     <form [formGroup]="registerDispatchForm" class="example-form">
+      <input formControlName="id" type="hidden">
       <input formControlName="planificationReference" type="hidden">
       <!----------------- Driver  -------------->
 
       <mat-form-field class="example-full-width">
         <input formControlName="driverReference" type="text" placeholder="Escoja un chofer" aria-label="Number" matInput
           [matAutocomplete]="driverAuto">
-        <mat-autocomplete #driverAuto="matAutocomplete">
+        <mat-autocomplete [displayWith]="getDriverDisplayFunction()" #driverAuto="matAutocomplete">
           <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
-            {{driverOption}}
+            {{driverToDisplayable(driverOption)}}
           </mat-option>
         </mat-autocomplete>
+        <mat-spinner *ngIf="isDriverListDataLoading" matSuffix></mat-spinner>
+
         <mat-error *ngIf="hasError('driverReference', 'required')">Un chofer debe ser asignado</mat-error>
       </mat-form-field>
 
@@ -35,11 +38,13 @@
 
       <mat-form-field class="example-full-width" appearance="standard">
         <mat-label>Kilos de uvas transportados</mat-label>
-        <input formControlName="shippedKilograms" matInput placeholder="" >
-        <mat-error *ngIf="hasError('shippedKilograms', 'pattern')"> Utilice solo números (sin comas, puntos o letras). Cantidad debe ser mayor a 0</mat-error>
-        <mat-error *ngIf="hasError('shippedKilograms', 'required')">Debe ingresar la cantidad de kilos transportados</mat-error>
+        <input formControlName="shippedKilograms" matInput placeholder="">
+        <mat-error *ngIf="hasError('shippedKilograms', 'pattern')"> Utilice solo números (sin comas, puntos o letras).
+          Cantidad debe ser mayor a 0</mat-error>
+        <mat-error *ngIf="hasError('shippedKilograms', 'required')">Debe ingresar la cantidad de kilos transportados
+        </mat-error>
       </mat-form-field>
-      
+
 
       <!------ Estimated arrival date at vineyard  -------------->
 
@@ -49,7 +54,9 @@
           placeholder="">
         <mat-datepicker-toggle matSuffix [for]="arrivalAtVineyardDatepicker"></mat-datepicker-toggle>
         <mat-datepicker #arrivalAtVineyardDatepicker></mat-datepicker>
-        <mat-error *ngIf="hasError('arrivalAtVineyardDate', 'required')">La fecha de llegada debe ser ingresada</mat-error>
+        <mat-error *ngIf="registerDispatchForm.get('arrivalAtPataconDate').invalid">La fecha es obligatoria debe tener un formato
+            dia/mes/año. Ejemplo: '3/4/2019'</mat-error>
+        
       </mat-form-field>
 
       <!----- Estimated arrival time at the vineyard   -------------->
@@ -58,7 +65,8 @@
         <mat-label>Hora estimada de llegada a la viña</mat-label>
         <input type="time" formControlName="arrivalAtVineyardTime" matInput placeholder="">
         <mat-hint></mat-hint>
-        <mat-error *ngIf="hasError('arrivalAtVineyardTime', 'required')">Debe ingresar la hora de llegada a la viña </mat-error>
+        <mat-error *ngIf="hasError('arrivalAtVineyardTime', 'required')">Debe ingresar la hora de llegada a la viña
+        </mat-error>
       </mat-form-field>
 
       <!------ Estimated arrival date at patacon  -------------->
@@ -66,12 +74,13 @@
       <mat-form-field class="example-full-width">
         <mat-label>Fecha estimada de vuelta a Patacón</mat-label>
         <input formControlName="arrivalAtPataconDate" matInput [matDatepicker]="arrivalAtPataconDatepicker"
-          placeholder="" >
+          placeholder="">
         <mat-datepicker-toggle matSuffix [for]="arrivalAtPataconDatepicker"></mat-datepicker-toggle>
         <mat-datepicker #arrivalAtPataconDatepicker></mat-datepicker>
-        <mat-error *ngIf="registerDispatchForm.get('arrivalAtPataconDate').invalid">La fecha debe tener un formato dia/mes/año. Ejemplo: '3/4/2019'</mat-error>
-        
-          
+        <mat-error *ngIf="registerDispatchForm.get('arrivalAtPataconDate').invalid">La fecha es obligatoria debe tener un formato
+            dia/mes/año. Ejemplo: '3/4/2019'</mat-error>
+
+
       </mat-form-field>
 
 
@@ -81,7 +90,8 @@
         <mat-label>Hora estimada de vuelta a Patacón</mat-label>
         <input type="time" formControlName="arrivalAtPataconTime" matInput placeholder="">
         <mat-hint></mat-hint>
-        <mat-error *ngIf="hasError('arrivalAtPataconTime', 'required')">Debe ingresar la hora de llegada a Patacon </mat-error>
+        <mat-error *ngIf="hasError('arrivalAtPataconTime', 'required')">Debe ingresar la hora de llegada a Patacon
+        </mat-error>
       </mat-form-field>
 
       <!------------------- Status ------------------>
@@ -97,9 +107,9 @@
 
       <!-- ------------------ Container ------------------>
       <div>
-        <mat-radio-group class="example-full-width" formControlName = "containerType" aria-label="Select an option" >
+        <mat-radio-group class="example-full-width" formControlName="containerType" aria-label="Select an option">
           <mat-radio-button value="BINS">Bins</mat-radio-button>
-          <mat-radio-button value="TINAS">Tina</mat-radio-button>
+          <mat-radio-button value="TINAS">Tinas</mat-radio-button>
         </mat-radio-group>
       </div>
 
@@ -108,7 +118,7 @@
   </mat-dialog-content>
   <hr>
   <mat-dialog-actions>
-    <button mat-raised-button (click)="onFormSubmit()" [disabled]="registerDispatchForm.invalid" >Registrar</button>
+    <button mat-raised-button (click)="onFormSubmit()" [disabled]="registerDispatchForm.invalid">Registrar</button>
     <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
   </mat-dialog-actions>
 

@@ -43,13 +43,13 @@
       <!-- Fecha de ida -->
       <ng-container matColumnDef="arrivalAtVineyardDatetime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y hora de ida </th>
-        <td mat-cell *matCellDef="let element"> {{element.arrivalAtVineyardDate | date:dateFormat}} </td>
+        <td mat-cell *matCellDef="let element"> {{ (element.arrivalAtVineyardDate + ' ' + element.arrivalAtVineyardTime) | date:dateFormat}} </td>
       </ng-container>
 
       <!-- Fecha de vuelta -->
       <ng-container matColumnDef="arrivalAtPataconDatetime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y hora de vuelta </th>
-        <td mat-cell *matCellDef="let element"> {{element.arrivalAtPataconDate | date:dateFormat }} </td>
+        <td mat-cell *matCellDef="let element"> {{(element.arrivalAtPataconDate + ' ' + element.arrivalAtPataconTime) | date:dateFormat }} </td>
       </ng-container>
 
       <!-- Container -->
@@ -71,7 +71,7 @@
 
       <!-- Delete -->
       <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <th mat-header-cell *matHeaderCellDef> Eliminar </th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button color="warn" (click)="deleteDispatch(element.id)">
             <mat-icon class="mat-18">delete</mat-icon>
@@ -89,7 +89,7 @@
       </mat-progress-spinner>
     </mat-card>
 
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 15, 20, 30, 50]">
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[10, 15, 20, 30, 50]" class="mat-elevation-z8">
     </mat-paginator>
 
   </div>

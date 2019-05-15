@@ -18,6 +18,11 @@
   <div fxFlex="50">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="licencePlate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Patente </th>
+            <td mat-cell *matCellDef="let element"> {{element.licencePlate}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="licencePlate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header > Modelo </th>
             <td mat-cell *matCellDef="let element"> {{element.licencePlate}} </td>
         </ng-container>
@@ -35,6 +40,11 @@
         <ng-container matColumnDef="year">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Año </th>
             <td mat-cell *matCellDef="let element"> {{element.year}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="licencePlate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Patente </th>
+            <td mat-cell *matCellDef="let element"> {{element.licencePlate}} </td>
         </ng-container>
 
        <ng-container matColumnDef="details">
