@@ -8,3 +8,8 @@
 .item{
     width: 100%;
 }
+
+mat-nav-list{
+    max-height: 370px;
+    overflow: auto;
+}
