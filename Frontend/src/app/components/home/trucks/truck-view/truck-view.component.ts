@@ -1,36 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { AddTruckComponent } from '../add-truck/add-truck.component';
-
-export interface truck{
-  model: string,
-  brand: string,
-  year: number,
-  patent: string
-}
-
-const truckList: truck[] = [
-  {model: 'modelo 1', brand: 'toyota', year: 1994, patent: 'ABDC12'},
-  {model: 'modelo 2', brand: 'toyota', year: 1994, patent: 'ABDC12'},
-  {model: 'modelo 3', brand: 'toyota', year: 1994, patent: 'ABDC12'},
-  {model: 'modelo 4', brand: 'toyota', year: 1994, patent: 'ABDC12'},
-  {model: 'modelo 5', brand: 'toyota', year: 1994, patent: 'ABDC12'},
-  {model: 'modelo 6', brand: 'toyota', year: 1994, patent: 'ABDC12'},
-  {model: 'modelo 7', brand: 'toyota', year: 1994, patent: 'ABDC12'}
-];
+import { TrucksService } from '../../../../services/trucks.service';
+import { Truck } from '../../../../model-classes/truck';
 
 @Component({
   selector: 'app-truck-view',
   templateUrl: './truck-view.component.html',
   styleUrls: ['./truck-view.component.css']
 })
-export class TruckViewComponent implements OnInit {
+export class TruckListComponent implements OnInit {
 
-  displayedColumns: string[] = ["model","brand","year","patent", "details", "delete"];
-  dataSource = new MatTableDataSource(truckList);
+  dialogResult="";
+  trucks: Truck[];
+  displayedColumns: string[] = ["licencePlate","brand","model","year", "details", "delete"];
+  dataSource: MatTableDataSource<Truck>;
 
-  constructor(public dialog: MatDialog) { 
-
+  constructor( private trucksService : TrucksService,public dialog: MatDialog) { 
+    trucksService.getAllTrucks().subscribe(data =>{
+      this.trucks = data;
+      this.dataSource = new MatTableDataSource<Truck>(this.trucks);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   ngOnInit() {

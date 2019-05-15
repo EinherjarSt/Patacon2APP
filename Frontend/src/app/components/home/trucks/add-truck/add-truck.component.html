@@ -1,55 +1,82 @@
-<h3>
-  Registrar Camión
-</h3>
-
-<hr>
-
-<form>
-  <mat-list>
-      <mat-list-item class="item">
-          <div class="input-div">
-              <mat-form-field appearance="standard" class="input">
-                  <mat-label>Modelo</mat-label>
-                  <input matInput>
-              </mat-form-field>
-          </div>   
-      </mat-list-item>
-
-      <mat-list-item class="item">
-          <div class="input-div">
-              <mat-form-field appearance="standard" class="input">
-                  <mat-label>Marca</mat-label>
-                  <input matInput>
-              </mat-form-field>
-          </div>
-      </mat-list-item>
-
-      <mat-list-item class="item">
-          <div class="input-div">
-              <mat-form-field appearance="standard" class="input">
-                  <mat-label>Año</mat-label>
-                  <input matInput>
-              </mat-form-field>
-          </div>
-      </mat-list-item>
-
-      <mat-list-item class="item">
-          <div class="input-div">
-              <mat-form-field appearance="standard" class="input">
-                  <mat-label>Patente</mat-label>
-                  <input matInput>
-              </mat-form-field>
-          </div>
-      </mat-list-item>
-
-      <mat-list-item class="action-buttons">
-          <div class="button-div">
-              <button mat-raised-button color="primary" class="button">Registrar</button>
-          </div>
-
-          <div class="button-div">
-              <button mat-raised-button color="primary" class="button" (click)="onNoClick()">Cancelar</button>
-          </div>
-      </mat-list-item>
-  </mat-list>
-</form>
+<div>
+    <h2 mat-dialog-title>Agregar Camión</h2>
+    <hr />
+    <mat-dialog-content>
+      <form [formGroup]="addTruckForm">
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Patente</mat-label>
+            <input
+              matInput
+              placeholder=""
+              formControlName="licencePlate"
+            />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Marca</mat-label>
+            <input matInput placeholder="" formControlName="brand" />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Model</mat-label>
+            <input matInput placeholder="" formControlName="model" />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Año</mat-label>
+            <input matInput placeholder="" formControlName="year" />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Carga Máxima</mat-label>
+            <input
+              matInput
+              placeholder=""
+              formControlName="maxLoad"
+            />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="container">
+            <mat-form-field appearance="standard">
+                <mat-label>Dueño</mat-label>
+                <input
+                matInput
+                placeholder=""
+                formControlName="owner"
+                />
+            <mat-hint></mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Color</mat-label>
+            <input
+              matInput
+              placeholder=""
+              formControlName="color"
+            />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-dialog-content>
+    <hr />
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="onCloseConfirm()">Agregar</button>
+      <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+    </mat-dialog-actions>
+</div>
