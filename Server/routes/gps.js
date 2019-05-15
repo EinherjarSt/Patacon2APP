@@ -51,7 +51,7 @@ app.get('/gps/get/:imei', passport.authenticate('jwt', {
         if (err) {
             return res.status(400).json(err);
         }
-        return res.json({gps});
+        return res.json(gps);
     });
 })
 
