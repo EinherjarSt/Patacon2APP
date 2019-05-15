@@ -1,4 +1,3 @@
-
 <h2 id="title">Camiones</h2>
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
   <div fxLayout="row" fxFlex="50" align-items>
@@ -18,9 +17,9 @@
 
   <div fxFlex="50">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="model">
+        <ng-container matColumnDef="licencePlate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header > Modelo </th>
-            <td mat-cell *matCellDef="let element"> {{element.model}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.licencePlate}} </td>
         </ng-container>
 
         <ng-container matColumnDef="brand">
@@ -28,14 +27,14 @@
             <td mat-cell *matCellDef="let element"> {{element.brand}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="model">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header > Modelo </th>
+            <td mat-cell *matCellDef="let element"> {{element.model}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="year">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Año </th>
             <td mat-cell *matCellDef="let element"> {{element.year}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="patent">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Patente </th>
-            <td mat-cell *matCellDef="let element"> {{element.patent}} </td>
         </ng-container>
 
        <ng-container matColumnDef="details">

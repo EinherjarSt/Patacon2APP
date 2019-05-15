@@ -9,12 +9,12 @@ import { Truck } from '../../../../model-classes/truck';
   templateUrl: './truck-view.component.html',
   styleUrls: ['./truck-view.component.css']
 })
-export class TruckListComponent implements OnInit {
+export class TruckViewComponent implements OnInit {
 
-  dialogResult="";
   trucks: Truck[];
   displayedColumns: string[] = ["licencePlate","brand","model","year", "details", "delete"];
   dataSource: MatTableDataSource<Truck>;
+  dialogResult="";
 
   constructor( private trucksService : TrucksService,public dialog: MatDialog) { 
     trucksService.getAllTrucks().subscribe(data =>{
@@ -26,6 +26,16 @@ export class TruckListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTruck();
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.sort = this.sort;
+  }
+
+  getTruck(): void {
+    this.trucksService.getAllTrucks().subscribe({
+      next: (result) => {this.dataSource.data = result;},
+      error: (err) => {console.log(err);}
+    });
   }
 
   @ViewChild(MatSort) sort: MatSort;

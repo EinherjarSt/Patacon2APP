@@ -44,7 +44,7 @@ export class AddTruckComponent implements OnInit {
         this.openSuccessMessage();
         this.thisDialogRef.close('Confirm');
       },
-      error: result => {}
+      error: result => {console.log(result)}
     });
   }
 

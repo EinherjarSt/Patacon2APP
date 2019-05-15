@@ -20,7 +20,7 @@ class Truck {
                 return callback(err);
             }
             let trucks = []
-            for (const trucks of results) {
+            for (const truck of results) {
                 trucks.push(new Truck(truck.licencePlate, truck.brand, truck.model, 
                     truck.year, truck.maxLoad, truck.owner, truck.color));
             }
@@ -115,4 +115,4 @@ class Truck {
     }
 }
 
-module.exports = Truck
+module.exports = Truck;
