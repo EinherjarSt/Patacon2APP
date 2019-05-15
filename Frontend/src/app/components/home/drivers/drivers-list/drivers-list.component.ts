@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import{ AddDriverComponent } from '../add-driver/add-driver.component';
 import{ Driver} from '../../../../model-classes/driver';
 import { DriversService} from '../../../../services/drivers.service';
+import { EditDriverComponent } from '../edit-driver/edit-driver.component';
 
 
 @Component({
@@ -20,12 +21,7 @@ export class DriversListComponent implements OnInit {
   dataSource: MatTableDataSource<Driver>;
 
   constructor( private driversService : DriversService,public dialog: MatDialog) { 
-    driversService.getAllDrivers().subscribe(data =>{
-      this.drivers = data;
-      this.dataSource = new MatTableDataSource<Driver>(this.drivers);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
+   
   }
 
 
@@ -33,6 +29,17 @@ export class DriversListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
+    this.getAllDrivers();
+
+  }
+  getAllDrivers() {
+      this.driversService.getAllDrivers().subscribe(data =>{
+      this.drivers = data;
+      this.dataSource = new MatTableDataSource<Driver>(this.drivers);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
+    
   }
 public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
@@ -42,8 +49,24 @@ public doFilter = (value: string) => {
 
   }
   openDialog():void {
-    this.dialog.open(AddDriverComponent, {
+    let dialogRef = this.dialog.open(AddDriverComponent, {
       width: '400px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed');
+      this.ngOnInit();
+    })
+  }
+
+  openUpdateDialog(run: string){
+    const dialogRef = this.dialog.open(EditDriverComponent, {
+      data: run,
+      width: '500px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
     });
   }
 }

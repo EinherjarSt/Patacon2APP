@@ -40,6 +40,7 @@ import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
+import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 
 
 
@@ -73,7 +74,8 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
     AddGpsComponent,
     LatestEventsComponent,
     EditDispatchComponent,
-    EditUserComponent
+    EditUserComponent,
+    EditDriverComponent
   ],
   imports: [
     CommonModule,
@@ -95,7 +97,8 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
     DetailsComponent,
     AddPlanificationComponent,
     AddGpsComponent,
-    EditUserComponent
+    EditUserComponent,
+    EditDriverComponent
   ],
 })
 export class HomeModule { }
