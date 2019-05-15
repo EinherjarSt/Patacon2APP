@@ -10,15 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class EditUserComponent implements OnInit {
 
-  run: string;
-  name: string;
-  surname: string;
-  surname2: string;
-  email: string;
-  password: string;
-  position: string;
-  disabled: boolean;
-
+  hide = true;
 
   userForm = new FormGroup({
     run: new FormControl(''),
@@ -28,7 +20,7 @@ export class EditUserComponent implements OnInit {
     email: new FormControl("", [Validators.required, Validators.email]),
     password: new FormControl(''),
     position: new FormControl(''),
-    diable: new FormControl('')
+    disabled: new FormControl('')
 
   });
 
@@ -47,10 +39,10 @@ export class EditUserComponent implements OnInit {
         this.userForm.get('surname').setValue(result.surname);
         this.userForm.get('surname2').setValue(result.surname2);
         this.userForm.get('email').setValue(result.email);
-        this.userForm.get('password').setValue(result.password);
+        this.userForm.get('password').setValue("");
         this.userForm.get('position').setValue(result.position);
-        this.disabled = result.disabled;
-        //this.userForm.get('disabled').setValue(result.disabled);
+
+        console.log(result);
 
         
 
