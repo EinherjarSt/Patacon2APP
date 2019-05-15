@@ -46,8 +46,7 @@ export class TruckViewComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    
   }
 
 }
