@@ -35,5 +35,12 @@ IN `_disabled` TINYINT
       `disabled` = _disabled
        WHERE `run` = _run;
 END//
-DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `delete_driver`//
+CREATE PROCEDURE `delete_driver`(
+IN `_run` VARCHAR(13)
+) BEGIN
+     DELETE FROM driver
+     WHERE `run` = _run;
+END//
+DELIMITER ;

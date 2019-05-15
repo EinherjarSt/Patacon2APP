@@ -107,4 +107,20 @@ export class GpsService {
       })
     );
   }
+
+  /** Request to server to disable a GPS.
+   * @param data Data to send to backend
+   */
+  deleteGPS(imei: string): Observable<boolean> {
+    const body = new HttpParams().set("imei", imei);
+
+    return this.http
+      .post<{ msg: string }>(env.api.concat("/gps/delete"), body)
+      .pipe(
+        map(result => {
+          console.log(result.msg);
+          return true;
+        })
+      );
+  }
 }

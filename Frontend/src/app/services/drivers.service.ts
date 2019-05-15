@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Driver } from '../model-classes/driver';
+import { Driver } from "../model-classes/driver";
 import { environment as env } from "@env/environment";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DriversService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-   /**
+  /**
    * Request to server to verify if a driver exist and return his token.
    * @param data Data to send to backend
    */
@@ -41,7 +41,7 @@ export class DriversService {
       .set("name", data.name)
       .set("surname", data.surname)
       .set("surname2", data.surname2)
-      .set("phoneNumber", data.phoneNumber)
+      .set("phoneNumber", data.phoneNumber);
     return this.http
       .post<{ msg: string }>(
         env.api.concat("/driver/update"),
@@ -85,13 +85,10 @@ export class DriversService {
   disableDriver(data: {run:string, disabled:boolean}): Observable<boolean> {
     const body = new HttpParams()
       .set("run", data.run)
-      .set("disabled", data.disabled ? 'true' : 'false');
+      .set("disabled", data.disabled ? "true" : "false");
 
     return this.http
-      .put<{ msg: string }>(
-        env.api.concat("/driver/disable"),
-        body,
-      )
+      .put<{ msg: string }>(env.api.concat("/driver/disable"), body)
       .pipe(
         map(result => {
           console.log(result.msg);
@@ -100,5 +97,19 @@ export class DriversService {
       );
   }
 
-}
+  /** Request to server to disable a driver.
+   * @param data Data to send to backend
+   */
+  deleteDriver(run: string): Observable<boolean> {
+    const body = new HttpParams().set("run", run);
 
+    return this.http
+      .post<{ msg: string }>(env.api.concat("/driver/delete"), body)
+      .pipe(
+        map(result => {
+          console.log(result.msg);
+          return true;
+        })
+      );
+  }
+}

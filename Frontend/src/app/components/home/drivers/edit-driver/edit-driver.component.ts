@@ -44,7 +44,7 @@ export class EditDriverComponent implements OnInit {
   }
 
   onCloseCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close('Cancel');
   }
 
   onCloseConfirm(){
@@ -53,8 +53,7 @@ export class EditDriverComponent implements OnInit {
     console.log(this.driverForm.value);
     this.driverService.updateDriver(driverData).subscribe({
       next: result => {
-        console.log(result);
-        this.dialogRef.close();
+        this.dialogRef.close('Confirm');
 
       },
       error: result => {
