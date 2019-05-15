@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort, MatTableDataSource, MatPaginator } from "@angular/material";
 import { MatDialog, MatDialogConfig } from "@angular/material";
+import { ConfirmationDialogComponent } from "src/app/components/core/confirmation-dialog/confirmation-dialog.component";
 import { AddDriverComponent } from "../add-driver/add-driver.component";
 import { Driver } from "../../../../model-classes/driver";
 import { DriversService } from "../../../../services/drivers.service";
-import { ConfirmationDialogComponent } from "src/app/components/core/confirmation-dialog/confirmation-dialog.component";
+import { EditDriverComponent } from "../edit-driver/edit-driver.component";
 
 @Component({
   selector: "app-drivers-list",
@@ -57,8 +58,24 @@ export class DriversListComponent implements OnInit {
   ngAfterViewInit(): void {}
 
   openAddDialog(): void {
-    this.dialog.open(AddDriverComponent, {
+    let dialogRef = this.dialog.open(AddDriverComponent, {
       width: "400px"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("Dialog closed");
+      this.ngOnInit();
+    });
+  }
+
+  openUpdateDialog(run: string) {
+    const dialogRef = this.dialog.open(EditDriverComponent, {
+      data: run,
+      width: "500px"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'Confirm') this.refreshTable();
     });
   }
 
@@ -94,5 +111,4 @@ export class DriversListComponent implements OnInit {
   refreshTable() {
     this.getDriver();
   }
-
 }
