@@ -13,7 +13,7 @@ export class LatestEventsComponent implements OnInit {
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    timer(3000,20000).subscribe(() => {
+    timer(1000,20000).subscribe(() => {
       this.dashboardService.getAllEvents().subscribe(data =>{
         this.events = data
       });
