@@ -1,7 +1,7 @@
 <div mat-dialog-content>
-  {{message}}
+  {{params.message}}
  </div>
- <div mat-dialog-actions>
-    <button mat-button (click="OnYesClick()">Yes</button>
-   <button mat-button (click)="onNoClick()"  cdkFocusInitial>No</button>
+ <div mat-dialog-actions  class="buttons">
+    <button mat-raised-button class="button" (click)="onYesClick()">Si</button>
+   <button mat-raised-button class="button" (click)="onNoClick()"  cdkFocusInitial>No</button>
  </div>

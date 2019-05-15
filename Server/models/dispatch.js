@@ -27,7 +27,7 @@ class Dispatch {
             let dispatches = []
             for (const dispatch of results) {
                 dispatches.push(new Dispatch(dispatch.id_dispatch, dispatch.ref_driver, dispatch.ref_truck,
-                    parseInt(dispatch.ref_planification), parseInt(dispatch.shippedKilograms),
+                    dispatch.ref_planification, dispatch.shippedKilograms,
                     dispatch.arrivalAtPataconDate, dispatch.arrivalAtVineyardDate,
                     dispatch.containerType, dispatch.status));
             }

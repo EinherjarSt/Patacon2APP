@@ -50,7 +50,8 @@
             placeholder="">
           <mat-datepicker-toggle matSuffix [for]="arrivalAtVineyardDatepicker"></mat-datepicker-toggle>
           <mat-datepicker #arrivalAtVineyardDatepicker></mat-datepicker>
-          <mat-error *ngIf="hasError('arrivalAtVineyardDate', 'required')">La fecha de llegada debe ser ingresada</mat-error>
+          <mat-error *ngIf="editDispatchForm.get('arrivalAtVineyardDate').invalid">La fecha es obligatoria debe tener un formato
+              dia/mes/año. Ejemplo: '3/4/2019'</mat-error>
         </mat-form-field>
   
         <!----- Estimated arrival time at the vineyard   -------------->
@@ -70,7 +71,8 @@
             placeholder="" >
           <mat-datepicker-toggle matSuffix [for]="arrivalAtPataconDatepicker"></mat-datepicker-toggle>
           <mat-datepicker #arrivalAtPataconDatepicker></mat-datepicker>
-          <mat-error *ngIf="editDispatchForm.get('arrivalAtPataconDate').invalid">La fecha debe tener un formato dia/mes/año. Ejemplo: '3/4/2019'</mat-error>
+          <mat-error *ngIf="editDispatchForm.get('arrivalAtPataconDate').invalid">La fecha es obligatoria debe tener un formato
+              dia/mes/año. Ejemplo: '3/4/2019'</mat-error>
           
             
         </mat-form-field>

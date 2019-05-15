@@ -27,19 +27,24 @@ export class DispatchListComponent implements OnInit {
   "arrivalAtPataconDatetime","container", "edit", "delete"];
   public dataSource = new  MatTableDataSource<Dispatch>();
 
-
-
-  constructor(private dispatchesService: DispatchesService, private dialog: MatDialog) { }
-
-
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isDataLoading: boolean;
 
+
+
+  constructor(private dispatchesService: DispatchesService, private dialog: MatDialog) { }
+  
   ngOnInit() {
     this.getDispatches();
     this.dataSource.sort = this.sort;
   }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
 
   getDispatches(): void {
     this.isDataLoading = true;
@@ -50,45 +55,53 @@ export class DispatchListComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
-        this.isDataLoading = true
       }
     });
   }
 
   deleteDispatch(dispatch_id) {
-    this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
-      next: result => {
-        
-      },
-      error: result => { }
-    });  
-    this.showDeletionConfirmationDialog();
+    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) {
+        this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
+          next: result => {},
+          error: result => {}
+        }); 
+        this.refreshTable();
+      }
+      
+    });
   }
 
-  showDeletionConfirmationDialog() {
+  openDeletionConfirmationDialog() {
     
     var deletionDialogConfig = this.getDialogConfig();
     deletionDialogConfig.data = { message: '¿Desea eliminar este despacho?'};
-    var deletionDialogRef = this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+  }
 
-    deletionDialogRef.afterClosed().subscribe(confirmation => {
-      console.log(`Dialog result: ${confirmation.confirmed}`);
+
+  openRegisterDispatchDialog() {
+    this.dialog.open(RegisterDispatchComponent, this.getDialogConfig()).afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) { 
+        this.refreshTable();
+      }
     });
-    
+  }
+  
+ 
+  
+  openEditDispatchDialog(dispatch: Dispatch) {
+
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = dispatch;
+
+    this.dialog.open(EditDispatchComponent, dialogConfig).afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) { 
+        this.refreshTable();
+      }
+    });;
   }
 
-  refreshTable() {
-    this.getDispatches();
-  }
-
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
 
   getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
@@ -98,32 +111,13 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
-
-
-  openRegisterDispatchDialog() {
-    this.dialog.open(RegisterDispatchComponent, this.getDialogConfig());
+  refreshTable() {
+    this.getDispatches();
   }
 
-  
-  openEditDispatchDialog(dispatch: Dispatch) {
-
-    
-    
-    var arrivalAtPataconDateTime = moment(dispatch.arrivalAtPataconDate).format('YYYY-MM-DD HH:mm').split(' ');
-    var arrivalAtVineyardDateTime = moment(dispatch.arrivalAtVineyardDate).format('YYYY-MM-DD HH:mm').split(' ');
-    dispatch.arrivalAtPataconDate = new Date(arrivalAtPataconDateTime[0]);
-    dispatch.arrivalAtPataconTime = arrivalAtPataconDateTime[1];
-
-    dispatch.arrivalAtVineyardDate = new Date(arrivalAtVineyardDateTime[0]);
-    dispatch.arrivalAtVineyardTime = arrivalAtVineyardDateTime[1];
-
-
-    var dialogConfig = this.getDialogConfig();
-    dialogConfig.data = dispatch;
-
-    this.dialog.open(EditDispatchComponent, dialogConfig);
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
-
 }
 
 

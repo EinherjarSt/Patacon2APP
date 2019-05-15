@@ -1,17 +1,18 @@
 export class Dispatch {
-
-    id: string;
-    driverReference: string;
-    truckReference: string;
-    planificationReference: string;
-    shippedKilograms: number;
-    arrivalAtPataconDate: Date;
-    arrivalAtPataconTime: string;
-    arrivalAtVineyardDate: Date;
-    arrivalAtVineyardTime: string;
-    status: string;
-    containerType: string;
-    
+    constructor(
+      public id: number,
+      public driverReference: string,
+      public truckReference: string,
+      public planificationReference: string,
+      public shippedKilograms: number,
+      public arrivalAtPataconDate: string,
+      public arrivalAtPataconTime: string,
+      public arrivalAtVineyardDate: string,
+      public arrivalAtVineyardTime: string,
+      public status: string,
+      public containerType: string
+    ) {}
+   
   }
 
   
