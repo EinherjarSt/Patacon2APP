@@ -40,6 +40,8 @@ import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
 import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
+import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirmation-dialog.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
 
 
 
@@ -52,6 +54,7 @@ import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
     UserListComponent,
     UsersComponent, 
     RegisterDispatchComponent,
+    EditDispatchComponent,
     DriversListComponent,
     ProducerListComponent, 
     AddProducerComponent,
@@ -74,6 +77,8 @@ import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
     LatestEventsComponent,
     EditDispatchComponent,
     EditGpsComponent
+    ConfirmationDialogComponent,
+    EditUserComponent
   ],
   imports: [
     CommonModule,
@@ -88,6 +93,7 @@ import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
   entryComponents: [
     AddUserComponent,
     RegisterDispatchComponent,
+    EditDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
@@ -95,7 +101,9 @@ import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
     DetailsComponent,
     AddPlanificationComponent,
     AddGpsComponent,
-    EditGpsComponent
+    EditGpsComponent,
+    ConfirmationDialogComponent,
+    EditUserComponent
   ],
 })
 export class HomeModule { }

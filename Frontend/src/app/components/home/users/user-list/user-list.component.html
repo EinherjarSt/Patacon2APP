@@ -43,9 +43,9 @@
       </ng-container>
     
       <ng-container matColumnDef="details">
-        <th mat-header-cell *matHeaderCellDef> Detalles </th>
+        <th mat-header-cell *matHeaderCellDef> Editar </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+          <button mat-icon-button color="primary" (click)="openUpdateDialog(element.run)">
               <mat-icon class="mat-18">reorder</mat-icon>
           </button>
         </td>
