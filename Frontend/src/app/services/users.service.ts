@@ -9,6 +9,7 @@ import { map } from "rxjs/operators";
   providedIn: "root"
 })
 export class UsersService {
+  disabled: string;
 
   constructor(private http: HttpClient) {}
 
@@ -40,6 +41,12 @@ export class UsersService {
    * @param data Data to send to backend
    */
   updateUser(data: User): Observable<boolean> {
+    if(data.disabled){
+      this.disabled = "0";
+    }
+    else{
+      this.disabled = "1";
+    }
     const body = new HttpParams()
       .set("run", data.run)
       .set("name", data.name)
@@ -47,10 +54,14 @@ export class UsersService {
       .set("surname2", data.surname2)
       .set("email", data.email)
       .set("password", data.password)
-      .set("position", data.position);
+      .set("position", data.position)
+      .set("disabled", this.disabled)
+
+      
+      
 
     return this.http
-      .put<{ msg: string }>(
+      .post<{ msg: string }>(
         env.api.concat("/user/update"),
         body
       )
@@ -61,6 +72,7 @@ export class UsersService {
         })
       );
   }
+
 
   /** Request to server to get all user.
    * @param data Data to send to backend
@@ -74,6 +86,18 @@ export class UsersService {
     return this.http.get<User[]>(env.api.concat("/user/getall")).pipe(
       map(result => {
         //console.log(result);
+        return result;
+      })
+    );
+  }
+
+  getUser(run: string): Observable<User>{
+    const body = new HttpParams()
+    .set('run', run);
+
+    return this.http.get<User>(env.api.concat("/user/get/"+run))
+    .pipe(
+      map(result => {
         return result;
       })
     );

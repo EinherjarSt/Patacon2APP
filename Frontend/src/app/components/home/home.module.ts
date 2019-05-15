@@ -40,6 +40,7 @@ import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
 import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirmation-dialog.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
 
 
 
@@ -74,7 +75,8 @@ import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirm
     AddGpsComponent,
     LatestEventsComponent,
     EditDispatchComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    EditUserComponent
   ],
   imports: [
     CommonModule,
@@ -97,7 +99,8 @@ import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirm
     DetailsComponent,
     AddPlanificationComponent,
     AddGpsComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    EditUserComponent
   ],
 })
 export class HomeModule { }
