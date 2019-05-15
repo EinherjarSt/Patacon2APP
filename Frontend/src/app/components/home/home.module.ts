@@ -76,7 +76,7 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
     AddGpsComponent,
     LatestEventsComponent,
     EditDispatchComponent,
-    EditGpsComponent
+    EditGpsComponent,
     ConfirmationDialogComponent,
     EditUserComponent
   ],
