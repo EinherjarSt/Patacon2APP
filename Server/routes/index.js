@@ -9,5 +9,6 @@ app.use(require('./dispatch'));
 app.use(require('./trucks'));
 app.use(require('./producers'));
 app.use(require('./gps'));
+app.use(require('./lastEvent'));
 
 module.exports = app;
