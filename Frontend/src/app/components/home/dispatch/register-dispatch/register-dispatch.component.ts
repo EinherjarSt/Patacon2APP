@@ -10,6 +10,10 @@ import { DispatchesService } from '../../../../services/dispatches.service';
 
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DriversService } from '../../../../services/drivers.service';
+import { Driver } from '../../../../model-classes/driver';
+import { Dispatch } from '../../../../model-classes/dispatch';
+import * as moment from 'moment';
 
 @Component({
   selector: 'register-dispatch',
@@ -25,15 +29,16 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 export class RegisterDispatchComponent implements OnInit {
 
   title: String;
-
+  isDriverListDataLoading: boolean;
 
   constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<RegisterDispatchComponent>,
-    private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService) {
+    private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService,
+    private _driversService: DriversService) {
     this.title = "Registrar despacho";
   }
 
-  driverOptions: string[] = ['Por definir', 'Pedro Ruminot', 'Vladimir Putin', 'Nyango Star'];
-  driverFilteredOptions: Observable<string[]>;
+  driverOptions: Driver[];
+  driverFilteredOptions: Observable<Driver[]>;
 
   truckOptions: string[] = ['CL12KAP', 'AX12MP1', '1ASLPMQ',];
   truckFilteredOptions: Observable<string[]>;
@@ -41,28 +46,59 @@ export class RegisterDispatchComponent implements OnInit {
   statusOptions: string[] = ['En tránsito a viña', 'Cargando', 'En patio',
     'En tránsito a viña', 'Detenido', 'Terminado'];
 
-
-
+  
+  
   registerDispatchForm: FormGroup = this._formBuilder.group({
+    id: [-1],
     driverReference: ['', [Validators.required]],
     truckReference: ['', [Validators.required]],
     planificationReference: [1, []],
     shippedKilograms: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
-    arrivalAtVineyardDate: ['', []],
-    arrivalAtVineyardTime: ['', []],
-    arrivalAtPataconDate: ['', []],
-    arrivalAtPataconTime: ['', []],
+    arrivalAtVineyardDate: ['', [Validators.required]],
+    arrivalAtVineyardTime: ['', [Validators.required]],
+    arrivalAtPataconDate: ['', [Validators.required]],
+    arrivalAtPataconTime: ['', [Validators.required]],
     status: [this.statusOptions[0]],
     containerType: ['BINS']
 
   });
 
+  getDriverDisplayFunction() {
+    return (driver) => { 
+      return this.driverToDisplayable(driver); 
+    };
+  }
+
+  
+  driverSearchFunction(driverId: string) {
+    return driverId.localeCompare(driverId) == 0;
+  }
+
+
+  driverToDisplayable(driver: Driver) : string {
+
+    return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : ''; 
+  }
+
+  
+
+  getDriverOptions() {
+    this.isDriverListDataLoading = true;
+    this._driversService.getAllDrivers().subscribe({
+      next: (drivers) => {
+        this.driverOptions = drivers;
+        this.setDriverListFormControlFilteringCapabilities();
+        this.isDriverListDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
   ngOnInit() {
-    this.driverFilteredOptions = this.registerDispatchForm.get('driverReference').valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterDrivers(value))
-      );
+    this.getDriverOptions();
+    
     this.truckFilteredOptions = this.registerDispatchForm.get('truckReference').valueChanges
       .pipe(
         startWith(''),
@@ -70,10 +106,17 @@ export class RegisterDispatchComponent implements OnInit {
       );
   }
 
-  private _filterDrivers(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  setDriverListFormControlFilteringCapabilities(){
+    this.driverFilteredOptions = this.registerDispatchForm.get('driverReference').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterDriverOptions(value))
+      );
+  }
 
-    return this.driverOptions.filter(option => option.toLowerCase().includes(filterValue));
+  private _filterDriverOptions(value): Driver[] {
+    const filterValue = value.toLowerCase();
+    return this.driverOptions.filter(option => (option.name + ' ' + option.surname + ' ' + option.surname2).toLowerCase().includes(filterValue));
   }
 
   private _filterTrucks(value: string): string[] {
@@ -81,7 +124,6 @@ export class RegisterDispatchComponent implements OnInit {
 
     return this.truckOptions.filter(option => option.toLowerCase().includes(filterValue));
   }
-
 
 
   public hasError = (controlName: string, errorName: string) => {
@@ -93,15 +135,15 @@ export class RegisterDispatchComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.submitData(this.registerDispatchForm.value);
+
+    this.submitData(this._dispatchesService.formValuesToDispatchObject(this.registerDispatchForm.value));
     this.onCloseSubmit();
     this.openSuccessMessage();
 
   }
 
-  submitData(data) {
+  submitData(dispatchData) {
 
-    var dispatchData = this.registerDispatchForm.value;
     this._dispatchesService.registerDispatch(dispatchData).subscribe({
       next: result => {
         console.log(result);
@@ -117,12 +159,12 @@ export class RegisterDispatchComponent implements OnInit {
   }
 
   onCloseSubmit() {
-    this.dialogRef.close('Confirm');
+    this.dialogRef.close({confirmed: true});
 
   }
 
   onCloseCancel() {
-    this.dialogRef.close('Cancel');
+    this.dialogRef.close({confirmed: false});
   }
 
 

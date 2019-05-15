@@ -39,6 +39,8 @@ import { GpsListComponent } from './gps/gps-list/gps-list.component';
 import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
+import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
+import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirmation-dialog.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 
@@ -53,6 +55,7 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
     UserListComponent,
     UsersComponent, 
     RegisterDispatchComponent,
+    EditDispatchComponent,
     DriversListComponent,
     ProducerListComponent, 
     AddProducerComponent,
@@ -74,6 +77,8 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
     AddGpsComponent,
     LatestEventsComponent,
     EditDispatchComponent,
+    EditGpsComponent,
+    ConfirmationDialogComponent,
     EditUserComponent,
     EditDriverComponent
   ],
@@ -90,6 +95,7 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
   entryComponents: [
     AddUserComponent,
     RegisterDispatchComponent,
+    EditDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
@@ -97,6 +103,8 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
     DetailsComponent,
     AddPlanificationComponent,
     AddGpsComponent,
+    EditGpsComponent,
+    ConfirmationDialogComponent,
     EditUserComponent,
     EditDriverComponent
   ],

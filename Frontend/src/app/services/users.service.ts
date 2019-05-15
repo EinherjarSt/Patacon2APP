@@ -41,12 +41,7 @@ export class UsersService {
    * @param data Data to send to backend
    */
   updateUser(data: User): Observable<boolean> {
-    if(data.disabled){
-      this.disabled = "0";
-    }
-    else{
-      this.disabled = "1";
-    }
+   
     const body = new HttpParams()
       .set("run", data.run)
       .set("name", data.name)
@@ -55,7 +50,7 @@ export class UsersService {
       .set("email", data.email)
       .set("password", data.password)
       .set("position", data.position)
-      .set("disabled", this.disabled)
+
 
       
       
@@ -112,7 +107,7 @@ export class UsersService {
       .set("disabled", data.disabled ? 'true' : 'false');
 
     return this.http
-      .put<{ msg: string }>(
+      .post<{ msg: string }>(
         env.api.concat("/user/disable"),
         body,
       )
