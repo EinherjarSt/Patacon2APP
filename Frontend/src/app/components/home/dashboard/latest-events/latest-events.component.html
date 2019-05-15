@@ -1,8 +1,18 @@
 <mat-nav-list>
   <mat-list-item *ngFor="let event of events">
-     <mat-list-item>{{event.time}}{{event.description }}</mat-list-item>
-     <button mat-icon-button (click)="showDispatch(event.ref_Dispatch)">
-        <mat-icon>info</mat-icon>
-     </button>
+      <div *ngIf="isWarning(event.description); then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+            <button mat-icon-button color="warn" (click)="showDispatch(event.ref_Dispatch)">
+                  <mat-icon>warning</mat-icon>
+               </button>
+      </ng-template>
+      <ng-template #elseBlock>
+            <button mat-icon-button (click)="showDispatch(event.ref_Dispatch)">
+                  <mat-icon>info</mat-icon>
+               </button>
+      </ng-template>
+      
+     <mat-list-item><b>{{event.time}} </b> - {{event.description}}</mat-list-item>
+     
   </mat-list-item>
 </mat-nav-list>

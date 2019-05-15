@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Event} from 'src/app/model-classes/event';
 import { DashboardService } from 'src/app/services/dashboard.service';
+import { timer } from "rxjs";
 
 @Component({
   selector: 'app-latest-events',
@@ -12,10 +13,22 @@ export class LatestEventsComponent implements OnInit {
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.dashboardService.getAllEvents().subscribe(data =>{
-      console.log(data);
-      this.events = data;
+    timer(3000,20000).subscribe(() => {
+      this.dashboardService.getAllEvents().subscribe(data =>{
+        this.events = data
+      });
     });
   }
 
+  isWarning(element):boolean{
+    if(element.substr(0,1)=='¡'){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  showDispach(id){
+    //OPEN DISPATCH WINDOW
+  }
 }

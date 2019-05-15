@@ -32,7 +32,7 @@ class LastEvent {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`SELECT * FROM recent_events`, function (err, results, fields) {
+        pool.query("SELECT id_event, TIME(time) AS time, description, ref_Dispatch FROM recent_events ORDER BY time DESC", function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
