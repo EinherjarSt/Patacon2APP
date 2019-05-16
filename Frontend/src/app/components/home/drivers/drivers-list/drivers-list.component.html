@@ -20,7 +20,7 @@
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <ng-container matColumnDef="run">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> RUN </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> R.U.N </th>
         <td mat-cell *matCellDef="let element"> {{element.run}} </td>
       </ng-container>
 
@@ -54,7 +54,7 @@
       </ng-container>
 
       <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <th mat-header-cell *matHeaderCellDef> Eliminar </th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button color="warn" (click)="deleteDriver(element.run)">
             <mat-icon class="mat-18">delete</mat-icon>
