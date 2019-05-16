@@ -6,11 +6,15 @@ import { FormGroup, FormControl, AbstractControl, Validators, FormBuilder } from
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DispatchesService } from '../../../../services/dispatches.service';
+import { DriversService } from '../../../../services/drivers.service';
+import { TrucksService } from '../../../../services/trucks.service';
 import { Inject } from '@angular/core';
-
+import { AutocompleteValidOption } from '../register-dispatch/register-dispatch.custom.validators';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Dispatch } from '../../../../model-classes/dispatch';
+import { Driver } from '../../../../model-classes/driver';
+import { Truck } from 'src/app/model-classes/truck';
 import * as moment from 'moment';
 
 @Component({
@@ -30,19 +34,22 @@ export class EditDispatchComponent implements OnInit {
   editDispatchForm: FormGroup;
   dispatchData: Dispatch;
 
+  isDriverListDataLoading: boolean;
+  isTruckListDataLoading: boolean;
 
   constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<EditDispatchComponent>,
-    private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService, @Inject(MAT_DIALOG_DATA) public data: Dispatch) {
+    private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService, @Inject(MAT_DIALOG_DATA) public data: Dispatch,
+    private _driversService: DriversService, private _trucksService: TrucksService) {
     this.title = "Editar despacho";
     this.dispatchData = data;
 
   }
 
-  driverOptions: string[] = ['Por definir', 'Pedro Ruminot', 'Vladimir Putin', 'Nyango Star'];
-  driverFilteredOptions: Observable<string[]>;
+  driverOptions: Driver[];
+  driverFilteredOptions: Observable<Driver[]>;
 
-  truckOptions: string[] = ['CL12KAP', 'AX12MP1', '1ASLPMQ',];
-  truckFilteredOptions: Observable<string[]>;
+  truckOptions: Truck[];
+  truckFilteredOptions: Observable<Truck[]>;
 
   statusOptions: string[] = ['En tránsito a viña', 'Cargando', 'En patio',
     'En tránsito a viña', 'Detenido', 'Terminado'];
@@ -51,8 +58,8 @@ export class EditDispatchComponent implements OnInit {
   createForm() {
     this.editDispatchForm = this._formBuilder.group({
       id: [],
-      driverReference: ['', [Validators.required]],
-      truckReference: ['', [Validators.required]],
+      driverReference: ['', [Validators.required,AutocompleteValidOption]],
+      truckReference: ['', [Validators.required,AutocompleteValidOption]],
       planificationReference: [],
       shippedKilograms: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
       arrivalAtVineyardDate: ['', [Validators.required]],
@@ -68,35 +75,92 @@ export class EditDispatchComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    this.getDriverOptions();
+    this.getTruckOptions();
     this.setFormValues(this.dispatchData);
+  }
 
+  getDriverOptions() {
+    this.isDriverListDataLoading = true;
+    this._driversService.getAllDrivers().subscribe({
+      next: (drivers) => {
+        this.driverOptions = drivers;
+        this.setDriverListFormControlFilteringCapabilities();
+        this.setDriverAutocompleteValue();
+        this.isDriverListDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
 
+  setDriverListFormControlFilteringCapabilities() {
     this.driverFilteredOptions = this.editDispatchForm.get('driverReference').valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filterDrivers(value))
+        map(value => this._filterDriverOptions(value))
       );
+  }
+
+  private _filterDriverOptions(value): Driver[] {
+    var filterValue: string;
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    }
+    else {
+      filterValue = '';
+    }
+
+    return this.driverOptions.filter(driverOption => this.driverToDisplayableString(driverOption).toLowerCase().includes(filterValue));
+  }
+
+
+  driverToDisplayableString(driver: Driver): string {
+    return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : '';
+  }
+
+  getTruckOptions() {
+    this.isTruckListDataLoading = true;
+    this._trucksService.getAllTrucks().subscribe({
+      next: (trucks) => {
+        this.truckOptions = trucks;
+        this.setTruckAutocompleteFilteringCapabilities();
+        this.setTruckAutocompleteValue();
+        this.isTruckListDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  setTruckAutocompleteFilteringCapabilities() {
     this.truckFilteredOptions = this.editDispatchForm.get('truckReference').valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filterTrucks(value))
+        map(value => this._filterTruckOptions(value))
       );
-
-
   }
 
-  private _filterDrivers(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  private _filterTruckOptions(value): Truck[] {
+    var filterValue: string;
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    }
+    else {
+      filterValue = '';
+    }
 
-    return this.driverOptions.filter(option => option.toLowerCase().includes(filterValue));
+    return this.truckOptions.filter(truckOption => this.truckToDisplayableString(truckOption).toLowerCase().includes(filterValue));
   }
 
-  private _filterTrucks(value: string): string[] {
-    const filterValue = value.toLowerCase();
 
-    return this.truckOptions.filter(option => option.toLowerCase().includes(filterValue));
+  truckToDisplayableString(truck: Truck): string {
+    return truck ?  truck.licencePlate + ' / ' + truck.maxLoad + 'Kg': '';
   }
 
+  
 
   public hasError = (controlName: string, errorName: string) => {
     return this.editDispatchForm.get(controlName).hasError(errorName);
@@ -136,7 +200,34 @@ export class EditDispatchComponent implements OnInit {
   }
 
   setFormValues(dispatch: Dispatch) {
-    this.editDispatchForm.setValue(this.dispatchObjectToFormData(dispatch));
+    this.editDispatchForm.patchValue({
+      id: dispatch.id,
+      planificationReference: dispatch.planificationReference,
+      shippedKilograms: dispatch.shippedKilograms,
+      arrivalAtVineyardDate: moment(dispatch.arrivalAtVineyardDate),
+      arrivalAtVineyardTime: dispatch.arrivalAtVineyardTime,
+      arrivalAtPataconDate: moment(dispatch.arrivalAtPataconDate),
+      arrivalAtPataconTime: dispatch.arrivalAtPataconTime,
+      status: dispatch.status,
+      containerType: dispatch.containerType
+    });
+  }
+
+  setDriverAutocompleteValue() {
+    this.editDispatchForm.patchValue({driverReference: this.findDriverOption(this.dispatchData.driverReference)})
+  }
+
+  
+  setTruckAutocompleteValue() {
+    this.editDispatchForm.patchValue({truckReference: this.findTruckOption(this.dispatchData.truckReference)})
+  }
+
+  findTruckOption(truckId: string) {
+    return this.truckOptions.find(truckOption => truckOption.licencePlate.localeCompare(truckId) == 0)
+  }
+
+  findDriverOption(driverId: string) {
+    return this.driverOptions.find(driverOption => driverOption.run.localeCompare(driverId) == 0)
   }
 
   dispatchObjectToFormData(dispatch) {
