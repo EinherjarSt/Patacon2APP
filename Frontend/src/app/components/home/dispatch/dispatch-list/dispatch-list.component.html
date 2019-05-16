@@ -1,0 +1,97 @@
+<h2 id="title">Despachos</h2>
+<div class="list-container" fxLayout="column" fxLayoutGap="10px">
+
+  <div fxLayout="row" fxFlex="50" align-items>
+    <div fxFlex="70">
+      <button mat-raised-button (click)="openRegisterDispatchDialog()">
+        <mat-icon>add</mat-icon>
+        Agregar despacho
+      </button>
+    </div>
+    <div fxFlex="30">
+
+      <mat-form-field>
+        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
+      </mat-form-field>
+
+    </div>
+  </div>
+
+
+  <div fxFlex="50">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+
+
+      <!-- Driver -->
+      <ng-container matColumnDef="driver">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Chofer </th>
+        <td mat-cell *matCellDef="let element"> {{element.driverReference}} </td>
+      </ng-container>
+
+      <!-- Kilograms -->
+      <ng-container matColumnDef="shippedKilograms">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kilos transportados </th>
+        <td mat-cell *matCellDef="let element"> {{element.shippedKilograms}} </td>
+      </ng-container>
+
+      <!-- Fecha de ida -->
+      <ng-container matColumnDef="arrivalAtVineyardDatetime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y hora de ida </th>
+        <td mat-cell *matCellDef="let element"> {{ (element.arrivalAtVineyardDate + ' ' + element.arrivalAtVineyardTime) | date:dateFormat}} </td>
+      </ng-container>
+
+      <!-- Fecha de vuelta -->
+      <ng-container matColumnDef="arrivalAtPataconDatetime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y hora de vuelta </th>
+        <td mat-cell *matCellDef="let element"> {{(element.arrivalAtPataconDate + ' ' + element.arrivalAtPataconTime) | date:dateFormat }} </td>
+      </ng-container>
+
+      <!-- Container -->
+      <ng-container matColumnDef="container">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Contenedores </th>
+        <td mat-cell *matCellDef="let element"> {{element.containerType}} </td>
+      </ng-container>
+
+
+      <!-- Edit -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Editar </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="openEditDispatchDialog(element)">
+            <mat-icon class="mat-18">edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Delete -->
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn" (click)="deleteDispatch(element.id)">
+            <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!--Progress spinner -->
+    <mat-card *ngIf="isDataLoading" style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[10, 15, 20, 30, 50]" class="mat-elevation-z8">
+    </mat-paginator>
+
+  </div>
+
+</div>

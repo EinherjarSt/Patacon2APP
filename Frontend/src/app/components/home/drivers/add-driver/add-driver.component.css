@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+  mat-form-field{
+    padding: -10px;
+  }
+  h2{
+    margin-top: -10px;
+    padding-left: 25%;
+  }
+  hr{
+    margin-top: -10px;
+    margin-bottom: 5px;
+  }
+
+.container > * {
+    width: 100%;
+    margin-top: -11px;
+}
+
+#lastInput{
+  margin-bottom: 25px !important;
+}

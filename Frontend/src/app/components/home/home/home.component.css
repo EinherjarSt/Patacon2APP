@@ -1,0 +1,41 @@
+.toolbar{
+  height: 15%;
+}
+.content{
+  height: 85%
+}
+.content2{
+  height: 100%;
+}
+.toolbar-content{
+  height: 100%;
+}
+.row1{
+  background-color: rgb(128, 0, 0);
+  height: 70%;
+
+}
+.row2{
+  background-color: rgb(100, 0, 0);
+  height: 30%;
+ 
+}
+.example-icon {
+  padding: 0 14px;
+}
+  
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.logo {
+  padding-top: 10px;
+}
+
+
+a{
+  text-decoration:none; 
+}
+a:hover { 
+  color: aliceblue;
+}

@@ -1,0 +1,32 @@
+<mat-nav-list>
+  <mat-list-item *ngFor="let event of events">
+      <div *ngIf="isWarning(event.description); then thenBlock else elseBlock"></div>
+      <ng-template #thenBlock>
+            <button mat-icon-button color="warn" (click)="showDispatch(event.ref_Dispatch)">
+                  <mat-icon>warning</mat-icon>
+               </button>
+      </ng-template>
+      <ng-template #elseBlock>
+            <button mat-icon-button (click)="showDispatch(event.ref_Dispatch)">
+                  <mat-icon>info</mat-icon>
+               </button>
+      </ng-template>
+      
+     <mat-list-item>
+            <div fxLayout="row" class="item">
+                  <div fxFlex="25" class="timeLabel">
+                  <b>
+                        {{event.time | date: 'd/MM/y'}}
+                        {{event.time | date: 'hh:mm a'}}
+
+                  </b> 
+                  </div>
+                  <div fxFlex="75" class="desc">
+                        {{event.description}}
+                  </div>
+            </div>
+           
+      </mat-list-item>
+     
+  </mat-list-item>
+</mat-nav-list>

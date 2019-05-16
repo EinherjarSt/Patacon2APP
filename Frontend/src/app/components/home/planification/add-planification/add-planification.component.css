@@ -1,0 +1,29 @@
+#location{
+    margin-top: -10px !important;
+}
+#variety{
+    margin-bottom: 5px;
+}
+#date{
+    margin-top: -7px !important;
+}
+#kg{
+    margin-top: -7px !important;
+    margin-bottom: 7px;
+}
+mat-form-field-wrapper{
+    padding-bottom: 0 !important;
+}
+#selectors{
+    padding-top: 5px;
+    margin-top: 5px !important;
+    width: 100% !important;
+}
+.container > * {
+    width: 90%;
+    margin-top: -13px;
+}
+.lchoice{
+    padding-bottom: 8px !important;
+    margin-top: 0 !important;
+}
