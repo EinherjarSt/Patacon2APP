@@ -51,7 +51,7 @@ export class GpsListComponent implements OnInit {
       data: 'This text is passed into the dialog'
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog closed: ${result}');
+      if(result == 'Confirm') this.refreshTable();
       this.dialogResult = result;
     })
   }
