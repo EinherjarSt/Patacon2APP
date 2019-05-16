@@ -3,7 +3,7 @@ import { MatDialogRef, MatDatepicker, MatInput, MatSelect, MatRadioButton, MatSn
 
 import { MAT_DIALOG_DATA, MatAutocomplete } from '@angular/material';
 import { FormGroup, FormControl, AbstractControl, Validators, FormBuilder } from '@angular/forms';
-import { EstimatedDatesValidator } from './register-dispatch.custom.validators';
+import { AutocompleteValidOption } from './register-dispatch.custom.validators';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DispatchesService } from '../../../../services/dispatches.service';
@@ -11,9 +11,11 @@ import { DispatchesService } from '../../../../services/dispatches.service';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DriversService } from '../../../../services/drivers.service';
+import { TrucksService } from '../../../../services/trucks.service';
 import { Driver } from '../../../../model-classes/driver';
 import { Dispatch } from '../../../../model-classes/dispatch';
 import * as moment from 'moment';
+import { Truck } from 'src/app/model-classes/truck';
 
 @Component({
   selector: 'register-dispatch',
@@ -21,37 +23,38 @@ import * as moment from 'moment';
   styleUrls: ['./register-dispatch.component.css'],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
-    
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+
   ]
 })
 export class RegisterDispatchComponent implements OnInit {
 
   title: String;
   isDriverListDataLoading: boolean;
+  isTruckListDataLoading: boolean;
 
   constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<RegisterDispatchComponent>,
     private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService,
-    private _driversService: DriversService) {
+    private _driversService: DriversService, private _trucksService: TrucksService) {
     this.title = "Registrar despacho";
   }
 
   driverOptions: Driver[];
   driverFilteredOptions: Observable<Driver[]>;
 
-  truckOptions: string[] = ['CL12KAP', 'AX12MP1', '1ASLPMQ',];
-  truckFilteredOptions: Observable<string[]>;
+  truckOptions: Truck[];
+  truckFilteredOptions: Observable<Truck[]>;
 
   statusOptions: string[] = ['En tránsito a viña', 'Cargando', 'En patio',
     'En tránsito a viña', 'Detenido', 'Terminado'];
 
-  
-  
+
+
   registerDispatchForm: FormGroup = this._formBuilder.group({
     id: [-1],
-    driverReference: ['', [Validators.required]],
-    truckReference: ['', [Validators.required]],
+    driverReference: ['', [Validators.required, AutocompleteValidOption]],
+    truckReference: ['', [Validators.required, AutocompleteValidOption]],
     planificationReference: [1, []],
     shippedKilograms: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
     arrivalAtVineyardDate: ['', [Validators.required]],
@@ -63,24 +66,17 @@ export class RegisterDispatchComponent implements OnInit {
 
   });
 
-  getDriverDisplayFunction() {
-    return (driver) => { 
-      return this.driverToDisplayable(driver); 
-    };
+
+
+
+
+
+
+  ngOnInit() {
+    this.getDriverOptions();
+    this.getTruckOptions();
+
   }
-
-  
-  driverSearchFunction(driverId: string) {
-    return driverId.localeCompare(driverId) == 0;
-  }
-
-
-  driverToDisplayable(driver: Driver) : string {
-
-    return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : ''; 
-  }
-
-  
 
   getDriverOptions() {
     this.isDriverListDataLoading = true;
@@ -96,17 +92,7 @@ export class RegisterDispatchComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.getDriverOptions();
-    
-    this.truckFilteredOptions = this.registerDispatchForm.get('truckReference').valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterTrucks(value))
-      );
-  }
-
-  setDriverListFormControlFilteringCapabilities(){
+  setDriverListFormControlFilteringCapabilities() {
     this.driverFilteredOptions = this.registerDispatchForm.get('driverReference').valueChanges
       .pipe(
         startWith(''),
@@ -115,14 +101,59 @@ export class RegisterDispatchComponent implements OnInit {
   }
 
   private _filterDriverOptions(value): Driver[] {
-    const filterValue = value.toLowerCase();
-    return this.driverOptions.filter(option => (option.name + ' ' + option.surname + ' ' + option.surname2).toLowerCase().includes(filterValue));
+    var filterValue: string;
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    }
+    else {
+      filterValue = '';
+    }
+
+    return this.driverOptions.filter(driverOption => this.driverToDisplayableString(driverOption).toLowerCase().includes(filterValue));
   }
 
-  private _filterTrucks(value: string): string[] {
-    const filterValue = value.toLowerCase();
 
-    return this.truckOptions.filter(option => option.toLowerCase().includes(filterValue));
+  driverToDisplayableString(driver: Driver): string {
+    return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : '';
+  }
+
+  getTruckOptions() {
+    this.isTruckListDataLoading = true;
+    this._trucksService.getAllTrucks().subscribe({
+      next: (trucks) => {
+        this.truckOptions = trucks;
+        this.setTruckAutocompleteFilteringCapabilities();
+        this.isTruckListDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  setTruckAutocompleteFilteringCapabilities() {
+    this.truckFilteredOptions = this.registerDispatchForm.get('truckReference').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterTruckOptions(value))
+      );
+  }
+
+  private _filterTruckOptions(value): Truck[] {
+    var filterValue: string;
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    }
+    else {
+      filterValue = '';
+    }
+
+    return this.truckOptions.filter(truckOption => this.truckToDisplayableString(truckOption).toLowerCase().includes(filterValue));
+  }
+
+
+  truckToDisplayableString(truck: Truck): string {
+    return truck ?  truck.licencePlate + ' / ' + truck.maxLoad + 'Kg': '';
   }
 
 
@@ -159,12 +190,12 @@ export class RegisterDispatchComponent implements OnInit {
   }
 
   onCloseSubmit() {
-    this.dialogRef.close({confirmed: true});
+    this.dialogRef.close({ confirmed: true });
 
   }
 
   onCloseCancel() {
-    this.dialogRef.close({confirmed: false});
+    this.dialogRef.close({ confirmed: false });
   }
 
 
