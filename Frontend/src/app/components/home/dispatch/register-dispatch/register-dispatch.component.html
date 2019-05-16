@@ -9,29 +9,34 @@
       <!----------------- Driver  -------------->
 
       <mat-form-field class="example-full-width">
-        <input formControlName="driverReference" type="text" placeholder="Escoja un chofer" aria-label="Number" matInput
+        <input formControlName="driverReference" type="text" placeholder="Asigne un chofer" aria-label="Chofer" matInput
           [matAutocomplete]="driverAuto">
-        <mat-autocomplete [displayWith]="getDriverDisplayFunction()" #driverAuto="matAutocomplete">
+        <mat-autocomplete  [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
           <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
-            {{driverToDisplayable(driverOption)}}
+            {{driverToDisplayableString(driverOption)}}
           </mat-option>
         </mat-autocomplete>
-        <mat-spinner *ngIf="isDriverListDataLoading" matSuffix></mat-spinner>
 
-        <mat-error *ngIf="hasError('driverReference', 'required')">Un chofer debe ser asignado</mat-error>
+        <mat-error *ngIf="registerDispatchForm.controls['driverReference'].hasError('incorrect')">
+          Seleccione una opción válida del listado
+        </mat-error>
+
       </mat-form-field>
 
       <!------------------ Truck  ------------------>
 
       <mat-form-field class="example-full-width">
-        <input formControlName="truckReference" type="text" placeholder="Escoja un camión" aria-label="Number" matInput
+        <input formControlName="truckReference" type="text" placeholder="Asigne un camión un camión" aria-label="Number" matInput
           [matAutocomplete]="truckAuto">
-        <mat-autocomplete #truckAuto="matAutocomplete">
+        <mat-autocomplete [displayWith]="truckToDisplayableString" #truckAuto="matAutocomplete">
           <mat-option *ngFor="let truckOption of truckFilteredOptions | async" [value]="truckOption">
-            {{truckOption}}
+            {{truckToDisplayableString(truckOption)}}
           </mat-option>
         </mat-autocomplete>
-        <mat-error *ngIf="hasError('truckReference', 'required')">Un camión debe ser asignado</mat-error>
+        <mat-error *ngIf="registerDispatchForm.controls['truckReference'].hasError('incorrect')">
+          Seleccione una opción válida del listado
+        </mat-error>
+
       </mat-form-field>
 
       <!-------- Shipped Kilograms of Grapes  -------------->

@@ -93,10 +93,11 @@ export class DispatchesService {
 
   formValuesToDispatchObject(data) : Dispatch{
     var formValues = data;
+
     return new Dispatch(
       formValues.id,
-      formValues.driverReference,
-      formValues.truckReference,
+      formValues.driverReference.run,
+      formValues.truckReference.licencePlate,
       formValues.planificationReference,
       formValues.shippedKilograms,
       formValues.arrivalAtPataconDate.format('YYYY-MM-DD'),
