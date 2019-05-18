@@ -28,6 +28,7 @@ export class UserListComponent implements OnInit {
     this.getUsers();
     this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   getUsers(): void {
