@@ -1,5 +1,6 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
 const bcrypt = require('bcrypt');
+const ERROR = require('../common/error');
 
 class User {
     constructor(run, name, surname, surname2, email, password, position, disabled = false) {
@@ -32,10 +33,10 @@ class User {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
             }
             if (results.length > 1) {
-                return callback({message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
             return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled));
@@ -51,10 +52,10 @@ class User {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
             }
             if (results.length > 1) {
-                return callback({message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
             return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, undefined,result.position, result.disabled));
@@ -104,7 +105,7 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This user don't exist"});
+                return callback({ code: ERROR.NOT_FOUND, message: "This user don't exist"});
             }
             return callback(null, true);
         });
@@ -130,7 +131,7 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This user don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "This user don't exist"});
             }
             return callback(null, true);
         });
@@ -149,16 +150,9 @@ class User {
             user.password,
             user.position
         ], function (err, results, fields) {
-            // console.log("add_user");
-            // console.log("error:")
-            // console.log(err);
-            // console.log("results:");
-            // console.log(results);
-            // console.log("fields:");
-            // console.log(fields);
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY ,message : err.sqlMessage});
                 }
                 return callback(err);
             }

@@ -1,4 +1,4 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
 const bcrypt = require('bcrypt');
 
 class Producer{
