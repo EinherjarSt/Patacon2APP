@@ -10,5 +10,6 @@ app.use(require('./truck'));
 app.use(require('./producers'));
 app.use(require('./gps'));
 app.use(require('./lastEvent'));
+app.use(require('./sms'));
 
 module.exports = app;
