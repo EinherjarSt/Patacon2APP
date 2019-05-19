@@ -81,8 +81,24 @@ class Location{
 
 	}
 
-	static modifyLocation(){
+	static updateLocation(location, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback funtion. Please provide them');
+        }
+        pool.query('CALL update_location(?, ?, ?, ?, ?, ?)', [
+            location.ref_producer,
+            location.address,
+            location.latitude,
+            location.longitude,
+            location.manager,
+            location.managerPhoneNumber
+        ], function(err, result, fields){
+            if(err){
+                return callback({message: "The location doesn't exist"});
+            }
 
+            return callback(null, true);
+        });
 	}
 }
 

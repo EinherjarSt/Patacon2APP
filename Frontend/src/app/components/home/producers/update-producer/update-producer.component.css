@@ -12,6 +12,10 @@
     background-color: rgb(128, 0, 0);
 }
 
+.locations{
+    margin-bottom: 10px;
+}
+
 .register-button{
     padding-left: 20px;
     padding-top: 20px;

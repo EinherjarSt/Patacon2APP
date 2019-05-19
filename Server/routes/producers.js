@@ -65,6 +65,23 @@ app.put('/producer/update',  passport.authenticate('jwt', {
 	});
 });
 
+app.put('/producer/updateLocation',  passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	let body = req.body;
+	let newLocation = new Location(body.ref_producer, body.address, body.latitude, body.longitude, body.manager, body.managerPhoneNumber);
+
+	Location.updateLocation(newProducer, (err, result) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json({
+			message: "The producer has been modified"
+		});
+	});
+});
+
 app.post('/producer/delete',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
@@ -88,6 +105,19 @@ app.put('/producer/addLocation',  passport.authenticate('jwt', {
 			message: "The location has been added correctly"
 		});
 	});
+});
+
+app.get('/producer/getLocation/:ref_producer',  passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	let ref_producer = req.params.ref_producer;
+
+    Location.getAllLocations(ref_producer, (err, locations) => {
+    	if(err){
+    		return res.status(400).json(err);
+    	}
+    	return res.json(locations);
+    })
 });
 
 module.exports = app;

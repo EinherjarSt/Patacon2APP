@@ -62,7 +62,7 @@ export class AddPlanificationComponent implements OnInit {
   }
 
   changeOptions(pr:Producer){
-    this.locationOptions = pr.location;
+    //this.locationOptions = pr.location;
   }
   displayFn(val: Producer) {
     if(val){

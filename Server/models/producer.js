@@ -14,19 +14,21 @@ class Producer{
             throw new Error('There is not a callback funtion. Please provide them');
         }
 
-        let query = pool.query('SELECT * FROM producer WHERE rut = ?', [rut], function(err, results, fields){
+        let query = pool.query('SELECT * FROM producer, location WHERE rut = ? AND location.ref_producer = producer.rut', [rut], function(err, results, fields){
             if(err){
                 return callback(err);
             }
             else if(results.length === 0){
                 return callback({message: "There are no registered producers with that RUT."});
             }
-            else if(results.length > 1){
-                return callback({message: "There is an error in the database because the producer's RUT is not unique"});
-            }
 
             let result = results[0];
             let producer = new Producer(result.name, result.rut);
+
+            for(const item of results){
+                producer.locations.push(new Location(item.ref_producer, item.address, item.latitude, item.longitude,
+                        item.manager, item.managerPhoneNumber));
+            }
 
             return callback(null, producer);
         });
@@ -36,27 +38,30 @@ class Producer{
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
         }
-        pool.query(`SELECT * FROM producer`, function(err, results, fields){
+        pool.query(`SELECT * FROM producer, location WHERE location.ref_producer = producer.rut`, function(err, results, fields){
             if(err){
                 return callback(err);
             }
 
             let producers = [];
 
+            let previous_producer = "";
+
             for(const producer of results){
-                producers.push(new Producer(producer.name, producer.rut));
+                if(producer.rut != previous_producer){
+                    producers.push(new Producer(producer.name, producer.rut));
+                }
+
+                previous_producer = producer.rut;
             }
 
             for(const producer of producers){
-                let refProducer = producer.rut;
-
-                Location.getAllLocations(refProducer, (err, locations) => {
-                    if(err){
-                        return res.status(400).json(err);
+                for(const item of results){
+                    if(producer.rut == item.ref_producer){
+                        producer.locations.push(new Location(item.id , item.ref_producer, item.address, item.latitude, item.longitude,
+                            item.manager, item.managerPhoneNumber));
                     }
-
-                    producer.locations = locations.slice();
-                });
+                }
             }
 
             return callback(null, producers);

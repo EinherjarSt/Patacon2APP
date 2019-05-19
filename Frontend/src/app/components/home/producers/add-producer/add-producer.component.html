@@ -20,12 +20,22 @@
                     <input matInput formControlName="rut">
                 </mat-form-field>
             </div>
-    
+            
+            <h4>
+                Ubicaciones
+            </h4>
+
             <div formArrayName="locations" *ngFor="let location of producerForm.get('locations').controls; let i = index">
-                <div formGroupName="{{i}}" class="locations">
-                    <h4>
+                <mat-expansion-panel formGroupName="{{i}}" class="locations">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
                         Ubicación {{i+1}}
-                    </h4>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Ingrese los datos de la nueva ubicación.
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                  
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Dirección</mat-label>
                         <input matInput formControlName="address">
@@ -48,13 +58,15 @@
         
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Teléfono</mat-label>
-                        <input matInput formControlName="phoneNumber">
+                        <input matInput formControlName="managerPhoneNumber">
                     </mat-form-field>
-                </div>
+                  
+                  </mat-expansion-panel>
             </div>
 
             <div class="button-div">
-                <button mat-raised-button color="primary" class="button" (click)="addLocation()">Agregar Ubicación</button>
+                <button mat-raised-button color="primary" class="location-button" (click)="addLocation()">+</button>
+                <button mat-raised-button color="primary" class="location-button" (click)="deleteLocation()">-</button>
             </div>
 
         </div>

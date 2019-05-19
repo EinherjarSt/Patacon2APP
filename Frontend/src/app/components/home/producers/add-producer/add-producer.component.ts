@@ -62,8 +62,14 @@ export class AddProducerComponent implements OnInit {
       latitude: new FormControl(''),
       longitude: new FormControl(''),
       manager: new FormControl(''),
-      phoneNumber: new FormControl('')
+      managerPhoneNumber: new FormControl('')
     }));
+  }
+
+  deleteLocation(){
+    const locations = this.producerForm.get('locations') as FormArray;
+
+    locations.removeAt(locations.length-1);
   }
 
 }

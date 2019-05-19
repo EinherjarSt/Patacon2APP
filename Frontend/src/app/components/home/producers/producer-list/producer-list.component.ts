@@ -13,7 +13,7 @@ import { UpdateProducerComponent } from '../update-producer/update-producer.comp
 export class ProducerListComponent implements OnInit {
 
   producers: Producer[];
-  displayedColumns: string[] = ["name", "rut", "manager", "telephone", "details", "delete"];
+  displayedColumns: string[] = ["name", "rut", "locations", "details", "delete"];
   dataSource: MatTableDataSource<Producer>;
 
   constructor(private producerService: ProducersService, private dialog: MatDialog) { }

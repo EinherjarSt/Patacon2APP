@@ -36,7 +36,7 @@ export class ProducersService {
     .set('latitude', data.latitude)
     .set('longitude', data.longitude)
     .set('manager', data.manager)
-    .set('managerPhoneNumber', data.phoneNumber);
+    .set('managerPhoneNumber', data.managerPhoneNumber);
 
     console.log(body);
     return this.http.put<{ msg: string}>(env.api.concat("/producer/addLocation"), body)
@@ -52,8 +52,6 @@ export class ProducersService {
     const body = new HttpParams()
     .set('name', data.name)
     .set('rut', data.rut)
-    .set('manager', data.manager)
-    .set('telephone', data.telephone);
 
     return this.http.put<{ msg: string}>(env.api.concat("/producer/update"), body)
     .pipe(
