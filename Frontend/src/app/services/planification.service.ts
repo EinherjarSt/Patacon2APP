@@ -55,8 +55,6 @@ export class PlanificationService {
   updatePlanification(data: Planification, idPlanification: string): Observable<boolean> {
     const d = new Date(data.date).toISOString().replace(/T/, " ").replace(/\..+/,'').substr(0,10).split('-');
     data.date =d[2]+'-'+d[1]+'-'+d[0];
-    console.log("UPDATE");
-    console.log(data.planification_id);
     const body = new HttpParams()
       .set("planification_id",idPlanification)
       .set("ref_producer", data.ref_producer.rut)
@@ -76,7 +74,6 @@ export class PlanificationService {
       )
       .pipe(
         map(result => {
-          console.log(result.msg);
           return true;
         })
       );

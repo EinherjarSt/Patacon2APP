@@ -17,6 +17,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 export class AddPlanificationComponent implements OnInit {
 
   title:string;
+  select:number;
   selectedLocation: Location;
   producers :Producer[];
   filteredOptions: Observable<Producer[]>;
@@ -69,12 +70,17 @@ export class AddPlanificationComponent implements OnInit {
       const day = parseInt(sp[0]);
       const month = parseInt(sp[1])-1;
       const year = parseInt(sp[2]);
-      
-      console.log(this.data);
+
       this.changeOptions(this.data.ref_producer);
+      for (let i = 0; i < this.locationOptions.length; i++) {
+        const element = this.locationOptions[i];
+        if(element.address == this.data.ref_location.address){
+          this.select = i;
+        }
+      }
       this.registerPlanificationForm.setValue({
         ref_producer: this.data.ref_producer, 
-        ref_location: this.data.ref_location, 
+        ref_location: this.locationOptions[this.select], 
         kilograms: this.data.kilograms,
         harvestingType: this.data.harvestingType,
         quality: this.data.quality,

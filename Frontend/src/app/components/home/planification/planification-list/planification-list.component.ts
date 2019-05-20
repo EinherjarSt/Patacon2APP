@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort, MatTableDataSource, MatPaginator,MatDialog} from '@angular/material';
+import {MatSort, MatTableDataSource, MatPaginator,MatDialog,MatDialogConfig} from '@angular/material';
 import{ PlanificationService} from '../../../../services/planification.service';
 import{ ProducersService} from '../../../../services/producers.service';
 import{Planification} from '../../../../model-classes/planification';
 import {DetailsComponent} from './details/details.component';
 import{ AddPlanificationComponent} from '../add-planification/add-planification.component';
+import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-planification-list',
@@ -69,25 +70,34 @@ public doFilter = (value: string) => {
   }
 
   openDialog():void {
-
-    this.dialog.open(AddPlanificationComponent, {
+    let dialogRef = this.dialog.open(AddPlanificationComponent, {
       width: '400px'
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 'Confirm') this.getP();
+      this.dialogResult = result;
+    })
   }
 
  deletePlanification(id){
-   this.planificationService.deletePlanification(id).subscribe( r=>{
-     if(r){
-      for (let i = 0; i < this.planifications.length; i++) {
-        const element = this.planifications[i];
-        if(element.planification_id==id){
-          this.planifications.splice(i,1);
-          i--;
+  this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+    if(confirmation.confirmed) {
+      this.planificationService.deletePlanification(id).subscribe( r=>{
+        if(r){
+         for (let i = 0; i < this.planifications.length; i++) {
+           const element = this.planifications[i];
+           if(element.planification_id==id){
+             this.planifications.splice(i,1);
+             i--;
+           }
+         }
+         this.dataSource.data=this.planifications;
         }
-      }
-      this.dataSource.data=this.planifications;
-     }
-   });
+      });
+    }
+  });
+
+   
  }
 
  editPlanification(id){
@@ -97,10 +107,28 @@ public doFilter = (value: string) => {
         selected = element;
     }
   });
-  console.log("selectefd:"+selected.planification_id);
-  this.dialog.open(AddPlanificationComponent, {
+  let dialogRef = this.dialog.open(AddPlanificationComponent, {
     width: '400px',
     data: selected
   });
+  dialogRef.afterClosed().subscribe(result => {
+    if(result == 'Confirm') this.getP();
+    this.dialogResult = result;
+  })
  }
+
+ openDeletionConfirmationDialog() {
+    
+  var deletionDialogConfig = this.getDialogConfig();
+  deletionDialogConfig.data = { message: '¿Desea eliminar esta planificación?'};
+  return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+}
+
+getDialogConfig() {
+  const dialogConfig = new MatDialogConfig();
+
+  dialogConfig.disableClose = true;
+  dialogConfig.autoFocus = true;
+  return dialogConfig;
+}
 }
