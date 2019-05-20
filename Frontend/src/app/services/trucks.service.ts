@@ -59,9 +59,9 @@ export class TrucksService {
       );
   }
 
-  deleteTruck(data: Truck): Observable<boolean> {
+  /* deleteTruck(licencePlate: string): Observable<boolean> {
     const body = new HttpParams()
-    .set("licencePlate", data.licencePlate);
+    .set("licencePlate", licencePlate);
 
     return this.http
       .put<{ msg: string }>(
@@ -74,9 +74,10 @@ export class TrucksService {
           return true;
         })
       );
-  }
+  } */
 
-  disableTruck(data: Truck): Observable<boolean> {
+  /* disableTruck(data: Truck): Observable<boolean> {
+    console.log("Funcion Disable truck en Service");
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
     .set("disabled", data.disabled ? 'true' : 'false');
@@ -91,10 +92,22 @@ export class TrucksService {
           return true;
         })
       );
-  }
+  } */
 
   getAllTrucks(): Observable<Truck[]> {
     return this.http.get<Truck[]>(env.api.concat("/truck/getall")).pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
+  getTruck(licencePlate: string): Observable<Truck>{
+    const body = new HttpParams()
+    .set('licencePlate', licencePlate);
+
+    return this.http.get<Truck>(env.api.concat("/truck/get/"+licencePlate))
+    .pipe(
       map(result => {
         return result;
       })

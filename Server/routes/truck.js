@@ -25,7 +25,7 @@ app.put('/truck/add',
     }
 );
 
-app.delete('/truck/delete', 
+/* app.post('/truck/delete', 
         passport.authenticate('jwt', {
         session: false
         }),
@@ -33,19 +33,18 @@ app.delete('/truck/delete',
             console.log("truck/delete");
             console.log(req.body);
             let body = req.body;
-            let truckToDelete = new Truck(body.licencePlate);
-            Truck.deleteTruck(truckToDelete, (err, result) => {
-                if (err) {
-                    return res.status(400).json(err);
-                }
-                return res.json({
-                    message: "Truck has been deleted"
-                });
+            Truck.deleteTruck(body.licencePlate, (err, result) => {
+            if (err) {
+                return res.status(400).json(err);
+            }
+            return res.json({
+                message: "Truck has been deleted"
             });
+    });
     }
-);
+); */
 
-app.post("/truck/update",
+app.post('/truck/update',
     passport.authenticate("jwt", {
         session: false
     }),
@@ -75,14 +74,15 @@ app.post('/truck/disable', passport.authenticate('jwt', {
     console.log(req.body.status);
     let body = req.body;
     let disabled = body.disabled === 'true' ? true : false;
-    Truck.disableTruck(body.run, disabled, (err, result) => {
+    Truck.disableTruck(body.licencePlate, disabled, (err, result) => {
         if (err) {
             return res.status(400).json(err);
         }
         return res.json({
-            message: "Truck has been modified"
+            message: "Truck has been deleted (disabled)"
         });
     });
+    console.log("Truck deleted (disabled");
 })
 
 app.get('/truck/getall',
@@ -100,5 +100,17 @@ app.get('/truck/getall',
         });
     }
 );
+
+app.get('/truck/get/:licencePlate', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let licencePlate = req.params.licencePlate;
+    Truck.getTruckByLicencePlate(licencePlate, (err, user) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(user);
+    });
+})
 
 module.exports = app;

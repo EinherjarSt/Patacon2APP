@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { TrucksService } from '../../../../services/trucks.service';
@@ -21,12 +21,12 @@ export class AddTruckComponent implements OnInit {
   { 
     this.addTruckForm = new FormGroup({
       licencePlate: new FormControl(""),
-      brand: new FormControl(""),
-      model: new FormControl(""),
-      year: new FormControl(""),
-      maxLoad: new FormControl(""),
-      owner: new FormControl(""),
-      color: new FormControl("")
+      brand: new FormControl("",[Validators.required]),
+      model: new FormControl("",[Validators.required]),
+      year: new FormControl("",[Validators.required]),
+      maxLoad: new FormControl("",[Validators.required]),
+      owner: new FormControl("",[Validators.required]),
+      color: new FormControl("",[Validators.required])
     });
   }
 
@@ -54,7 +54,7 @@ export class AddTruckComponent implements OnInit {
 
   openSuccessMessage() {
     this.snackBar.open("El camion ha sido registrado.", "Cerrar", {
-      duration: 2000
+      duration: 2000, verticalPosition: 'top'
     });
   }
 

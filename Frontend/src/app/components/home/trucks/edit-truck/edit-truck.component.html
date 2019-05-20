@@ -1,12 +1,12 @@
 <div>
-    <h2 mat-dialog-title>Agregar Camión</h2>
-    <hr>
+    <h2 mat-dialog-title>Editar Camión</h2>
+    <hr />
     <mat-dialog-content>
-      <form [formGroup]="addTruckForm">
+      <form [formGroup]="editTruckForm" class="example-form">
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Patente</mat-label>
-            <input matInput placeholder="Ej: AAAA-12 o AA-1234" formControlName="licencePlate"/>
+            <input matInput placeholder="" formControlName="licencePlate"/>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -60,7 +60,7 @@
     </mat-dialog-content>
     <hr />
     <mat-dialog-actions>
-      <button mat-raised-button (click)="onCloseConfirm()"[disabled]="addTruckForm.invalid">Agregar</button>
+      <button mat-raised-button (click)="onCloseConfirm()">Editar</button>
       <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
     </mat-dialog-actions>
 </div>
