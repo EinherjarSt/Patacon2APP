@@ -72,8 +72,8 @@ export class AddDriverComponent implements OnInit {
   }
 
   openSuccessMessage() {
-    this.snackBar.open("El despacho ha sido registrado.", "Cerrar", {
-      duration: 2000
+    this.snackBar.open("El chofer ha sido registrado.", "Cerrar", {
+      duration: 5000
     });
   }
 }
