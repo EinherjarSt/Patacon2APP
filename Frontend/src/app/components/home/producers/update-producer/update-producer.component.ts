@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
 import { ProducersService } from 'src/app/services/producers.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Producer } from 'src/app/model-classes/producer';
+import { Location } from 'src/app/model-classes/location';
 
 @Component({
   selector: 'app-update-producer',
@@ -13,17 +14,18 @@ export class UpdateProducerComponent implements OnInit {
 
   name: string;
   rut: string;
-  manager: string;
-  telephone: string;
+  locations : Location[] = new Array();
 
-  producerForm = new FormGroup({
-    name: new FormControl(''),
-    rut: new FormControl({value:'', disabled: true}),
-    manager: new FormControl(''),
-    telephone: new FormControl('')
-  });
+  producerForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<UpdateProducerComponent>, private producersService: ProducersService, @Inject(MAT_DIALOG_DATA) private data) {
+  constructor(public dialogRef: MatDialogRef<UpdateProducerComponent>, private producersService: ProducersService,
+     @Inject(MAT_DIALOG_DATA) private data, private fb: FormBuilder) {
+
+      this.producerForm = this.fb.group({
+        name: new FormControl(''),
+        rut: new FormControl(''),
+        locations: this.fb.array([])
+      });
   }
 
   ngOnInit(){
@@ -35,13 +37,27 @@ export class UpdateProducerComponent implements OnInit {
       next: result => {
         this.name = result.name;
         this.rut = result.rut;
-        this.manager = result.manager;
-        this.telephone = result.telephone;
+        
+        for(let item of result.locations){
+          this.locations.push(item);
+        }
+
+        const loc_form = this.producerForm.get('locations') as FormArray;
 
         this.producerForm.get('name').setValue(this.name);
         this.producerForm.get('rut').setValue(this.rut);
-        this.producerForm.get('manager').setValue(this.manager);
-        this.producerForm.get('telephone').setValue(this.telephone);
+
+        for(let location of this.locations){
+          loc_form.push(this.fb.group({
+            id_location :location.id_location,
+            ref_productor: location.ref_producer,
+            address: new FormControl(location.address),
+            latitude: new FormControl(location.latitude),
+            longitude: new FormControl(location.longitude),
+            manager: new FormControl(location.manager),
+            managerPhoneNumber: new FormControl(location.managerPhoneNumber)
+          }));
+        }
       },
       error: result => {
         console.log(result);
@@ -56,17 +72,25 @@ export class UpdateProducerComponent implements OnInit {
   onSubmit(){
     let producerData = this.producerForm.value;
 
-    console.log(this.producerForm.value);
+    console.log(this.producerForm.value.locations);
     this.producersService.modifyProducer(producerData).subscribe({
       next: result => {
-        console.log(result);
         this.dialogRef.close();
       },
       error: result => {
         console.log("error");
       }
     });
-    
-  }
 
+    for(let location of this.producerForm.value.locations){
+      this.producersService.modifyLocation(location).subscribe({
+        next: result => {
+          this.dialogRef.close();
+        },
+        error: result => {
+          console.log("error");
+        }
+      });
+    }
+  }
 }

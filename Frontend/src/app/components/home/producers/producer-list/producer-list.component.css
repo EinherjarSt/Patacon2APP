@@ -14,4 +14,13 @@ table {
   th.mat-sort-header-sorted {
     color: black;
   }
+
+.locations-list{
+  display: flex;
+  flex-direction: row;
+}
   
+.location{
+  padding-right: 10px;
+  padding-bottom: 5px;
+}

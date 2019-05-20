@@ -4,10 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment as env } from "@env/environment";
 import { Observable } from "rxjs";
+import { Location } from '../model-classes/location';
 
-class location {
-  address: string;
-}
 @Injectable({
   providedIn: 'root'
 })
@@ -19,12 +17,29 @@ export class ProducersService {
   addProducer(data: Producer): Observable<boolean>{
     const body = new HttpParams()
     .set('name', data.name)
-    .set('rut', data.rut)
-    .set('manager', data.manager)
-    .set('telephone', data.telephone);
+    .set('rut', data.rut);
 
     console.log(body);
     return this.http.put<{ msg: string}>(env.api.concat("/producer/add"), body)
+    .pipe(
+      map(result => {
+        console.log(result.msg);
+        return true;
+      })
+    );
+  }
+
+  addLocation(refProducer: string, data: Location): Observable<boolean>{
+    const body = new HttpParams()
+    .set('ref_producer', refProducer)
+    .set('address', data.address)
+    .set('latitude', data.latitude)
+    .set('longitude', data.longitude)
+    .set('manager', data.manager)
+    .set('managerPhoneNumber', data.managerPhoneNumber);
+
+    console.log(body);
+    return this.http.put<{ msg: string}>(env.api.concat("/producer/addLocation"), body)
     .pipe(
       map(result => {
         console.log(result.msg);
@@ -37,10 +52,27 @@ export class ProducersService {
     const body = new HttpParams()
     .set('name', data.name)
     .set('rut', data.rut)
-    .set('manager', data.manager)
-    .set('telephone', data.telephone);
 
-    return this.http.put<{ msg: string}>(env.api.concat("/producer/update"), body)
+    return this.http.post<{ msg: string}>(env.api.concat("/producer/update"), body)
+    .pipe(
+      map(result => {
+        console.log(result);
+        return true;
+      })
+    );
+  }
+
+  modifyLocation(data: Location): Observable<boolean>{
+    const body = new HttpParams()
+    .set('id_location', data.id_location)
+    .set('ref_producer', data.ref_producer)
+    .set('address', data.address)
+    .set('latitude', data.latitude)
+    .set('longitude', data.longitude)
+    .set('manager', data.manager)
+    .set('managerPhoneNumber', data.managerPhoneNumber)
+
+    return this.http.post<{ msg: string}>(env.api.concat("/producer/updateLocation"), body)
     .pipe(
       map(result => {
         console.log(result);
@@ -64,6 +96,7 @@ export class ProducersService {
     return this.http.get<Producer>(env.api.concat("/producer/get/"+rut))
     .pipe(
       map(result => {
+        console.log(result);
         return result;
       })
     );
