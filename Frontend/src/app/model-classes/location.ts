@@ -1,6 +1,6 @@
 export class Location{
-    id: string;
-    refProducer: string;
+    id_location: string;
+    ref_producer: string;
     address: string;
     latitude: string;
     longitude: string;

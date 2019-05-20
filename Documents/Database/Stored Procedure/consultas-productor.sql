@@ -27,6 +27,25 @@ CREATE PROCEDURE `update_producer`(
 ) BEGIN
      UPDATE `producer` SET 
       `name` = _name
-       WHERE `rut` = _rut;
+       WHERE `producer`.`rut` = _rut;
+END//
+
+DROP PROCEDURE IF EXISTS `update_location`//
+CREATE PROCEDURE `update_location`(
+	IN `_id_location` int(11),
+	IN `_ref_producer` VARCHAR(13),
+	IN `_address` text,
+	IN `_latitude` VARCHAR(255),
+	IN `_longitude` VARCHAR(255),
+	IN `_manager` text,
+	IN `_managerPhoneNumber` VARCHAR(11)
+) BEGIN
+     UPDATE `location` SET 
+      `address` = _address,
+      `latitude` = _latitude,
+      `longitude` = _longitude,
+      `manager` = _manager,
+      `managerPhoneNumber` = _managerPhoneNumber
+       WHERE `location`.`id_location` = _id_location;
 END//
 DELIMITER ;

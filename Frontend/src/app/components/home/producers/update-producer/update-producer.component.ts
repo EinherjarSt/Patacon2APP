@@ -47,12 +47,10 @@ export class UpdateProducerComponent implements OnInit {
         this.producerForm.get('name').setValue(this.name);
         this.producerForm.get('rut').setValue(this.rut);
 
-        const locations = this.producerForm.get('locations') as FormArray;
-        console.log(locations);
-        
-
         for(let location of this.locations){
           loc_form.push(this.fb.group({
+            id_location :location.id_location,
+            ref_productor: location.ref_producer,
             address: new FormControl(location.address),
             latitude: new FormControl(location.latitude),
             longitude: new FormControl(location.longitude),
@@ -74,28 +72,25 @@ export class UpdateProducerComponent implements OnInit {
   onSubmit(){
     let producerData = this.producerForm.value;
 
-    console.log(this.producerForm.value);
+    console.log(this.producerForm.value.locations);
     this.producersService.modifyProducer(producerData).subscribe({
       next: result => {
-        console.log(result);
         this.dialogRef.close();
       },
       error: result => {
         console.log("error");
       }
     });
+
+    for(let location of this.producerForm.value.locations){
+      this.producersService.modifyLocation(location).subscribe({
+        next: result => {
+          this.dialogRef.close();
+        },
+        error: result => {
+          console.log("error");
+        }
+      });
+    }
   }
-
-  addLocation(){
-    const locations = this.producerForm.get('locations') as FormArray;
-
-    locations.push(this.fb.group({
-      address: new FormControl(''),
-      latitude: new FormControl(''),
-      longitude: new FormControl(''),
-      manager: new FormControl(''),
-      phoneNumber: new FormControl('')
-    }));
-  }
-
 }

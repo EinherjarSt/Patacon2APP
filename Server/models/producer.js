@@ -26,7 +26,7 @@ class Producer{
             let producer = new Producer(result.name, result.rut);
 
             for(const item of results){
-                producer.locations.push(new Location(item.ref_producer, item.address, item.latitude, item.longitude,
+                producer.locations.push(new Location(item.id_location, item.ref_producer, item.address, item.latitude, item.longitude,
                         item.manager, item.managerPhoneNumber));
             }
 
@@ -58,7 +58,7 @@ class Producer{
             for(const producer of producers){
                 for(const item of results){
                     if(producer.rut == item.ref_producer){
-                        producer.locations.push(new Location(item.id , item.ref_producer, item.address, item.latitude, item.longitude,
+                        producer.locations.push(new Location(item.id_location , item.ref_producer, item.address, item.latitude, item.longitude,
                             item.manager, item.managerPhoneNumber));
                     }
                 }
@@ -73,11 +73,16 @@ class Producer{
             throw new Error('There is not a callback funtion. Please provide them');
         }
         pool.query('CALL update_producer(?, ?)', [
-            producer.rut,
-            producer.name
+            producer.name,
+            producer.rut
         ], function(err, result, fields){
             if(err){
                 return callback({message: "The producer doesn't exist"});
+            }
+
+            if(result.affectedRows == 0){
+                // If don't exist a row
+                return callback({ message: "The producer doesn't exist"});
             }
 
             return callback(null, true);

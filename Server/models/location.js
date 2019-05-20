@@ -1,8 +1,9 @@
 const pool = require('../mysql/mysql').pool;
 
 class Location{
-	constructor(ref_producer, address, latitude, longitude, manager, managerPhoneNumber){
-		this.ref_producer = ref_producer;
+	constructor(id_location, ref_producer, address, latitude, longitude, manager, managerPhoneNumber){
+		this.id_location = id_location;
+        this.ref_producer = ref_producer;
 		this.address = address;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -45,7 +46,7 @@ class Location{
         	let locations = [];
 
         	for(const location of results){
-        		locations.push( new Location(location.ref_producer, location.address, location.latitude,
+        		locations.push( new Location(location.id_location, location.ref_producer, location.address, location.latitude,
         		 location.longitude, location.manager, location.managerPhoneNumber));
         	}
 
@@ -70,7 +71,7 @@ class Location{
         	}
 
         	let result = results[0];
-        	let location = new Location(location.id, location.ref_producer, location.address, location.latitude,
+        	let location = new Location(location.id_location, location.ref_producer, location.address, location.latitude,
         		 location.longitude, location.manager, location.managerPhoneNumber);
 
         	return callback(null, location);
@@ -85,7 +86,8 @@ class Location{
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
         }
-        pool.query('CALL update_location(?, ?, ?, ?, ?, ?)', [
+        pool.query('CALL update_location(?, ?, ?, ?, ?, ?, ?)', [
+            location.id_location,
             location.ref_producer,
             location.address,
             location.latitude,
@@ -95,6 +97,11 @@ class Location{
         ], function(err, result, fields){
             if(err){
                 return callback({message: "The location doesn't exist"});
+            }
+
+            if(result.affectedRows == 0){
+                // If don't exist a row
+                return callback({ message: "This Location doesn't exist"});
             }
 
             return callback(null, true);
