@@ -34,12 +34,12 @@ class Producer{
         });
     }
 
-    static getLocationName(idLocation, callback){
+    static getLocation(idLocation, callback){
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
         }
 
-        let query = pool.query('SELECT location.address FROM location WHERE id_location = ?', [idLocation], function(err, results, fields){
+        let query = pool.query('SELECT * FROM location WHERE id_location = ?', [idLocation], function(err, results, fields){
             if(err){
                 return callback(err);
             }

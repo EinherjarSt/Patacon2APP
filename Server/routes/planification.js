@@ -8,9 +8,10 @@ app.put("/planification/add",
         session: false
     }),
     (req, res) => {
-        console.log(req.body);
         let body = req.body;
-        let newPlanification = new Planification(body.planification_id,body.ref_producer,body.ref_location,body.kilograms,
+        let kg = parseInt(body.kilograms);
+        let rlocation = parseInt(body.ref_location);
+        let newPlanification = new Planification("",body.ref_producer,rlocation,kg,
             body.containerType,body.harvestingType,body.quality,body.freight,body.comment,body.grapeVariety,body.date);
         
             Planification.addPlanification(newPlanification, (err, result) => {
@@ -31,9 +32,11 @@ app.post("/planification/update",
     (req, res) => {
         console.log("planification/update");
         console.log(req.body);
-
         let body = req.body;
-        let updatedPlanification = new Planification(body.planification_id,body.ref_producer,body.ref_location,body.kilograms,
+        let kg = parseInt(body.kilograms);
+        let rlocation = parseInt(body.ref_location);
+        let planificationID = parseInt(body.planification_id);
+        let updatedPlanification = new Planification(planificationID,body.ref_producer,rlocation,kg,
             body.containerType,body.harvestingType,body.quality,body.freight,body.comment,body.grapeVariety,body.date);
 
         Planification.updatePlanification(updatedPlanification, (err, result) => {

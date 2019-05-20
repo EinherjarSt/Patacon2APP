@@ -6,24 +6,24 @@
       <div class="container i1">
         <mat-form-field appearance="standard">
           <mat-label>Productor</mat-label>
-          <input  formControlName="producer" placeholder="Seleccione Productor" matInput [matAutocomplete]="auto">
+          <input  formControlName="ref_producer" placeholder="Seleccione Productor" matInput [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (click)="changeOptions(option)">
               {{option.name}}
             </mat-option>
           </mat-autocomplete>
-          <mat-error *ngIf="hasError('producer', 'required')">Debe ingresar un productor</mat-error>
+          <mat-error *ngIf="hasError('ref_producer', 'required')">Debe ingresar un productor</mat-error>
         </mat-form-field>
       </div>
       <div class="container" id ="location">
         <mat-form-field appearance="standard">
           <mat-label>Ubicación</mat-label>
-          <mat-select formControlName="location">
+          <mat-select formControlName="ref_location" >
             <mat-option *ngFor="let location of locationOptions" [value]="location">
-              {{location.location_nombre}}
+              {{location.address}}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="hasError('location', 'required')">Debe seleccionar una ubicación</mat-error>
+          <mat-error *ngIf="hasError('ref_location', 'required')">Debe seleccionar una ubicación</mat-error>
         </mat-form-field>
       </div>
       <div class="container" id ="date">
@@ -41,15 +41,15 @@
       <div class="container" id = "kg">
         <mat-form-field appearance="standard">
           <mat-label>Kg a cosechar</mat-label>
-          <input formControlName="kilos" matInput placeholder="">
-          <mat-error *ngIf="hasError('kilos', 'required')">Debe ingresar la cantidad de kg</mat-error>
-          <mat-error *ngIf="hasError('kilos', 'pattern')">Debe ingresar solo números</mat-error>
+          <input formControlName="kilograms" matInput placeholder="">
+          <mat-error *ngIf="hasError('kilograms', 'required')">Debe ingresar la cantidad de kg</mat-error>
+          <mat-error *ngIf="hasError('kilograms', 'pattern')">Debe ingresar solo números</mat-error>
         </mat-form-field>
       </div>
       <div class="container" id ="variety">
         <mat-form-field appearance="standard">
           <mat-label>Variedad</mat-label>
-          <mat-select formControlName="variety">
+          <mat-select formControlName="grapeVariety">
             <mat-option *ngFor="let variety of varietyOptions" [value]="variety">
               {{variety}}
             </mat-option>
@@ -68,7 +68,7 @@
       </div>
       <div id="selectors" class="container">
         <label class="lchoice">Tipo de envase:</label>
-        <mat-radio-group formControlName="container">
+        <mat-radio-group formControlName="containerType">
           <div fxFlex="48">
             <mat-radio-button value="BIN">Bin</mat-radio-button>
           </div>
@@ -79,7 +79,7 @@
       </div>
       <div id="selectors" class="container">
         <label class="lchoice">Tipo de cosecha:</label>
-        <mat-radio-group formControlName="harvest">
+        <mat-radio-group formControlName="harvestingType">
           <div fxFlex="48">
             <mat-radio-button value="MANO">Mano</mat-radio-button>
           </div>

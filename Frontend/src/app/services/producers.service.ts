@@ -96,16 +96,15 @@ export class ProducersService {
     return this.http.get<Producer>(env.api.concat("/producer/get/"+rut))
     .pipe(
       map(result => {
-        console.log(result);
         return result;
       })
     );
   }
   
-  getLocationName(id: string): Observable<location>{
+  getLocation(id: string): Observable<Location>{
     const body = new HttpParams()
     .set('id', id);
-    return this.http.get<location>(env.api.concat("/producer/getlocationname/"+id))
+    return this.http.get<Location>(env.api.concat("/producer/getlocation/"+id))
     .pipe(
       map(result => {
         return result;

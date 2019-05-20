@@ -17,7 +17,9 @@ export class PlanificationListComponent implements OnInit {
   dataSource: MatTableDataSource<Planification>;
 
   dialogResult ="";
-  constructor(private producerService: ProducersService, private planificationService: PlanificationService ,public dialog: MatDialog) {
+  constructor(private producerService: ProducersService, 
+    private planificationService: PlanificationService ,
+    public dialog: MatDialog) {
     this.getP();
     }
 
@@ -26,18 +28,16 @@ export class PlanificationListComponent implements OnInit {
       this.planifications=data;
       //obtain name of producer
       this.planifications.forEach(element => {
-        this.producerService.getProducer(element.ref_producer).subscribe(pr =>{
-          element.ref_producer= pr.name;
+        this.producerService.getProducer(element.ref_producer.rut).subscribe(pr =>{
+          element.ref_producer= pr;
         });
       });
       //obtain name of location
       this.planifications.forEach(element => {
-        this.producerService.getLocationName(element.ref_location).subscribe(pr =>{
-          
-          element.ref_location= pr.address;
+        this.producerService.getLocation(element.ref_location.id_location).subscribe(location =>{
+          element.ref_location= location;
         });
       });
-
       this.dataSource = new MatTableDataSource<Planification>(this.planifications);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -97,6 +97,7 @@ public doFilter = (value: string) => {
         selected = element;
     }
   });
+  console.log("selectefd:"+selected.planification_id);
   this.dialog.open(AddPlanificationComponent, {
     width: '400px',
     data: selected

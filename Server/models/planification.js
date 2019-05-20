@@ -1,4 +1,6 @@
 const pool = require('../mysql/mysql').pool;
+const Producer = require('../models/producer');
+const Location = require('../models/location');
 
 class Planification {
     constructor(planification_id,ref_producer,ref_location,kilograms,containerType,harvestingType,
@@ -27,7 +29,9 @@ class Planification {
             }
             let planifications =  [];
             for (const pln of results) {
-                planifications.push(new Planification(pln.planification_id,pln.ref_producer,pln.ref_location,pln.kilograms,pln.containerType,
+                let producer = new Producer("",pln.ref_producer);
+                let location = new Location(pln.ref_location,"","","","","","");
+                planifications.push(new Planification(pln.planification_id,producer,location,pln.kilograms,pln.containerType,
                 pln.harvestingType,pln.quality,pln.freight,pln.comment,pln.grapeVariety,pln.date));
             }
             return callback(null, planifications);
@@ -59,8 +63,9 @@ class Planification {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL update_planification(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+        pool.query(`CALL update_planification(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
             planification.planification_id,
+            planification.ref_producer,
             planification.ref_location,
             planification.grapeVariety,
             planification.harvestingType,
@@ -86,7 +91,8 @@ class Planification {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL add_planification( ?, ?, ?, ?, ?, ?, ?, ? ,?)`, [
+        pool.query(`CALL add_planification(?, ?, ?, ?, ?, ?, ?, ?, ? ,?)`, [
+            planification.ref_producer,
             planification.ref_location,
             planification.grapeVariety,
             planification.harvestingType,
