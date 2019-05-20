@@ -1,7 +1,19 @@
 export class Filter {
-    id: string;
-    truck: string;
-    state: string;
-    origin: string;
-    destination: string;
-  }
+  dispatchId: number
+  dispatchStatus: string;
+  driverRef: string;
+  truckLicensePlate: string;
+  arrivalAtPataconDatetime: string;
+  arrivalAtVineyardDatetime: string;
+  shippedKilograms: number;
+  containerType: string;
+  driverRun: string;
+  driverName: string;
+  driverSurname: string;
+  driverPhoneNumber: string;
+  producerName: string;
+  producerLocation: string;
+  truckGPSImei: string;
+
+}
+  

@@ -54,3 +54,33 @@ BEGIN
 
 END //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_dispatches_with_full_info;
+DELIMITER //
+CREATE PROCEDURE get_dispatches_with_full_info ()
+BEGIN
+  SELECT dispatch.status AS dispatchStatus,
+  dispatch.ref_driver AS driverRef,
+  dispatch.ref_truck AS truckLicensePlate,
+  dispatch.id_dispatch AS dispatchId,
+  dispatch.arrivalAtPataconDate AS arrivalAtPataconDatetime,
+  dispatch.arrivalAtVineyardDate AS arrivalAtVineyardDatetime,
+  dispatch.shippedKilograms AS shippedKilograms,
+  dispatch.containerType AS containerType,
+  driver.run AS driverRun,
+  driver.name AS driverName,
+  driver.surname AS driverSurname,
+  driver.phoneNumber AS driverPhoneNumber,
+  producer.name AS producerName,
+  location.address AS producerLocation,
+  truck.ref_gps AS truckGPSImei
+  FROM dispatch
+  INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
+  INNER JOIN driver ON dispatch.ref_driver = driver.run
+  INNER JOIN location ON planification.ref_location = location.id_location
+  INNER JOIN producer ON planification.ref_producer = producer.rut
+  INNER JOIN truck ON dispatch.ref_truck = truck.licencePlate
+  WHERE dispatch.status <> 'Terminado' 
+  && dispatch.status <> 'Pendiente'
+  && truck.ref_gps IS NOT NULL;
+END //
