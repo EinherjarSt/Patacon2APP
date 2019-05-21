@@ -9,23 +9,15 @@ import { ProducersService } from 'src/app/services/producers.service';
   styleUrls: ['./add-producer.component.css']
 })
 export class AddProducerComponent implements OnInit {
-
-
-  producerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    rut: new FormControl('', [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]),
-    manager: new FormControl(''),
-    telephone: new FormControl('')
-  });
-
+  producerForm: FormGroup;
 
   constructor(public dialogRef: MatDialogRef<AddProducerComponent>, 
     private producersService: ProducersService,
     private fb: FormBuilder) { 
 
       this.producerForm = this.fb.group({
-        name: new FormControl(''),
-        rut: new FormControl(''),
+        name: new FormControl('', [Validators.required]),
+        rut: new FormControl('', [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]),
         locations: this.fb.array([])
       });
     }

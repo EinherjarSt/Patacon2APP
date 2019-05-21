@@ -66,14 +66,14 @@ class Producer{
 
             let producers = [];
 
-            let previous_producer = "";
+            let previous_producer = [];
 
             for(const producer of results){
-                if(producer.rut != previous_producer){
+                if(previous_producer.includes(producer.rut) == false){
                     producers.push(new Producer(producer.name, producer.rut));
                 }
 
-                previous_producer = producer.rut;
+                previous_producer.push(producer.rut);
             }
 
             for(const producer of producers){
