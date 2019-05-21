@@ -12,16 +12,14 @@ export class EditUserComponent implements OnInit {
 
   hide = true;
 
-  userForm = new FormGroup({
+  form = new FormGroup({
     run: new FormControl(''),
-    name: new FormControl(''),
-    surname: new FormControl(''),
-    surname2: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
+    surname: new FormControl('', [Validators.required]),
+    surname2: new FormControl('', [Validators.required]),
     email: new FormControl("", [Validators.required, Validators.email]),
     password: new FormControl(''),
-    position: new FormControl(''),
-    disabled: new FormControl('')
-
+    position: new FormControl('', [Validators.required])
   });
 
   constructor(public dialogRef: MatDialogRef<EditUserComponent>, private userService: UsersService, @Inject(MAT_DIALOG_DATA) private data) { 
@@ -34,13 +32,13 @@ export class EditUserComponent implements OnInit {
   getUserData() {
     this.userService.getUser(this.data).subscribe({
       next: result => {
-        this.userForm.get('run').setValue(result.run);
-        this.userForm.get('name').setValue(result.name);
-        this.userForm.get('surname').setValue(result.surname);
-        this.userForm.get('surname2').setValue(result.surname2);
-        this.userForm.get('email').setValue(result.email);
-        this.userForm.get('password').setValue("");
-        this.userForm.get('position').setValue(result.position);
+        this.form.get('run').setValue(result.run);
+        this.form.get('name').setValue(result.name);
+        this.form.get('surname').setValue(result.surname);
+        this.form.get('surname2').setValue(result.surname2);
+        this.form.get('email').setValue(result.email);
+        this.form.get('password').setValue("");
+        this.form.get('position').setValue(result.position);
 
         console.log(result);
 
@@ -54,17 +52,23 @@ export class EditUserComponent implements OnInit {
   }
 
   onCloseCancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close('Cancel');
   }
 
   onCloseConfirm(){
-    let userData = this.userForm.value;
+    if (this.form.invalid) {
+      (<any>Object).values(this.form.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      return;
+    }
+    let userData = this.form.value;
 
-    console.log(this.userForm.value);
+    console.log(this.form.value);
     this.userService.updateUser(userData).subscribe({
       next: result => {
         console.log(result);
-        this.dialogRef.close();
+        this.dialogRef.close('Confirm');
       },
       error: result => {
         console.log("error");
@@ -73,15 +77,7 @@ export class EditUserComponent implements OnInit {
     
   }
 
-  getErrorMessage() {
-    let email = this.userForm.controls["email"];
-    return email.hasError("required")
-      ? "Debe ingresar un valor"
-      : email.hasError("email")
-      ? "No es un email válido"
-      : "";
-  }
-
-  
-
+  public hasError = (controlName: string, errorName: string) => {
+    return this.form.get(controlName).hasError(errorName);
+  };
 }

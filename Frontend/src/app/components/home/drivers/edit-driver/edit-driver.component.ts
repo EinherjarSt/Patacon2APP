@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DriversService } from 'src/app/services/drivers.service';
 
 @Component({
@@ -12,12 +12,12 @@ export class EditDriverComponent implements OnInit {
 
 
   driverForm = new FormGroup({
-    run: new FormControl(''),
-    name: new FormControl(''),
-    surname: new FormControl(''),
-    surname2: new FormControl(''),
-    phoneNumber: new FormControl(''),
-    disabled: new FormControl('')
+    run: new FormControl('', [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]),
+    name: new FormControl('', [Validators.required]),
+    surname: new FormControl('', [Validators.required]),
+    surname2: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^\d{9}$/)]),
+    //disabled: new FormControl('')
 
   });
 

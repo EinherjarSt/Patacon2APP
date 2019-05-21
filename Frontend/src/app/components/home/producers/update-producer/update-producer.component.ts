@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, FormArray } from '@angular/forms';
+
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
+
 import { ProducersService } from 'src/app/services/producers.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Producer } from 'src/app/model-classes/producer';
@@ -16,7 +18,14 @@ export class UpdateProducerComponent implements OnInit {
   rut: string;
   locations : Location[] = new Array();
 
-  producerForm: FormGroup;
+
+  producerForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    rut: new FormControl({value:'', disabled: true}),
+    manager: new FormControl(''),
+    telephone: new FormControl('')
+  });
+
 
   constructor(public dialogRef: MatDialogRef<UpdateProducerComponent>, private producersService: ProducersService,
      @Inject(MAT_DIALOG_DATA) private data, private fb: FormBuilder) {

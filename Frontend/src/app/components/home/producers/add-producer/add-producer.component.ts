@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angular/forms';
 import { ProducersService } from 'src/app/services/producers.service';
 
 @Component({
@@ -10,7 +10,14 @@ import { ProducersService } from 'src/app/services/producers.service';
 })
 export class AddProducerComponent implements OnInit {
 
-  producerForm: FormGroup;
+
+  producerForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    rut: new FormControl('', [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]),
+    manager: new FormControl(''),
+    telephone: new FormControl('')
+  });
+
 
   constructor(public dialogRef: MatDialogRef<AddProducerComponent>, 
     private producersService: ProducersService,
@@ -27,15 +34,18 @@ export class AddProducerComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close("Cancel");
   }
 
   onSubmit(){
+    if (this.producerForm.invalid){
+      return;
+    }
     let producerData = this.producerForm.value;
-
     this.producersService.addProducer(producerData).subscribe({
       next: result => {
-        console.log("El productor se agregó correctamente");
+
+        this.dialogRef.close("Confirm");
       },
       error: result => {
         console.log("error");
@@ -71,5 +81,9 @@ export class AddProducerComponent implements OnInit {
 
     locations.removeAt(locations.length-1);
   }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.producerForm.get(controlName).hasError(errorName);
+  };
 
 }

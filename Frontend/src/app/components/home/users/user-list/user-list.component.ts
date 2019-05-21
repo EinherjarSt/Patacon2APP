@@ -48,15 +48,15 @@ export class UserListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog(){
+  openAddDialog(){
     let dialogRef = this.dialog.open(AddUserComponent, {
       width: '450px',
       data: 'This text is passed into the dialog'
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog closed: ${result}');
+      console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
-      this.ngOnInit();
+      if (result == 'Confirm') this.refreshTable();
     })
   }
 
@@ -68,7 +68,7 @@ export class UserListComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.ngOnInit();
+      if (result == 'Confirm') this.refreshTable();
     });
   }
   color = 'accent';
@@ -87,8 +87,8 @@ export class UserListComponent implements OnInit {
     console.log(userData.run, userData.disabled);
   }
 
-
-
-  
+  refreshTable() {
+    this.getUsers();
+  }
 
 }
