@@ -51,4 +51,8 @@ export class EditGpsComponent implements OnInit {
   onCloseCancel() {
     this.thisDialogRef.close("Cancel");
   }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.form.get(controlName).hasError(errorName);
+  };
 }

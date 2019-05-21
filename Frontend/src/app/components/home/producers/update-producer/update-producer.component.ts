@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProducersService } from 'src/app/services/producers.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Producer } from 'src/app/model-classes/producer';
@@ -17,7 +17,7 @@ export class UpdateProducerComponent implements OnInit {
   telephone: string;
 
   producerForm = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
     rut: new FormControl({value:'', disabled: true}),
     manager: new FormControl(''),
     telephone: new FormControl('')

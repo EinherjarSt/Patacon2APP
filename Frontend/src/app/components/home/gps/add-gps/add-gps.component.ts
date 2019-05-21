@@ -16,7 +16,7 @@ export class AddGpsComponent implements OnInit {
     public thisDialogRef: MatDialogRef<AddGpsComponent>, @Inject(MAT_DIALOG_DATA) public data: string, private gpsService: GpsService
   ) { 
     this.form = new FormGroup({
-      imei: new FormControl("", Validators.required),
+      imei: new FormControl("", [Validators.required, Validators.pattern(/^\d{15}$/)]),
       simNumber: new FormControl("", Validators.required),
       brand: new FormControl(""),
       model: new FormControl("")
@@ -45,6 +45,8 @@ export class AddGpsComponent implements OnInit {
     this.thisDialogRef.close("Cancel");
   }
 
-
+  public hasError = (controlName: string, errorName: string) => {
+    return this.form.get(controlName).hasError(errorName);
+  };
 
 }

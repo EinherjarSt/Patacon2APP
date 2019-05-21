@@ -43,12 +43,13 @@ export class ProducerListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog(): void {
+  openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProducerComponent, {
       width: '500px',
     });
   
     dialogRef.afterClosed().subscribe(result => {
+      if(result === "Confirm") this.refreshTable();
       console.log('The dialog was closed');
     });
   }
@@ -68,4 +69,7 @@ export class ProducerListComponent implements OnInit {
 
   }
 
+  refreshTable() {
+    this.getProducers();
+  }
 }

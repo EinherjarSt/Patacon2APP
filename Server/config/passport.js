@@ -52,25 +52,6 @@ passport.use(new JWTStrategy({
     function (jwtPayload, done) {
         //console.log("JWTStrategy %j ", jwtPayload)
         done(null, true);
-        // User.findOne({
-        //     username: jwtPayload.name
-        // }, function (err, user) {
-        //     if (err) {
-        //         console.log("err jwt %j ",err);
-        //         return done(err);
-        //     }
-        //     if (!user) {
-        //         return done(null, false);
-        //     }
-        //     return done(null, {name : user.name});
-        // });
-        // //find the user in db if needed
-        // return UserModel.findOneById(jwtPayload.id)
-        //     .then(user => {
-        //         return done(null, user);
-        //     })
-        //     .catch(err => {
-        //         return done(err);
-        //     });
+       
     }
 ));

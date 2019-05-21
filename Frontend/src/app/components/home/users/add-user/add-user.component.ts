@@ -20,12 +20,12 @@ export class AddUserComponent implements OnInit {
     private userService: UsersService
   ) {
     this.form = new FormGroup({
-      run: new FormControl("", Validators.required),
-      name: new FormControl(""),
-      surname: new FormControl(""),
-      surname2: new FormControl(""),
+      run: new FormControl("", [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]),
+      name: new FormControl("", [Validators.required]),
+      surname: new FormControl("",[Validators.required]),
+      surname2: new FormControl("", [Validators.required]),
       email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("")
+      password: new FormControl("", [Validators.required])
     });
   }
 
@@ -35,6 +35,12 @@ export class AddUserComponent implements OnInit {
     // Here add service to send data to backend
     console.log(this.form);
     console.log(this.form.value);
+    if (this.form.invalid) {
+      (<any>Object).values(this.form.controls).forEach(control => {
+        control.markAsTouched();
+      });
+      return;
+    }
     let userData = this.form.value;
     this.userService.createUser(userData).subscribe({
       next: result => {
@@ -49,12 +55,7 @@ export class AddUserComponent implements OnInit {
     this.thisDialogRef.close("Cancel");
   }
 
-  getErrorMessage() {
-    let email = this.form.controls["email"];
-    return email.hasError("required")
-      ? "Debe ingresar un valor"
-      : email.hasError("email")
-      ? "No es un email válido"
-      : "";
-  }
+  public hasError = (controlName: string, errorName: string) => {
+    return this.form.get(controlName).hasError(errorName);
+  };
 }
