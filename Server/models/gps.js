@@ -1,4 +1,5 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
+const ERROR = require('../common/error');
 
 class GPSDevice {
     constructor(imei, simNumber, brand, model) {
@@ -17,10 +18,10 @@ class GPSDevice {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : `Imei ${imei} don't registered`});
+                return callback({code: ERROR.NOT_FOUND, message : `Imei ${imei} don't registered`});
             }
             if (results.length > 1) {
-                return callback({message : "There is an error in database because the gps imei is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the gps imei is not unique"});
             }
             let result = results[0];
             return callback(null, new GPSDevice(result.imei, result.simNumber, result.brand, result.model));
@@ -58,7 +59,7 @@ class GPSDevice {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This gps don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "This gps don't exist"});
             }
             return callback(null, true);
         });
@@ -76,7 +77,7 @@ class GPSDevice {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY, message : err.sqlMessage});
                 }
                 return callback(err);
             }
@@ -96,7 +97,7 @@ class GPSDevice {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This gps don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "This gps don't exist"});
             }
             return callback(null, true);
         });

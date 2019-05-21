@@ -1,4 +1,4 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
 
 class LastEvent {
     constructor(id_event,time,description,ref_Dispach) {
