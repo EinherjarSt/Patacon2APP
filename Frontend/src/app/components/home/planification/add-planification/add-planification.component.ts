@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import { ProducersService } from '../../../../services/producers.service';
 import { PlanificationService } from '../../../../services/planification.service';
 import { Producer} from '../../../../model-classes/producer';
+import { Planification} from '../../../../model-classes/planification';
+import { Location} from '../../../../model-classes/location';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import {MatSnackBar,MatDialogRef } from "@angular/material";
+import {MatSnackBar,MatDialogRef,MAT_DIALOG_DATA } from "@angular/material";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -14,42 +16,44 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class AddPlanificationComponent implements OnInit {
 
-
+  title:string;
+  select:number;
+  selectedLocation: Location;
   producers :Producer[];
   filteredOptions: Observable<Producer[]>;
-
-  minDate = new Date(new Date().getFullYear(),new Date().getDay(),new Date().getMonth());
+  minDate = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDay());
 
   constructor(private dialogRef: MatDialogRef<AddPlanificationComponent>,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar, 
     private producerService: ProducersService, 
-    private planificationService: PlanificationService) { 
+    private planificationService: PlanificationService,
+    @Inject(MAT_DIALOG_DATA)public data:Planification) { 
      
     }
 
   varietyOptions: string[] = ['CARIG','TTRO','CHARD','S.B','S.BLANC',"SEMILLON","MER"];
   qualityOptions: string[] = ['Generico', 'Varietal A','Varietal B'];
-  locationOptions: string[];
+  locationOptions: Location[];
 
   registerPlanificationForm: FormGroup = this.formBuilder.group({
-    producer: [ '',[Validators.required]],
-    location: ['', [Validators.required]],
-    kilos: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
-    harvest: ['MANO'],
+    ref_producer: [ '',[Validators.required]],
+    ref_location: ['', [Validators.required]],
+    kilograms: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
+    harvestingType: ['MANO'],
     quality: [this.qualityOptions[0]],
     comment: [''],
-    variety: [this.varietyOptions[0]],
+    grapeVariety: [this.varietyOptions[0]],
     freight: ['CAMILO'],
     date: ['', [Validators.required]],
-    container: ['BIN']
+    containerType: ['BIN']
   });
 
   getProducers(){
-    this.producerService.getData().subscribe( data =>{
+    this.producerService.getProducers().subscribe( data =>{
       this.producers = data;
     },e=>{},()=>{
-      this.filteredOptions = this.registerPlanificationForm.get('producer').valueChanges
+      this.filteredOptions = this.registerPlanificationForm.get('ref_producer').valueChanges
       .pipe(
         startWith<string | Producer>(''),
         map(value => typeof value === 'string' ? value : value.name),
@@ -59,10 +63,43 @@ export class AddPlanificationComponent implements OnInit {
   }
   ngOnInit() {
     this.getProducers();
+    
+    if(this.data !=null){
+      this.title ="Editar";
+      const sp = this.data.date.split('-');
+      const day = parseInt(sp[0]);
+      const month = parseInt(sp[1])-1;
+      const year = parseInt(sp[2]);
+
+      this.changeOptions(this.data.ref_producer);
+      for (let i = 0; i < this.locationOptions.length; i++) {
+        const element = this.locationOptions[i];
+        if(element.address == this.data.ref_location.address){
+          this.select = i;
+        }
+      }
+      this.registerPlanificationForm.setValue({
+        ref_producer: this.data.ref_producer, 
+        ref_location: this.locationOptions[this.select], 
+        kilograms: this.data.kilograms,
+        harvestingType: this.data.harvestingType,
+        quality: this.data.quality,
+        comment: this.data.comment,
+        grapeVariety: this.data.grapeVariety,
+        freight: this.data.freight,
+        date: new Date(year,month,day),
+        containerType: this.data.containerType
+      });
+      
+      
+    }
+    else{
+      this.title ="Agregar";
+    }
   }
 
   changeOptions(pr:Producer){
-    this.locationOptions = pr.location;
+    this.locationOptions = pr.locations;
   }
   displayFn(val: Producer) {
     if(val){
@@ -88,16 +125,27 @@ export class AddPlanificationComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.submitData(this.registerPlanificationForm.value);
+    
+    this.submitData();
     this.onCloseSubmit();
     this.openSuccessMessage();
 
   }
 
-  submitData(data) {
-    this.planificationService.registerPlanification(this.registerPlanificationForm.value).subscribe(
+  submitData() {
+    if(this.data!=null){
+      //EDITAR
+      this.planificationService.updatePlanification(this.registerPlanificationForm.value,this.data.planification_id+"").subscribe(
       response => console.log('Success', response), 
       error => console.error('Error', error));
+    }
+    else{
+      //AGREGAR
+      this.planificationService.createPlanification(this.registerPlanificationForm.value).subscribe(
+      response => console.log('Success', response), 
+      error => console.error('Error', error));
+
+    }
   }
 
   openSuccessMessage() {
