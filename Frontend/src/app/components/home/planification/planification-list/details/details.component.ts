@@ -10,10 +10,6 @@ import { Planification } from 'src/app/model-classes/planification';
 })
 export class DetailsComponent implements OnInit {
 
-  hide = true;
-  email = new FormControl('', [Validators.required, Validators.email]);
-
-
   constructor(
     public dialogRef: MatDialogRef<DetailsComponent>, @Inject(MAT_DIALOG_DATA)public data:Planification) {}
 
@@ -28,11 +24,5 @@ export class DetailsComponent implements OnInit {
     this.dialogRef.close('Cancel');
   }
 
-
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'Debe ingresar un valor' :
-        this.email.hasError('email') ? 'No es un email válido' :
-            '';
-  }
 
 }
