@@ -12,8 +12,8 @@ User.getAllUser((err, results) => {
     console.log(results);
 });
 
-User.getUser("gsan@gmail.com" ,(err, results) => {
-    console.log("getUser");
+User.getUserByEmail("gsan@gmail.com" ,(err, results) => {
+    console.log("getUserByEmail");
     if(err){
         console.log(err);
     }

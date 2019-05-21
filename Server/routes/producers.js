@@ -18,6 +18,19 @@ app.get('/producer/get/:rut',  passport.authenticate('jwt', {
     })
 });
 
+app.get('/producer/getlocation/:id',  passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	let idLocation = req.params.id;
+
+    Producer.getLocation(idLocation, (err, location) => {
+    	if(err){
+    		return res.status(400).json(err);
+    	}
+    	return res.json(location);
+    })
+});
+
 app.get('/producer/getall', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {

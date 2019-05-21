@@ -1,5 +1,5 @@
 .filter-table-container {
-    height: 200px;
+    height: 300px;
     overflow: auto;
     
   }
@@ -16,7 +16,7 @@ th.mat-header-cell {
 }
 
 td.mat-cell {
- font-size: x-small;
+ font-size: small;
 }
 
 

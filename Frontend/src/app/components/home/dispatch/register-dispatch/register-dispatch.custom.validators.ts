@@ -1,11 +1,9 @@
 import { AbstractControl } from '@angular/forms';
 
-export function EstimatedDatesValidator(control: AbstractControl): { [key: string]: boolean } | null {
-  const departureDate = control.get('estimatedArrivalDateAtProducer');
-  const returnDate = control.get('estimatedArrivalDateAtPatacon');
-  
-  if (departureDate.pristine || returnDate.pristine) {
+export function AutocompleteValidOption(control: AbstractControl) {
+    const selection: any = control.value;
+    if (typeof selection === 'string') {
+        return { incorrect: true };
+    }
     return null;
-  }
-  return departureDate.value.getTime() >= returnDate.value.getTime() ? { 'returnBehindDepartureDate': true } : null;
 }

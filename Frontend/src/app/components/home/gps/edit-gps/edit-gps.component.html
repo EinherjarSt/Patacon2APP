@@ -1,0 +1,50 @@
+<div>
+    <h2 mat-dialog-title>Editar GPS</h2>
+    <hr />
+    <mat-dialog-content>
+      <form [formGroup]="form">
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>IMEI</mat-label>
+            <input
+              matInput
+              placeholder=""
+              formControlName="imei"
+              readonly
+            />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Número</mat-label>
+            <input matInput placeholder="" formControlName="simNumber" />
+            <mat-error *ngIf="hasError('simNumber', 'required')">Por favor ingrese la password</mat-error>
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+  
+        <div class="container">
+          <mat-form-field appearance="standard">
+            <mat-label>Marca</mat-label>
+            <input matInput placeholder="" formControlName="brand" />
+            <mat-hint></mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="container">
+            <mat-form-field appearance="standard">
+              <mat-label>Modelo</mat-label>
+              <input matInput placeholder="" formControlName="model" />
+              <mat-hint></mat-hint>
+            </mat-form-field>
+          </div>
+  
+      </form>
+    </mat-dialog-content>
+    <hr />
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="onCloseConfirm()" [disabled]="form.invalid">Aceptar</button>
+      <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+    </mat-dialog-actions>
+  </div>

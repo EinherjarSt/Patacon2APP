@@ -1,0 +1,81 @@
+<div>
+  <h2 mat-dialog-title>Editar usuario</h2>
+  <hr />
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>R.U.N</mat-label>
+          <input
+            matInput
+            placeholder="11.111.111-1"
+            formControlName="run"
+            readonly
+          />
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Nombre</mat-label>
+          <input matInput placeholder="" formControlName="name" />
+          <mat-error *ngIf="hasError('name', 'required')">Debe ingresar un nombre</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Apellido Paterno</mat-label>
+          <input matInput placeholder="" formControlName="surname" />
+          <mat-error *ngIf="hasError('surname', 'required')">Debe ingresar el apellido</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Apellido Materno</mat-label>
+          <input matInput placeholder="" formControlName="surname2" />
+          <mat-error *ngIf="hasError('surname2', 'required')">Debe ingresar el apellido</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Correo electrónico</mat-label>
+          <input
+            matInput
+            placeholder="ejemplo@patacon.cl"
+            formControlName="email"
+          />
+          <mat-error *ngIf="hasError('email', 'required')">Debe ingresar el correo</mat-error>
+          <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un correo valido</mat-error>          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            placeholder=" Ingrese su contraseña"
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+          />
+          <mat-icon matSuffix (click)="hide = !hide">{{
+            hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <hr />
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onCloseConfirm()" [disabled]="form.invalid">Aceptar</button>
+    <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+  </mat-dialog-actions>
+</div>

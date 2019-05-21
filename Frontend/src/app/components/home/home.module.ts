@@ -38,6 +38,11 @@ import { GpsComponent } from './gps/gps.component';
 import { GpsListComponent } from './gps/gps-list/gps-list.component';
 import { AddGpsComponent } from './gps/add-gps/add-gps.component';
 import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
+import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
+import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
+import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirmation-dialog.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
+import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 
 
 
@@ -50,6 +55,7 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
     UserListComponent,
     UsersComponent, 
     RegisterDispatchComponent,
+    EditDispatchComponent,
     DriversListComponent,
     ProducerListComponent, 
     AddProducerComponent,
@@ -69,7 +75,12 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
     GpsComponent,
     GpsListComponent,
     AddGpsComponent,
-    LatestEventsComponent
+    LatestEventsComponent,
+    EditDispatchComponent,
+    EditGpsComponent,
+    ConfirmationDialogComponent,
+    EditUserComponent,
+    EditDriverComponent
   ],
   imports: [
     CommonModule,
@@ -84,13 +95,18 @@ import { LatestEventsComponent } from './dashboard/latest-events/latest-events.c
   entryComponents: [
     AddUserComponent,
     RegisterDispatchComponent,
+    EditDispatchComponent,
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
     UpdateProducerComponent,
     DetailsComponent,
     AddPlanificationComponent,
-    AddGpsComponent
+    AddGpsComponent,
+    EditGpsComponent,
+    ConfirmationDialogComponent,
+    EditUserComponent,
+    EditDriverComponent
   ],
 })
 export class HomeModule { }

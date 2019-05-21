@@ -1,0 +1,15 @@
+.mat-list-item{
+    font-size: 12px;
+}
+
+.desc{
+    width: 100%;
+}
+.item{
+    width: 100%;
+}
+
+mat-nav-list{
+    max-height: 370px;
+    overflow: auto;
+}

@@ -1,5 +1,4 @@
-
-<mat-sidenav-container class="example-container" *ngIf="shouldRun" >
+<mat-sidenav-container  class="example-container" *ngIf="shouldRun" >
   <mat-sidenav #sidenav [mode]="'side'"[position]="'end'" [opened]="'true'">
     <mat-accordion>
       <mat-expansion-panel [expanded]="'any'">
@@ -7,46 +6,38 @@
           <mat-panel-title>
             Despachos
           </mat-panel-title>
-          <mat-panel-description>
-            
-          </mat-panel-description>
+          <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
-           <!--Aqui va los filtros-->
-           <app-filters></app-filters>
+        <!--Aqui va los filtros-->
+        <app-filters></app-filters>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             Últimos eventos
           </mat-panel-title>
-          <mat-panel-description>
-            
-          </mat-panel-description>
+          <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
         <!--Aqui va los ultimos eventos-->
         <app-latest-events></app-latest-events>
       </mat-expansion-panel>
     </mat-accordion>
-
   </mat-sidenav>
 
   <mat-sidenav-content>
  
-        <button mat-button style="float: right;" (click)="sidenav.toggle()"><mat-icon>vertical_split</mat-icon></button>
-      
-      <div>
-        <div>
-          <agm-map [latitude]="lat" [longitude]="lng">
-           <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        <div class="map-content"> 
+          
+          <mat-button-toggle class="sidenav-button" mat-button 
+          (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
+          <agm-map [latitude]="lat" [longitude]="lng2">
+            <!-- <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+            <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
+            <agm-marker *ngFor="let imei of gpsKey" [latitude]="gpsPosition[imei].latitude" [longitude]="gpsPosition[imei].longitude"></agm-marker>
           </agm-map>
+         
         </div>
         
-      </div>
     
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-      
-      
-
-
