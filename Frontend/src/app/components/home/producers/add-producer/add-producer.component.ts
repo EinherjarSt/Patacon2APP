@@ -10,6 +10,7 @@ import { ProducersService } from 'src/app/services/producers.service';
 })
 export class AddProducerComponent implements OnInit {
   producerForm: FormGroup;
+  expanded = true;
 
   constructor(public dialogRef: MatDialogRef<AddProducerComponent>, 
     private producersService: ProducersService,
@@ -23,6 +24,9 @@ export class AddProducerComponent implements OnInit {
     }
 
   ngOnInit() {
+    //si no quieren que se incluya un formulario al cargar el modal
+    //eliminen esta linea de codigo.
+    this.addLocation();
   }
 
   onNoClick(): void {
@@ -59,7 +63,15 @@ export class AddProducerComponent implements OnInit {
   addLocation(){
     const locations = this.producerForm.get('locations') as FormArray;
 
+    if(locations.length > 0){
+      this.expanded = false;
+    }
+    else{
+      this.expanded = true;
+    }
+
     locations.push(this.fb.group({
+      expanded: this.expanded,
       address: new FormControl(''),
       latitude: new FormControl(''),
       longitude: new FormControl(''),
