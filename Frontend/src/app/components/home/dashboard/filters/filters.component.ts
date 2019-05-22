@@ -4,6 +4,9 @@ import { Filter } from 'src/app/model-classes/filter';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FilterService } from 'src/app/services/filter.service';
 import { DispatchesService } from '../../../../services/dispatches.service';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.component';
+
 
 @Component({
   selector: 'app-filters',
@@ -17,7 +20,7 @@ export class FiltersComponent implements OnInit {
   selection = new SelectionModel<Filter>(true, []);
   isDataLoading: boolean;
 
-  constructor(private _dispatchesService: DispatchesService) { }
+  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -70,4 +73,29 @@ export class FiltersComponent implements OnInit {
       }
     });
   }
+
+
+
+  openDispatchDetailsDialog(dispatch: Filter) {
+
+    console.log("Data");
+    console.log(dispatch);
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = dispatch;
+
+    this.dialog.open(DispatchDetailsComponent, dialogConfig);
+  }
+
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    return dialogConfig;
+  }
+
+  
+
+
 }
