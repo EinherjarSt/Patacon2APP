@@ -51,5 +51,12 @@ IN `_disabled` TINYINT
       `disabled` = _disabled
        WHERE `user`.`run` = _run;
 END//
+
+DROP PROCEDURE IF EXISTS `remove_user`//
+CREATE PROCEDURE `remove_user`(
+IN `_run` VARCHAR(13)
+) BEGIN
+    DELETE FROM `user` WHERE run=_run;
+END//
 DELIMITER ;
 

@@ -160,6 +160,25 @@ class User {
 
         });
     }
+
+    static removeUser(run, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL remove_user(?)`, [
+           run
+        ], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({code: ERROR.NOT_FOUND, message: "This user don't exist"});
+            }
+            return callback(null, true);
+        });
+    }
+
 }
 
 module.exports = User
