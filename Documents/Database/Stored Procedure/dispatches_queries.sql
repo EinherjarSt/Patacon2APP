@@ -84,3 +84,13 @@ BEGIN
   && dispatch.status <> 'Pendiente'
   && truck.ref_gps IS NOT NULL;
 END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS get_dispatches;
+DELIMITER //
+CREATE PROCEDURE get_dispatches (
+  IN planificationId INT
+)
+BEGIN
+  SELECT * FROM dispatch WHERE dispatch.ref_planification = planificationId;
+END //

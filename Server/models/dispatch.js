@@ -47,21 +47,20 @@ class Dispatch {
                 });
             }
 
-            console.log(dispatches2);
             return callback(null, dispatches2);
         });
     }
 
-    static getDispatches(callback) {
+    static getDispatches(planificationId, callback) {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`SELECT * FROM dispatch`, function (err, results, fields) {
+        pool.query(`CALL get_dispatches(?)`, [planificationId], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
             let dispatches = []
-            for (const dispatch of results) {
+            for (const dispatch of results[0]) {
                 dispatches.push(new Dispatch(dispatch.id_dispatch, dispatch.ref_driver, dispatch.ref_truck,
                     dispatch.ref_planification, dispatch.shippedKilograms,
                     dispatch.arrivalAtPataconDate, dispatch.arrivalAtVineyardDate,

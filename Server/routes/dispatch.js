@@ -4,11 +4,11 @@ const passport = require("passport");
 const Dispatch = require("../models/dispatch");
 const bcrypt = require('bcrypt');
 
-app.get('/despachos', passport.authenticate('jwt', {
+app.get('/despachos/:planificacion_id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 
-    Dispatch.getDispatches((err, dispatches) =>{
+    Dispatch.getDispatches(req.params.planification_id, (err, dispatches) =>{
         console.log(err);
         if (err){
             return res.status(400).json(err);
