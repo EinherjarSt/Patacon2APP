@@ -13,12 +13,12 @@ export class SMS {
 
     constructor(private http: HttpClient) { }
   
-    sendMessage(phoneNumber: string, menssage: string): Observable<String> {
+    sendMessage(phoneNumber: string, message: string): Observable<String> {
   
       const body = new HttpParams()
       .set('phoneNumber', phoneNumber)
-      .set('menssage', menssage);
-  
+      .set('message', message);
+      
       return this.http.post<{msg: string}>(env.api.concat('/sms/send') , body)
         .pipe(
           map(result => {

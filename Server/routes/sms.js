@@ -12,25 +12,25 @@ const client = require('twilio')(accountSid,authToken);
 
 var sms= {
     sendMessage: function(phoneNumber,msg, callback) {
-        console.log(msg);
+        let phone = '+'+phoneNumber;
         client.messages.create({
-            to: phoneNumber,
+            to: phone,
             from: myPhone,
             body: msg,
         })
         .then(message => {
-            console.log(message.sid);
             return callback(null, message.sid);
         }
-        );
+        ).catch(err => {console.log(err)});
     }
 }
-app.get('/sms/send', 
+
+app.post('/sms/send', 
 passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     let body = req.body;
-    sms.sendMessage(body.phoneNumber, body.menssage, (err, result) => {
+    sms.sendMessage(body.phoneNumber, body.message, (err, result) => {
         if (err) {
             return res.status(400).json(err);
         }
