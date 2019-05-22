@@ -20,20 +20,20 @@ export class AddTruckComponent implements OnInit {
     private truckService: TrucksService) 
   { 
     this.addTruckForm = new FormGroup({
-      licencePlate: new FormControl("", [Validators.required]),
-      brand: new FormControl(""),
-      model: new FormControl(""),
-      year: new FormControl(""),
-      maxLoad: new FormControl(""),
-      owner: new FormControl(""),
-      color: new FormControl("")
+      licencePlate: new FormControl("",[Validators.required]),
+      brand: new FormControl("",[Validators.required]),
+      model: new FormControl("",[Validators.required]),
+      year: new FormControl("",[Validators.required]),
+      maxLoad: new FormControl("",[Validators.required]),
+      owner: new FormControl("",[Validators.required]),
+      color: new FormControl("",[Validators.required])
     });
   }
 
   ngOnInit() {
   }  
 
-  onCloseConfirm() {
+  /* onCloseConfirm() {
     // Here add service to send data to backend
     //console.log(this.form);
     //console.log(this.form.value);
@@ -45,17 +45,45 @@ export class AddTruckComponent implements OnInit {
         this.openSuccessMessage();
         this.thisDialogRef.close('Confirm');
       },
-      error: result => {console.log(result)}
+      error: result => {
+        this.openFailureMessage();
+        console.log(result)
+      }
     });
+  }  */
+
+  onCloseConfirm() {
+    this.thisDialogRef.close("Confirm");
+  }
+
+  onFormSubmit() {
+    let newTruck = this.addTruckForm.value;
+    this.truckService.createTruck(newTruck).subscribe(
+      response => {
+        console.log("Success", response);
+        this.onCloseConfirm();
+        this.openSuccessMessage();
+      },
+      error => {
+        console.error("Error", error);
+        this.openFailureMessage();
+      }
+    );
   }
 
   onCloseCancel(){
     this.thisDialogRef.close('Cancel');
   }
 
+  openFailureMessage() {
+    this.snackBar.open("Ya hay un camion deshabilitado con esta patente.", "Cerrar", {
+      duration: 2000, verticalPosition: 'top'
+    });
+  }
+
   openSuccessMessage() {
     this.snackBar.open("El camion ha sido registrado.", "Cerrar", {
-      duration: 2000
+      duration: 2000, verticalPosition: 'top'
     });
   }
 
