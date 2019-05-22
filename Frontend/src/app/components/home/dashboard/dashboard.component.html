@@ -31,9 +31,13 @@
           <mat-button-toggle class="sidenav-button" mat-button 
           (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
           <agm-map [latitude]="lat" [longitude]="lng2">
-            <!-- <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-            <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
-            <agm-marker *ngFor="let imei of gpsKey" [latitude]="gpsPosition[imei].latitude" [longitude]="gpsPosition[imei].longitude"></agm-marker>
+            <!-- <agm-marker [latitude]="lat" [longitude]="lng">
+              <agm-info-window>Börk</agm-info-window>
+            </agm-marker> -->
+            <!-- <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
+            <agm-marker *ngFor="let imei of gpsKey" [latitude]="gpsPosition[imei].latitude" [longitude]="gpsPosition[imei].longitude">
+              <agm-info-window>{{imei}}</agm-info-window>
+            </agm-marker>
           </agm-map>
          
         </div>

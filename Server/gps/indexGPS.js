@@ -41,6 +41,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
         console.log(gpsData);
         // Global Object
         GPS_POSITIONS[device.uid] = {
+            imei: device.uid,
             signal: gpsData.signal,
             latitude: gpsData.latitude,
             longitude: gpsData.longitude,
