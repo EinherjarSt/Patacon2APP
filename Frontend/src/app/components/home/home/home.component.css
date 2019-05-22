@@ -1,24 +1,37 @@
 .toolbar{
-  height: 15%;
+  height: 12%;
+ 
+ 
+
+  
 }
 .content{
-  height: 85%
+  height: 88%
 }
 .content2{
   height: 100%;
+  
+}
+
+.sidenav{
+
+  box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+  width: 240px;
 }
 .toolbar-content{
   height: 100%;
+  
 }
 .row1{
   background-color: rgb(128, 0, 0);
-  height: 70%;
+  height: 100%;
+  text-decoration: none;
+  
 
 }
 .row2{
   background-color: rgb(100, 0, 0);
-  height: 30%;
- 
+
 }
 .example-icon {
   padding: 0 14px;
@@ -26,16 +39,88 @@
   
 .example-spacer {
   flex: 1 1 auto;
+  
 }
 
-.logo {
+.logo{
   padding-top: 10px;
+  text-decoration: none;
+  outline: none;
+  
+  
+}
+.mat-list-base{
+  padding: 10px;
+}
+.toogle-navbar{
+  outline:none;
+}
+
+span:focus{
+  border-color: rgb(128, 0, 0);
+  text-decoration: none;
 }
 
 
-a{
-  text-decoration:none; 
+a {
+  text-decoration:none;
+
 }
-a:hover { 
-  color: aliceblue;
+
+a:hover {
+  color: white;
+  background-color:  rgb(100, 0, 0);
+
+}
+
+.user-menu:focus{
+  outline: none;
+}
+
+.list a{
+  margin-bottom: 10px;
+  border-radius: 3px;
+  color: #3C4858;
+  font-size: 14px;
+}
+
+.active-link{
+  color:  white !important;
+  background-color: rgb(128, 0, 0, 0.9) !important;
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
+}
+
+
+.list a:hover { 
+  color: black;
+  background-color: lightgrey;
+}
+
+.list a:active{
+  color:  white;
+  background-color: rgb(128, 0, 0);
+  
+}
+.list a:focus{
+  color:  white;
+  background-color: rgb(128, 0, 0);
+  
+}
+
+
+.content2 mat-icon{
+  margin-right: 20px;
+}
+
+.copyright{
+  position: absolute;
+  width: 100%;
+  bottom: 3px;
+  text-align:center;
+  
+}
+.copyright>span{
+  display:inline-block;
+		vertical-align:middle;
+		line-height:normal;
 }
