@@ -1,5 +1,5 @@
-const pool = require('../mysql/mysql').pool;
-
+const pool = require('../common/mysql').pool;
+const ERROR = require('../common/error');
 class Driver {
     constructor(run, name, surname, surname2, phoneNumber, disabled) {
         this.run = run;
@@ -19,10 +19,10 @@ class Driver {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
             }
             if (results.length > 1) {
-                return callback({message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
             return callback(null, new Driver(result.run, result.name, result.surname, result.surname2, result.phoneNumber, result.disabled));
@@ -64,7 +64,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This driver don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "This driver don't exist"});
             }
             return callback(null, true);
         });
@@ -83,7 +83,7 @@ class Driver {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY, message : err.sqlMessage});
                 }
                 return callback(err);
             }
@@ -100,19 +100,12 @@ class Driver {
            run,
            disabled
         ], function (err, results, fields) {
-            // console.log("update_driver");
-            // console.log("error:")
-            // console.log(err);
-            // console.log("results:");
-            // console.log(results);
-            // console.log("fields:");
-            // console.log(fields);
             if (err) {
                 return callback(err);
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: "This driver don't exist"});
             }
             return callback(null, true);
         });
@@ -130,7 +123,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: "This driver don't exist"});
             }
             return callback(null, true);
         });

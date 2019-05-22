@@ -8,8 +8,9 @@
     <div class="container">
         <mat-form-field appearance= "standard">
             <mat-label>R.U.N</mat-label>
-            <input formControlName="run" class="test" matInput placeholder="11.111.111-1" required>
+            <input formControlName="run" class="test" matInput placeholder="11.111.111-1" readonly>
             <mat-error *ngIf="hasError('run', 'required')">Debe ingresar un Run</mat-error>
+            <mat-error *ngIf="hasError('run', 'pattern')">Debe ingrese un run valido</mat-error>
           </mat-form-field>
 
     </div>
@@ -41,13 +42,14 @@
           <mat-label>Telefono</mat-label>
           <input formControlName="phoneNumber" matInput placeholder="Ej: 999999999">
           <mat-error *ngIf="hasError('phoneNumber', 'required')">Debe ingresar un Número Telefónico</mat-error>
+          <mat-error *ngIf="hasError('phoneNumber', 'pattern')">Debe ingrese un Número Telefónico valido</mat-error>
         </mat-form-field>
     </div>
     </form>
   </mat-dialog-content>
   <hr>
   <mat-dialog-actions >
-    <button mat-raised-button (click)="onCloseConfirm()"  [disabled]="driverForm.invalid">Editar</button>
+    <button mat-raised-button (click)="onCloseConfirm()"  [disabled]="driverForm.invalid">Aceptar</button>
     <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
   </mat-dialog-actions>
 

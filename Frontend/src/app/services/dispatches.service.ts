@@ -90,6 +90,15 @@ export class DispatchesService {
       })
     );
   }
+  
+  getDispatchesWithFullInfo(): Observable<any[]> {
+    return this._http.get<any[]>(env.api.concat("/despachos_completos")).pipe(
+      map(result => {
+        console.log(result);
+        return result;  
+      })
+    );
+  }
 
   formValuesToDispatchObject(data) : Dispatch{
     var formValues = data;

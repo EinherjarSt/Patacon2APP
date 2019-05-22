@@ -28,11 +28,11 @@ export class AddDriverComponent implements OnInit {
   ngOnInit() {}
 
   registerDriverForm: FormGroup = this.formBuilder.group({
-    run: ["", [Validators.required]],
+    run: ["", [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]],
     name: ["", [Validators.required]],
     surname: ["", [Validators.required]],
     surname2: ["", [Validators.required]],
-    phoneNumber: ["", [Validators.required]]
+    phoneNumber: ["", [Validators.required, Validators.pattern(/^\d{9}$/)]]
   });
 
   public hasError = (controlName: string, errorName: string) => {
@@ -49,14 +49,6 @@ export class AddDriverComponent implements OnInit {
 
   onCloseCancel() {
     this.dialogRef.close("Cancel");
-  }
-
-  getErrorMessage() {
-    return this.email.hasError("required")
-      ? "Debe ingresar un valor"
-      : this.email.hasError("email")
-      ? "No es un email válido"
-      : "";
   }
 
   onFormSubmit() {

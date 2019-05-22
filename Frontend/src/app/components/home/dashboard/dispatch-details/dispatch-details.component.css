@@ -1,0 +1,41 @@
+
+  .example-form {
+    min-width: 150px;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .my-form-container {
+    width: 400px;
+  }
+  
+  mat-radio-group mat-radio-button {
+    margin-right: 10px;
+  }
+
+
+.button {
+    height: 10px;
+    padding: 40px;
+    background-color: rgb(128, 0, 0);
+}
+
+.input-div {
+    width:100%;
+}
+
+.action-buttons{
+    display: flex;
+    height: 30px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.button-div{
+  margin-right: 10px;
+}

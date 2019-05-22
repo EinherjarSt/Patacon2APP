@@ -13,7 +13,7 @@ import { UpdateProducerComponent } from '../update-producer/update-producer.comp
 export class ProducerListComponent implements OnInit {
 
   producers: Producer[];
-  displayedColumns: string[] = ["name", "rut", "manager", "telephone", "details", "delete"];
+  displayedColumns: string[] = ["name", "rut", "locations", "details", "delete"];
   dataSource: MatTableDataSource<Producer>;
 
   constructor(private producerService: ProducersService, private dialog: MatDialog) { }
@@ -43,12 +43,13 @@ export class ProducerListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog(): void {
+  openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProducerComponent, {
       width: '500px',
     });
   
     dialogRef.afterClosed().subscribe(result => {
+      if(result === "Confirm") this.refreshTable();
       console.log('The dialog was closed');
     });
   }
@@ -68,4 +69,7 @@ export class ProducerListComponent implements OnInit {
 
   }
 
+  refreshTable() {
+    this.getProducers();
+  }
 }

@@ -38,6 +38,7 @@ export class AddTruckComponent implements OnInit {
     //console.log(this.form);
     //console.log(this.form.value);
     let truckData = this.addTruckForm.value;
+    console.log(truckData);
     this.truckService.createTruck(truckData).subscribe({
       next: result => {
         console.log(result);
@@ -86,4 +87,7 @@ export class AddTruckComponent implements OnInit {
     });
   }
 
+  public hasError = (controlName: string, errorName: string) => {
+    return this.addTruckForm.get(controlName).hasError(errorName);
+  };
 }

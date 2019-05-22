@@ -1,4 +1,4 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
 const bcrypt = require('bcrypt');
 
 class Dispatch {
@@ -14,6 +14,42 @@ class Dispatch {
         this.arrivalAtVineyardDate = arrivalAtVineyardDate;
         this.containerType = containerType;
         this.status = status;
+    }
+
+    
+    static getDispatchesWithFullInfo(callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL get_dispatches_with_full_info()`, [],function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let dispatches2 = []
+            var a = 1;
+            for (const dispatch of results[0]) {
+                dispatches2.push({
+                    dispatchId: dispatch.dispatchId,
+                    dispatchStatus: dispatch.dispatchStatus,
+                    driverRef: dispatch.driverRef,
+                    truckLicensePlate: dispatch.truckLicensePlate,
+                    arrivalAtPataconDatetime: dispatch.arrivalAtPataconDatetime,
+                    arrivalAtVineyardDatetime: dispatch.arrivalAtVineyardDatetime,
+                    shippedKilograms: dispatch.shippedKilograms ,
+                    containerType: dispatch.containerType ,
+                    driverRun: dispatch.driverRun ,
+                    driverName: dispatch.driverName,
+                    driverSurname: dispatch.driverSurname,
+                    driverPhoneNumber: dispatch.driverPhoneNumber,
+                    producerName: dispatch.producerName,
+                    producerLocation: dispatch.producerLocation,
+                    truckGPSImei: dispatch.truckGPSImei
+                });
+            }
+
+            console.log(dispatches2);
+            return callback(null, dispatches2);
+        });
     }
 
     static getDispatches(callback) {
@@ -53,7 +89,7 @@ class Dispatch {
 
     static deleteDispatch(dispatch_id, callback) {
 
-        console.log("Llegó acá el IDDDD: "  + dispatch_id);
+        console.log("Llegó acá el IDDDD: " + dispatch_id);
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
@@ -103,14 +139,6 @@ class Dispatch {
             dispatch.containerType, dispatch.status
         ], function (err, results, fields) {
 
-            console.log("Errors");
-            console.log(err);
-
-            console.log("Results")
-            console.log(results);
-
-            console.log("fields");
-            console.log(fields);
 
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
