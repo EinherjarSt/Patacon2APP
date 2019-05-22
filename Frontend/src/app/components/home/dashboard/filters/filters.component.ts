@@ -3,6 +3,10 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { Filter } from 'src/app/model-classes/filter';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FilterService } from 'src/app/services/filter.service';
+import { DispatchesService } from '../../../../services/dispatches.service';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.component';
+
 
 @Component({
   selector: 'app-filters',
@@ -11,30 +15,26 @@ import { FilterService } from 'src/app/services/filter.service';
 })
 export class FiltersComponent implements OnInit {
 
-  displayedColumns: string[] = ["select","truck","state","origin","destination","details"];
+  displayedColumns: string[] = ["select","truck","state","destination","details"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
+  isDataLoading: boolean;
 
-  constructor(private filterService: FilterService) { }
+  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.filterService.getAllRows().subscribe(
-      data => {
-        this.dataSource.data = data as Filter[];
-      },
-      error => console.log("Error")
-    )
+    this.getDispatches()
     
-  }
-
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
    /** Whether the number of selected elements matches the total number of rows. */
@@ -56,8 +56,46 @@ export class FiltersComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.dispatchId + 1}`;
   }
+
+
+  getDispatches(): void {
+
+    this.isDataLoading = true;
+    this._dispatchesService.getDispatchesWithFullInfo().subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+        this.isDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+
+
+  openDispatchDetailsDialog(dispatch: Filter) {
+
+    console.log("Data");
+    console.log(dispatch);
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = dispatch;
+
+    this.dialog.open(DispatchDetailsComponent, dialogConfig);
+  }
+
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    return dialogConfig;
+  }
+
+  
 
 
 }

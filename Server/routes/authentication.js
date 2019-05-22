@@ -3,6 +3,7 @@ const app = express();
 
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const ERROR = require('../common/error');
 
 /* POST login. */
 app.post('/login', function (req, res) {
@@ -13,6 +14,7 @@ app.post('/login', function (req, res) {
             //console.log("login user: %j", user);
             if (err || !user) {
                 return res.status(400).json({
+                    code: info ? info.code: ERROR.LOGIN_FAILED, 
                     message: info ? info.message : 'Login failed',
                     user: user
                 });

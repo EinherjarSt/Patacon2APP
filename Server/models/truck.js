@@ -1,4 +1,4 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
 
 class Truck {
     constructor(id_truck, licencePlate, brand, model, year, maxLoad, owner, color, disabled, available) {

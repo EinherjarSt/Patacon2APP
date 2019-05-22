@@ -1,139 +1,101 @@
 <div class="toolbar">
-    <mat-toolbar color="primary" class="toolbar-content"> 
-      <mat-toolbar-row class="row1"> 
-        <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+    <mat-toolbar color="primary" class="toolbar-content">
+      <mat-toolbar-row class="row1">
+        <button mat-icon-button (click)="sidenav.toggle()" class="toogle-navbar">
           <mat-icon>menu</mat-icon>
         </button>
         <span><img class="logo" src="assets/images/LogoProvisorio.png" width="180" [routerLink]="['/inicio']"></span>
         <span class="example-spacer"></span>
         <div fxShow="true" fxHide.lt-md="true">
           <!-- The following menu items will be hidden on both SM and XS screen sizes -->
-    
+
           <a href="#" mat-button>
             <mat-icon>notifications</mat-icon>
             Notificaciones
           </a>
-          <a href="#" mat-button>
-            <mat-icon>message</mat-icon>
-            Mensajes
-          </a>
-  
-          <a  mat-button [matMenuTriggerFor]="menu">
-            
+
+          <a  mat-button [matMenuTriggerFor]="menu" >
+
               <mat-icon>account_box</mat-icon> Usuario
-        
-           <mat-menu #menu="matMenu" [overlapTrigger]="false">
-             <button mat-menu-item>
+
+           <mat-menu #menu="matMenu" [overlapTrigger]="false" >
+             <button mat-menu-item class="user-menu">
                <mat-icon>settings</mat-icon>
                <span>Perfil</span>
              </button>
-  
-             <button (click)="logout()" mat-menu-item>
+
+             <button (click)="logout()" mat-menu-item class="user-menu">
                <mat-icon>exit_to_app</mat-icon>
                <span>Cerrar sesión</span>
              </button>
            </mat-menu>
-         </a>      
+         </a>
         </div>
       </mat-toolbar-row>
       <td></td>
-      <mat-toolbar-row class="row2">
-          <div fxShow="true" fxHide.lt-md="true">
-            <a [routerLink]="['usuarios']" mat-button>
-                
-                Usuarios
-              </a>
-            <a [routerLink]="['camiones']" mat-button>
-                
-                Camiones
-              </a>
-            <a [routerLink]="['choferes']" mat-button>
-                
-                Choferes
-              </a>
-              <a [routerLink]="['gps']" mat-button>
-                
-                Gps
-            </a>
-            <a [routerLink]="['productores']" mat-button>
-                
-                Productores
-              </a>
-              <a [routerLink]="['planificacion']" mat-button>
-                
-                Planificación
-              </a>
-              <a [routerLink]="['despachos']" mat-button>
-                
-                Despachos
-              </a>
-              
-            </div>
-        </mat-toolbar-row >
+
     </mat-toolbar>
   </div>
   <div class="content">
     <mat-sidenav-container class="content2">
-      <mat-sidenav #sidenav>
-        <mat-nav-list>
-          <a [routerLink]="['usuarios']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
+      <mat-sidenav #sidenav [mode]="'side'" class="sidenav">
+        <mat-nav-list class="list">
+          <a [routerLink]="['/inicio']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
+              <mat-icon>dashboard</mat-icon>
+                Inicio
+              </a>
+          <a [routerLink]="['usuarios']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
             <mat-icon>people</mat-icon>
               Usuarios
             </a>
-          <a [routerLink]="['camiones']" mat-list-item>
+          <a [routerLink]="['camiones']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" mat-list-item>
               <mat-icon>local_shipping</mat-icon>
-              
+
               Camiones
             </a>
-          <a [routerLink]="['choferes']" mat-list-item>
-              <mat-icon>airline_seat_recline_normal</mat-icon>
-              
+          <a [routerLink]="['choferes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"  mat-list-item>
+              <mat-icon>contacts</mat-icon>
+
               Choferes
             </a>
-          <a [routerLink]="['productores']" mat-list-item>
+          <a [routerLink]="['productores']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"  mat-list-item>
               <mat-icon>nature_people</mat-icon>
               Productores
             </a>
-            <a [routerLink]="['gps']" mat-list-item>
+            <a [routerLink]="['gps']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"  mat-list-item>
               <mat-icon>near_me</mat-icon>
               Gps
           </a>
-            <a [routerLink]="['planificacion']" mat-list-item>
+            <a [routerLink]="['planificacion']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"  mat-list-item>
                 <mat-icon>table_chart</mat-icon>
               Planificación
             </a>
-            <a [routerLink]="['despachos']" mat-list-item>
+            <a [routerLink]="['despachos']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"  mat-list-item>
               <mat-icon>table_chart</mat-icon>
             Despachos
           </a>
-            
-          <a href="#" mat-list-item>
-            <mat-icon>notifications</mat-icon>
-            Notificaciones
-          </a>
-          <a href="#" mat-list-item>
-            <mat-icon>message</mat-icon>
-            Mensajes</a>
-          <a href="#" mat-list-item>
-            <mat-icon>account_box</mat-icon>
-            Usuario
-          </a>
-          <a href="#" mat-list-item>
-              <mat-icon>settings</mat-icon>
-              Perfil
-          </a>
-          <a href="#" mat-list-item>
-              <mat-icon>exit_to_app</mat-icon>
-              Cerrar sesión
-          </a>
+
+          
+              
+
+          
         </mat-nav-list>
+        <div class="copyright">
+            <span>  
+                <small>&copy; Copyright 2019, Patacon</small>
+            </span>
+        </div>
+        
+
+
+
+        
       </mat-sidenav>
       <mat-sidenav-content>
-  
+
           <!--Aqui va el contenido principal-->
           <router-outlet></router-outlet>
-  
+
       </mat-sidenav-content>
     </mat-sidenav-container>
   </div>
-  

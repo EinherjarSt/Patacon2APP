@@ -11,4 +11,7 @@ app.use(require('./producers'));
 app.use(require('./gps'));
 app.use(require('./lastEvent'));
 
+app.use(require('./sms'));
+app.use(require('./planification'));
+
 module.exports = app;

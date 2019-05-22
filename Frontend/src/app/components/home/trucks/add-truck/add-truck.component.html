@@ -6,7 +6,16 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Patente</mat-label>
-            <input matInput placeholder="Ej: AAAA-12 o AA-1234" formControlName="licencePlate"/>
+
+            <input
+              matInput
+              placeholder=""
+              formControlName="licencePlate"
+              [value] = "input.value.toUpperCase()"
+              #input
+            />
+            <mat-error *ngIf="hasError('licencePlate', 'required')">Debe ingresar la patente</mat-error>
+
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>

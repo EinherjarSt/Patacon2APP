@@ -1,5 +1,6 @@
 table {
   width: 100%;
+
 }
 #title{
 font-size: 24px;
@@ -8,9 +9,11 @@ margin-left: 5%;
 margin-bottom: 15px;
 }
 .list-container{
-padding-left: 5%;
-padding-right: 5%;
+  padding-top: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 th.mat-sort-header-sorted {
   color: black;
 }
+

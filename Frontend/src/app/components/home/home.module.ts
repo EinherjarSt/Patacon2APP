@@ -44,6 +44,7 @@ import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
 import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirmation-dialog.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
+import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
 
 
 
@@ -82,7 +83,8 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
     ConfirmationDialogComponent,
     EditUserComponent,
     EditDriverComponent,
-    EditTruckComponent
+    EditTruckComponent,
+    DispatchDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -109,7 +111,8 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
     ConfirmationDialogComponent,
     EditUserComponent,
     EditDriverComponent,
-    EditTruckComponent
+    EditTruckComponent,
+    DispatchDetailsComponent
   ],
 })
 export class HomeModule { }
