@@ -17,6 +17,20 @@ app.get('/despachos', passport.authenticate('jwt', {
     });
 })
 
+app.get('/despachos_completos', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+
+    Dispatch.getDispatchesWithFullInfo((err, dispatches) =>{
+        console.log(err);
+        if (err){
+            return res.status(400).json(err);
+        }
+        return res.json(dispatches);
+    });
+})
+
+
 app.get('/despachos/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
@@ -55,7 +69,6 @@ app.put('/despachos/registrar', passport.authenticate('jwt', {
 app.put('/despachos/editar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("request");
     console.log(req.body);
     let body = req.body;
         
@@ -79,7 +92,6 @@ app.put('/despachos/editar/:id', passport.authenticate('jwt', {
 app.delete('/despachos/eliminar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("ACCAAAA");
     console.log(req);
     Dispatch.deleteDispatch(req.params.id, (err, result) => {
         if (err) {

@@ -8,10 +8,20 @@ table {
   margin-bottom: 15px;
   }
   .list-container{
+    padding-top: 5%;
   padding-left: 5%;
   padding-right: 5%;
   }
   th.mat-sort-header-sorted {
     color: black;
   }
+
+.locations-list{
+  display: flex;
+  flex-direction: row;
+}
   
+.location{
+  padding-right: 10px;
+  padding-bottom: 5px;
+}

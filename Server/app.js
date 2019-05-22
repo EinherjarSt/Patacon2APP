@@ -2,7 +2,7 @@ require('./config/config');
 require('./config/passport');
 require('./gps/indexGPS');
 var cleanup = require('./cleanup').Cleanup(cleanup);
-const mysql = require('./mysql/mysql');
+const mysql = require('./common/mysql');
 const express = require('express');
 const app = express();
 var cors = require('cors')

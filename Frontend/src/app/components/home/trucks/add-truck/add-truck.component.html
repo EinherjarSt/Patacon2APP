@@ -10,7 +10,10 @@
               matInput
               placeholder=""
               formControlName="licencePlate"
+              [value] = "input.value.toUpperCase()"
+              #input
             />
+            <mat-error *ngIf="hasError('licencePlate', 'required')">Debe ingresar la patente</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -76,7 +79,7 @@
     </mat-dialog-content>
     <hr />
     <mat-dialog-actions>
-      <button mat-raised-button (click)="onCloseConfirm()">Agregar</button>
+      <button mat-raised-button (click)="onCloseConfirm()" [disabled]="addTruckForm.invalid">Agregar</button>
       <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
     </mat-dialog-actions>
 </div>

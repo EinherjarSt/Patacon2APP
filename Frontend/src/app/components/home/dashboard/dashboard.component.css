@@ -26,3 +26,9 @@ agm-map {
   
 }
 
+p.copyright{
+  position: absolute;
+  right: 10px; 
+  top: 1px;
+}
+

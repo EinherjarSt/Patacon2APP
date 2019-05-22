@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { TrucksService } from '../../../../services/trucks.service';
@@ -20,7 +20,7 @@ export class AddTruckComponent implements OnInit {
     private truckService: TrucksService) 
   { 
     this.addTruckForm = new FormGroup({
-      licencePlate: new FormControl(""),
+      licencePlate: new FormControl("", [Validators.required]),
       brand: new FormControl(""),
       model: new FormControl(""),
       year: new FormControl(""),
@@ -38,6 +38,7 @@ export class AddTruckComponent implements OnInit {
     //console.log(this.form);
     //console.log(this.form.value);
     let truckData = this.addTruckForm.value;
+    console.log(truckData);
     this.truckService.createTruck(truckData).subscribe({
       next: result => {
         console.log(result);
@@ -58,4 +59,7 @@ export class AddTruckComponent implements OnInit {
     });
   }
 
+  public hasError = (controlName: string, errorName: string) => {
+    return this.addTruckForm.get(controlName).hasError(errorName);
+  };
 }

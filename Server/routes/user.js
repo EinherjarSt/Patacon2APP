@@ -115,5 +115,18 @@ app.get('/user/getall', passport.authenticate('jwt', {
     });
 })
 
+app.post('/user/remove', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let body = req.body;
+    User.removeUser(body.run, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "User has been removed"
+        });
+    });
+})
 
 module.exports = app;
