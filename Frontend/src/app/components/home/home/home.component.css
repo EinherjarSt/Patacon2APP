@@ -1,9 +1,6 @@
 .toolbar{
   height: 12%;
  
- 
-
-  
 }
 .content{
   height: 88%
@@ -26,6 +23,8 @@
   background-color: rgb(128, 0, 0);
   height: 100%;
   text-decoration: none;
+ /* box-shadow:  1px 2px 7px 0px rgba(0,0,0,0.2);*/
+  z-index: 2;
   
 
 }
