@@ -41,12 +41,12 @@
         </ng-container>
   
         <ng-container matColumnDef="details">
-          <th mat-header-cell *matHeaderCellDef> Detalles </th>
+          <th mat-header-cell *matHeaderCellDef> Editar </th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="primary" (click)="openUpdateDialog(element.rut)">
-              <mat-icon class="mat-18">menu</mat-icon>
+              <mat-icon class="mat-18">edit</mat-icon>
             </button>
-          </td>
+          </td> 
         </ng-container>
   
         <ng-container matColumnDef="delete">
