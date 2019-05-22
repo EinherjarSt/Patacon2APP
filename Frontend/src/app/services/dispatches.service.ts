@@ -97,7 +97,7 @@ export class DispatchesService {
     return new Dispatch(
       formValues.id,
       formValues.driverReference.run,
-      formValues.truckReference.licencePlate,
+      formValues.truckReference.id_truck,
       formValues.planificationReference,
       formValues.shippedKilograms,
       formValues.arrivalAtPataconDate.format('YYYY-MM-DD'),

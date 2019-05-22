@@ -10,6 +10,8 @@ import { environment as env} from '@env/environment';
   providedIn: 'root'
 })
 export class TrucksService {
+  disabled: boolean;
+  available: boolean;
 
   constructor(private http: HttpClient) { }
 
@@ -37,6 +39,7 @@ export class TrucksService {
   }
 
   updateTruck(data: Truck): Observable<boolean> {
+    console.log("Entro a updateTruck en trucks.service.ts");
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
     .set("brand", data.brand)
@@ -46,8 +49,10 @@ export class TrucksService {
     .set("owner", data.owner)
     .set("color", data.color);
 
+    console.log(data.color);
+
     return this.http
-      .put<{ msg: string }>(
+      .post<{ msg: string }>(
         env.api.concat("/truck/update"),
         body
       )
@@ -76,13 +81,13 @@ export class TrucksService {
       );
   } */
 
-  /* disableTruck(data: Truck): Observable<boolean> {
+  disableTruck(data: Truck): Observable<boolean> {
     console.log("Funcion Disable truck en Service");
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
     .set("disabled", data.disabled ? 'true' : 'false');
     return this.http
-      .put<{ msg: string }>(
+      .post<{ msg: string }>(
         env.api.concat("/truck/disable"),
         body
       )
@@ -92,7 +97,7 @@ export class TrucksService {
           return true;
         })
       );
-  } */
+  }
 
   getAllTrucks(): Observable<Truck[]> {
     return this.http.get<Truck[]>(env.api.concat("/truck/getall")).pipe(

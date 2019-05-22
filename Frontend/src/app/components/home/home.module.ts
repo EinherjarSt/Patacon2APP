@@ -26,6 +26,7 @@ import { RegisterDispatchComponent } from './dispatch/register-dispatch/register
 import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
+import { EditTruckComponent } from './trucks/edit-truck/edit-truck.component';
 
 import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
 import { DetailsComponent } from './planification/planification-list/details/details.component';
@@ -80,7 +81,8 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
     EditGpsComponent,
     ConfirmationDialogComponent,
     EditUserComponent,
-    EditDriverComponent
+    EditDriverComponent,
+    EditTruckComponent
   ],
   imports: [
     CommonModule,
@@ -106,7 +108,8 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
     EditGpsComponent,
     ConfirmationDialogComponent,
     EditUserComponent,
-    EditDriverComponent
+    EditDriverComponent,
+    EditTruckComponent
   ],
 })
 export class HomeModule { }

@@ -33,7 +33,7 @@ export class EditTruckComponent implements OnInit {
   }  
 
   getTruckData() {
-    this.truckService.getTruck(this.data).subscribe({
+    this.truckService.getTruck(this.data.licencePlate).subscribe({
       next: result => {
         this.editTruckForm.get('licencePlate').setValue(result.licencePlate);
         this.editTruckForm.get('brand').setValue(result.brand);
@@ -43,6 +43,13 @@ export class EditTruckComponent implements OnInit {
         this.editTruckForm.get('owner').setValue(result.owner);
         this.editTruckForm.get('color').setValue(result.color);
 
+        console.log(result.licencePlate);
+        console.log(result.brand);
+        console.log(result.model);
+        console.log(result.year);
+        console.log(result.maxLoad);
+        console.log(result.owner);
+        console.log(result.color);
         console.log(result);
       },
       error: result => {
@@ -53,6 +60,7 @@ export class EditTruckComponent implements OnInit {
 
   onCloseConfirm() {
     let truckData = this.editTruckForm.value;
+    console.log(this.editTruckForm.value);
     this.truckService.updateTruck(truckData).subscribe({
       next: result => {
         console.log(result);

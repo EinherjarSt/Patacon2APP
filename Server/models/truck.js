@@ -1,28 +1,31 @@
 const pool = require('../mysql/mysql').pool;
 
 class Truck {
-    constructor(licencePlate, brand, model, year, maxLoad, owner, color) {
+    constructor(id_truck, licencePlate, brand, model, year, maxLoad, owner, color, disabled, available) {
+        this.id_truck = id_truck;
         this.licencePlate = licencePlate;
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.maxLoad = maxLoad;
         this.owner = owner;
-        this.color = color
+        this.color = color;
+        this.disabled = disabled;
+        this.available = available
     }
 
     static getAllTrucks(callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`SELECT * FROM truck`, function (err, results, fields) {
+        pool.query(`SELECT * FROM truck WHERE disabled = 0`, function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
             let trucks = []
             for (const truck of results) {
-                trucks.push(new Truck(truck.licencePlate, truck.brand, truck.model, 
-                    truck.year, truck.maxLoad, truck.owner, truck.color));
+                trucks.push(new Truck(truck.id_truck, truck.licencePlate, truck.brand, truck.model, 
+                    truck.year, truck.maxLoad, truck.owner, truck.color, truck.disabled, truck.available));
             }
             return callback(null, trucks);
         });
@@ -74,7 +77,7 @@ class Truck {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL disable_truck(?, ?)`, [
+        pool.query(`CALL disable_truck2(?, ?)`, [
             licencePlate,
             disabled,
         ], function (err, results, fields) {
@@ -94,7 +97,7 @@ class Truck {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL add_truck(?, ?, ?, ?, ?, ?, ?)`, [
+        pool.query(`CALL add_truck2(?, ?, ?, ?, ?, ?, ?)`, [
             truck.licencePlate, 
             truck.brand, 
             truck.model, 
@@ -118,8 +121,7 @@ class Truck {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        let query = pool.query(`SELECT * FROM truck WHERE licencePlate = ? AND 
-                                disabled = 0`, [licencePlate], 
+        let query = pool.query(`SELECT * FROM truck WHERE licencePlate = ?`, [licencePlate], 
                                 function (err, results, fields) {
             if (err) {
                 return callback(err);
@@ -131,8 +133,9 @@ class Truck {
                 return callback({message : "There is an error in database because the truck is not unique"});
             }
             let result = results[0];
-            return callback(null, new Truck(result.id, result.licencePlate, result.brand, 
-                result.model, result.year, result.maxLoad, result.owner, result.color, result.available, result.disable));
+            console.log(result.licencePlate);
+            return callback(null, new Truck(result.licencePlate, result.brand, 
+                result.model, result.year, result.maxLoad, result.owner, result.color));
         });
     }
 }

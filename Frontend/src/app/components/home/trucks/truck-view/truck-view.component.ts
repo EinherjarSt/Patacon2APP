@@ -43,6 +43,7 @@ export class TruckViewComponent implements OnInit {
     this.trucksService.getAllTrucks().subscribe(
       data => {
         this.dataSource.data = data as Truck[];
+        console.log(data);
       },
       error => console.log("Error")
     );
@@ -65,9 +66,22 @@ export class TruckViewComponent implements OnInit {
     });
   }
 
-  openUpdateDialog(licencePlate: string) {
+  openUpdateDialog(truck: Truck) {
+    console.log("Entro a openUpdateDialog en truck-view.component.ts");
+
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = truck;
+
+    this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) { 
+        this.refreshTable();
+      }
+    });;
+  }
+
+  /* openUpdateDialog(data: Truck) {
     const dialogRef = this.dialog.open(EditTruckComponent, {
-      data: licencePlate,
+      data: Truck,
       width: "500px"
     });
 
@@ -75,11 +89,12 @@ export class TruckViewComponent implements OnInit {
       if (result == 'Confirm') this.refreshTable();
     });
   }
-
-  /* openDeleteDialog(truckData){
+ */
+  openDeleteDialog(truckData: Truck){
+    console.log(truckData);
     console.log(truckData.licencePlate, truckData.disabled);
     truckData.disabled = truckData.disabled ? false: true;
-    this.trucksService.disableTruck(truckData.licencePlate).subscribe({
+    this.trucksService.disableTruck(truckData).subscribe({
       next: result => {
         console.log(result);
       },
@@ -88,17 +103,18 @@ export class TruckViewComponent implements OnInit {
       }
     });
     console.log(truckData.licencePlate, truckData.disabled);
+    this.refreshTable();
   }
 
   openDeletionConfirmationDialog() {
     var deletionDialogConfig = this.getDialogConfig();
     deletionDialogConfig.data = { message: "¿Desea eliminar este camion?" };
     return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
-  } */
+  }
 
   getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
-
+    dialogConfig.width = "500px";
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     return dialogConfig;

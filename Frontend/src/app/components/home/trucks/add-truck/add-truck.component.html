@@ -60,7 +60,7 @@
     </mat-dialog-content>
     <hr />
     <mat-dialog-actions>
-      <button mat-raised-button (click)="onCloseConfirm()"[disabled]="addTruckForm.invalid">Agregar</button>
+      <button mat-raised-button (click)="onFormSubmit()"[disabled]="addTruckForm.invalid">Agregar</button>
       <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
     </mat-dialog-actions>
 </div>

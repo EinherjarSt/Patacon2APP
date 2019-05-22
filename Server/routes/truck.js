@@ -11,7 +11,7 @@ app.put('/truck/add',
         console.log("truck/add");
         console.log(req.body);
         let body = req.body;
-        let newTruck = new Truck(body.licencePlate, 
+        let newTruck = new Truck(0, body.licencePlate, 
         body.brand, body.model, body.year, body.maxLoad, 
         body.owner, body.color);
         Truck.addTruck(newTruck, (err, result) => {
@@ -19,7 +19,8 @@ app.put('/truck/add',
                 return res.status(400).json(err);
             }
             return res.json({
-                message: "Truck has been added"
+                message: "Truck has been added",
+                result: result
             });
         });
     }
@@ -44,7 +45,7 @@ app.put('/truck/add',
     }
 ); */
 
-app.post('/truck/update',
+app.post("/truck/update",
     passport.authenticate("jwt", {
         session: false
     }),
@@ -105,11 +106,11 @@ app.get('/truck/get/:licencePlate', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     let licencePlate = req.params.licencePlate;
-    Truck.getTruckByLicencePlate(licencePlate, (err, user) => {
+    Truck.getTruckByLicencePlate(licencePlate, (err, truck) => {
         if (err) {
             return res.status(400).json(err);
         }
-        return res.json(user);
+        return res.json(truck);
     });
 })
 

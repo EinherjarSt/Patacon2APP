@@ -1,4 +1,5 @@
 export class Truck {
+    id_truck: string;
     licencePlate: string;
     ref_gps: string;
     brand: string;
@@ -6,7 +7,7 @@ export class Truck {
     year: string;
     maxLoad: string;
     owner: string;
-    color: string
+    color: string;
     disabled: boolean;
-    available: boolean
+    available: boolean;
 }
