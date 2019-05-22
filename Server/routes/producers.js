@@ -106,7 +106,7 @@ app.put('/producer/addLocation',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 	let body = req.body;
-	let newLocation = new Location(body.ref_producer, body.address, body.latitude,
+	let newLocation = new Location(0,body.ref_producer, body.address, body.latitude,
 	 body.longitude, body.manager, body.managerPhoneNumber);
 	
 	Location.addLocation(newLocation, (err, result) => {

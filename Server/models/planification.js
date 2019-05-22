@@ -1,4 +1,4 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
 const Producer = require('../models/producer');
 const Location = require('../models/location');
 

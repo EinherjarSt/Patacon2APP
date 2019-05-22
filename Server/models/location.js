@@ -1,4 +1,4 @@
-const pool = require('../mysql/mysql').pool;
+const pool = require('../common/mysql').pool;
 
 class Location{
 	constructor(id_location, ref_producer, address, latitude, longitude, manager, managerPhoneNumber){
