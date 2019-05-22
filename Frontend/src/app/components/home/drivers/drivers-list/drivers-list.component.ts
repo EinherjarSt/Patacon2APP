@@ -96,7 +96,7 @@ export class DriversListComponent implements OnInit {
 
   openDeletionConfirmationDialog() {
     var deletionDialogConfig = this.getDialogConfig();
-    deletionDialogConfig.data = { message: "¿Desea eliminar este despacho?" };
+    deletionDialogConfig.data = { message: "¿Desea eliminar este chofer?" };
     return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
   }
 

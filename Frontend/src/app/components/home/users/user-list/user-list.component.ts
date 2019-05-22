@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/model-classes/user';
-import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatSort, MatPaginator, MatDialogConfig } from '@angular/material';
 import { UsersService } from 'src/app/services/users.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
+import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { EditUserComponent } from '../edit-user/edit-user.component';
 export class UserListComponent implements OnInit {
 
   users: User[];
-  displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "disabled"];
+  displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "delete"];
   dataSource: MatTableDataSource<User>;
   dialogResult = "";
 
@@ -89,6 +90,32 @@ export class UserListComponent implements OnInit {
 
   refreshTable() {
     this.getUsers();
+  }
+
+  deleteUser(run: string) {
+    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) {
+        this.usersService.removeUser(run).subscribe({
+          next: result => { this.refreshTable(); },
+          error: result => {}
+        }); 
+      }
+    });
+  }
+
+  openDeletionConfirmationDialog() {
+    
+    var deletionDialogConfig = this.getDialogConfig();
+    deletionDialogConfig.data = { message: '¿Desea eliminar este usuario?'};
+    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+  }
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    return dialogConfig;
   }
 
 }
