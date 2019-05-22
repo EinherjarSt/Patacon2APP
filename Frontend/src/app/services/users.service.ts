@@ -118,4 +118,24 @@ export class UsersService {
         })
       );
   }
+
+  /** Request to server to remove a user.
+   * @param data Data to send to backend
+   */
+  removeUser(run:string): Observable<boolean> {
+    const body = new HttpParams()
+      .set("run", run);
+
+    return this.http
+      .post<{ msg: string }>(
+        env.api.concat("/user/remove"),
+        body,
+      )
+      .pipe(
+        map(result => {
+          console.log(result.msg);
+          return true;
+        })
+      );
+  }
 }
