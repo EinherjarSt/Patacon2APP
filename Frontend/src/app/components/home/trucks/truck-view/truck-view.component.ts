@@ -72,11 +72,14 @@ export class TruckViewComponent implements OnInit {
     var dialogConfig = this.getDialogConfig();
     dialogConfig.data = truck;
 
-    this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(confirmation => {
-      if(confirmation.confirmed) { 
+    this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(result => {
+      if(result = 'Confirm') { 
+        console.log("Actualizar tabla");
         this.refreshTable();
       }
-    });;
+    });
+    console.log("Actualizar tabla");
+    this.refreshTable();
   }
 
   /* openUpdateDialog(data: Truck) {

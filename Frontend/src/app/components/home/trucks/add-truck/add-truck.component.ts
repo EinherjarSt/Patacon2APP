@@ -3,6 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { TrucksService } from '../../../../services/trucks.service';
+import { Gps } from 'src/app/model-classes/gps';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { GpsService } from '../../../../services/gps.service';
 
 @Component({
   selector: "app-add-truck",
@@ -13,11 +17,12 @@ import { TrucksService } from '../../../../services/trucks.service';
 export class AddTruckComponent implements OnInit {
 
   addTruckForm: FormGroup;
+  //isGpsListDataLoading: boolean;
 
   constructor(private snackBar: MatSnackBar,
     public thisDialogRef: MatDialogRef<AddTruckComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string, 
-    private truckService: TrucksService) 
+    private truckService: TrucksService)
   { 
     this.addTruckForm = new FormGroup({
       licencePlate: new FormControl("",[Validators.required]),
@@ -29,9 +34,54 @@ export class AddTruckComponent implements OnInit {
       color: new FormControl("",[Validators.required])
     });
   }
-
+  
   ngOnInit() {
-  }  
+    //this.getGpsOptions();
+  }
+
+  /* gpsOptions: Gps[];
+  gpsFilteredOptions: Observable<Gps[]>;
+
+    
+
+  getGpsOptions() {
+    this.isGpsListDataLoading = true;
+    this.gpsService.getAllGPS().subscribe({
+      next: (gps) => {
+        this.gpsOptions = gps;
+        this.setGpsAutocompleteFilteringCapabilities();
+        this.isGpsListDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  setGpsAutocompleteFilteringCapabilities() {
+    this.gpsFilteredOptions = this.addTruckForm.get('gpsReference').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.filterGpsOptions(value))
+      );
+  }
+
+  private filterGpsOptions(value): Gps[] {
+    var filterValue: string;
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    }
+    else {
+      filterValue = '';
+    }
+
+    return this.gpsOptions.filter(gpsOption => this.GpsToDisplayableString(gpsOption).toLowerCase().includes(filterValue));
+  }
+
+
+  GpsToDisplayableString(gps: Gps): string {
+    return gps ?  gps.imei : '';
+  } */
 
   /* onCloseConfirm() {
     // Here add service to send data to backend

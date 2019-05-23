@@ -45,7 +45,7 @@ app.put('/truck/add',
     }
 ); */
 
-app.post("/truck/update",
+app.post('/truck/update',
     passport.authenticate("jwt", {
         session: false
     }),
@@ -54,7 +54,7 @@ app.post("/truck/update",
         console.log(req.body);
 
         let body = req.body;
-        let updatedTruck = new Truck(body.licencePlate, body.brand, body.model, body.year, body.maxLoad, body.owner, body.color);
+        let updatedTruck = new Truck(body.id_truck, body.licencePlate, body.brand, body.model, body.year, body.maxLoad, body.owner, body.color);
         Truck.updateTruck(updatedTruck, (err, result) => {
             if (err) {
                 return res.status(400).json(err);
