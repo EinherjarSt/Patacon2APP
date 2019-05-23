@@ -134,8 +134,9 @@ class Truck {
             }
             let result = results[0];
             console.log(result.licencePlate);
-            return callback(null, new Truck(result.licencePlate, result.brand, 
-                result.model, result.year, result.maxLoad, result.owner, result.color));
+            return callback(null, new Truck(result.id_truck, result.licencePlate, result.brand, 
+                result.model, result.year, result.maxLoad, result.owner, result.color, result.disabled,
+                result.available));
         });
     }
 }
