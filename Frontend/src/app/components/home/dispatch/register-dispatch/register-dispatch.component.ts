@@ -17,6 +17,8 @@ import { Dispatch } from '../../../../model-classes/dispatch';
 import * as moment from 'moment';
 import { Truck } from 'src/app/model-classes/truck';
 
+import { Inject } from '@angular/core';
+
 @Component({
   selector: 'register-dispatch',
   templateUrl: './register-dispatch.component.html',
@@ -36,7 +38,8 @@ export class RegisterDispatchComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<RegisterDispatchComponent>,
     private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService,
-    private _driversService: DriversService, private _trucksService: TrucksService) {
+    private _driversService: DriversService, private _trucksService: TrucksService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     this.title = "Registrar despacho";
   }
 
@@ -55,7 +58,7 @@ export class RegisterDispatchComponent implements OnInit {
     id: [-1],
     driverReference: ['', [Validators.required, AutocompleteValidOption]],
     truckReference: ['', [Validators.required, AutocompleteValidOption]],
-    planificationReference: [1, []],
+    planificationReference: [],
     shippedKilograms: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
     arrivalAtVineyardDate: ['', [Validators.required]],
     arrivalAtVineyardTime: ['', [Validators.required]],
@@ -67,17 +70,25 @@ export class RegisterDispatchComponent implements OnInit {
   });
 
 
-
-
+  
 
 
 
   ngOnInit() {
+    this.setFormDefaultValues();
     this.getDriverOptions();
     this.getTruckOptions();
 
   }
 
+
+  setFormDefaultValues() {
+    this.registerDispatchForm.patchValue({
+      planificationReference: this.data.planificationId
+    });
+  }
+
+  
   getDriverOptions() {
     this.isDriverListDataLoading = true;
     this._driversService.getAllDrivers().subscribe({
