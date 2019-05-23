@@ -66,10 +66,9 @@ export class DispatchListComponent implements OnInit {
     this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
       if(confirmation.confirmed) {
         this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
-          next: result => {},
+          next: result => { this.refreshTable(); },
           error: result => {}
         }); 
-        this.refreshTable();
       }
       
     });

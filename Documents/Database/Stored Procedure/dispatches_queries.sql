@@ -2,7 +2,7 @@ DROP PROCEDURE IF EXISTS register_dispatch;
 DELIMITER //
 CREATE PROCEDURE register_dispatch (  
   IN ref_driverValue  VARCHAR(13),
-  IN ref_truckValue  VARCHAR(6),
+  IN ref_truckValue  INT,
   IN ref_planificationValue INT(11),
   IN shippedKilogramsValue  INT(5),
   IN arrivalAtVineyardDateValue  DATETIME,
@@ -32,7 +32,7 @@ DELIMITER //
 CREATE PROCEDURE edit_dispatch (  
   IN dispatch_id INT,
   IN ref_driverValue  VARCHAR(13),
-  IN ref_truckValue  VARCHAR(6),
+  IN ref_truckValue  INT,
   IN ref_planificationValue INT(11),
   IN shippedKilogramsValue  INT(5),
   IN arrivalAtVineyardDateValue  DATETIME,
@@ -61,7 +61,6 @@ CREATE PROCEDURE get_dispatches_with_full_info ()
 BEGIN
   SELECT dispatch.status AS dispatchStatus,
   dispatch.ref_driver AS driverRef,
-  dispatch.ref_truck AS truckLicensePlate,
   dispatch.id_dispatch AS dispatchId,
   dispatch.arrivalAtPataconDate AS arrivalAtPataconDatetime,
   dispatch.arrivalAtVineyardDate AS arrivalAtVineyardDatetime,
@@ -73,13 +72,14 @@ BEGIN
   driver.phoneNumber AS driverPhoneNumber,
   producer.name AS producerName,
   location.address AS producerLocation,
-  truck.ref_gps AS truckGPSImei
+  truck.ref_gps AS truckGPSImei,
+  truck.licencePlate AS truckLicensePlate
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run
   INNER JOIN location ON planification.ref_location = location.id_location
   INNER JOIN producer ON planification.ref_producer = producer.rut
-  INNER JOIN truck ON dispatch.ref_truck = truck.licencePlate
+  INNER JOIN truck ON dispatch.ref_truck = truck.id_truck
   WHERE dispatch.status <> 'Terminado' 
   && dispatch.status <> 'Pendiente'
   && truck.ref_gps IS NOT NULL;

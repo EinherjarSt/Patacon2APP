@@ -83,6 +83,8 @@ export class DispatchesService {
   }
 
   getDispatches(planificationId): Observable<any[]> {
+
+    console.log("ID en servicio " + planificationId);
     return this._http.get<any[]>(env.api.concat("/despachos/" + planificationId)).pipe(
       map(result => {
         

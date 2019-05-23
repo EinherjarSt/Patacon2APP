@@ -4,10 +4,9 @@ const passport = require("passport");
 const Dispatch = require("../models/dispatch");
 const bcrypt = require('bcrypt');
 
-app.get('/despachos/:planificacion_id', passport.authenticate('jwt', {
+app.get('/despachos/:planification_id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-
     Dispatch.getDispatches(req.params.planification_id, (err, dispatches) =>{
         console.log(err);
         if (err){
@@ -76,8 +75,6 @@ app.put('/despachos/editar/:id', passport.authenticate('jwt', {
     let dispatch = new Dispatch(req.params.id, body.driverReference, body.truckReference, body.planificationReference, 
         body.shippedKilograms, body.arrivalAtPataconDatetime, body.arrivalAtVineyardDatetime,
         body.containerType, body.status);
-    console.log("dispatch");
-    console.log(dispatch);
     Dispatch.editDispatch(dispatch, (err, result) => {
         if (err) {
             return res.status(400).json(err);
