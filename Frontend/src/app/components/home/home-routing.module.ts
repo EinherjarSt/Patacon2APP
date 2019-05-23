@@ -25,7 +25,7 @@ const routes: Routes = [
      {path: 'productores', component: ProducersComponent},
      {path: 'choferes',component: DriversComponent},
      {path: 'camiones', component: TrucksComponent},
-     {path: 'despachos', component: DispatchListComponent},
+     {path: 'despachos/:id', component: DispatchListComponent},
      {path: 'planificacion',component: PlanificationListComponent},
      {path: 'gps', component: GpsComponent}
     ]

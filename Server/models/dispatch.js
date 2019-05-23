@@ -47,22 +47,22 @@ class Dispatch {
                 });
             }
 
-            console.log(dispatches2);
             return callback(null, dispatches2);
         });
     }
 
-    static getDispatches(callback) {
+    static getDispatches(planificationId, callback) {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`SELECT * FROM dispatch`, function (err, results, fields) {
+        pool.query(`CALL get_dispatches(?)`, [planificationId], function (err, results, fields) {
+
             if (err) {
                 return callback(err);
             }
             let dispatches = []
-            for (const dispatch of results) {
-                dispatches.push(new Dispatch(dispatch.id_dispatch, dispatch.ref_driver, dispatch.ref_truck,
+            for (const dispatch of results[0]) {
+                dispatches.push(new Dispatch(dispatch.id_dispatch, dispatch.ref_driver, dispatch.ref_truck, 
                     dispatch.ref_planification, dispatch.shippedKilograms,
                     dispatch.arrivalAtPataconDate, dispatch.arrivalAtVineyardDate,
                     dispatch.containerType, dispatch.status));
@@ -89,7 +89,6 @@ class Dispatch {
 
     static deleteDispatch(dispatch_id, callback) {
 
-        console.log("Llegó acá el IDDDD: " + dispatch_id);
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
@@ -110,7 +109,7 @@ class Dispatch {
             throw new Error('There is not a callback function. Please provide them');
         }
         pool.query(`CALL register_dispatch(?,?,?,?,?,?,?,?)`, [
-            dispatch.driverReference, dispatch.truckReference,
+            dispatch.driverReference, parseInt(dispatch.truckReference),
             parseInt(dispatch.planificationReference), parseInt(dispatch.shippedKilograms),
             dispatch.arrivalAtVineyardDate, dispatch.arrivalAtPataconDate,
             dispatch.containerType, dispatch.status
@@ -133,7 +132,7 @@ class Dispatch {
             throw new Error('There is not a callback function. Please provide them');
         }
         pool.query(`CALL edit_dispatch(?,?,?,?,?,?,?,?,?)`, [
-            dispatch.id, dispatch.driverReference, dispatch.truckReference,
+            dispatch.id, dispatch.driverReference, parseInt(dispatch.truckReference),
             parseInt(dispatch.planificationReference), parseInt(dispatch.shippedKilograms),
             dispatch.arrivalAtVineyardDate, dispatch.arrivalAtPataconDate,
             dispatch.containerType, dispatch.status

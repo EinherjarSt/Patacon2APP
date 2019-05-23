@@ -222,8 +222,8 @@ export class EditDispatchComponent implements OnInit {
     this.editDispatchForm.patchValue({truckReference: this.findTruckOption(this.dispatchData.truckReference)})
   }
 
-  findTruckOption(truckId: string) {
-    return this.truckOptions.find(truckOption => truckOption.licencePlate.localeCompare(truckId) == 0)
+  findTruckOption(truckId) {
+    return this.truckOptions.find(truckOption => truckOption.id_truck == truckId);
   }
 
   findDriverOption(driverId: string) {
