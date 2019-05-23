@@ -36,7 +36,7 @@
             </agm-marker> -->
             <!-- <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
             <agm-marker *ngFor="let imei of gpsKey" [latitude]="gpsPosition[imei].latitude" [longitude]="gpsPosition[imei].longitude">
-              <agm-info-window>{{imei}}</agm-info-window>
+              <agm-info-window>imei: {{imei}}</agm-info-window>
             </agm-marker>
           </agm-map>
          

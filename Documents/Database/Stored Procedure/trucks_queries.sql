@@ -24,7 +24,7 @@ IN `_owner` text,
 IN `_color` text
 ) BEGIN
   UPDATE `truck` SET 
-     `licencePlate` = _licencePlate,
+     -- `licencePlate` = _licencePlate,
      `brand` = _brand,
      `model` = _model,
      `year` =  _year,

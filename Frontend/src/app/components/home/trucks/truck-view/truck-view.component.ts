@@ -61,8 +61,7 @@ export class TruckViewComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.ngOnInit();
+      if (result === "Confirm") this.refreshTable();
     });
   }
 
@@ -73,10 +72,10 @@ export class TruckViewComponent implements OnInit {
     dialogConfig.data = truck;
 
     this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(confirmation => {
-      if(confirmation.confirmed) { 
+      if(confirmation === "Confirm") { 
         this.refreshTable();
       }
-    });;
+    });
   }
 
   /* openUpdateDialog(data: Truck) {
@@ -97,6 +96,7 @@ export class TruckViewComponent implements OnInit {
     this.trucksService.disableTruck(truckData).subscribe({
       next: result => {
         console.log(result);
+        this.refreshTable();
       },
       error: result => {
         console.log("error en componente para listar");
@@ -109,7 +109,11 @@ export class TruckViewComponent implements OnInit {
   openDeletionConfirmationDialog() {
     var deletionDialogConfig = this.getDialogConfig();
     deletionDialogConfig.data = { message: "¿Desea eliminar este camion?" };
-    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig).afterClosed().subscribe(confirmation => {
+      if(confirmation === "Confirm") { 
+        this.refreshTable();
+      }
+    });
   }
 
   getDialogConfig() {
