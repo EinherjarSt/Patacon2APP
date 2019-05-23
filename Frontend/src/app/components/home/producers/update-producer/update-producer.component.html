@@ -25,7 +25,7 @@
                 Ubicaciones
             </h4>
 
-            <div formArrayName="locations" *ngFor="let location of producerForm.get('locations').controls; let i = index">
+            <div formArrayName="locations" *ngFor="let location of producerForm.get('locations')['controls']; let i = index">
                 <mat-expansion-panel formGroupName="{{i}}" class="locations">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
