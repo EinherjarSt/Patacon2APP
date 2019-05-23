@@ -77,13 +77,13 @@ export class AddTruckComponent implements OnInit {
 
   openFailureMessage() {
     this.snackBar.open("Ya hay un camion deshabilitado con esta patente.", "Cerrar", {
-      duration: 2000, verticalPosition: 'top'
+      duration: 2000, verticalPosition: 'bottom'
     });
   }
 
   openSuccessMessage() {
     this.snackBar.open("El camion ha sido registrado.", "Cerrar", {
-      duration: 2000, verticalPosition: 'top'
+      duration: 2000, verticalPosition: 'bottom'
     });
   }
 
