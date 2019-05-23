@@ -46,6 +46,7 @@ export class ProducerListComponent implements OnInit {
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProducerComponent, {
       width: '500px',
+      height: '95%'
     });
   
     dialogRef.afterClosed().subscribe(result => {
