@@ -17,7 +17,6 @@ export const ROUTES: RouteInfo[] = [
   { path: 'productores', title: 'Productores',icon: 'nature_people', class: '' },
   { path: 'gps', title: 'GPS',icon: 'near_me', class: '' },
   { path: 'planificacion', title: 'Planificación',icon: 'table_chart', class: '' },
-  { path: 'despachos', title: 'Despachos',icon: 'table_chart', class: '' },
 
 
 ];
