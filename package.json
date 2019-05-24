@@ -8,8 +8,8 @@
     "start": "nodemon ./Server/app.js",
     "start-server": "pm2 start ./Server/app.js --name patacon-backend",
     "stop-server": "pm2 stop patacon-backend",
-    "restart-server": "pm2 restart patacon-backend",
-    "delete-server": "pm2 delete patacon-backend"
+    "delete-server": "pm2 delete patacon-backend",
+    "restart-server": "npm run delete-server && npm run start-server"
   },
   "repository": {
     "type": "git",

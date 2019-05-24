@@ -27,10 +27,8 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
     device.on("login", function () {
         console.log("Hi! i'm " + device.uid);
-        device.send(`**,imei:${device.uid},C,15s`);
+        device.send(`**,imei:${device.uid},C,5s`);
         device.send(`**,imei:${device.uid},I,-4`);
-        device.send(`**,imei:${device.uid},B`);
-
     });
 
     //PING -> When the gps sends their position  

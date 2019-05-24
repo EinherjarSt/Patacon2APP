@@ -10,8 +10,8 @@
     "e2e": "ng e2e",
     "start-server": "pm2 start http-server --name patacon-frontend -- dist/Frontend/ -p 10001",
     "stop-server": "pm2 stop patacon-frontend",
-    "restart-server": "pm2 restart patacon-frontend",
-    "delete-server": "pm2 delete patacon-frontend"
+    "delete-server": "pm2 delete patacon-frontend",
+    "restart-server": "npm run delete-server && npm run start-server"
   },
   "private": true,
   "dependencies": {
