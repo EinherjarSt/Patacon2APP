@@ -25,7 +25,7 @@ export class EditTruckComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<EditTruckComponent>,
-    @Inject(MAT_DIALOG_DATA) private data, 
+    @Inject(MAT_DIALOG_DATA) public data, 
     private truckService: TrucksService) { }
 
   ngOnInit() {
@@ -43,13 +43,13 @@ export class EditTruckComponent implements OnInit {
         this.editTruckForm.get('owner').setValue(result.owner);
         this.editTruckForm.get('color').setValue(result.color);
 
-        console.log(result.licencePlate);
+        /* console.log(result.licencePlate);
         console.log(result.brand);
         console.log(result.model);
         console.log(result.year);
         console.log(result.maxLoad);
         console.log(result.owner);
-        console.log(result.color);
+        console.log(result.color); */
         console.log(result);
       },
       error: result => {
@@ -77,7 +77,7 @@ export class EditTruckComponent implements OnInit {
 
   openSuccessMessage() {
     this.snackBar.open("El camion ha sido editado.", "Cerrar", {
-      duration: 2000, verticalPosition: 'top'
+      duration: 2000, verticalPosition: 'bottom'
     });
   }
 

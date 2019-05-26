@@ -45,7 +45,7 @@ app.put('/truck/add',
     }
 ); */
 
-app.post("/truck/update",
+app.post('/truck/update',
     passport.authenticate("jwt", {
         session: false
     }),

@@ -53,14 +53,14 @@ class Truck {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL update_truck(?, ?, ?, ?, ?, ?, ?)`, [
+        pool.query(`CALL update_truck2(?, ?, ?, ?, ?, ?, ?)`, [
             truck.licencePlate, 
             truck.brand, 
             truck.model, 
             truck.year, 
             truck.maxLoad, 
             truck.owner, 
-            truck.color,
+            truck.color
         ], function (err, results, fields) {
             console.log(truck.licencePlate);
             if (err) {
@@ -68,7 +68,7 @@ class Truck {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This truck don't exist"});
+                return callback({ message: truck});
             }
             return callback(null, true);
         });
