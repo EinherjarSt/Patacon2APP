@@ -15,6 +15,7 @@ import {environment as env} from '@env/environment';
 import { MatPaginatorIntl } from '@angular/material';
 import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 
+
 export function jwtTokenGetter() {
   return localStorage.getItem('access_token');
 }
