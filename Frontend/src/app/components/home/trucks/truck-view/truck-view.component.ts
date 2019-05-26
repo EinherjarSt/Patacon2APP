@@ -72,11 +72,14 @@ export class TruckViewComponent implements OnInit {
     var dialogConfig = this.getDialogConfig();
     dialogConfig.data = truck;
 
-    this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(confirmation => {
-      if(confirmation.confirmed) { 
+    this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(result => {
+      if(result = 'Confirm') { 
+        console.log("Actualizar tabla");
         this.refreshTable();
       }
-    });;
+    });
+    console.log("Actualizar tabla");
+    this.refreshTable();
   }
 
   /* openUpdateDialog(data: Truck) {
@@ -90,7 +93,7 @@ export class TruckViewComponent implements OnInit {
     });
   }
  */
-  openDeleteDialog(truckData: Truck){
+    /* openDeleteDialog(truckData: Truck){
     console.log(truckData);
     console.log(truckData.licencePlate, truckData.disabled);
     truckData.disabled = truckData.disabled ? false: true;
@@ -104,6 +107,24 @@ export class TruckViewComponent implements OnInit {
     });
     console.log(truckData.licencePlate, truckData.disabled);
     this.refreshTable();
+  } */
+
+  openDeleteDialog(truckData: Truck) {
+    truckData.disabled = truckData.disabled ? false: true;
+    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) {
+        this.trucksService.disableTruck(truckData).subscribe({
+          next: result => {
+            console.log(result);
+          },
+          error: result => {
+            console.log("error en componente para listar");
+          }
+        }); 
+        this.refreshTable();
+      }
+      
+    });
   }
 
   openDeletionConfirmationDialog() {
