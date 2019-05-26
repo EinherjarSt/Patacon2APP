@@ -13,13 +13,13 @@ import { TrucksService } from '../../../../services/trucks.service';
 export class EditTruckComponent implements OnInit {
 
   editTruckForm = new FormGroup({
-    licencePlate: new FormControl(''),
-    brand: new FormControl(''),
-    model: new FormControl(''),
-    year: new FormControl(''),
-    maxLoad: new FormControl(''),
-    owner: new FormControl(''),
-    color: new FormControl('')
+    licencePlate: new FormControl('', [Validators.required]),
+    brand: new FormControl('', [Validators.required]),
+    model: new FormControl('', [Validators.required]),
+    year: new FormControl('', [Validators.required]),
+    maxLoad: new FormControl('', [Validators.required]),
+    owner: new FormControl('', [Validators.required]),
+    color: new FormControl('', [Validators.required])
   });
 
 
@@ -80,5 +80,9 @@ export class EditTruckComponent implements OnInit {
       duration: 2000, verticalPosition: 'bottom'
     });
   }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.editTruckForm.get(controlName).hasError(errorName);
+  };
 
 }

@@ -62,6 +62,7 @@ class Truck {
             truck.owner, 
             truck.color
         ], function (err, results, fields) {
+            console.log(truck.licencePlate);
             if (err) {
                 return callback(err);
             }
