@@ -102,9 +102,7 @@ app.get('/truck/getall',
     }
 );
 
-app.get('/truck/get/:licencePlate', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+app.get('/truck/get/:licencePlate', (req, res) => {
     let licencePlate = req.params.licencePlate;
     Truck.getTruckByLicencePlate(licencePlate, (err, truck) => {
         if (err) {
