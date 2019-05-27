@@ -61,5 +61,6 @@ CREATE TABLE insights_data(
      unloadYardTime INT,
      textMessagesSent INT,
      lastMessageSentDate DATETIME,
+     FOREIGN KEY (refDispatch) REFERENCES dispatch(id_dispatch)
 );
 
