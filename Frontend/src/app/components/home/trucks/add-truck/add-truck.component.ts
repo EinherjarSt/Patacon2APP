@@ -4,9 +4,11 @@ import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { TrucksService } from '../../../../services/trucks.service';
 import { Gps } from 'src/app/model-classes/gps';
+import { Driver } from 'src/app/model-classes/driver';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { GpsService } from '../../../../services/gps.service';
+import { DriversService } from '../../../../services/drivers.service';
 
 @Component({
   selector: "app-add-truck",
@@ -17,12 +19,13 @@ import { GpsService } from '../../../../services/gps.service';
 export class AddTruckComponent implements OnInit {
 
   addTruckForm: FormGroup;
-  //isGpsListDataLoading: boolean;
+  isGpsListDataLoading: boolean;
+  isDriverListDataLoading: boolean;
 
   constructor(private snackBar: MatSnackBar,
     public thisDialogRef: MatDialogRef<AddTruckComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string, 
-    private truckService: TrucksService)
+    @Inject(MAT_DIALOG_DATA) public data: string, private driverService : DriversService,
+    private truckService: TrucksService, private gpsService : GpsService)
   { 
     this.addTruckForm = new FormGroup({
       licencePlate: new FormControl("",[Validators.required]),
@@ -36,10 +39,10 @@ export class AddTruckComponent implements OnInit {
   }
   
   ngOnInit() {
-    //this.getGpsOptions();
+    this.getGpsOptions();
   }
 
-  /* gpsOptions: Gps[];
+  gpsOptions: Gps[];
   gpsFilteredOptions: Observable<Gps[]>;
 
     
@@ -81,7 +84,51 @@ export class AddTruckComponent implements OnInit {
 
   GpsToDisplayableString(gps: Gps): string {
     return gps ?  gps.imei : '';
-  } */
+  }
+
+  driverOptions: Driver[];
+  driverFilteredOptions: Observable<Driver[]>;
+
+    
+
+  getDriverOptions() {
+    this.isDriverListDataLoading = true;
+    this.driverService.getAllDrivers().subscribe({
+      next: (driver) => {
+        this.driverOptions = driver;
+        this.setDriverAutocompleteFilteringCapabilities();
+        this.isDriverListDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  setDriverAutocompleteFilteringCapabilities() {
+    this.driverFilteredOptions = this.addTruckForm.get('driverReference').valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.filterDriverOptions(value))
+      );
+  }
+
+  private filterDriverOptions(value): Driver[] {
+    var filterValue: string;
+    if (typeof value === 'string') {
+      filterValue = value.toLowerCase();
+    }
+    else {
+      filterValue = '';
+    }
+
+    return this.driverOptions.filter(driverOption => this.driverToDisplayableString(driverOption).toLowerCase().includes(filterValue));
+  }
+
+
+  driverToDisplayableString(driver: Driver): string {
+    return driver ?  driver.run : '';
+  }
 
   /* onCloseConfirm() {
     // Here add service to send data to backend
