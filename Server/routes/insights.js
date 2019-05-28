@@ -18,5 +18,17 @@ app.get('/informacion/:dispatchId', passport.authenticate('jwt', {
     });
 })
 
+app.get('/informacion/:dispatchId', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let dispatchId = req.params.dispatchId;
+    InsightsData.getDispatchInsightsData(dispatchId, (err, insightData) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(insightData);
+    });
+})
+
 
 module.exports = app;

@@ -64,7 +64,7 @@ export class RegisterDispatchComponent implements OnInit {
     arrivalAtVineyardTime: ['', [Validators.required]],
     arrivalAtPataconDate: ['', [Validators.required]],
     arrivalAtPataconTime: ['', [Validators.required]],
-    status: [this.statusOptions[0]],
+    status: ['Pendiente'],
     containerType: ['BINS']
 
   });
