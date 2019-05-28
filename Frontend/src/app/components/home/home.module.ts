@@ -93,7 +93,8 @@ import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-
     ReactiveFormsModule,
     MaterialModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc',
+      libraries: ['geometry', 'drawing']
     })
   ],
   entryComponents: [

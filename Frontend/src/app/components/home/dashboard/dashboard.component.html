@@ -9,7 +9,7 @@
           <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
         <!--Aqui va los filtros-->
-        <app-filters></app-filters>
+        <app-filters (selectedChangeEvent)="mapUpdate($event)"></app-filters>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>

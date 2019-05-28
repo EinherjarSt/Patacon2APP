@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, Input, OnDestroy, AfterContentInit, Afte
 import { GpsService } from "../../../services/gps.service";
 import { timer, Subscription } from "rxjs";
 import { trigger, transition, animate, style } from "@angular/animations";
+import { Filter } from 'src/app/model-classes/filter';
 declare const google: any;
 
 @Component({
@@ -129,5 +130,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     drawingManager.setMap(map);
   }
 
+  mapUpdate(event: Filter[]){
+    
+  }
   
 }

@@ -20,6 +20,14 @@ var server = gps.server(gpsOptions, function (device, connection) {
                 return;
             }
 
+            GPS_DATA[device.uid] = {
+                imei:,
+                truckLicensePlate:,
+                driverName:,
+                position:,
+                route:[]
+            }
+
             this.login_authorized(true);
             device.emit("login");
         })
@@ -38,7 +46,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
         console.log('data');
         console.log(gpsData);
         // Global Object
-        GPS_POSITIONS[device.uid] = {
+        GPS_DATA[device.uid].position = {
             imei: device.uid,
             signal: gpsData.signal,
             latitude: gpsData.latitude,

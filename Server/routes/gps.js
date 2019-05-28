@@ -61,30 +61,55 @@ app.get('/gps/getall', passport.authenticate('jwt', {
     console.log("gps/getall");
 
     GPSDevice.getAllGPS((err, gps) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(gps);
     });
 })
 
-app.get('/gps/getposition', passport.authenticate('jwt', {
+app.get('/gps/fulldata', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     let gps;
     try{
         gps = req.query['gps'];
-        console.log("query: " + gps);
+        console.log("query gps/getposition: " + gps);
         if (gps === undefined || gps == '[]'){
-            return res.json(GPS_POSITIONS);
+            return res.json(GPS_DATA);
         }
         let gpsArray = JSON.parse(gps);
-        console.log(GPS_POSITIONS);
+        console.log(GPS_DATA);
         let sendData = {};
         for (const imei of gpsArray) {
-            if(GPS_POSITIONS[imei]){
-                sendData[imei] = GPS_POSITIONS[imei];
+            if(GPS_DATA[imei]){
+                sendData[imei] = GPS_DATA[imei];
+            }
+        }
+        return res.json(sendData);
+    }
+    catch{
+        return res.status(400).json({message: "Error en los parametros enviados"});
+    }
+})
+
+app.get('/gps/positiondata', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let gps;
+    try{
+        gps = req.query['gps'];
+        console.log("query gps/getposition: " + gps);
+        if (gps === undefined || gps == '[]'){
+            return res.json(GPS_DATA);
+        }
+        let gpsArray = JSON.parse(gps);
+        console.log(GPS_DATA);
+        let sendData = {};
+        for (const imei of gpsArray) {
+            if(GPS_DATA[imei]){
+                sendData[imei] = GPS_DATA[imei];
             }
         }
         return res.json(sendData);
