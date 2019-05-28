@@ -42,7 +42,7 @@
             [matAutocomplete]="driverAuto">
           <mat-autocomplete [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
             <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
-              {{driverToDisplayableString(truckOption)}}
+              {{driverToDisplayableString(driverOption)}}
             </mat-option>
           </mat-autocomplete>
           <mat-error *ngIf="addTruckForm.controls['driverReference'].hasError('incorrect')">

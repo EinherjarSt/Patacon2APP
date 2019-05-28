@@ -1,8 +1,10 @@
 const pool = require('../common/mysql').pool;
 
 class Truck {
-    constructor(id_truck, licencePlate, brand, model, year, maxLoad, owner, color, disabled, available) {
+    constructor(id_truck, licencePlate, ref_driver, ref_gps, brand, model, year, maxLoad, owner, color, disabled, available) {
         this.id_truck = id_truck;
+        this.ref_driver = ref_driver;
+        this.ref_gps = ref_gps;
         this.licencePlate = licencePlate;
         this.brand = brand;
         this.model = model;
@@ -24,12 +26,29 @@ class Truck {
             }
             let trucks = []
             for (const truck of results) {
-                trucks.push(new Truck(truck.id_truck, truck.licencePlate, truck.brand, truck.model, 
+                trucks.push(new Truck(truck.id_truck, truck.licencePlate, truck.ref_driver, truck.ref_gps, truck.brand, truck.model, 
                     truck.year, truck.maxLoad, truck.owner, truck.color, truck.disabled, truck.available));
             }
             return callback(null, trucks);
         });
     }
+
+    /* static getAllTrucksIncludeDisabled(callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`SELECT * FROM truck`, function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let trucks = []
+            for (const truck of results) {
+                trucks.push(new Truck(truck.id_truck, truck.licencePlate, truck.brand, truck.model, 
+                    truck.year, truck.maxLoad, truck.owner, truck.color, truck.disabled, truck.available));
+            }
+            return callback(null, trucks);
+        });
+    } */
 
     /*static deleteTruck(licencePlate, callback) {
         if(!callback || !(typeof callback === 'function')){
@@ -133,9 +152,9 @@ class Truck {
                 return callback({message : "There is an error in database because the truck is not unique"});
             }
             let result = results[0];
-            console.log(result.licencePlate);
-            return callback(null, new Truck(result.id_truck, result.licencePlate, result.brand, 
-                result.model, result.year, result.maxLoad, result.owner, result.color, result.disabled,
+            console.log(result.licencePlate)
+            return callback(null, new Truck(result.id_truck, result.licencePlate, result.ref_driver, result.ref_gps, 
+                result.brand, result.model, result.year, result.maxLoad, result.owner, result.color, result.disabled,
                 result.available));
         });
     }

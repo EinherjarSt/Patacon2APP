@@ -29,6 +29,8 @@ export class AddTruckComponent implements OnInit {
   { 
     this.addTruckForm = new FormGroup({
       licencePlate: new FormControl("",[Validators.required]),
+      gpsReference: new FormControl(""),
+      driverReference: new FormControl(""),
       brand: new FormControl("",[Validators.required]),
       model: new FormControl("",[Validators.required]),
       year: new FormControl("",[Validators.required]),
@@ -40,13 +42,13 @@ export class AddTruckComponent implements OnInit {
   
   ngOnInit() {
     this.getGpsOptions();
+    this.getDriverOptions();
   }
 
   gpsOptions: Gps[];
   gpsFilteredOptions: Observable<Gps[]>;
 
-    
-
+  
   getGpsOptions() {
     this.isGpsListDataLoading = true;
     this.gpsService.getAllGPS().subscribe({
@@ -78,11 +80,11 @@ export class AddTruckComponent implements OnInit {
       filterValue = '';
     }
 
-    return this.gpsOptions.filter(gpsOption => this.GpsToDisplayableString(gpsOption).toLowerCase().includes(filterValue));
+    return this.gpsOptions.filter(gpsOption => this.gpsToDisplayableString(gpsOption).toLowerCase().includes(filterValue));
   }
 
 
-  GpsToDisplayableString(gps: Gps): string {
+  gpsToDisplayableString(gps: Gps): string {
     return gps ?  gps.imei : '';
   }
 
@@ -158,6 +160,7 @@ export class AddTruckComponent implements OnInit {
     this.truckService.createTruck(newTruck).subscribe(
       response => {
         console.log("Success", response);
+        console.log(newTruck);
         this.onCloseConfirm();
         this.openSuccessMessage();
       },

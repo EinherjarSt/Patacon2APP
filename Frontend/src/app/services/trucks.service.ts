@@ -19,6 +19,8 @@ export class TrucksService {
 
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
+    .set("ref_driver", data.ref_driver)
+    .set("ref_gps", data.ref_gps)
     .set("brand", data.brand)
     .set("model", data.model)
     .set("year", data.year)
@@ -42,6 +44,8 @@ export class TrucksService {
     console.log("Entro a updateTruck en trucks.service.ts");
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
+    .set("ref_driver", data.ref_driver)
+    .set("ref_gps", data.ref_gps)
     .set("brand", data.brand)
     .set("model", data.model)
     .set("year", data.year)
@@ -114,6 +118,7 @@ export class TrucksService {
     return this.http.get<Truck>(env.api.concat("/truck/get/"+licencePlate))
     .pipe(
       map(result => {
+        console.log(result);
         return result;
       })
     );
