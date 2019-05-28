@@ -9,8 +9,10 @@ import { PlanificationListComponent } from './planification/planification-list/p
 import { DispatchListComponent } from './dispatch/dispatch-list/dispatch-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GpsComponent } from './gps/gps.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 import { AuthGuard } from '../../guard/auth.guard';
+
 
 
 const routes: Routes = [
@@ -27,7 +29,8 @@ const routes: Routes = [
      {path: 'camiones', component: TrucksComponent},
      {path: 'despachos/:id', component: DispatchListComponent},
      {path: 'planificacion',component: PlanificationListComponent},
-     {path: 'gps', component: GpsComponent}
+     {path: 'gps', component: GpsComponent},
+     {path: 'estadisticas', component: StatisticsComponent}
     ]
   }
 ];
