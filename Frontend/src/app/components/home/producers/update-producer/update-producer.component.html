@@ -57,8 +57,16 @@
                         <mat-label>Teléfono</mat-label>
                         <input matInput formControlName="managerPhoneNumber">
                     </mat-form-field>
+
+                    <div>
+                        <button mat-raised-button (click)="deleteLocation(location.get('id_location').value)">Eliminar</button>
+                    </div>
                     
                 </mat-expansion-panel>
+            </div>
+
+            <div>
+                <button mat-raised-button (click)="addLocationForm()">+</button>
             </div>
         </div>
     </form>

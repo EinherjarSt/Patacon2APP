@@ -58,6 +58,7 @@ export class UpdateProducerComponent implements OnInit {
 
         for(let location of this.locations){
           loc_form.push(this.fb.group({
+            new: false,
             id_location :location.id_location,
             ref_productor: location.ref_producer,
             address: new FormControl(location.address),
@@ -101,5 +102,35 @@ export class UpdateProducerComponent implements OnInit {
         }
       });
     }
+  }
+
+  deleteLocation(id_location){
+    this.producersService.deleteLocation(id_location).subscribe({
+      next: result =>{
+        console.log("Se ha eliminado correctamente la ubicación");
+      },
+      error: result => {
+        console.log("error");
+      }
+    });
+  }
+
+  addLocationForm(){
+    const loc_form = this.producerForm.get('locations') as FormArray;
+
+    loc_form.push(this.fb.group({
+      new: true,
+      id_location :0,
+      ref_productor: this.producerForm.get('rut').value,
+      address: new FormControl(''),
+      latitude: new FormControl(''),
+      longitude: new FormControl(''),
+      manager: new FormControl(''),
+      managerPhoneNumber: new FormControl('')
+    }));
+  }
+
+  addLocation(){
+
   }
 }

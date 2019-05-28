@@ -95,6 +95,22 @@ app.post('/producer/updateLocation',  passport.authenticate('jwt', {
 	});
 });
 
+app.post('/producer/deleteLocation/:id_location',  passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	let id_location = req.params.id_location;
+	
+	Location.deleteLocation(id_location, (err, result) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json({
+			message: "The Location has been deleted"
+		});
+	});
+});
+
 app.post('/producer/delete',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
