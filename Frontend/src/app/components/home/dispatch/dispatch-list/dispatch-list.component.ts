@@ -13,6 +13,7 @@ import { ConfirmationDialogComponent } from 'src/app/components/core/confirmatio
 import { ActivatedRoute } from '@angular/router';
 import { Filter } from 'src/app/model-classes/filter';
 import { ProducerviewService } from 'src/app/services/producerview.service';
+import { SMS } from 'src/app/services/sms.service';
 
 /**
  * @title Table with sorting
@@ -39,7 +40,8 @@ export class DispatchListComponent implements OnInit {
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
     private route: ActivatedRoute,
     private dispatchService: DispatchesService,
-    private producerViewService : ProducerviewService) { }
+    private producerViewService : ProducerviewService,
+    private smsService:SMS) { }
   
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -110,18 +112,25 @@ export class DispatchListComponent implements OnInit {
       for (let i = 0; i < data.length; i++) {
         const element = data[i];
         if(element.dispatchId==idDispatch){
-          let info=element;
+          info=element;
         }
       }
-    let message = "\nDespacho Iniciado \n"+
-    "Chofer: " + info.driverName +"/"+info.driverRun+
-    "\nTel: "+ info.driverPhoneNumber+
-    "\nLLegada: "+info.arrivalAtVineyardDatetime +"\n";
-      let idCypher = this.producerViewService.encryptNumber(info.dispatchId+"");
-      let url = "localhost:4200/producer/"+idCypher;
+    let message = "\nDespacho Iniciado! \n"+
+    "Chofer: " + info.driverName +" "+info.driverSurname+"/"+info.driverRun+
+    "\nTel: "+ info.driverPhoneNumber;
+/**
+    let date = info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
+    message+="\nLlegada: "+date +"\n";
+*/
+    let idCypher = this.producerViewService.encryptNumber(info.dispatchId+"");
+    let url = "\nhttp://localhost:4200/#/producer/"+idCypher;
     message+=url;
     console.log(message);
-    })
+    /*
+    this.smsService.sendMessage("+56997959683",message).subscribe(res=>{
+      console.log(res);
+    });*/
+    });
     
   }
  
