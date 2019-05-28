@@ -125,14 +125,12 @@ export class TruckViewComponent implements OnInit {
   }
 
   openDeletionConfirmationDialog() {
+    
     var deletionDialogConfig = this.getDialogConfig();
-    deletionDialogConfig.data = { message: "¿Desea eliminar este camion?" };
-    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig).afterClosed().subscribe(confirmation => {
-      if(confirmation === "Confirm") { 
-        this.refreshTable();
-      }
-    });
+    deletionDialogConfig.data = { message: '¿Desea eliminar este usuario?'};
+    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
   }
+
 
   getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
