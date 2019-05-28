@@ -11,6 +11,8 @@ import { EditDispatchComponent } from '../edit-dispatch/edit-dispatch.component'
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { ActivatedRoute } from '@angular/router';
+import { Filter } from 'src/app/model-classes/filter';
+import { ProducerviewService } from 'src/app/services/producerview.service';
 
 /**
  * @title Table with sorting
@@ -35,12 +37,15 @@ export class DispatchListComponent implements OnInit {
 
 
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private dispatchService: DispatchesService,
+    private producerViewService : ProducerviewService) { }
   
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getDispatches();
     this.dataSource.sort = this.sort;
+    this.sendSMS(57);
   }
 
   ngAfterViewInit(): void {
@@ -97,6 +102,28 @@ export class DispatchListComponent implements OnInit {
     });
   }
   
+  sendSMS(idDispatch){
+    let data : Filter[];
+    let info : Filter;
+    this.dispatchService.getDispatchesWithFullInfo().subscribe(res=>{
+      data = res;
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        if(element.dispatchId==idDispatch){
+          let info=element;
+        }
+      }
+    let message = "\nDespacho Iniciado \n"+
+    "Chofer: " + info.driverName +"/"+info.driverRun+
+    "\nTel: "+ info.driverPhoneNumber+
+    "\nLLegada: "+info.arrivalAtVineyardDatetime +"\n";
+      let idCypher = this.producerViewService.encryptNumber(info.dispatchId+"");
+      let url = "localhost:4200/producer/"+idCypher;
+    message+=url;
+    console.log(message);
+    })
+    
+  }
  
   
   openEditDispatchDialog(dispatch: Dispatch) {
@@ -110,7 +137,7 @@ export class DispatchListComponent implements OnInit {
       }
     });;
   }
-
+  
 
   getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
