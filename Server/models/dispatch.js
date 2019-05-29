@@ -43,7 +43,11 @@ class Dispatch {
                     driverPhoneNumber: dispatch.driverPhoneNumber,
                     producerName: dispatch.producerName,
                     producerLocation: dispatch.producerLocation,
-                    truckGPSImei: dispatch.truckGPSImei
+                    producerPhoneNumber: dispatch.producerPhoneNumber,
+                    truckGPSImei: dispatch.truckGPSImei,
+                    truckBrand: dispatch.truckBrand,
+                    truckModel: dispatch.truckModel,
+                    truckYear: dispatch.truckYear
                 });
             }
 

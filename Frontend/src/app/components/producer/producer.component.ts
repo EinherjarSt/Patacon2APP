@@ -26,8 +26,6 @@ export class ProducerComponent implements OnInit , OnDestroy{
   data : Filter[];
   truck: Truck;
   dispatch_id : number;
-  truckBrand: string;
-  truckModel:string;
   gpsPosition: any;
   gpsTimer: Subscription;
 
@@ -56,11 +54,6 @@ export class ProducerComponent implements OnInit , OnDestroy{
       if(this.info.producerName==null){
         this.router.navigate(['/not-found']);
       }
-      this.truckService.getTruck(this.info.truckLicensePlate).subscribe(truck=>{
-        this.truck= truck;
-        this.truckModel = this.truck.model;
-        this.truckBrand = this.truck.brand;
-      });
 
       let date = this.info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
       this.info.arrivalAtVineyardDatetime = date;
