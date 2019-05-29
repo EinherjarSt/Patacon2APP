@@ -47,7 +47,6 @@ export class DispatchListComponent implements OnInit {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getDispatches();
     this.dataSource.sort = this.sort;
-    this.sendSMS(57);
   }
 
   ngAfterViewInit(): void {
@@ -118,18 +117,23 @@ export class DispatchListComponent implements OnInit {
     let message = "\nDespacho Iniciado! \n"+
     "Chofer: " + info.driverName +" "+info.driverSurname+"/"+info.driverRun+
     "\nTel: "+ info.driverPhoneNumber;
+
+    //THE ARRIVAL TIME ISN'T IN THE MESSAGE BECAUSE THIS DOESN'T FIT
+    //FOR THE FULL VERSION ADD THE NEXT LINES 
 /**
     let date = info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
     message+="\nLlegada: "+date +"\n";
 */
+
     let idCypher = this.producerViewService.encryptNumber(info.dispatchId+"");
+    //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
     let url = "\nhttp://localhost:4200/#/producer/"+idCypher;
     message+=url;
-    console.log(message);
-    /*
-    this.smsService.sendMessage("+56997959683",message).subscribe(res=>{
+    
+    this.smsService.sendMessage(info.producerPhoneNumber,message).subscribe(res=>{
       console.log(res);
-    });*/
+      //if(res=='') SHOW SOME ALERT WINDOW that the message wasn't sent
+    });
     });
     
   }
