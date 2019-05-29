@@ -13,7 +13,10 @@ export class Filter {
   driverPhoneNumber: string;
   producerName: string;
   producerLocation: string;
+  producerPhoneNumber: string;
   truckGPSImei: string;
-
+  truckBrand:string;
+  truckModel: string;
+  truckYear: string;
 }
   
