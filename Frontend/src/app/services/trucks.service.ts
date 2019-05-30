@@ -45,20 +45,22 @@ export class TrucksService {
       );
   }
 
-  updateTruck(data: Truck): Observable<boolean> {
+  updateTruck(data: any): Observable<boolean> {
     console.log("Entro a updateTruck en trucks.service.ts");
+    console.log(data.ref_driver);
+    console.log(data.driverReference);
+    //console.log(data.ref_gps);
+    //console.log(data.gpsReference);
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
-    .set("ref_driver", data.ref_driver['run'])
-    .set("ref_gps", data.ref_gps['imei'])
+    .set("driverReference", data.driverReference.run)
+    .set("gpsReference", data.gpsReference.imei)
     .set("brand", data.brand)
     .set("model", data.model)
     .set("year", data.year)
     .set("maxLoad", data.maxLoad)
     .set("owner", data.owner)
     .set("color", data.color);
-
-    console.log(data.color);
 
     return this.http
       .post<{ msg: string }>(

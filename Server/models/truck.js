@@ -74,7 +74,7 @@ class Truck {
         }
         else
         {
-            if(truck.ref_gps == 'undefined' && truck.ref_driver == 'undefined')
+            if(truck.ref_gps == null && truck.ref_driver == null)
             {
                 pool.query(`CALL update_truck3(?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
@@ -84,6 +84,50 @@ class Truck {
                     truck.maxLoad, 
                     truck.owner, 
                     truck.color
+                ], function (err, results, fields) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    if(results.affectedRows == 0){
+                        // If don't exist a row
+                        return callback({ message: truck});
+                    }
+                    return callback(null, true);
+                })
+            }
+            else if (truck.ref_gps == null)
+            {
+                pool.query(`CALL update_truck4(?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color,
+                    truck.ref_driver
+                ], function (err, results, fields) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    if(results.affectedRows == 0){
+                        // If don't exist a row
+                        return callback({ message: truck});
+                    }
+                    return callback(null, true);
+                })
+            }
+            else if (truck.ref_driver == null)
+            {
+                pool.query(`CALL update_truck5(?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color,
+                    truck.ref_gps
                 ], function (err, results, fields) {
                     if (err) {
                         return callback(err);

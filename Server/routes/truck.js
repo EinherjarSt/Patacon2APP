@@ -54,7 +54,7 @@ app.post('/truck/update',
         console.log(req.body);
 
         let body = req.body;
-        let updatedTruck = new Truck(body.id_truck, body.licencePlate, body.ref_driver, body.ref_gps,
+        let updatedTruck = new Truck(body.id_truck, body.licencePlate, body.driverReference, body.gpsReference,
                             body.brand, body.model, body.year, body.maxLoad, body.owner, body.color);
         Truck.updateTruck(updatedTruck, (err, result) => {
             if (err) {
