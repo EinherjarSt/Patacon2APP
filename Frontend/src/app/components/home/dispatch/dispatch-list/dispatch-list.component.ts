@@ -128,8 +128,8 @@ export class DispatchListComponent implements OnInit {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  public sendMessage(){
-    //NOT IMPLEMENTED
+  public sendSMS(){
+    
   }
 }
 

@@ -25,6 +25,73 @@ class InsightsData {
         });
     }
 
+    static editStoppedTime(dispatchId, timeInMinutes, callback) {
+        
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_stopped_time(?,?)`, [dispatchId, timeInMinutes], function (err, results, fields) {
+
+            if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ message: err.sqlMessage });
+                }
+                return callback(err);
+            }
+            return callback(null, true);
+
+        });
+    }
+
+    static editInUnloadYardTime(dispatchId, timeInMinutes, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_unload_yard_time(?,?)`, [dispatchId, timeInMinutes], function (err, results, fields) {
+
+            if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ message: err.sqlMessage });
+                }
+                return callback(err);
+            }
+            return callback(null, true);
+
+        });
+    }
+
+    static editLastMessageSentDate(dispatchId, date) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_last_message_sent_date(?,?)`, [dispatchId, date], function (err, results, fields) {
+
+            if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ message: err.sqlMessage });
+                }
+                return callback(err);
+            }
+            return callback(null, true);
+
+        });
+    }
+
+    static incrementNumberOfMessagesSent(dispatchId, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL increment_text_messages_sent(?)`, [dispatchId], function (err, results, fields) {
+            if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ message: err.sqlMessage });
+                }
+                return callback(err);
+            }
+            return callback(null, true);
+        });
+    }
+
     
 
 }
