@@ -3,7 +3,6 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { TrucksService } from '../../../../services/trucks.service';
-import { AutocompleteValidOption } from '../add-truck/add-truck.custom.validators';
 import { Gps } from 'src/app/model-classes/gps';
 import { Driver } from 'src/app/model-classes/driver';
 import { map, startWith } from 'rxjs/operators';
