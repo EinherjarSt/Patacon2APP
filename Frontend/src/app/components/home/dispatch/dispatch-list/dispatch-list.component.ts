@@ -167,10 +167,6 @@ export class DispatchListComponent implements OnInit {
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
-
-  public sendSMS(){
-    
-  }
 }
 
 
