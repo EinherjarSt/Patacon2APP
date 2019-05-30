@@ -29,15 +29,15 @@ export class EditTruckComponent implements OnInit {
   //disabled: boolean;
 
   editTruckForm = new FormGroup({
-    licencePlate: new FormControl(''),
+    licencePlate: new FormControl('', [Validators.required]),
     gpsReference: new FormControl(''),
     driverReference: new FormControl(''),
-    brand: new FormControl(''),
-    model: new FormControl(''),
-    year: new FormControl(''),
-    maxLoad: new FormControl(''),
-    owner: new FormControl(''),
-    color: new FormControl('')
+    brand: new FormControl('', [Validators.required]),
+    model: new FormControl('', [Validators.required]),
+    year: new FormControl('', [Validators.required]),
+    maxLoad: new FormControl('', [Validators.required]),
+    owner: new FormControl('', [Validators.required]),
+    color: new FormControl('', [Validators.required])
   });
 
   constructor(private snackBar: MatSnackBar,
@@ -210,5 +210,9 @@ export class EditTruckComponent implements OnInit {
       duration: 2000, verticalPosition: 'bottom'
     });
   }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.editTruckForm.get(controlName).hasError(errorName);
+  };
 
 }

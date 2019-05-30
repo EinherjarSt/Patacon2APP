@@ -1,0 +1,149 @@
+<div class="banner">
+  <div class="nameVineyard">{{info.producerName}}</div>
+  <div class="location">{{info.producerLocation}}</div>
+</div>
+<div class="map-content">
+  <agm-map [latitude]="lat" [longitude]="lng2"></agm-map>
+  <!--agm-marker [latitude]="gpsPosition[{{info.truckGPSImei}}].latitude" [longitude]="gpsPosition[{{info.truckGPSImei}}].longitude"></agm-marker-->
+</div>
+<div class="title"> <b>Información</b> </div>
+
+<div class='some-page-wrapper'>
+  <div class='row'>
+    <div class='column'>
+      <div>
+        <div class="container-card">
+          <mat-card class="card">
+            <mat-card-content>
+              <div fxLayout="row" class="item">
+
+                <div fxFlex="25" class="contextImage">
+                  <img mat-card-image src="../../../assets/icons/silueta-hombre.jpg" class="image1" />
+                </div>
+                <div fxFlex="75" class="desc">
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="40">
+                        <b>Nombre:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.driverName}} {{info.driverSurname}}
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="40">
+                        <b>RUN:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.driverRun}}
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="40">
+                        <b>Teléfono:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.driverPhoneNumber}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+    <div class='column'>
+      <div>
+        <div class="container-card">
+          <mat-card class="card">
+            <mat-card-content>
+              <div fxLayout="row" class="item">
+                <div fxFlex="25" class="contextImage">
+                  <img mat-card-image src="../../../assets/icons/truckicon.svg" class="image2" />
+                </div>
+                <div fxFlex="75" class="desc">
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="50">
+                        <b>Patente:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.truckLicensePlate}}
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="50">
+                        <b>Marca:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.truckBrand}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="50">
+                        <b>Modelo:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.truckModel}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="50">
+                        <b>Año:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.truckYear}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="50">
+                        <b>Contenedor:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.containerType}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div fxLayout="row" class="item">
+                      <div fxFlex="50">
+                        <b>Hora llegada:</b>
+                      </div>
+                      <div class="desc">
+                        {{info.arrivalAtVineyardDatetime}}
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

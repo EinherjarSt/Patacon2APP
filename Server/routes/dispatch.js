@@ -16,9 +16,7 @@ app.get('/despachos/:planification_id', passport.authenticate('jwt', {
     });
 })
 
-app.get('/despachos_completos', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+app.get('/despachos_completos', (req, res) => {
 
     Dispatch.getDispatchesWithFullInfo((err, dispatches) =>{
         console.log(err);

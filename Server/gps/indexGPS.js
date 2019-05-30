@@ -27,10 +27,8 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
     device.on("login", function () {
         console.log("Hi! i'm " + device.uid);
-        device.send(`**,imei:${device.uid},C,15s`);
+        device.send(`**,imei:${device.uid},C,5s`);
         device.send(`**,imei:${device.uid},I,-4`);
-        device.send(`**,imei:${device.uid},B`);
-
     });
 
     //PING -> When the gps sends their position  
@@ -41,6 +39,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
         console.log(gpsData);
         // Global Object
         GPS_POSITIONS[device.uid] = {
+            imei: device.uid,
             signal: gpsData.signal,
             latitude: gpsData.latitude,
             longitude: gpsData.longitude,

@@ -65,7 +65,7 @@ export class AddPlanificationComponent implements OnInit {
     this.getProducers();
     
     if(this.data !=null){
-      this.title ="Editar";
+      this.title ="Aceptar";
       const sp = this.data.date.split('-');
       const day = parseInt(sp[0]);
       const month = parseInt(sp[1])-1;
