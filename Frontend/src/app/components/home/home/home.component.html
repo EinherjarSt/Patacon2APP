@@ -45,6 +45,14 @@
           <mat-icon>dashboard</mat-icon>
           Inicio
         </a>
+
+        <a [routerLink]="['estadisticas']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+          mat-list-item>
+          <mat-icon>trending_up</mat-icon>
+
+          Estadísticas
+        </a>
+        
         <a [routerLink]="['usuarios']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>people</mat-icon>
@@ -77,10 +85,6 @@
           <mat-icon>table_chart</mat-icon>
           Planificación
         </a>
-
-
-
-
 
       </mat-nav-list>
       <div class="copyright">

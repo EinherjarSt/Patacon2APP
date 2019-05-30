@@ -9,6 +9,7 @@ import { NotFoundComponent } from './components/core/not-found/not-found.compone
 const routes: Routes = [
   {path: 'inicio', loadChildren: './components/home/home.module#HomeModule'},
   {path: 'login',  loadChildren: './components/login/login.module#LoginModule' },
+  {path: 'producer',  loadChildren: './components/producer/producer.module#ProducerModule' },
   {path: 'not-found', component: NotFoundComponent},
   {
     path: '',

@@ -6,7 +6,8 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Patente</mat-label>
-            <input matInput placeholder="" formControlName="licencePlate" />
+            <input matInput placeholder="" formControlName="licencePlate" readonly/>
+            <mat-error *ngIf="hasError('licencePlate', 'required')">Debe ingresar la patente</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -15,14 +16,46 @@
           <mat-form-field appearance="standard">
             <mat-label>Marca</mat-label>
             <input matInput placeholder="" formControlName="brand" />
+            <mat-error *ngIf="hasError('brand', 'required')">Debe ingresar la marca</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
+        </div>
+
+        <div class="container">
+        <mat-form-field class="example-full-width">
+          <input formControlName="driverReference" type="text" placeholder="Asigne un chofer" aria-label="Chofer" matInput
+            [matAutocomplete]="driverAuto">
+          <mat-autocomplete  [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
+            <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
+              {{driverToDisplayableString(driverOption)}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="editTruckForm.controls['driverReference'].hasError('incorrect')">
+            Seleccione una opción válida del listado
+          </mat-error>
+        </mat-form-field>
+        </div> 
+  
+        <div class="container">
+        <mat-form-field class="example-full-width">
+          <input formControlName="gpsReference" type="text" placeholder="Asigne un gps" aria-label="Number" matInput
+            [matAutocomplete]="gpsAuto">
+          <mat-autocomplete [displayWith]="gpsToDisplayableString" #gpsAuto="matAutocomplete">
+            <mat-option *ngFor="let gpsOption of gpsFilteredOptions | async" [value]="gpsOption">
+              {{gpsToDisplayableString(gpsOption)}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="editTruckForm.controls['gpsReference'].hasError('incorrect')">
+            Seleccione una opción válida del listado
+          </mat-error>
+        </mat-form-field>
         </div>
   
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Model</mat-label>
             <input matInput placeholder="" formControlName="model" />
+            <mat-error *ngIf="hasError('model', 'required')">Debe ingresar el modelo</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -31,6 +64,7 @@
           <mat-form-field appearance="standard">
             <mat-label>Año</mat-label>
             <input matInput placeholder="" formControlName="year"/>
+            <mat-error *ngIf="hasError('year', 'required')">Debe ingresar el año</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -39,6 +73,7 @@
           <mat-form-field appearance="standard">
             <mat-label>Carga Máxima</mat-label>
             <input matInput placeholder="" formControlName="maxLoad"/>
+            <mat-error *ngIf="hasError('maxLoad', 'required')">Debe ingresar el valor de carga máxima</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -46,6 +81,7 @@
           <mat-form-field appearance="standard">
             <mat-label>Dueño</mat-label>
             <input matInput placeholder="" formControlName="owner"/>
+            <mat-error *ngIf="hasError('owner', 'required')">Debe ingresar el nombre del propietario</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -53,6 +89,7 @@
           <mat-form-field appearance="standard">
             <mat-label>Color</mat-label>
             <input matInput placeholder="" formControlName="color"/>
+            <mat-error *ngIf="hasError('color', 'required')">Debe ingresar el color</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -60,7 +97,7 @@
     </mat-dialog-content>
     <hr />
     <mat-dialog-actions>
-      <button mat-raised-button (click)="onCloseConfirm()" [disabled]="editTruckForm.invalid">Editar</button>
+      <button mat-raised-button (click)="onCloseConfirm()" [disabled]="editTruckForm.invalid">Aceptar</button>
       <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
     </mat-dialog-actions>
 </div>

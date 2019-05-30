@@ -61,8 +61,7 @@ export class TruckViewComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.ngOnInit();
+      if (result === "Confirm") this.refreshTable();
     });
   }
 
@@ -73,10 +72,10 @@ export class TruckViewComponent implements OnInit {
     dialogConfig.data = truck;
 
     this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(confirmation => {
-      if(confirmation.confirmed) { 
+      if(confirmation === "Confirm") { 
         this.refreshTable();
       }
-    });;
+    });
   }
 
   /* openUpdateDialog(data: Truck) {
@@ -90,13 +89,14 @@ export class TruckViewComponent implements OnInit {
     });
   }
  */
-  openDeleteDialog(truckData: Truck){
+    /* openDeleteDialog(truckData: Truck){
     console.log(truckData);
     console.log(truckData.licencePlate, truckData.disabled);
     truckData.disabled = truckData.disabled ? false: true;
     this.trucksService.disableTruck(truckData).subscribe({
       next: result => {
         console.log(result);
+        this.refreshTable();
       },
       error: result => {
         console.log("error en componente para listar");
@@ -104,13 +104,33 @@ export class TruckViewComponent implements OnInit {
     });
     console.log(truckData.licencePlate, truckData.disabled);
     this.refreshTable();
+  } */
+
+  openDeleteDialog(truckData: Truck) {
+    truckData.disabled = truckData.disabled ? false: true;
+    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) {
+        this.trucksService.disableTruck(truckData).subscribe({
+          next: result => {
+            console.log(result);
+          },
+          error: result => {
+            console.log("error en componente para listar");
+          }
+        }); 
+        this.refreshTable();
+      }
+      
+    });
   }
 
   openDeletionConfirmationDialog() {
+    
     var deletionDialogConfig = this.getDialogConfig();
-    deletionDialogConfig.data = { message: "¿Desea eliminar este camion?" };
+    deletionDialogConfig.data = { message: '¿Desea eliminar este usuario?'};
     return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
   }
+
 
   getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
