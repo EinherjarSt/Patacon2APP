@@ -45,6 +45,7 @@ import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirm
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 
 
@@ -84,7 +85,8 @@ import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-
     EditUserComponent,
     EditDriverComponent,
     EditTruckComponent,
-    DispatchDetailsComponent
+    DispatchDetailsComponent,
+    StatisticsComponent
   ],
   imports: [
     CommonModule,

@@ -14,7 +14,6 @@ export class TrucksService {
   available: boolean;
 
   constructor(private http: HttpClient) { }
-
   createTruck(data: Truck): Observable<boolean> {
 
     const body = new HttpParams()
