@@ -43,22 +43,16 @@ export class ProducerComponent implements OnInit , OnDestroy{
     console.log("decrypt:"+id);
 
     this.dispatch_id = id;
-    this.dispatchService.getDispatchesWithFullInfo().subscribe(data=>{
-      this.data = data;
-      for (let i = 0; i < this.data.length; i++) {
-        const element = this.data[i];
-        if(element.dispatchId==this.dispatch_id){
-          this.info=element;
-        }
-      }
+    this.dispatchService.getDispatchWithFullInfo(this.dispatch_id).subscribe(data=>{
+      this.info = data
       if(this.info.producerName==null){
         this.router.navigate(['/not-found']);
       }
-
+      else if(!this.verifyConditionsView(this.info)){
+        this.router.navigate(['/not-found']);
+      }
       let date = this.info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
       this.info.arrivalAtVineyardDatetime = date;
-
-     
     });
 
     this.gpsTimer = timer(3000, 15000).subscribe(() => {
@@ -73,4 +67,10 @@ export class ProducerComponent implements OnInit , OnDestroy{
     this.gpsTimer.unsubscribe();
   }
   
+  verifyConditionsView(filter :Filter){
+    if(filter.truckGPSImei==null)return false;
+    else if(filter.dispatchStatus=='Pendiente') return false;
+    else if(filter.dispatchStatus=='Terminado') return false;
+    return true;
+  }
 }

@@ -72,20 +72,24 @@ class Dispatch {
 
             let dispatch_data = {
                 dispatchId: dispatch.dispatchId,
-                dispatchStatus: dispatch.dispatchStatus,
-                driverRef: dispatch.driverRef,
-                truckLicensePlate: dispatch.truckLicensePlate,
-                arrivalAtPataconDatetime: dispatch.arrivalAtPataconDatetime,
-                arrivalAtVineyardDatetime: dispatch.arrivalAtVineyardDatetime,
-                shippedKilograms: dispatch.shippedKilograms,
-                containerType: dispatch.containerType,
-                driverRun: dispatch.driverRun,
-                driverName: dispatch.driverName,
-                driverSurname: dispatch.driverSurname,
-                driverPhoneNumber: dispatch.driverPhoneNumber,
-                producerName: dispatch.producerName,
-                producerLocation: dispatch.producerLocation,
-                truckGPSImei: dispatch.truckGPSImei
+                    dispatchStatus: dispatch.dispatchStatus,
+                    driverRef: dispatch.driverRef,
+                    truckLicensePlate: dispatch.truckLicensePlate,
+                    arrivalAtPataconDatetime: dispatch.arrivalAtPataconDatetime,
+                    arrivalAtVineyardDatetime: dispatch.arrivalAtVineyardDatetime,
+                    shippedKilograms: dispatch.shippedKilograms,
+                    containerType: dispatch.containerType,
+                    driverRun: dispatch.driverRun,
+                    driverName: dispatch.driverName,
+                    driverSurname: dispatch.driverSurname,
+                    driverPhoneNumber: dispatch.driverPhoneNumber,
+                    producerName: dispatch.producerName,
+                    producerLocation: dispatch.producerLocation,
+                    producerPhoneNumber: dispatch.producerPhoneNumber,
+                    truckGPSImei: dispatch.truckGPSImei,
+                    truckBrand: dispatch.truckBrand,
+                    truckModel: dispatch.truckModel,
+                    truckYear: dispatch.truckYear
             };
 
             return callback(null, dispatch_data);
