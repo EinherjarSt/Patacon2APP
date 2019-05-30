@@ -16,9 +16,7 @@ app.get('/despachos/:planification_id', passport.authenticate('jwt', {
     });
 })
 
-app.get('/despachos_completos', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+app.get('/despachos_completos', (req, res) => {
 
     Dispatch.getDispatchesWithFullInfo((err, dispatches) =>{
         if (err){
@@ -29,6 +27,18 @@ app.get('/despachos_completos', passport.authenticate('jwt', {
     });
 })
 
+app.get('/despachos_completos/:id', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+
+    Dispatch.getDispatchWithFullInfo(req.params.id, (err, dispatches) =>{
+        console.log(err);
+        if (err){
+            return res.status(400).json(err);
+        }
+        return res.json(dispatches);
+    });
+})
 
 app.get('/despachos/:id', passport.authenticate('jwt', {
     session: false

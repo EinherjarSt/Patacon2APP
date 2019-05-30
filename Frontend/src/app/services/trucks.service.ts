@@ -14,11 +14,12 @@ export class TrucksService {
   available: boolean;
 
   constructor(private http: HttpClient) { }
-
   createTruck(data: Truck): Observable<boolean> {
 
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
+    .set("ref_driver", data.ref_driver['run'])
+    .set("ref_gps", data.ref_gps['imei'])
     .set("brand", data.brand)
     .set("model", data.model)
     .set("year", data.year)
@@ -27,6 +28,11 @@ export class TrucksService {
     .set("color", data.color);
 
     console.log("set params");
+    console.log(body);
+    //console.log(data.brand);
+    //console.log(data.model);
+    //console.log(data.owner);
+    //console.log(data.color);
 
     return this.http
       .put<{ msg: string }>(env.api.concat("/truck/add"), body)
@@ -42,6 +48,8 @@ export class TrucksService {
     console.log("Entro a updateTruck en trucks.service.ts");
     const body = new HttpParams()
     .set("licencePlate", data.licencePlate)
+    .set("ref_driver", data.ref_driver['run'])
+    .set("ref_gps", data.ref_gps['imei'])
     .set("brand", data.brand)
     .set("model", data.model)
     .set("year", data.year)
@@ -114,6 +122,7 @@ export class TrucksService {
     return this.http.get<Truck>(env.api.concat("/truck/get/"+licencePlate))
     .pipe(
       map(result => {
+        console.log(result);
         return result;
       })
     );

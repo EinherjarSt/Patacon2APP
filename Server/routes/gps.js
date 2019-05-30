@@ -69,9 +69,7 @@ app.get('/gps/getall', passport.authenticate('jwt', {
     });
 })
 
-app.get('/gps/getposition', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+app.get('/gps/getposition', (req, res) => {
     let gps;
     try{
         gps = req.query['gps'];

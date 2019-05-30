@@ -11,6 +11,9 @@ import { EditDispatchComponent } from '../edit-dispatch/edit-dispatch.component'
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { ActivatedRoute } from '@angular/router';
+import { Filter } from 'src/app/model-classes/filter';
+import { ProducerviewService } from 'src/app/services/producerview.service';
+import { SMS } from 'src/app/services/sms.service';
 
 /**
  * @title Table with sorting
@@ -25,7 +28,7 @@ export class DispatchListComponent implements OnInit {
   dispatches: Dispatch[];
   planificationId: number;
   public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime", 
-  "arrivalAtPataconDatetime","container", "edit", "delete"];
+  "arrivalAtPataconDatetime","send", "edit", "delete"];
   public dataSource = new  MatTableDataSource<Dispatch>();
 
   @ViewChild(MatSort) sort: MatSort;
@@ -35,7 +38,10 @@ export class DispatchListComponent implements OnInit {
 
 
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private dispatchService: DispatchesService,
+    private producerViewService : ProducerviewService,
+    private smsService:SMS) { }
   
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -97,6 +103,40 @@ export class DispatchListComponent implements OnInit {
     });
   }
   
+  sendSMS(idDispatch){
+    let data : Filter[];
+    let info : Filter;
+    this.dispatchService.getDispatchesWithFullInfo().subscribe(res=>{
+      data = res;
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        if(element.dispatchId==idDispatch){
+          info=element;
+        }
+      }
+    let message = "\nDespacho Iniciado! \n"+
+    "Chofer: " + info.driverName +" "+info.driverSurname+"/"+info.driverRun+
+    "\nTel: "+ info.driverPhoneNumber;
+
+    //THE ARRIVAL TIME ISN'T IN THE MESSAGE BECAUSE THIS DOESN'T FIT
+    //FOR THE FULL VERSION ADD THE NEXT LINES 
+/**
+    let date = info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
+    message+="\nLlegada: "+date +"\n";
+*/
+
+    let idCypher = this.producerViewService.encryptNumber(info.dispatchId+"");
+    //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
+    let url = "\nhttp://localhost:4200/#/producer/"+idCypher;
+    message+=url;
+    
+    this.smsService.sendMessage(info.producerPhoneNumber,message).subscribe(res=>{
+      console.log(res);
+      //if(res=='') SHOW SOME ALERT WINDOW that the message wasn't sent
+    });
+    });
+    
+  }
  
   
   openEditDispatchDialog(dispatch: Dispatch) {
@@ -110,7 +150,7 @@ export class DispatchListComponent implements OnInit {
       }
     });;
   }
-
+  
 
   getDialogConfig() {
     const dialogConfig = new MatDialogConfig();
@@ -126,6 +166,15 @@ export class DispatchListComponent implements OnInit {
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  public sendSMS(dispatchId){
+    /*
+    this.dispatchesService.getDispatchWithFullInfo(dispatchId).subscribe(
+      data => {console.log(data)},
+      err => console.log("Error trayendo el bicho")
+      );
+    */
   }
 }
 
