@@ -16,12 +16,12 @@ class Dispatch {
         this.status = status;
     }
 
-    
+
     static getDispatchesWithFullInfo(callback) {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL get_dispatches_with_full_info()`, [],function (err, results, fields) {
+        pool.query(`CALL get_dispatches_with_full_info()`, [], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
@@ -35,9 +35,9 @@ class Dispatch {
                     truckLicensePlate: dispatch.truckLicensePlate,
                     arrivalAtPataconDatetime: dispatch.arrivalAtPataconDatetime,
                     arrivalAtVineyardDatetime: dispatch.arrivalAtVineyardDatetime,
-                    shippedKilograms: dispatch.shippedKilograms ,
-                    containerType: dispatch.containerType ,
-                    driverRun: dispatch.driverRun ,
+                    shippedKilograms: dispatch.shippedKilograms,
+                    containerType: dispatch.containerType,
+                    driverRun: dispatch.driverRun,
                     driverName: dispatch.driverName,
                     driverSurname: dispatch.driverSurname,
                     driverPhoneNumber: dispatch.driverPhoneNumber,
@@ -55,6 +55,43 @@ class Dispatch {
         });
     }
 
+    static getDispatchWithFullInfo(dispatchId, callback) {
+
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL get_dispatch_with_full_info(?)`, [dispatchId], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            var a = 1;
+            let result = results[0];
+
+            console.log(result[0]);
+            let dispatch = result[0];
+
+            let dispatch_data = {
+                dispatchId: dispatch.dispatchId,
+                dispatchStatus: dispatch.dispatchStatus,
+                driverRef: dispatch.driverRef,
+                truckLicensePlate: dispatch.truckLicensePlate,
+                arrivalAtPataconDatetime: dispatch.arrivalAtPataconDatetime,
+                arrivalAtVineyardDatetime: dispatch.arrivalAtVineyardDatetime,
+                shippedKilograms: dispatch.shippedKilograms,
+                containerType: dispatch.containerType,
+                driverRun: dispatch.driverRun,
+                driverName: dispatch.driverName,
+                driverSurname: dispatch.driverSurname,
+                driverPhoneNumber: dispatch.driverPhoneNumber,
+                producerName: dispatch.producerName,
+                producerLocation: dispatch.producerLocation,
+                truckGPSImei: dispatch.truckGPSImei
+            };
+
+            return callback(null, dispatch_data);
+        });
+    }
+
     static getDispatches(planificationId, callback) {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
@@ -66,7 +103,7 @@ class Dispatch {
             }
             let dispatches = []
             for (const dispatch of results[0]) {
-                dispatches.push(new Dispatch(dispatch.id_dispatch, dispatch.ref_driver, dispatch.ref_truck, 
+                dispatches.push(new Dispatch(dispatch.id_dispatch, dispatch.ref_driver, dispatch.ref_truck,
                     dispatch.ref_planification, dispatch.shippedKilograms,
                     dispatch.arrivalAtPataconDate, dispatch.arrivalAtVineyardDate,
                     dispatch.containerType, dispatch.status));
