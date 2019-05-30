@@ -96,7 +96,14 @@ export class DispatchesService {
   getDispatchesWithFullInfo(): Observable<any[]> {
     return this._http.get<any[]>(env.api.concat("/despachos_completos")).pipe(
       map(result => {
-        console.log(result);
+        return result;  
+      })
+    );
+  }
+
+  getDispatchWithFullInfo(dispatchId): Observable<any[]> {
+    return this._http.get<any>(env.api.concat("/despachos_completos/" + dispatchId)).pipe(
+      map(result => {
         return result;  
       })
     );
