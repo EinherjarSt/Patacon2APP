@@ -29,8 +29,8 @@ export class AddTruckComponent implements OnInit {
   { 
     this.addTruckForm = new FormGroup({
       licencePlate: new FormControl("",[Validators.required]),
-      gpsReference: new FormControl(""),
-      driverReference: new FormControl(""),
+      ref_gps: new FormControl(""),
+      ref_driver: new FormControl(""),
       brand: new FormControl("",[Validators.required]),
       model: new FormControl("",[Validators.required]),
       year: new FormControl("",[Validators.required]),
@@ -64,7 +64,7 @@ export class AddTruckComponent implements OnInit {
   }
 
   setGpsAutocompleteFilteringCapabilities() {
-    this.gpsFilteredOptions = this.addTruckForm.get('gpsReference').valueChanges
+    this.gpsFilteredOptions = this.addTruckForm.get('ref_gps').valueChanges
       .pipe(
         startWith(''),
         map(value => this.filterGpsOptions(value))
@@ -108,7 +108,7 @@ export class AddTruckComponent implements OnInit {
   }
 
   setDriverAutocompleteFilteringCapabilities() {
-    this.driverFilteredOptions = this.addTruckForm.get('driverReference').valueChanges
+    this.driverFilteredOptions = this.addTruckForm.get('ref_driver').valueChanges
       .pipe(
         startWith(''),
         map(value => this.filterDriverOptions(value))
@@ -157,6 +157,7 @@ export class AddTruckComponent implements OnInit {
 
   onFormSubmit() {
     let newTruck = this.addTruckForm.value;
+    console.log(newTruck);
     this.truckService.createTruck(newTruck).subscribe(
       response => {
         console.log("Success", response);

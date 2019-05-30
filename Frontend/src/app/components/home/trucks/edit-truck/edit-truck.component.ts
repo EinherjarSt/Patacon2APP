@@ -1,14 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { TrucksService } from '../../../../services/trucks.service';
+import { AutocompleteValidOption } from '../add-truck/add-truck.custom.validators';
 import { Gps } from 'src/app/model-classes/gps';
 import { Driver } from 'src/app/model-classes/driver';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { GpsService } from '../../../../services/gps.service';
 import { DriversService } from '../../../../services/drivers.service';
+import { Truck } from 'src/app/model-classes/truck';
 
 
 @Component({
@@ -21,6 +23,11 @@ export class EditTruckComponent implements OnInit {
 
   isDriverListDataLoading: boolean;
   isGpsListDataLoading: boolean;
+  //id_truck: string;
+  //run: string;
+  //imei: string;
+  //available: boolean;
+  //disabled: boolean;
 
   editTruckForm = new FormGroup({
     licencePlate: new FormControl(''),
@@ -34,9 +41,8 @@ export class EditTruckComponent implements OnInit {
     color: new FormControl('')
   });
 
-
   constructor(private snackBar: MatSnackBar,
-    public dialogRef: MatDialogRef<EditTruckComponent>,
+    public dialogRef: MatDialogRef<EditTruckComponent>, private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data, private driverService : DriversService, 
     private truckService: TrucksService, private gpsService : GpsService) { }
 
@@ -46,8 +52,9 @@ export class EditTruckComponent implements OnInit {
   gpsOptions: Gps[];
   gpsFilteredOptions: Observable<Gps[]>;
 
-
   ngOnInit() {
+    //this.run = '';
+    //this.imei = '';
     this.getTruckData();
     this.getDriverOptions();
     this.getGpsOptions();
@@ -134,16 +141,16 @@ export class EditTruckComponent implements OnInit {
   }
 
   setDriverAutocompleteValue() {
-    this.editTruckForm.patchValue({driverReference: this.findDriverOption(this.data.driverReference)})
+    this.editTruckForm.patchValue({driverReference: this.findDriverOption(this.data.ref_driver)})
   }
 
   
   setGpsAutocompleteValue() {
-    this.editTruckForm.patchValue({gpsReference: this.findGpsOption(this.data.gpsReference)})
+    this.editTruckForm.patchValue({gpsReference: this.findGpsOption(this.data.ref_gps || '')})
   }
 
-  findGpsOption(truckId) {
-    return this.gpsOptions.find(gpsOption => gpsOption.imei == truckId);
+  findGpsOption(gpsId: string) {
+    return this.gpsOptions.find(gpsOption => gpsOption.imei == gpsId);
   }
 
   findDriverOption(driverId: string) {
@@ -162,7 +169,6 @@ export class EditTruckComponent implements OnInit {
         this.editTruckForm.get('maxLoad').setValue(result.maxLoad);
         this.editTruckForm.get('owner').setValue(result.owner);
         this.editTruckForm.get('color').setValue(result.color);
-
         /* console.log(result.licencePlate);
         console.log(result.brand);
         console.log(result.model);
@@ -178,12 +184,14 @@ export class EditTruckComponent implements OnInit {
     });
   }
 
-  onCloseConfirm() {
+  onCloseConfirm() { 
+    //console.log('rut: '+this.run);
     let truckData = this.editTruckForm.value;
     console.log(this.editTruckForm.value);
     this.truckService.updateTruck(truckData).subscribe({
       next: result => {
         console.log(result);
+        console.log(truckData);
         this.openSuccessMessage();
         this.dialogRef.close('Confirm');
       },

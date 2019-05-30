@@ -72,24 +72,54 @@ class Truck {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL update_truck2(?, ?, ?, ?, ?, ?, ?)`, [
-            truck.licencePlate, 
-            truck.brand, 
-            truck.model, 
-            truck.year, 
-            truck.maxLoad, 
-            truck.owner, 
-            truck.color
-        ], function (err, results, fields) {
-            if (err) {
-                return callback(err);
+        else
+        {
+            if(truck.ref_gps == 'undefined' && truck.ref_driver == 'undefined')
+            {
+                pool.query(`CALL update_truck3(?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color
+                ], function (err, results, fields) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    if(results.affectedRows == 0){
+                        // If don't exist a row
+                        return callback({ message: truck});
+                    }
+                    return callback(null, true);
+                })
             }
-            if(results.affectedRows == 0){
-                // If don't exist a row
-                return callback({ message: truck});
+            else
+            {
+                pool.query(`CALL update_truck2(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color,
+                    truck.ref_gps,
+                    truck.ref_driver
+                ], function (err, results, fields) {
+                    if (err) {
+                        return callback(err);
+                    }
+                    if(results.affectedRows == 0){
+                        // If don't exist a row
+                        return callback({ message: truck});
+                    }
+                    return callback(null, true);
+                })
             }
-            return callback(null, true);
-        });
+        
+        };
     }
 
     static disableTruck(licencePlate, disabled, callback) {
@@ -116,24 +146,99 @@ class Truck {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL add_truck2(?, ?, ?, ?, ?, ?, ?)`, [
-            truck.licencePlate, 
-            truck.brand, 
-            truck.model, 
-            truck.year, 
-            truck.maxLoad, 
-            truck.owner, 
-            truck.color
-        ], function (err, results, fields) {
-            if (err) {
-                if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
-                }
-                return callback(err);
+        else
+        {
+            if(truck.ref_gps == 'undefined' && truck.ref_driver == 'undefined')
+            {
+                pool.query(`CALL add_truck3(?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color
+                ], function (err, results, fields) {
+                    if (err) {
+                        if (err.code == "ER_DUP_ENTRY"){
+                            return callback({message : err.sqlMessage});
+                        }
+                        return callback(err);
+                    }
+                    return callback(null, true);
+        
+                });
             }
-            return callback(null, true);
-
-        });
+            else if(truck.ref_gps == 'undefined')
+            {
+                pool.query(`CALL add_truck4(?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color,
+                    truck.ref_driver
+                ], function (err, results, fields) {
+                    if (err) {
+                        if (err.code == "ER_DUP_ENTRY"){
+                            return callback({message : err.sqlMessage});
+                        }
+                        return callback(err);
+                    }
+                    return callback(null, true);
+        
+                });
+            }
+            else if(truck.ref_driver == 'undefined')
+            {
+                pool.query(`CALL add_truck5(?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color,
+                    truck.ref_gps
+                ], function (err, results, fields) {
+                    if (err) {
+                        if (err.code == "ER_DUP_ENTRY"){
+                            return callback({message : err.sqlMessage});
+                        }
+                        return callback(err);
+                    }
+                    return callback(null, true);
+        
+                });
+            }
+            else
+            {
+                pool.query(`CALL add_truck2(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    truck.licencePlate, 
+                    truck.brand, 
+                    truck.model, 
+                    truck.year, 
+                    truck.maxLoad, 
+                    truck.owner, 
+                    truck.color,
+                    truck.ref_gps,
+                    truck.ref_driver
+                ], function (err, results, fields) {
+                    if (err) {
+                        if (err.code == "ER_DUP_ENTRY"){
+                            return callback({message : err.sqlMessage});
+                        }
+                        return callback(err);
+                    }
+                    return callback(null, true);
+        
+                });
+            }
+        
+        };
+        
     }
 
     static getTruckByLicencePlate(licencePlate, callback) {
