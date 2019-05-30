@@ -23,8 +23,10 @@ declare const google: any;
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  lat: number = -35.0012238;
-  lng: number = -71.2308186;
+  center: {latitude: number, longitude: number} = {
+    latitude: -35.0012238,
+    longitude: -71.2308186
+  }
   lat2: number = -34.147774;
   lng2: number = -70.741592;
   shouldRun: boolean;
@@ -66,7 +68,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onMapReady(map) {
     console.log(google);
-    this.initDrawingManager(map);
     this.test(map);
   }
 
@@ -99,9 +100,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ]
     });
   
-    var marker = new google.maps.Marker({position: myPosition, map: map});
+    //var marker = new google.maps.Marker({position: myPosition, map: map});
 
-    cascadiaFault.setMap(map);
+    //cascadiaFault.setMap(map);
   
     if (google.maps.geometry.poly.isLocationOnEdge(myPosition, cascadiaFault, 1e-4)) {
       console.log(1e-4);
@@ -111,23 +112,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onMapClick(event){
     console.log(event);
-  }
-
-  initDrawingManager(map: any) {
-    const options = {
-      drawingControl: true,
-      drawingControlOptions: {
-        drawingModes: ["polyline"]
-      },
-      polygonOptions: {
-        draggable: true,
-        editable: true
-      },
-      drawingMode: google.maps.drawing.OverlayType.Polyline
-    };
-
-    const drawingManager = new google.maps.drawing.DrawingManager(options);
-    drawingManager.setMap(map);
   }
 
   mapUpdate(event: Filter[]){

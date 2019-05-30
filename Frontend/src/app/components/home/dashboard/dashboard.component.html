@@ -30,7 +30,7 @@
           
           <mat-button-toggle class="sidenav-button" mat-button 
           (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
-          <agm-map [latitude]="lat" [longitude]="lng2" (mapReady)="onMapReady($event)" (mapClick)="onMapClick($event)">
+          <agm-map [latitude]="center.latitude" [longitude]="center.longitude" (mapReady)="onMapReady($event)" (mapClick)="onMapClick($event)">
             <!-- <agm-marker [latitude]="lat" [longitude]="lng">
               <agm-info-window>Börk</agm-info-window>
             </agm-marker> -->

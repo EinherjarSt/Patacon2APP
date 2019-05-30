@@ -1,0 +1,41 @@
+<mat-sidenav-container class="example-container" *ngIf="shouldRun">
+  <mat-sidenav #sidenav [mode]="'side'"[position]="'end'" [opened]="'true'">
+          <mat-panel-title>
+            Rutas
+          </mat-panel-title>
+          <mat-panel-description> </mat-panel-description>
+        <!--Aqui va las rutas-->
+        <button> Crear ruta</button>
+
+        <div id="total"></div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div id="floating-panel">
+      <b>Inicio: </b>
+      <select id="start" [(ngModel)]="selectedValue" (ngModelChange)="selectChange($event)">
+        <option *ngFor="let item of startSelect" [value] = item.location>{{item.name}}</option>
+        <!-- <option value="Unnamed Road, Peumo, Región del Libertador Gral. Bernardo O’Higgins">Inversiones El Cortijo</option>
+        <option value="Unnamed Road, Peumo, Región del Libertador Gral. Bernardo O’Higgins">AGR. Y FRUT. LA ESPERANZA</option>
+        <option value="-34.6508629, -71.3846474">AGR. SAN EDUARDO</option>
+        <option value="Unnamed Road, Santa Cruz, Región del Libertador Gral. Bernardo O’Higgins">AGR. Santa Elvira  (Chapeta Correa) Tintorera</option>
+        <option value="I-742, Santa Cruz, Región del Libertador Gral. Bernardo O’Higgins">AGR. LA PATAGUILLA  (Chapeta Correa)</option> -->
+      </select>
+      <b>Termino: </b>
+      <select id="end">
+        <option [value]="endSelect.location">{{endSelect.name}}</option>
+      </select>
+      </div>
+
+        <div class="map-content"> 
+          
+          <mat-button-toggle class="sidenav-button" mat-button 
+          (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
+          <agm-map [latitude]="center.latitude" [longitude]="center.longitude" (mapReady)="onMapReady($event)">         
+          </agm-map>
+         
+        </div>
+        
+    
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -7,8 +7,8 @@ var gpsOptions = {
     'host': '0.0.0.0'
 }
 
-// Global Variable
-GPS_POSITIONS = {};
+// Global var that contain the route and info of gps
+GPS_DATA = {};
 
 var server = gps.server(gpsOptions, function (device, connection) {
     
@@ -20,11 +20,10 @@ var server = gps.server(gpsOptions, function (device, connection) {
                 return;
             }
 
+            // Fill the basic of information to send
             GPS_DATA[device.uid] = {
-                imei:,
-                truckLicensePlate:,
-                driverName:,
-                position:,
+                imei: device.uid,
+                location: null,
                 route:[]
             }
 
@@ -45,9 +44,8 @@ var server = gps.server(gpsOptions, function (device, connection) {
         //After the ping is received, but before the data is saved
         console.log('data');
         console.log(gpsData);
-        // Global Object
-        GPS_DATA[device.uid].position = {
-            imei: device.uid,
+        // Global Object. Fill the information that is recived by gps
+        GPS_DATA[device.uid].location = {
             signal: gpsData.signal,
             latitude: gpsData.latitude,
             longitude: gpsData.longitude,

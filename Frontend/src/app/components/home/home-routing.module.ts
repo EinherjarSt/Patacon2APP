@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { GpsComponent } from './gps/gps.component';
 
 import { AuthGuard } from '../../guard/auth.guard';
+import { RoutesComponent } from './routes/routes.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,8 @@ const routes: Routes = [
      {path: 'camiones', component: TrucksComponent},
      {path: 'despachos/:id', component: DispatchListComponent},
      {path: 'planificacion',component: PlanificationListComponent},
-     {path: 'gps', component: GpsComponent}
+     {path: 'gps', component: GpsComponent},
+     {path: 'routes', component: RoutesComponent}
     ]
   }
 ];
