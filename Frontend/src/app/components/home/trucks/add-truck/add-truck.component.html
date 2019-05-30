@@ -38,7 +38,37 @@
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
-  
+
+        <div class="container">
+        <mat-form-field class="example-full-width">
+          <input formControlName="ref_driver" type="text" placeholder="Asigne un chofer" aria-label="Number" matInput
+            [matAutocomplete]="driverAuto">
+          <mat-autocomplete [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
+            <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
+              {{driverToDisplayableString(driverOption)}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="addTruckForm.controls['ref_driver'].hasError('incorrect')">
+            Seleccione una opción válida del listado
+          </mat-error>
+        </mat-form-field>
+        </div>
+
+        <div class="container">
+          <mat-form-field class="example-full-width">
+            <input formControlName="ref_gps" type="text" placeholder="Asigne un gps" aria-label="Number" matInput
+              [matAutocomplete]="gpsAuto">
+            <mat-autocomplete [displayWith]="gpsToDisplayableString" #gpsAuto="matAutocomplete">
+              <mat-option *ngFor="let gpsOption of gpsFilteredOptions | async" [value]="gpsOption">
+                {{gpsToDisplayableString(gpsOption)}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="addTruckForm.controls['ref_gps'].hasError('incorrect')">
+              Seleccione una opción válida del listado
+            </mat-error>
+          </mat-form-field>
+          </div>
+
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Año</mat-label>
