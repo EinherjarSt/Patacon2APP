@@ -6,7 +6,7 @@
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>R.U.N</mat-label>
-          <input matInput placeholder="11.111.111-1" formControlName="run" />
+          <input matInput placeholder="11.111.111-1" formControlName="run" (input)="checkRut($event.srcElement)"/>
           <mat-error *ngIf="hasError('run', 'required')">Debe ingresar el run</mat-error>
           <mat-error *ngIf="hasError('run', 'pattern')">Debe ingresar un run valido</mat-error>
           <mat-hint></mat-hint>
