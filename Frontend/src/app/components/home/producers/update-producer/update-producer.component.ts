@@ -17,16 +17,8 @@ export class UpdateProducerComponent implements OnInit {
   name: string;
   rut: string;
   locations : Location[] = new Array();
-
-
-  producerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    rut: new FormControl({value:'', disabled: true}),
-    manager: new FormControl(''),
-    telephone: new FormControl('')
-  });
-
-
+  producerForm: FormGroup;
+  
   constructor(public dialogRef: MatDialogRef<UpdateProducerComponent>, private producersService: ProducersService,
      @Inject(MAT_DIALOG_DATA) private data, private fb: FormBuilder) {
 
@@ -82,7 +74,6 @@ export class UpdateProducerComponent implements OnInit {
   onSubmit(){
     let producerData = this.producerForm.value;
 
-    console.log(this.producerForm.value.locations);
     this.producersService.modifyProducer(producerData).subscribe({
       next: result => {
         this.dialogRef.close();
@@ -92,15 +83,27 @@ export class UpdateProducerComponent implements OnInit {
       }
     });
 
-    for(let location of this.producerForm.value.locations){
-      this.producersService.modifyLocation(location).subscribe({
-        next: result => {
-          this.dialogRef.close();
-        },
-        error: result => {
-          console.log("error");
-        }
-      });
+    for(let location of producerData.locations){
+      if(location.new == false){
+        this.producersService.modifyLocation(location).subscribe({
+          next: result => {
+            this.dialogRef.close();
+          },
+          error: result => {
+            console.log("error");
+          }
+        });
+      }
+      else{
+        this.producersService.addLocation(producerData.rut ,location).subscribe({
+          next: result => {
+            this.dialogRef.close();
+          },
+          error: result =>{
+            console.log("error");
+          }
+        });
+      }
     }
   }
 
@@ -130,7 +133,15 @@ export class UpdateProducerComponent implements OnInit {
     }));
   }
 
-  addLocation(){
+  deleteLocationForm(){
+    const loc_form = this.producerForm.get('locations') as FormArray;
 
+    if(loc_form.at(loc_form.length-1).value.new == true){
+      loc_form.removeAt(loc_form.length-1);
+    }
+    else{
+      console.log("No se puede eliminar el formulario");
+    }
+    
   }
 }

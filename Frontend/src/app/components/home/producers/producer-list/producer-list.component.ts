@@ -67,7 +67,7 @@ export class ProducerListComponent implements OnInit {
   }
 
   deleteProducer(rut: string){
-
+    
   }
 
   refreshTable() {

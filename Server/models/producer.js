@@ -59,7 +59,7 @@ class Producer{
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
         }
-        pool.query(`SELECT * FROM producer, location WHERE location.ref_producer = producer.rut`, function(err, results, fields){
+        pool.query(`SELECT * FROM producer, location WHERE location.ref_producer = producer.rut AND producer.disabled = 0`, function(err, results, fields){
             if(err){
                 return callback(err);
             }
