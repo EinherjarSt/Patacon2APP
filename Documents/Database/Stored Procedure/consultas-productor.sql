@@ -32,7 +32,6 @@ END//
 
 DROP PROCEDURE IF EXISTS `delete_producer`//
 CREATE PROCEDURE `delete_producer`(
-	IN `_name` text,
 	IN `_rut` VARCHAR(13)
 ) BEGIN
      UPDATE `producer` SET 

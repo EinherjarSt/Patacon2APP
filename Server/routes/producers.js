@@ -111,10 +111,20 @@ app.post('/producer/deleteLocation/:id_location',  passport.authenticate('jwt', 
 	});
 });
 
-app.post('/producer/delete',  passport.authenticate('jwt', {
+app.post('/producer/delete/:rut',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-	console.log('/delete-producer');
+	let rut = req.params.rut;
+
+	Producer.deleteProducer(rut, (err, result) =>{
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json({
+			message: "The producer has been deleted"
+		});
+	});
 });
 
 

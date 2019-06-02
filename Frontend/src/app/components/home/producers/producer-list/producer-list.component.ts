@@ -67,7 +67,14 @@ export class ProducerListComponent implements OnInit {
   }
 
   deleteProducer(rut: string){
-    
+    this.producerService.deleteProducer(rut).subscribe({
+      next: (result) => {
+        console.log(result);
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
   }
 
   refreshTable() {

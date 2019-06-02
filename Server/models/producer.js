@@ -55,6 +55,7 @@ class Producer{
             return callback(null, result);
         });
     }
+
     static getAllProducers(callback){
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
@@ -119,6 +120,23 @@ class Producer{
             producer.name,
             producer.rut
         ], function(err, result, fields){
+            if(err){
+                if(err.code == "ER_DUP_ENTRY"){
+                    return callback({message: err.sqlMessage});
+                }
+                return callback(err);
+            }
+
+            return callback(null, true);
+        });
+    }
+
+    static deleteProducer(rut, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback funtion. Please provide them');
+        }
+
+        pool.query('CALL delete_producer(?)', [rut], function(err, result, fields){
             if(err){
                 if(err.code == "ER_DUP_ENTRY"){
                     return callback({message: err.sqlMessage});
