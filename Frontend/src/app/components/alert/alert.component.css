@@ -1,0 +1,9 @@
+.alert-custom{
+    width: 50%;
+    top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+   
+    z-index: 1;
+    
+}

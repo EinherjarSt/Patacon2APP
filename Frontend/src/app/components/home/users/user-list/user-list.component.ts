@@ -5,6 +5,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import { AlertService } from 'src/app/services/alert.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class UserListComponent implements OnInit {
   dataSource: MatTableDataSource<User>;
   dialogResult = "";
 
-  constructor(private usersService: UsersService, private dialog: MatDialog) { }
+  constructor(private usersService: UsersService, private dialog: MatDialog, private alertService: AlertService) { }
 
 
   @ViewChild(MatSort) sort: MatSort;
@@ -57,7 +58,11 @@ export class UserListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
-      if (result == 'Confirm') this.refreshTable();
+      if (result == 'Confirm'){
+        this.refreshTable();
+        this.success("El usuario ha sido agregado exitosamente");
+
+      } 
     })
   }
 
@@ -96,7 +101,10 @@ export class UserListComponent implements OnInit {
     this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
       if(confirmation.confirmed) {
         this.usersService.removeUser(run).subscribe({
-          next: result => { this.refreshTable(); },
+          next: result => {
+             this.refreshTable();
+             this.info("Usuario eliminado exitosamente"); 
+            },
           error: result => {}
         }); 
       }
@@ -117,5 +125,14 @@ export class UserListComponent implements OnInit {
     dialogConfig.autoFocus = true;
     return dialogConfig;
   }
+
+  success(message: string){
+    this.alertService.success(message);
+  }
+
+  info(message: string){
+    this.alertService.info(message);
+  }
+
 
 }
