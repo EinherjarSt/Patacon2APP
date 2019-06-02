@@ -49,5 +49,14 @@ export class RouteService {
     );
   }
 
+  getProducersWithoutRoutes():Observable<InfoRoute[]>{
+    return this.http.get<InfoRoute[]>(env.api.concat("/route/getWithoutRoutes/"))
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
 
 }

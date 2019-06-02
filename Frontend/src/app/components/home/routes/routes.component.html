@@ -1,28 +1,29 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
 <mat-sidenav-container class="example-container" *ngIf="shouldRun">
   <mat-sidenav #sidenav [mode]="'side'"[position]="'end'" [opened]="'true'">
           <div class="title"><b>Rutas</b></div>
           <div>
-            <button mat-raised-button>Agregar Ruta</button>
+            <button mat-raised-button (click)="changeState()" disabled="{{this.panelVisible}}">Agregar Ruta</button>
           </div>
           <div class="routesList">
-            <mat-expansion-panel class="expansion">
+            <mat-expansion-panel *ngFor="let info of routesInfo" class="expansion">
               <mat-expansion-panel-header class="expansion-title">
                 <mat-panel-title>
-                  Viña Faundez SA
+                  {{info.producerName}}
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="expansion-content">
                   <mat-nav-list>
-                      <mat-list-item>
-                          <div fxLayout="row" class="item" (click)="clickItem()">
+                      <mat-list-item  *ngFor="let location of info.locations">
+                          <div fxLayout="row" class="item" (click)="clickItem(location.id_location)">
                               <div fxFlex="70" class="nameLocation">
-                              Molina 
+                              {{location.address}}
                               </div>
                               <div fxFlex="30" class="actions">
-                                  <button mat-icon-button color="primary" (click)="clickEdit($event)">
+                                  <button mat-icon-button color="primary" (click)="clickEdit($event,location.id_location)">
                                       <mat-icon class="mat-18">edit</mat-icon>
                                     </button>
-                                    <button mat-icon-button color="warn" (click)="clickDelete($event)">
+                                    <button mat-icon-button color="warn" (click)="clickDelete($event,location.id_location)">
                                       <mat-icon class="mat-18">delete</mat-icon>
                                     </button>
                               </div>
@@ -37,23 +38,53 @@
         <div id="total"></div>
   </mat-sidenav>
 
-  <mat-sidenav-content>
-    <div id="floating-panel">
-      <b>Inicio: </b>
-      <select id="start" [(ngModel)]="selectedValue" (ngModelChange)="selectChange($event)">
-        <option *ngFor="let item of startSelect" [value] = item.location>{{item.name}}</option>
-        <!-- <option value="Unnamed Road, Peumo, Región del Libertador Gral. Bernardo O’Higgins">Inversiones El Cortijo</option>
-        <option value="Unnamed Road, Peumo, Región del Libertador Gral. Bernardo O’Higgins">AGR. Y FRUT. LA ESPERANZA</option>
-        <option value="-34.6508629, -71.3846474">AGR. SAN EDUARDO</option>
-        <option value="Unnamed Road, Santa Cruz, Región del Libertador Gral. Bernardo O’Higgins">AGR. Santa Elvira  (Chapeta Correa) Tintorera</option>
-        <option value="I-742, Santa Cruz, Región del Libertador Gral. Bernardo O’Higgins">AGR. LA PATAGUILLA  (Chapeta Correa)</option> -->
-      </select>
-      <b>Termino: </b>
-      <select id="end">
-        <option [value]="endSelect.location">{{endSelect.name}}</option>
-      </select>
+  <mat-sidenav-content >
+    
+    <mat-card id="floating-panel" *ngIf="this.panelVisible" class="animated fadeInDown">
+        <div fxLayout="row">
+            <div fxFlex="30">
+                  <mat-form-field  class="producer">
+                      <mat-label>Productor</mat-label>
+                      <mat-select>
+                        <mat-option *ngFor="let option of producers" (click)="changeOptions(option)">
+                          {{option.producerName}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+              
+            </div>
+            <div fxFlex="35" class="locations">
+                <mat-form-field >
+                    <mat-label>Ubicación</mat-label>
+                    <mat-select disabled="{{this.locationField}}">
+                      <mat-option *ngFor="let location of locationOptions" (click)="showRoute(location)">
+                        {{location.address}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div fxFlex="35" class="buttons">
+                <div fxLayout="row">
+                    <div fxFlex="50" class="btnAdd">
+                      <button mat-raised-button (click)="add()" disabled="{{this.btnAddRoute2}}">Agregar</button>
+                    </div>
+                    <button mat-raised-button (click)="changeState()">Cancelar</button>
+                </div>
+                
+                
+            </div>
       </div>
-
+          <!--<b>Inicio: </b>
+          <select id="start" [(ngModel)]="selectedValue" (ngModelChange)="selectChange($event)">
+            <option *ngFor="let item of startSelect" [value] = item.location>{{item.name}}</option>
+            
+          </select>
+          <b>Termino: </b>
+          <select id="end">
+            <option [value]="endSelect.location">{{endSelect.name}}</option>
+          </select>-->
+        
+    </mat-card>
         <div class="map-content"> 
           
           <mat-button-toggle class="sidenav-button" mat-button 

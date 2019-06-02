@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { RouteService } from 'src/app/services/route.service';
 import { InfoRoute } from 'src/app/model-classes/infoRoute';
+import { Location } from 'src/app/model-classes/location';
 declare const google: any;
 
 @Component({
@@ -21,6 +22,11 @@ export class RoutesComponent implements OnInit {
   map;
   directionsDisplay;
   routesInfo:InfoRoute[];
+  locationOptions: Location[];
+  producers :InfoRoute[];
+  panelVisible = false;
+  locationField = true;
+  btnAddRoute2 = true;
 
   startSelect = [{
       name: 'Inversiones El Cortijo',
@@ -56,9 +62,23 @@ export class RoutesComponent implements OnInit {
   ngOnInit() {
     this.shouldRun = true;
     this.routeService.getRoutesInfo().subscribe(data=>{
+      
       this.routesInfo = data;
       
-    })
+    });
+    this.getProducersWithoutRoutes();
+  }
+
+  getProducersWithoutRoutes(){
+    this.routeService.getProducersWithoutRoutes().subscribe( data =>{
+      this.producers = data;
+      console.log(data);
+    });
+  }
+
+  changeOptions(pr:InfoRoute){
+    this.locationOptions = pr.locations;
+    this.locationField =false;
   }
 
   onMapReady(map) {
@@ -154,20 +174,43 @@ export class RoutesComponent implements OnInit {
     this.initMap(this.map, event, this.endSelect.location);
   }
 
-  clickItem(){
-    
+  clickItem(idLocation){
+    //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
+    //MOSTRAR MAPA
+    this.panelVisible =false;
     console.log("ITEM");
   }
-  clickEdit(event: Event){
+
+  clickEdit(event: Event,idLocation){
     event.preventDefault();
-    // EDIT: Looks like you also have to include Event#stopImmediatePropogation as well
     event.stopImmediatePropagation();
+
+     //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
+    //MOSTRAR MAPA PARA EDITAR
+
     console.log("EDITAR");
   }
-  clickDelete(event: Event){
+
+  clickDelete(event: Event,idLocation){
     event.preventDefault();
-    // EDIT: Looks like you also have to include Event#stopImmediatePropogation as well
     event.stopImmediatePropagation();
+
+    //LLAMAR FUNCION PARA ELIMINAR RUTA
     console.log("ELIMINAR");
+  }
+
+  changeState(){
+    if(this.panelVisible) this.panelVisible =false;
+    else this.panelVisible = true;
+    //ELIMINAR RUTAS DIBUJADAS
+  }
+
+  showRoute(location){
+    this.btnAddRoute2 =false;
+
+    let origin = ""+location.latitude + "," + location.longitude+"";
+    console.log(origin);
+    this.initMap(this.map,origin,this.endSelect.location);
+
   }
 }

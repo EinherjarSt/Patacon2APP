@@ -46,4 +46,16 @@ app.get('/route/getAllInfo', passport.authenticate('jwt', {
     
 });
 
+app.get('/route/getWithoutRoutes', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	Route.getProducersWithoutRoute((err, result) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+		return res.json(result);
+	});
+    
+});
+
 module.exports = app;
