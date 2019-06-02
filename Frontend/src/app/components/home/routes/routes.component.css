@@ -1,5 +1,7 @@
 mat-sidenav {
-  width: 40%;
+  width: 30%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 agm-map {
@@ -44,4 +46,34 @@ p.copyright {
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
   padding-left: 10px;
+}
+
+.title{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+.routesList{
+  padding-top: 20px;
+}
+.expansion{
+  margin: 1px;
+}
+.expansion-title{
+  height: 50px !important;
+}
+.expansion-content{
+  
+  padding-left: 5px;
+}
+.nameLocation{
+  padding-top: 10px;
+}
+.actions{
+  width: 100%;
+  z-index: 5;
+}
+.item{
+  width: 100%;
 }

@@ -1,11 +1,38 @@
 <mat-sidenav-container class="example-container" *ngIf="shouldRun">
   <mat-sidenav #sidenav [mode]="'side'"[position]="'end'" [opened]="'true'">
-          <mat-panel-title>
-            Rutas
-          </mat-panel-title>
-          <mat-panel-description> </mat-panel-description>
-        <!--Aqui va las rutas-->
-        <button> Crear ruta</button>
+          <div class="title"><b>Rutas</b></div>
+          <div>
+            <button mat-raised-button>Agregar Ruta</button>
+          </div>
+          <div class="routesList">
+            <mat-expansion-panel class="expansion">
+              <mat-expansion-panel-header class="expansion-title">
+                <mat-panel-title>
+                  Viña Faundez SA
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="expansion-content">
+                  <mat-nav-list>
+                      <mat-list-item>
+                          <div fxLayout="row" class="item" (click)="clickItem()">
+                              <div fxFlex="70" class="nameLocation">
+                              Molina 
+                              </div>
+                              <div fxFlex="30" class="actions">
+                                  <button mat-icon-button color="primary" (click)="clickEdit($event)">
+                                      <mat-icon class="mat-18">edit</mat-icon>
+                                    </button>
+                                    <button mat-icon-button color="warn" (click)="clickDelete($event)">
+                                      <mat-icon class="mat-18">delete</mat-icon>
+                                    </button>
+                              </div>
+                        </div>
+                      </mat-list-item>
+                    </mat-nav-list>
+
+              </div>
+              </mat-expansion-panel>
+          </div>
 
         <div id="total"></div>
   </mat-sidenav>
@@ -30,7 +57,9 @@
         <div class="map-content"> 
           
           <mat-button-toggle class="sidenav-button" mat-button 
-          (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
+          (click)="sidenav.toggle(); state = !state">
+          <mat-icon>keyboard_arrow_{{direction}}</mat-icon>
+        </mat-button-toggle>
           <agm-map [latitude]="center.latitude" [longitude]="center.longitude" (mapReady)="onMapReady($event)">         
           </agm-map>
          

@@ -1,7 +1,6 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import { RouteService } from 'src/app/services/route.service';
+import { InfoRoute } from 'src/app/model-classes/infoRoute';
 declare const google: any;
 
 @Component({
@@ -21,6 +20,7 @@ export class RoutesComponent implements OnInit {
   overviewPath;
   map;
   directionsDisplay;
+  routesInfo:InfoRoute[];
 
   startSelect = [{
       name: 'Inversiones El Cortijo',
@@ -51,10 +51,14 @@ export class RoutesComponent implements OnInit {
 
   selectedValue = null;
 
-  constructor() {}
+  constructor(private routeService: RouteService) {}
 
   ngOnInit() {
     this.shouldRun = true;
+    this.routeService.getRoutesInfo().subscribe(data=>{
+      this.routesInfo = data;
+      
+    })
   }
 
   onMapReady(map) {
@@ -148,5 +152,22 @@ export class RoutesComponent implements OnInit {
   selectChange(event) {
     console.log(event);
     this.initMap(this.map, event, this.endSelect.location);
+  }
+
+  clickItem(){
+    
+    console.log("ITEM");
+  }
+  clickEdit(event: Event){
+    event.preventDefault();
+    // EDIT: Looks like you also have to include Event#stopImmediatePropogation as well
+    event.stopImmediatePropagation();
+    console.log("EDITAR");
+  }
+  clickDelete(event: Event){
+    event.preventDefault();
+    // EDIT: Looks like you also have to include Event#stopImmediatePropogation as well
+    event.stopImmediatePropagation();
+    console.log("ELIMINAR");
   }
 }
