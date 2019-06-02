@@ -54,3 +54,13 @@ IN `_licencePlate` VARCHAR(13),
 END//
 
 DELIMITER ;
+
+CREATE TABLE insights_data(
+     refDispatch INT,
+     stoppedTime INT,
+     unloadYardTime INT,
+     textMessagesSent INT,
+     lastMessageSentDate DATETIME,
+     FOREIGN KEY (refDispatch) REFERENCES dispatch(id_dispatch)
+);
+

@@ -11,7 +11,7 @@ app.put('/truck/add',
         console.log("truck/add");
         console.log(req.body);
         let body = req.body;
-        let newTruck = new Truck(0, body.licencePlate, 
+        let newTruck = new Truck(0, body.licencePlate, body.ref_driver, body.ref_gps,
         body.brand, body.model, body.year, body.maxLoad, 
         body.owner, body.color);
         Truck.addTruck(newTruck, (err, result) => {
@@ -54,7 +54,8 @@ app.post('/truck/update',
         console.log(req.body);
 
         let body = req.body;
-        let updatedTruck = new Truck(undefined ,body.licencePlate, body.brand, body.model, body.year, body.maxLoad, body.owner, body.color);
+        let updatedTruck = new Truck(body.id_truck, body.licencePlate, body.driverReference, body.gpsReference,
+                            body.brand, body.model, body.year, body.maxLoad, body.owner, body.color);
         Truck.updateTruck(updatedTruck, (err, result) => {
             if (err) {
                 return res.status(400).json(err);
