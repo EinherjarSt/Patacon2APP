@@ -40,6 +40,8 @@ app.get('/despachos_completos/:id', passport.authenticate('jwt', {
     });
 })
 
+
+
 app.get('/despachos/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
@@ -91,6 +93,22 @@ app.put('/despachos/editar/:id', passport.authenticate('jwt', {
         }
         return res.json({
             message: "Dispatch has been modified"
+        });
+    });
+    
+})
+
+
+app.put('/despachos/terminar/:id', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    
+    Dispatch.terminateDispatch(req.params.id, 'Terminado', body.timesPerStatus,  (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Dispatch is finished."
         });
     });
     

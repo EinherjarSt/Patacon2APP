@@ -23,4 +23,14 @@ export class DashboardService {
       })
     );
   }
+
+  getAllEventsOfDispatch(dispatchId): Observable<Event[]> {
+
+    return this.http.get<Event[]>(env.api.concat("/eventos/" + dispatchId)).pipe(
+      map(result => {
+        console.log(result);
+        return result;
+      })
+    );
+  }
 }

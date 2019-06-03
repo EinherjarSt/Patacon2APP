@@ -55,6 +55,21 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS edit_dispatch_status;
+DELIMITER //
+CREATE PROCEDURE edit_dispatch_status (  
+  IN dispatch_id INT,
+  IN statusValue TEXT
+)
+BEGIN
+
+  UPDATE dispatch 
+  SET status = statusValue
+  WHERE id_dispatch = dispatch_id;
+
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS get_dispatches_with_full_info;
 DELIMITER //
 CREATE PROCEDURE get_dispatches_with_full_info ()
