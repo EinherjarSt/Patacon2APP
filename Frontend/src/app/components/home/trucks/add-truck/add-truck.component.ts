@@ -129,7 +129,7 @@ export class AddTruckComponent implements OnInit {
 
 
   driverToDisplayableString(driver: Driver): string {
-    return driver ?  driver.run : '';
+    return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : '';
   }
 
   /* onCloseConfirm() {
