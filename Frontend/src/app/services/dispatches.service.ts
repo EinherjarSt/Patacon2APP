@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { environment as env } from "@env/environment";
 import * as moment from 'moment';
+import { InsightsService } from './insights.service';
 
 
 @Injectable({
@@ -12,10 +13,9 @@ import * as moment from 'moment';
 })
 export class DispatchesService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _insightsService: InsightsService) { }
 
   registerDispatch(data: any): Observable<boolean> {
-    console.log(data);
     
     const body = new HttpParams()
       .set("driverReference", data.driverReference)
@@ -42,7 +42,6 @@ export class DispatchesService {
   }
 
   editDispatch(data: any): Observable<boolean> {
-    console.log(data);
 
     const body = new HttpParams()
       .set("driverReference", data.driverReference)
@@ -157,6 +156,21 @@ export class DispatchesService {
     );
   }
   
+
+  cancelDispatch(dispatch_id) {
+    /*
+    var timesPerStatus = this._insightsService.calculateTotalTimePerStatus(dispatch_id);
+    const body = new HttpParams().set("stoppedTime", timesPerStatus.stoppedTime).
+    set("inUnloadYardTime", timesPerStatus.inUnloadYardTime);
+
+    return this._http.put<Dispatch>(env.api.concat(`/despachos/terminar/`+ dispatch_id), body).pipe(
+      map(result => {
+        return this.dispatchDataToDispatchObject(result);
+      })
+    );*/
+  }
+    
+
 
 }
 

@@ -43,6 +43,22 @@ class LastEvent {
             return callback(null, events);
         });
     }
+
+    static getAllEventsOfDispatch(dispatchId, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query("CALL get_events_of_dispatch(?)",[dispatchId],function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let events = []
+            for (const event of results) {
+                events.push(new LastEvent(event.id_event,event.time,event.description,event.ref_Dispach));
+            }
+            return callback(null, events);
+        });
+    }
 }
 
 module.exports = LastEvent

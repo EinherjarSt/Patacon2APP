@@ -18,6 +18,19 @@ app.get('/event/getall', passport.authenticate('jwt', {
     });
 })
 
+app.get('/eventos/:dispatchId', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+
+    LastEvent.getAllEventsOfDispatch((err, event) =>{
+        console.log(err);
+        if (err){
+            return res.status(400).json(err);
+        }
+        return res.json(event);
+    });
+})
+
 
 app.get('/event/get/:id', passport.authenticate('jwt', {
     session: false

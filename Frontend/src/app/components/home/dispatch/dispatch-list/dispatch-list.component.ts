@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { Dispatch } from '../../../../model-classes/dispatch'
 import { DatePipe } from '@angular/common';
 import { DispatchesService } from '../../../../services/dispatches.service';
+import { InsightsService } from '../../../../services/insights.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
@@ -40,9 +41,10 @@ export class DispatchListComponent implements OnInit {
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
     private route: ActivatedRoute,
     private dispatchService: DispatchesService,
-    private producerViewService: ProducerviewService,
-    private smsService: SMS) { }
-
+    private producerViewService : ProducerviewService,
+    private smsService:SMS,
+    private insightsService:InsightsService) { }
+  
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getDispatches();

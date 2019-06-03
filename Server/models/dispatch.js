@@ -194,6 +194,36 @@ class Dispatch {
 
         });
     }
+
+    //end status should be either 'Cancelado' or 'Terminado'
+    terminateDispatch(dispatchId, endStatus, timesPerStatus, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_dispatch_status(?, ?); CALL edit_times_per_status(?,?,?);`,
+            [dispatchId, endStatus, timesPerStatus,
+            dispatchId, timesPerStatus.stoppedTime, timesPerStatus.inUnloadYardTime], 
+            function (err, results, fields) {
+
+                console.log("Errores");
+                console.log(err);
+                console.log("REsults");
+                console.log(results);
+                console.log("fields");
+                console.log(fields);
+
+                
+                    if (err) {
+                        if (err.code == "ER_DUP_ENTRY") {
+                            return callback({ message: err.sqlMessage });
+                        }
+                        return callback(err);
+                    }
+                    return callback(null, true);
+
+                });
+    }
+
 }
 
 module.exports = Dispatch
