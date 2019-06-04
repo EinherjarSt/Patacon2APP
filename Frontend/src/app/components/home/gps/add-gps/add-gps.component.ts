@@ -17,7 +17,7 @@ export class AddGpsComponent implements OnInit {
   ) { 
     this.form = new FormGroup({
       imei: new FormControl("", [Validators.required, Validators.pattern(/^\d{15}$/)]),
-      simNumber: new FormControl("", Validators.required),
+      simNumber: new FormControl("", [Validators.required, Validators.pattern(/^\d{8}$/)]),
       brand: new FormControl(""),
       model: new FormControl("")
 

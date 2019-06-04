@@ -6,47 +6,54 @@
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>R.U.N</mat-label>
-          <input matInput placeholder="11.111.111-1" formControlName="run" (input)="checkRun()"/>
+          <input matInput placeholder="11111111-1" formControlName="run" (input)="checkRun()" maxlength="10"/>
           <mat-error *ngIf="hasError('run', 'required')">Debe ingresar el run</mat-error>
           <mat-error *ngIf="hasError('run', 'pattern')">Debe ingresar un run valido</mat-error>
           <mat-error *ngIf="hasError('run', 'verificator')">El digito verificador no corresponde al run ingresado</mat-error>
-
+          
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Nombre</mat-label>
-          <input matInput placeholder="" formControlName="name" />
+          <input matInput placeholder="" formControlName="name" maxlength="30"/>
           <mat-hint></mat-hint>
           <mat-error *ngIf="hasError('name', 'required')">Debe ingresar el nombre</mat-error>
+          <mat-error *ngIf="hasError('name', 'maxlength')">El campo tiene un largo mayor al maximo permitido</mat-error>
         </mat-form-field>
       </div>
 
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Apellido Paterno</mat-label>
-          <input matInput placeholder="" formControlName="surname" />
+          <input matInput placeholder="" formControlName="surname" maxlength="30" />
           <mat-hint></mat-hint>
           <mat-error *ngIf="hasError('surname', 'required')">Debe ingresar el apellido</mat-error>
+          <mat-error *ngIf="hasError('surname', 'maxlength')">El campo tiene un largo mayor al maximo permitido</mat-error>
+
         </mat-form-field>
       </div>
 
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Apellido Materno</mat-label>
-          <input matInput placeholder="" formControlName="surname2" />
+          <input matInput placeholder="" formControlName="surname2" maxlength="30"/>
           <mat-hint></mat-hint>
           <mat-error *ngIf="hasError('surname2', 'required')">Debe ingresar el apellido</mat-error>
+          <mat-error *ngIf="hasError('surname2', 'maxlength')">El campo tiene un largo mayor al maximo permitido</mat-error>
+
         </mat-form-field>
       </div>
 
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Correo electrónico</mat-label>
-          <input matInput placeholder="ejemplo@patacon.cl" formControlName="email" />
+          <input matInput placeholder="ejemplo@patacon.cl" formControlName="email" maxlength="30"/>
           <mat-error *ngIf="hasError('email', 'required')">Debe ingresar un correo</mat-error>
           <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un correo valido</mat-error>
+          <mat-error *ngIf="hasError('surname', 'maxlength')">El campo tiene un largo mayor al maximo permitido</mat-error>
+
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>
@@ -55,11 +62,13 @@
         <mat-form-field appearance="standard">
           <mat-label>Contraseña</mat-label>
           <input matInput placeholder=" Ingrese su contraseña" [type]="hide ? 'password' : 'text'"
-            formControlName="password" />
+            formControlName="password" maxlength="30"/>
           <mat-icon matSuffix (click)="hide = !hide">{{
             hide ? "visibility_off" : "visibility"
           }}</mat-icon>
           <mat-error *ngIf="hasError('password', 'required')">Debe ingresar una contraseña</mat-error>
+          <mat-error *ngIf="hasError('surname', 'maxlength')">El campo tiene un largo mayor al maximo permitido</mat-error>
+          
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>
