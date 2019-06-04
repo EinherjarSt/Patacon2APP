@@ -26,7 +26,11 @@ export class AlertComponent {
 
             // add alert to array
             this.alerts.push(alert);
+
+            //remove alert after 5 seconds.
+            setTimeout(() => this.removeAlert(alert), 5000);
         });
+
     }
 
     removeAlert(alert: Alert) {

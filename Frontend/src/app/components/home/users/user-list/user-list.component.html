@@ -1,15 +1,18 @@
 
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
+
+    <alert></alert>
+
   <div fxLayout="row" fxFlex="50" align-items>
     <div fxFlex="70">
         <button mat-raised-button (click)="openAddDialog()"> 
           <mat-icon>person_add</mat-icon> Agregar usuario
         </button>
     </div>
-    <div fxFlex="30">
-      <mat-form-field >
+    <div fxFlex="30" class="container">
+        <mat-form-field >
           <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
-      </mat-form-field>
+      </mat-form-field>   
 
     </div>
 
@@ -18,9 +21,11 @@
   <div>
     <button (click)="success('Success!!')">Alert</button>
   </div>
-
+  
 
   <div fxFlex="50">
+  
+    
 
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"> 
       <ng-container matColumnDef="run">
