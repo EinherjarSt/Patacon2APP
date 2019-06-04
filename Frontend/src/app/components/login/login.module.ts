@@ -5,6 +5,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginViewComponent } from './login-view/login-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { MaterialModule } from 'src/app/material.module';
     LoginRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ResetPasswordComponent,
     MaterialModule
   ]
 })

@@ -15,4 +15,6 @@ app.use(require('./insights'));
 app.use(require('./sms'));
 app.use(require('./planification'));
 
+//app.use(require('./reset-password'));
+
 module.exports = app;
