@@ -82,7 +82,6 @@ class Route{
                     }
                 }
             }
-            console.log(producers);
             let res =[]
             for(const producer of producers){
                res.push({
@@ -126,7 +125,6 @@ class Route{
                     }
                 }
             }
-            console.log(producers);
             let res =[]
             for(const producer of producers){
                res.push({
@@ -137,6 +135,25 @@ class Route{
             }
             return callback(null, res);
         });
+    }
+
+    static deleteRoute(idLocation, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`DELETE FROM route WHERE ref_location = ?`, [idLocation], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback({message : "There isn't result"});
+            }
+            if (results.length > 1) {
+                return callback({message : "There is an error in database because the user is not unique"});
+            }
+            return callback(null, true);
+        });
+        console.log(query);
     }
 
 }module.exports = Route

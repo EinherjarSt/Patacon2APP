@@ -15,7 +15,7 @@ export class RouteService {
 
   addRoute(data: Route): Observable<boolean>{
     const body = new HttpParams()
-    .set('id_route', data.id_route+"")
+    .set('id_route', "")
     .set('routes', data.routes+"")
     .set('ref_location',data.ref_location);
 
@@ -58,5 +58,15 @@ export class RouteService {
     );
   }
 
+  deleteRoute(idLocation: string): Observable<boolean>{
+    const body = new HttpParams()
+    .set('idLocation', idLocation);
+    return this.http.post<boolean>(env.api.concat("/route/delete/"+idLocation),body)
+    .pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
 
 }

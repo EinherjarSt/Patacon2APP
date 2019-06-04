@@ -58,4 +58,18 @@ app.get('/route/getWithoutRoutes', passport.authenticate('jwt', {
     
 });
 
+app.post("/route/delete/:idLocation",
+    passport.authenticate("jwt", {
+        session: false
+    }),
+    (req, res) => {
+        let idLocation = req.params.idLocation;
+        Route.deleteRoute(idLocation,(err, resp) => {
+            if (err) {
+                return res.status(400).json(err);
+            }
+            return res.json(resp);
+        });
+    }
+);
 module.exports = app;
