@@ -39,13 +39,13 @@ export class InsightsService {
 
 
   calculateTotalTimePerStatus(dispatchId) {
-    return this._lastEventsService.getAllEventsOfDispatch(dispatchId).subscribe(
-      events => {
+    return this._lastEventsService.getAllEventsOfDispatch(dispatchId).pipe(
+      map(events => {
         return {
           stopped: this._calculateTotalTimeInStatus(events, 'Detenido'),
           inUnloadYard: this._calculateTotalTimeInStatus(events, 'En patio')
-        }
-      }
+        };
+      })
     );
 
   }
@@ -53,22 +53,27 @@ export class InsightsService {
   _calculateTotalTimeInStatus(events, status) {
 
     var time;
+    const durations = [];    
 
     for (let index = 0; index < events.length; index++) {
       const currentEvent = events[index];
 
-      if (currentEvent.dispatch_status == status) {
+
+      if (currentEvent.status.localeCompare(status) == 0) {
         const nextEvent = events[index + 1];
         const startTime = moment(currentEvent.time);
         const endTime = moment(nextEvent.time);
+        durations.push(moment.duration(endTime.diff(startTime)));
 
-        var elapsedTime = moment.duration(endTime.diff(startTime));
-        console.log("Diferencia");
-        console.log(elapsedTime);
       }
     }
-    return time;
+    const totalDurations = durations.slice(1)
+    .reduce( (prev, cur) => cur.add(prev), moment.duration(durations[0]) )
+
+    return totalDurations;
+
   }
+  
 
 }
 

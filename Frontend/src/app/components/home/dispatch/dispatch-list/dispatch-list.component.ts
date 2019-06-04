@@ -194,13 +194,8 @@ export class DispatchListComponent implements OnInit {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  public sendSMS2(dispatchId){
-    /*
-    this.dispatchesService.getDispatchWithFullInfo(dispatchId).subscribe(
-      data => {console.log(data)},
-      err => console.log("Error trayendo el bicho")
-      );
-    */
+  public terminateDispatch(dispatchId, endStatus) {
+    this.dispatchService.terminateDispatch(dispatchId, endStatus);
   }
 }
 

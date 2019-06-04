@@ -20,13 +20,14 @@ END //
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS edit_times_per_status;
-DELIMITER //
-CREATE PROCEDURE edit_times_per_status (  
-  IN dispatchId,
-  IN stoppedTime,
-  IN inUnloadYardTime
 
+
+DROP PROCEDURE IF EXISTS edit_time_per_status;
+DELIMITER //
+CREATE PROCEDURE edit_time_per_status (  
+  IN dispatchId INT,
+  IN stoppedTime TEXT,
+  IN inUnloadYardTime TEXT
 )
 BEGIN
   UPDATE insights_data 
