@@ -18,9 +18,11 @@
             <div>
                 <mat-form-field appearance="standard" class="input">
                     <mat-label>RUT</mat-label>
-                    <input matInput formControlName="rut">
+                    <input matInput formControlName="rut" (input)="checkRun()">
                     <mat-error *ngIf="hasError('rut', 'required')">Debe ingresar el rut</mat-error>
                     <mat-error *ngIf="hasError('rut', 'pattern')">Debe ingresar un rut válido</mat-error>
+                    <mat-error *ngIf="hasError('rut', 'verificator')">El digito verificador no corresponde al run ingresado</mat-error>
+
                 </mat-form-field>
             </div>
             
