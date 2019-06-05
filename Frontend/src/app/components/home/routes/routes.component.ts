@@ -87,13 +87,10 @@ export class RoutesComponent implements OnInit {
     });
   }
 
-  initMap(map, origin, destination) {
+  initMap(map, origin, destination, waypoints: {lat: number, lng: number}[] = null , draggable = false) {
     var directionsService = new google.maps.DirectionsService;
     if (!this.directionsDisplay) {
-      this.directionsDisplay = new google.maps.DirectionsRenderer({
-        draggable: true
-        
-      });
+      this.directionsDisplay = new google.maps.DirectionsRenderer();
 
       let $this: RoutesComponent = this;
 
@@ -105,11 +102,14 @@ export class RoutesComponent implements OnInit {
         $this.some_method($this.directionsDisplay);
       });
     }
-    this.directionsDisplay.setMap(map);
+    this.directionsDisplay.setOptions({
+      draggable,
+      map
+    });
 
     if (origin != undefined && destination != undefined) {
       this.displayRoute(origin, destination, directionsService,
-        this.directionsDisplay);
+        this.directionsDisplay, waypoints);
     }
 
   }
@@ -122,11 +122,11 @@ export class RoutesComponent implements OnInit {
     console.log(waypoints[0].location.lng());
   };
 
-  displayRoute(origin, destination, service, display) {
+  displayRoute(origin, destination, service, display, waypoints: {lat: number, lng: number}[]) {
     service.route({
       origin: origin,
       destination: destination,
-      waypoints: [],
+      waypoints,
       travelMode: 'DRIVING',
       avoidTolls: true
     }, function (response, status) {
@@ -276,7 +276,7 @@ export class RoutesComponent implements OnInit {
 
     let origin = "" + location.latitude + "," + location.longitude + "";
     console.log(origin);
-    this.initMap(this.map, origin, this.endSelect.location);
+    this.initMap(this.map, origin, this.endSelect.location, null, true);
 
   }
 
