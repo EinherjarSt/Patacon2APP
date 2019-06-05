@@ -1,5 +1,7 @@
 mat-sidenav {
-  width: 40%;
+  width: 32%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 agm-map {
@@ -34,14 +36,67 @@ p.copyright {
 
 #floating-panel {
   position: absolute;
+  min-width: 450px;
   top: 10px;
-  left: 25%;
+  left: 20%;
+  height: 65px;
   z-index: 5;
-  background-color: #fff;
   padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
   padding-left: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.title{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+.routesList{
+  padding-top: 20px;
+}
+.expansion{
+  margin: 1px;
+}
+.expansion-title{
+  height: 50px !important;
+}
+.expansion-content{
+  
+  padding-left: 5px;
+}
+.nameLocation{
+  padding-top: 10px;
+}
+.actions{
+  width: 100%;
+  z-index: 5;
+}
+.item{
+  width: 100%;
+}
+.producer{
+  width: 100%;
+  padding-right: 10px;
+}
+.locations{
+  width: 100%;
+}
+.buttons{
+  width: 100%;
+  padding-top: 10px;
+}
+.labelLocation{
+  width: 100%;
+}
+.iconLocation{
+  font-size: 35px;
+  padding-top: 8px;
+}
+.label{
+  margin: 0 !important;
+}
+.btnSubmit{
+  width: 80px;
+  margin-right: 5px;
 }

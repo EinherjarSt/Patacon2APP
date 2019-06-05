@@ -1,7 +1,11 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RouteService } from 'src/app/services/route.service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { InfoRoute } from 'src/app/model-classes/infoRoute';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Location } from 'src/app/model-classes/location';
+import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import { Producer } from 'src/app/model-classes/producer';
 declare const google: any;
 
 @Component({
@@ -14,35 +18,31 @@ export class RoutesComponent implements OnInit {
     latitude: number,
     longitude: number
   } = {
-    latitude: -35.0012238,
-    longitude: -71.2308186
-  }
+      latitude: -35.0012238,
+      longitude: -71.2308186
+    }
   shouldRun: boolean;
   overviewPath;
   map;
   directionsDisplay;
+  routesInfo: InfoRoute[];
+  locationOptions: Location[];
+  producers: InfoRoute[];
+  panelVisible = false;
+  locationField = true;
+  producerField = false;
+  btnAddRoute2 = true;
+  editRoute = false;
+  locationName;
+  producerName;
+  selectedProducer: number;
+  selectedLocation: number;
+  textBtn = "Agregar";
 
-  startSelect = [{
-      name: 'Inversiones El Cortijo',
-      location: "Unnamed Road, Peumo, Región del Libertador Gral. Bernardo O’Higgins"
-    },
-    {
-      name: 'AGR. Y FRUT. LA ESPERANZA',
-      location: "Unnamed Road, Peumo, Región del Libertador Gral. Bernardo O’Higgins"
-    },
-    {
-      name: 'AGR. SAN EDUARDO',
-      location: "-34.6508629, -71.3846474"
-    },
-    {
-      name: 'AGR. Santa Elvira  (Chapeta Correa) Tintorera',
-      location: "Unnamed Road, Santa Cruz, Región del Libertador Gral. Bernardo O’Higgins"
-    },
-    {
-      name: 'AGR. LA PATAGUILLA  (Chapeta Correa)',
-      location: "I-742, Santa Cruz, Región del Libertador Gral. Bernardo O’Higgins"
-    }
-  ];
+  registerRouteForm: FormGroup = this.formBuilder.group({
+    ref_producer: ['', [Validators.required]],
+    ref_location: ['', [Validators.required]]
+  });
 
   endSelect = {
     name: 'Patacon',
@@ -51,10 +51,31 @@ export class RoutesComponent implements OnInit {
 
   selectedValue = null;
 
-  constructor() {}
+  constructor(private routeService: RouteService,
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.shouldRun = true;
+    this.getProducersWithRoutes();
+    this.getProducersWithoutRoutes();
+  }
+
+  getProducersWithRoutes() {
+    this.routeService.getRoutesInfo().subscribe(data => {
+      this.routesInfo = data;
+    });
+  }
+  getProducersWithoutRoutes() {
+    this.routeService.getProducersWithoutRoutes().subscribe(data => {
+      this.producers = data;
+      console.log(data);
+    });
+  }
+
+  changeOptions(pr: InfoRoute) {
+    this.locationOptions = pr.locations;
+    this.locationField = false;
   }
 
   onMapReady(map) {
@@ -70,10 +91,10 @@ export class RoutesComponent implements OnInit {
     var directionsService = new google.maps.DirectionsService;
     if (!this.directionsDisplay) {
       this.directionsDisplay = new google.maps.DirectionsRenderer({
-        draggable: true,
-        map: map,
+        draggable: true
+        
       });
-      
+
       let $this: RoutesComponent = this;
 
       // How it is a callback the context of this change.
@@ -84,6 +105,7 @@ export class RoutesComponent implements OnInit {
         $this.some_method($this.directionsDisplay);
       });
     }
+    this.directionsDisplay.setMap(map);
 
     if (origin != undefined && destination != undefined) {
       this.displayRoute(origin, destination, directionsService,
@@ -150,5 +172,107 @@ export class RoutesComponent implements OnInit {
   selectChange(event) {
     console.log(event);
     this.initMap(this.map, event, this.endSelect.location);
+
+  }
+
+  addRoute() {
+
+    this.routeService.addRoute(this.registerRouteForm.value).subscribe(
+      response => console.log('Success', response),
+      error => console.error('Error', error));
+  }
+
+  clickItem(location) {
+
+    //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
+    //MOSTRAR MAPA
+    this.panelVisible = false;
+    console.log("ITEM");
+  }
+
+  clickEdit(event: Event, location, producer) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if (this.panelVisible) this.panelVisible = false;
+    else this.panelVisible = true;
+    this.textBtn = "Editar";
+    this.locationName = location.address;
+    this.producerName = producer.producerName;
+    this.editRoute = true;
+    this.registerRouteForm.setValue({
+      ref_producer: producer.producerName,
+      ref_location: location.address
+    });
+
+
+    this.locationField = true;
+    this.btnAddRoute2 = false;
+    this.producerField = true;
+    //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
+    //MOSTRAR MAPA PARA EDITAR
+
+    console.log("EDITAR");
+  }
+
+  clickDelete(event: Event, idLocation) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.routeService.deleteRoute(idLocation).subscribe(res => {
+          console.log(res);
+        });
+        this.routesInfo = null;
+        this.getProducersWithRoutes();
+      }
+    });
+  }
+
+  changeState() {
+    if (this.panelVisible){
+       this.panelVisible = false;
+       this.directionsDisplay.setMap(null);
+      }
+    else{
+      this.panelVisible = true;
+      
+    }
+    //ELIMINAR RUTAS DIBUJADAS
+    this.textBtn = "Agregar";
+    this.getProducersWithoutRoutes();
+    this.editRoute = false;
+    this.locationOptions = null;
+    this.btnAddRoute2 = true;
+    this.locationField = true;
+    this.producerField = false;
+    
+  }
+
+  showRoute(location) {
+    this.btnAddRoute2 = false;
+
+    let origin = "" + location.latitude + "," + location.longitude + "";
+    console.log(origin);
+    this.initMap(this.map, origin, this.endSelect.location);
+
+  }
+
+  openDeletionConfirmationDialog() {
+    var deletionDialogConfig = this.getDialogConfig();
+    deletionDialogConfig.data = { message: '¿Desea eliminar esta ruta?' };
+    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+  }
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    return dialogConfig;
+  }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.registerRouteForm.get(controlName).hasError(errorName);
   }
 }
