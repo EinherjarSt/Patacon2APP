@@ -20,9 +20,10 @@
   
         <div class="container">
           <mat-form-field appearance="standard">
+              <span matPrefix>+56 &nbsp;</span>
             <mat-label>Número</mat-label>
-            <span matPrefix>+56 9&nbsp;</span>
-            <input matInput placeholder="" formControlName="simNumber" maxlength="8"/>
+            <input matInput placeholder="" formControlName="simNumber" maxlength="9"/>
+
             <mat-error *ngIf="hasError('simNumber', 'required')">Debe ingresar un numero</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
