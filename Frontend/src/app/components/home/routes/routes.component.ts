@@ -176,7 +176,29 @@ export class RoutesComponent implements OnInit {
   }
 
   addRoute() {
+    console.log("AKI");
+    let position = this.directionsDisplay.directions.routes[0].legs[0];
+    console.log(position);
+    let route = {
+      start_position:{
+        lat: position.start_location.lat(),
+        lng: position.start_location.lng()
+      },
+      end_position: {
+        lat: position.end_location.lat(),
+        lng: position.end_location.lng()
+      },
+      waypoint: []
+    }
 
+    for (const key in position.via_waypoints) {
+      route.waypoint[key] = {
+        lat: position.via_waypoints[key].lat(),
+        lng: position.via_waypoints[key].lng(),
+      }
+    }
+
+    console.log(route);
     this.routeService.addRoute(this.registerRouteForm.value).subscribe(
       response => console.log('Success', response),
       error => console.error('Error', error));
