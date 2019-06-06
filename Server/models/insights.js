@@ -18,10 +18,16 @@ class InsightsData {
             throw new Error('There is not a callback function. Please provide them');
         }        
         let query = pool.query(`SELECT * FROM insights_data WHERE refDispatch = ?`, [dispatchId], function (err, results, fields) {
-
-            let data = results[0];
-            return callback(null, new InsightsData(data.dispatchReference, data.stoppedTime, data.unloadYardTime,
-                data.textMessagesSent, data.lastMessageSentDate));
+            if(results==null){
+                return callback(err);
+            }
+            else if (results[0]==null) {
+                return callback(err);
+            }else{
+                let data = results[0];
+                return callback(null, new InsightsData(data.dispatchReference, data.stoppedTime, data.unloadYardTime,
+                    data.textMessagesSent, data.lastMessageSentDate));
+            }
         });
     }
 
