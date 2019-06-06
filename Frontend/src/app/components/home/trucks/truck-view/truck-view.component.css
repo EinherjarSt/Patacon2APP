@@ -16,3 +16,10 @@ table {
     color: black;
   }
   
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  mat-form-field{
+    padding: -10px;
+  }
