@@ -12,7 +12,7 @@ export class EditDriverComponent implements OnInit {
 
 
   driverForm = new FormGroup({
-    run: new FormControl('', [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]),
+    run: new FormControl('', [Validators.required, Validators.pattern(/^\d{1,2}\d{3}\d{3}[-][0-9kK]{1}$/)]),
     name: new FormControl('', [Validators.required]),
     surname: new FormControl('', [Validators.required]),
     surname2: new FormControl('', [Validators.required]),

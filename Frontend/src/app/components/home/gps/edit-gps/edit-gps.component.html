@@ -19,7 +19,7 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Número</mat-label>
-            <input matInput placeholder="" formControlName="simNumber" />
+            <input matInput placeholder="" formControlName="simNumber" maxlength="9"/>
             <mat-error *ngIf="hasError('simNumber', 'required')">Por favor ingrese la contraseña</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>

@@ -8,7 +8,7 @@
           <mat-label>R.U.N</mat-label>
           <input
             matInput
-            placeholder="11.111.111-1"
+            placeholder="11111111-1"
             formControlName="run"
             readonly
           />
@@ -19,7 +19,7 @@
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Nombre</mat-label>
-          <input matInput placeholder="" formControlName="name" />
+          <input matInput placeholder="" formControlName="name" maxlength="30"/>
           <mat-error *ngIf="hasError('name', 'required')">Debe ingresar un nombre</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
@@ -28,7 +28,7 @@
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Apellido Paterno</mat-label>
-          <input matInput placeholder="" formControlName="surname" />
+          <input matInput placeholder="" formControlName="surname" maxlength="30"/>
           <mat-error *ngIf="hasError('surname', 'required')">Debe ingresar el apellido</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
@@ -37,7 +37,7 @@
       <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Apellido Materno</mat-label>
-          <input matInput placeholder="" formControlName="surname2" />
+          <input matInput placeholder="" formControlName="surname2" maxlength="30"/>
           <mat-error *ngIf="hasError('surname2', 'required')">Debe ingresar el apellido</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
@@ -50,6 +50,7 @@
             matInput
             placeholder="ejemplo@patacon.cl"
             formControlName="email"
+            maxlength="30"
           />
           <mat-error *ngIf="hasError('email', 'required')">Debe ingresar el correo</mat-error>
           <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un correo valido</mat-error>          <mat-hint></mat-hint>
@@ -64,6 +65,7 @@
             placeholder=" Ingrese su contraseña"
             [type]="hide ? 'password' : 'text'"
             formControlName="password"
+            maxlength="30"
           />
           <mat-icon matSuffix (click)="hide = !hide">{{
             hide ? "visibility_off" : "visibility"
