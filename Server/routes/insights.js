@@ -22,9 +22,8 @@ app.get('/informacion/:dispatchId', passport.authenticate('jwt', {
 app.put('/informacion/editar_tiempo_por_estado/:dispatchId', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("Llega para editar el tiempo de los estados");
-    console.log("Tiempo detenido: " + body.stoppedTime);
-    console.log("Tiempo en patio: " + body.inUnloadYardTime);
+    let body = req.body;
+
     InsightsData.editTimesPerStatusOfDispatch(req.params.dispatchId, body.stoppedTime, body.inUnloadYardTime, (err, result) => {
         if (err) {
             return res.status(400).json(err);

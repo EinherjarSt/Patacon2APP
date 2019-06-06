@@ -25,10 +25,7 @@ class InsightsData {
         });
     }
 
-    static editTimesPerStatusOfDispatch(dispatchId, stoppedTime, inUnloadYardTime) {
-        console.log(dispatchId);
-        console.log(stoppedTime);
-        console.log(inUnloadYardTime);
+    static editTimesPerStatusOfDispatch(dispatchId, stoppedTime, inUnloadYardTime, callback) {
 
 
         if (!callback || !(typeof callback === 'function')) {

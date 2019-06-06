@@ -29,11 +29,8 @@ export class InsightsService {
     let messageDatetime = moment();
     const body = new HttpParams().set('messageDateTime', messageDatetime.format('YYYY-MM-DD HH:mm:ss'));
     return this._http
-      .put<{ msg: string }>(env.api.concat("/informacion_mensaje/editar/" + dispatchId), body)
-      .pipe(
-        map(result => {
-          return true;
-        })
+      .put<{ msg: string }>(env.api.concat("/informacion_mensaje/editar/" + dispatchId), body).subscribe(
+        data=> {}, err => console.log(err)
       );
   }
 
@@ -52,12 +49,10 @@ export class InsightsService {
 
   _calculateTotalTimeInStatus(events, status) {
 
-    var time;
     const durations = [];    
 
     for (let index = 0; index < events.length; index++) {
       const currentEvent = events[index];
-
 
       if (currentEvent.status.localeCompare(status) == 0) {
         const nextEvent = events[index + 1];

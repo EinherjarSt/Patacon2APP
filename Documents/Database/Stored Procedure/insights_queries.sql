@@ -32,8 +32,8 @@ CREATE PROCEDURE edit_time_per_status (
 BEGIN
   UPDATE insights_data 
   SET stoppedTime = stoppedTime,
-  inUnloadYardTime = inUnloadYardTime
-  WHERE dispatchReference = dispatchId;
+  unloadYardTime = inUnloadYardTime
+  WHERE refDispatch = dispatchId;
 END //
 DELIMITER ;
 

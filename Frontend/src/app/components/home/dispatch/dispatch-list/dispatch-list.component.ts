@@ -186,6 +186,11 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
+  public sendMessage(dispatchId) {
+    this.insightsService.editLastMessageSentData(dispatchId);
+
+  }
+
   refreshTable() {
     this.getDispatches();
   }
@@ -196,6 +201,7 @@ export class DispatchListComponent implements OnInit {
 
   public terminateDispatch(dispatchId, endStatus) {
     this.dispatchService.terminateDispatch(dispatchId, endStatus);
+    this.sendMessage(dispatchId);
   }
 }
 
