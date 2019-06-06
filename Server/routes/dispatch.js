@@ -59,7 +59,6 @@ app.get('/despachos/:id', passport.authenticate('jwt', {
 app.put('/despachos/registrar', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(req.body);
     let body = req.body;
         
 
@@ -80,7 +79,6 @@ app.put('/despachos/registrar', passport.authenticate('jwt', {
 app.put('/despachos/editar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(req.body);
     let body = req.body;
         
 
@@ -99,16 +97,32 @@ app.put('/despachos/editar/:id', passport.authenticate('jwt', {
 })
 
 
-app.put('/despachos/terminar/:id', passport.authenticate('jwt', {
+
+app.put('/despachos/empezar/:idDispatch', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    
-    Dispatch.terminateDispatch(req.params.id, 'Terminado', body.timesPerStatus,  (err, result) => {
+    Dispatch.startDispatch(req.params.idDispatch, (err, result) => {
         if (err) {
             return res.status(400).json(err);
         }
         return res.json({
-            message: "Dispatch is finished."
+            message: "Dispatch is terminated."
+        });
+    });
+    
+})
+
+app.put('/despachos/terminar/:id', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+
+    let body = req.body;
+    Dispatch.terminateDispatch(req.params.id, body.endStatus, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Dispatch is terminated."
         });
     });
     

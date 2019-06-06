@@ -207,6 +207,8 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
+
+
   refreshTable() {
     this.getDispatches();
   }
@@ -216,6 +218,9 @@ export class DispatchListComponent implements OnInit {
   }
 
 
+  public terminateDispatch(dispatchId, endStatus) {
+    this.dispatchService.terminateDispatch(dispatchId, endStatus);
+  }
 
 }
 

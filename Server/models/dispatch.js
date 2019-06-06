@@ -72,24 +72,24 @@ class Dispatch {
 
             let dispatch_data = {
                 dispatchId: dispatch.dispatchId,
-                    dispatchStatus: dispatch.dispatchStatus,
-                    driverRef: dispatch.driverRef,
-                    truckLicensePlate: dispatch.truckLicensePlate,
-                    arrivalAtPataconDatetime: dispatch.arrivalAtPataconDatetime,
-                    arrivalAtVineyardDatetime: dispatch.arrivalAtVineyardDatetime,
-                    shippedKilograms: dispatch.shippedKilograms,
-                    containerType: dispatch.containerType,
-                    driverRun: dispatch.driverRun,
-                    driverName: dispatch.driverName,
-                    driverSurname: dispatch.driverSurname,
-                    driverPhoneNumber: dispatch.driverPhoneNumber,
-                    producerName: dispatch.producerName,
-                    producerLocation: dispatch.producerLocation,
-                    producerPhoneNumber: dispatch.producerPhoneNumber,
-                    truckGPSImei: dispatch.truckGPSImei,
-                    truckBrand: dispatch.truckBrand,
-                    truckModel: dispatch.truckModel,
-                    truckYear: dispatch.truckYear
+                dispatchStatus: dispatch.dispatchStatus,
+                driverRef: dispatch.driverRef,
+                truckLicensePlate: dispatch.truckLicensePlate,
+                arrivalAtPataconDatetime: dispatch.arrivalAtPataconDatetime,
+                arrivalAtVineyardDatetime: dispatch.arrivalAtVineyardDatetime,
+                shippedKilograms: dispatch.shippedKilograms,
+                containerType: dispatch.containerType,
+                driverRun: dispatch.driverRun,
+                driverName: dispatch.driverName,
+                driverSurname: dispatch.driverSurname,
+                driverPhoneNumber: dispatch.driverPhoneNumber,
+                producerName: dispatch.producerName,
+                producerLocation: dispatch.producerLocation,
+                producerPhoneNumber: dispatch.producerPhoneNumber,
+                truckGPSImei: dispatch.truckGPSImei,
+                truckBrand: dispatch.truckBrand,
+                truckModel: dispatch.truckModel,
+                truckYear: dispatch.truckYear
             };
 
             return callback(null, dispatch_data);
@@ -195,33 +195,46 @@ class Dispatch {
         });
     }
 
-    //end status should be either 'Cancelado' or 'Terminado'
-    terminateDispatch(dispatchId, endStatus, timesPerStatus, callback) {
+    static editTimesPerStatus() {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL edit_dispatch_status(?, ?); CALL edit_times_per_status(?,?,?);`,
-            [dispatchId, endStatus, timesPerStatus,
-            dispatchId, timesPerStatus.stoppedTime, timesPerStatus.inUnloadYardTime], 
+        pool.query(`CALL edit_dispatch_status(?, ?);`,
+            [dispatchId, 'En tránsito a Viña'],
             function (err, results, fields) {
-
-                console.log("Errores");
-                console.log(err);
-                console.log("REsults");
-                console.log(results);
-                console.log("fields");
-                console.log(fields);
-
-                
-                    if (err) {
-                        if (err.code == "ER_DUP_ENTRY") {
-                            return callback({ message: err.sqlMessage });
-                        }
-                        return callback(err);
+                console.log
+                if (err) {
+                    if (err.code == "ER_DUP_ENTRY") {
+                        return callback({ message: err.sqlMessage });
                     }
-                    return callback(null, true);
+                    return callback(err);
+                }
+                return callback(null, true);
 
-                });
+            });
+    }
+
+    static startDispatch(idDispatch, callback) {
+
+    }
+    //end status should be either 'Cancelado' or 'Terminado'
+    static terminateDispatch(dispatchId, endStatus, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_dispatch_status(?, ?);`,
+            [dispatchId, endStatus],
+            function (err, results, fields) {
+                console.log
+                if (err) {
+                    if (err.code == "ER_DUP_ENTRY") {
+                        return callback({ message: err.sqlMessage });
+                    }
+                    return callback(err);
+                }
+                return callback(null, true);
+
+            });
     }
 
 }

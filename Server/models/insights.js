@@ -31,12 +31,26 @@ class InsightsData {
         });
     }
 
+    static editTimesPerStatusOfDispatch(dispatchId, stoppedTime, inUnloadYardTime, callback) {
 
+
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_time_per_status(?, ?, ?)`, [dispatchId, stoppedTime, inUnloadYardTime], function (err, results, fields) {
+            if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ message: err.sqlMessage });
+                }
+                return callback(err);
+            }
+            return callback(null, true);
+        });
+
+    }
 
     static editLastMessageSentData(dispatchId, datetime, callback) {
         
-        console.log(dispatchId);
-        console.log(datetime);
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
