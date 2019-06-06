@@ -158,9 +158,7 @@ export class DispatchListComponent implements OnInit {
             message += url;
             this.smsService.sendMessage(info.producerPhoneNumber, message).subscribe(res => {
               console.log(res);
-                this.insightsService.editLastMessageSentData(info.dispatchId).subscribe(res=>{
-                  console.log(res);
-                });
+                this.insightsService.editLastMessageSentData(info.dispatchId);
             });
           }
 
