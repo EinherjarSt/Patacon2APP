@@ -45,7 +45,7 @@
                   
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Dirección</mat-label>
-                        <input matInput formControlName="address">
+                        <input matInput formControlName="address" maxlength="100">
                     </mat-form-field>
         
                     <mat-form-field appearance="standard" class="input">
@@ -60,12 +60,13 @@
         
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Encargado</mat-label>
-                        <input matInput formControlName="manager">
+                        <input matInput formControlName="manager" maxlength="50">
                     </mat-form-field>
         
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Teléfono</mat-label>
-                        <input matInput formControlName="managerPhoneNumber">
+                        <input matInput formControlName="managerPhoneNumber" maxlength="9">
+                        <mat-error *ngIf="hasErrorLocation(i,'managerPhoneNumber', 'pattern')">El formato del numero no es valido</mat-error>
                     </mat-form-field>
                   
                   </mat-expansion-panel>
