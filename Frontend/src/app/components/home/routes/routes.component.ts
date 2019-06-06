@@ -80,7 +80,6 @@ export class RoutesComponent implements OnInit {
   }
 
   onMapReady(map) {
-    console.log(google);
     this.map = map;
     let $this = this;
     google.maps.event.addListener(map, 'click', function (event) {
@@ -88,7 +87,7 @@ export class RoutesComponent implements OnInit {
     });
   }
 
-  initMap(map, origin, destination, waypoints: {lat: number, lng: number}[] = null , draggable = false) {
+  initMap(map, origin, destination, waypoints: {location: string}[] = null , draggable = false) {
     var directionsService = new google.maps.DirectionsService;
     if (!this.directionsDisplay) {
       this.directionsDisplay = new google.maps.DirectionsRenderer();
@@ -119,11 +118,9 @@ export class RoutesComponent implements OnInit {
     var waypoints = display.directions.routes[0].legs[0].via_waypoint;
     this.overviewPath = display.getDirections().routes[0].overview_path;
     console.log(waypoints);
-    console.log(waypoints[0].location.lat());
-    console.log(waypoints[0].location.lng());
   };
 
-  displayRoute(origin, destination, service, display, waypoints: {lat: number, lng: number}[]) {
+  displayRoute(origin, destination, service, display, waypoints: {location: string}[]) {
     service.route({
       origin: origin,
       destination: destination,
@@ -194,9 +191,8 @@ export class RoutesComponent implements OnInit {
 
     for (const key in position.via_waypoints) {
       route.waypoint[key] = {
-        lat: position.via_waypoints[key].lat(),
-        lng: position.via_waypoints[key].lng(),
-      }
+        location: position.via_waypoints[key].lat() + ", " + position.via_waypoints[key].lng()
+      };
     }
 
     console.log(route);
@@ -223,7 +219,7 @@ export class RoutesComponent implements OnInit {
       let route:Route;
       route = rt;
       let json = JSON.parse(route.routes);
-
+      console.log(json);
       this.initMap(this.map,json.start_position,json.end_position,json.waypoint,false);
     })
     //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
