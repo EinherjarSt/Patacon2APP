@@ -56,7 +56,7 @@
       <ng-container matColumnDef="send">
         <th mat-header-cell *matHeaderCellDef> Notificar </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="sendSMS(element.id); terminateDispatch(element.id, 'Terminado')">
+          <button mat-icon-button color="primary" (click)="sendSMS(element.id);">
             <mat-icon class="mat-18">send</mat-icon>
           </button>
         </td>
