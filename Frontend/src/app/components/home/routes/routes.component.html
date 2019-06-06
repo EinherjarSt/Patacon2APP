@@ -15,7 +15,7 @@
         <div class="expansion-content">
           <mat-nav-list>
             <mat-list-item *ngFor="let location of info.locations">
-              <div fxLayout="row" class="item" (click)="clickItem(location)">
+              <div fxLayout="row" class="item" (click)="clickItem(location.id_location)">
                 <div fxFlex="70" class="nameLocation">
                   {{location.address}}
                 </div>

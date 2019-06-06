@@ -1,6 +1,7 @@
+import { Location } from '../model-classes/location';
 export class Route {
     id_route: number;
-    routes: JSON;
-    ref_location: string;
+    routes: string;
+    ref_location: Location;
 
 }

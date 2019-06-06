@@ -13,11 +13,12 @@ export class RouteService {
 
   constructor(private http: HttpClient) { }
 
-  addRoute(data: Route): Observable<boolean>{
+  addRoute(data: Route,jsonRoute): Observable<boolean>{
+    console.log(data.ref_location);
     const body = new HttpParams()
     .set('id_route', "")
-    .set('routes', data.routes+"")
-    .set('ref_location',data.ref_location);
+    .set('routes', jsonRoute)
+    .set('ref_location',data.ref_location.id_location);
 
     console.log(body);
     return this.http.put<{ msg: string}>(env.api.concat("/route/add"), body)
@@ -29,10 +30,10 @@ export class RouteService {
     );
   }
 
-  getRoute(id_route: string): Observable<Route>{
+  getRoute(id_location: string): Observable<Route>{
     const body = new HttpParams()
-    .set('id_route', id_route);
-    return this.http.get<Route>(env.api.concat("/route/get/"+id_route))
+    .set('id_location', id_location);
+    return this.http.get<Route>(env.api.concat("/route/get/"+id_location))
     .pipe(
       map(result => {
         return result;

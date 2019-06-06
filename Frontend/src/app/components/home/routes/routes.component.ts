@@ -6,6 +6,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from 'src/app/model-classes/location';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { Producer } from 'src/app/model-classes/producer';
+import { Route } from 'src/app/model-classes/route';
 declare const google: any;
 
 @Component({
@@ -199,13 +200,32 @@ export class RoutesComponent implements OnInit {
     }
 
     console.log(route);
-    this.routeService.addRoute(this.registerRouteForm.value).subscribe(
+    const routeStr = JSON.stringify(route);
+    this.routeService.addRoute(this.registerRouteForm.value,routeStr).subscribe(
       response => console.log('Success', response),
       error => console.error('Error', error));
+
+    this.panelVisible = false;
+    this.routesInfo =null;
+    this.updateData();
   }
 
-  clickItem(location) {
+  updateData(){
+    this.routesInfo =[];
+    this.producers = [];
+    this.getProducersWithRoutes();
+    this.getProducersWithoutRoutes();
+  }
 
+  clickItem(idLocation) {
+    console.log(idLocation);
+    this.routeService.getRoute(idLocation).subscribe(rt =>{
+      let route:Route;
+      route = rt;
+      let json = JSON.parse(route.routes);
+
+      this.initMap(this.map,json.start_position,json.end_position,json.waypoint,false);
+    })
     //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
     //MOSTRAR MAPA
     this.panelVisible = false;
@@ -231,6 +251,7 @@ export class RoutesComponent implements OnInit {
     this.locationField = true;
     this.btnAddRoute2 = false;
     this.producerField = true;
+
     //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
     //MOSTRAR MAPA PARA EDITAR
 
@@ -245,9 +266,9 @@ export class RoutesComponent implements OnInit {
         this.routeService.deleteRoute(idLocation).subscribe(res => {
           console.log(res);
         });
-        this.routesInfo = null;
-        this.getProducersWithRoutes();
       }
+    },e=>{},()=>{
+      this.updateData();
     });
   }
 
@@ -260,7 +281,6 @@ export class RoutesComponent implements OnInit {
       this.panelVisible = true;
       
     }
-    //ELIMINAR RUTAS DIBUJADAS
     this.textBtn = "Agregar";
     this.getProducersWithoutRoutes();
     this.editRoute = false;

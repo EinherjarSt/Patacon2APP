@@ -13,7 +13,6 @@ class Route{
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback funtion. Please provide them');
         }
-
         pool.query('CALL add_route(?, ?)', [
             route.routes,
             route.ref_location
@@ -29,22 +28,24 @@ class Route{
         });
     }
 
-    static getRoute(route_id, callback) {
+    static getRoute(location_id, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        let query = pool.query(`SELECT * FROM route WHERE route_id = ?`, [route_id], function (err, results, fields) {
+        let query = pool.query(`CALL get_route(?)`, [location_id], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
             if (results.length === 0) {
                 return callback({message : "There isn't result"});
             }
-            if (results.length > 1) {
-                return callback({message : "There is an error in database because the user is not unique"});
-            }
-            let result = results[0];
-            return callback(null, new Route(result.id_route, result.routes,result.ref_location));
+            let result = results[0][0];
+            console.log("aaaaa");
+            console.log(results[0][0].refLocation);
+            let loc = new Location(result.refLocation,result.refProducer,result.addressLocation,result.latitude,
+                result.longitude,result.manager, result.managerPhoneNumber);
+
+            return callback(null, new Route(result.idRoute, result.routes,loc));
         });
         console.log(query);
     }

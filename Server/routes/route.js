@@ -4,12 +4,12 @@ const passport = require('passport');
 
 const Route = require('../models/route');
 
-app.get('/route/get/:id_route',  passport.authenticate('jwt', {
+app.get('/route/get/:id_location',  passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-	let idRoute = req.params.id_route;
+	let idLocation = req.params.id_location;
 
-    Route.addRoute(idRoute, (err, route) => {
+    Route.getRoute(idLocation, (err, route) => {
     	if(err){
     		return res.status(400).json(err);
     	}
