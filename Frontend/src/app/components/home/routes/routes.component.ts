@@ -87,13 +87,10 @@ export class RoutesComponent implements OnInit {
     });
   }
 
-  initMap(map, origin, destination) {
+  initMap(map, origin, destination, waypoints: {lat: number, lng: number}[] = null , draggable = false) {
     var directionsService = new google.maps.DirectionsService;
     if (!this.directionsDisplay) {
-      this.directionsDisplay = new google.maps.DirectionsRenderer({
-        draggable: true
-        
-      });
+      this.directionsDisplay = new google.maps.DirectionsRenderer();
 
       let $this: RoutesComponent = this;
 
@@ -105,11 +102,14 @@ export class RoutesComponent implements OnInit {
         $this.some_method($this.directionsDisplay);
       });
     }
-    this.directionsDisplay.setMap(map);
+    this.directionsDisplay.setOptions({
+      draggable,
+      map
+    });
 
     if (origin != undefined && destination != undefined) {
       this.displayRoute(origin, destination, directionsService,
-        this.directionsDisplay);
+        this.directionsDisplay, waypoints);
     }
 
   }
@@ -122,11 +122,11 @@ export class RoutesComponent implements OnInit {
     console.log(waypoints[0].location.lng());
   };
 
-  displayRoute(origin, destination, service, display) {
+  displayRoute(origin, destination, service, display, waypoints: {lat: number, lng: number}[]) {
     service.route({
       origin: origin,
       destination: destination,
-      waypoints: [],
+      waypoints,
       travelMode: 'DRIVING',
       avoidTolls: true
     }, function (response, status) {
@@ -165,6 +165,8 @@ export class RoutesComponent implements OnInit {
       console.log(1e-4);
       console.log("Is in route")
     }
+
+    cascadiaFault.setMap(map);
   }
 
   selectChange(event) {
@@ -174,7 +176,29 @@ export class RoutesComponent implements OnInit {
   }
 
   addRoute() {
+    console.log("AKI");
+    let position = this.directionsDisplay.directions.routes[0].legs[0];
+    console.log(position);
+    let route = {
+      start_position:{
+        lat: position.start_location.lat(),
+        lng: position.start_location.lng()
+      },
+      end_position: {
+        lat: position.end_location.lat(),
+        lng: position.end_location.lng()
+      },
+      waypoint: []
+    }
 
+    for (const key in position.via_waypoints) {
+      route.waypoint[key] = {
+        lat: position.via_waypoints[key].lat(),
+        lng: position.via_waypoints[key].lng(),
+      }
+    }
+
+    console.log(route);
     this.routeService.addRoute(this.registerRouteForm.value).subscribe(
       response => console.log('Success', response),
       error => console.error('Error', error));
@@ -252,7 +276,7 @@ export class RoutesComponent implements OnInit {
 
     let origin = "" + location.latitude + "," + location.longitude + "";
     console.log(origin);
-    this.initMap(this.map, origin, this.endSelect.location);
+    this.initMap(this.map, origin, this.endSelect.location, null, true);
 
   }
 
