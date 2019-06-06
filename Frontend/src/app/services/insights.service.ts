@@ -4,6 +4,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment as env } from "@env/environment";
 import { map } from "rxjs/operators";
+import * as moment from 'moment';
+import { DashboardService } from '../services/dashboard.service';
 
 
 @Injectable({
@@ -11,17 +13,63 @@ import { map } from "rxjs/operators";
 })
 export class InsightsService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _lastEventsService: DashboardService) { }
 
-  getDispatachInsightsData(dispatchId: number): Observable<InsightsData>{
+  getDispatchInsightsData(dispatchId: number): Observable<InsightsData> {
     const body = new HttpParams();
     return this._http.get<InsightsData>(env.api.concat("/informacion/" + dispatchId))
-    .pipe(
-      map(result => {
-        return result;
+      .pipe(
+        map(result => {
+          return result;
+        })
+      );
+  }
+
+  editLastMessageSentData(dispatchId) {
+    let messageDatetime = moment();
+    const body = new HttpParams().set('messageDateTime', messageDatetime.format('YYYY-MM-DD HH:mm:ss'));
+    return this._http
+      .put<{ msg: string }>(env.api.concat("/informacion_mensaje/editar/" + dispatchId), body).subscribe(
+        data=> {}, err => console.log(err)
+      );
+  }
+
+
+  calculateTotalTimePerStatus(dispatchId) {
+    return this._lastEventsService.getAllEventsOfDispatch(dispatchId).pipe(
+      map(events => {
+        return {
+          stopped: this._calculateTotalTimeInStatus(events, 'Detenido'),
+          inUnloadYard: this._calculateTotalTimeInStatus(events, 'En patio')
+        };
       })
     );
+
   }
+
+  _calculateTotalTimeInStatus(events, status) {
+
+    const durations = [];    
+
+    for (let index = 0; index < events.length; index++) {
+      const currentEvent = events[index];
+
+      if (currentEvent.status.localeCompare(status) == 0) {
+        const nextEvent = events[index + 1];
+        const startTime = moment(currentEvent.time);
+        const endTime = moment(nextEvent.time);
+        durations.push(moment.duration(endTime.diff(startTime)));
+
+      }
+    }
+    const totalDurations = durations.slice(1)
+    .reduce( (prev, cur) => cur.add(prev), moment.duration(durations[0]) )
+
+    return totalDurations;
+
+  }
+  
+
 }
 
 

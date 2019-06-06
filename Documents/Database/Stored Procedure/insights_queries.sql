@@ -20,67 +20,49 @@ END //
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS edit_stopped_time;
+
+
+DROP PROCEDURE IF EXISTS edit_time_per_status;
 DELIMITER //
-CREATE PROCEDURE edit_stopped_time (  
-  IN newTime INT
+CREATE PROCEDURE edit_time_per_status (  
+  IN dispatchId INT,
+  IN stoppedTime TEXT,
+  IN inUnloadYardTime TEXT
 )
 BEGIN
   UPDATE insights_data 
-  SET stoppedTime = newTime
-  WHERE dispatchReference = dispatchReference;
+  SET stoppedTime = stoppedTime,
+  unloadYardTime = inUnloadYardTime
+  WHERE refDispatch = dispatchId;
 END //
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS edit_unload_yard_time;
-DELIMITER //
-CREATE PROCEDURE edit_unload_yard_time (  
-  IN newTime INT
-)
-BEGIN
-  UPDATE insights_data 
-  SET unloadYardTime = newTime
-  WHERE dispatchReference = dispatchReference;
-END //
-DELIMITER ;
 
-DROP PROCEDURE IF EXISTS increment_text_messages_sent;
+DROP PROCEDURE IF EXISTS edit_last_message_sent_data;
 DELIMITER //
-CREATE PROCEDURE increment_text_messages_sent (  
-  IN dispatchReference INT
+CREATE PROCEDURE edit_last_message_sent_data (  
+  IN dispatchId INT,
+  IN message_datetime DATETIME
 )
 BEGIN
 
   UPDATE insights_data 
-  SET textMessagesSent = textMessagesSent + 1
-  WHERE dispatchReference = dispatchReference;
+  SET textMessagesSent = textMessagesSent + 1,
+  lastMessageSentDate = message_datetime
+  WHERE refDispatch = dispatchId;
 
 END //
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS edit_last_message_sent_date;
-DELIMITER //
-CREATE PROCEDURE edit_last_message_sent_date (  
-  IN dispatchReference INT,
-  IN lastMessageSentDate  DATETIME
-)
-BEGIN
 
-  UPDATE insights_data 
-  SET lastMessageSentDate = lastMessageSentDate
-  WHERE dispatchReference = dispatchReference;
-
-END //
-DELIMITER ;
-
-CREATE TRIGGER create_dispatch_insights_row 
-AFTER INSERT ON dispatch
-SET CONDITION = SELECT EXISTS (SELECT * FROM recent_events WHERE ref_Dispatch = NEW.ref_Dispatch && dispatch_status = 'Cargando');
-IF NEW.dispatch_status = 'Detenido' and CONDITION = TRUE
-THEN  
-  SET SELECT TIMESTAMPDIFF(SECOND, '2012-06-06 13:13:55', '2012-06-06 15:20:18');
-  INSERT INTO bar (a, b) VALUES(NEW.a, NEW.b) ;
-END IF
+--CREATE TRIGGER create_dispatch_insights_row 
+--AFTER INSERT ON dispatch
+--SET CONDITION = SELECT EXISTS (SELECT * FROM recent_events WHERE ref_Dispatch = NEW.ref_Dispatch && dispatch_status = 'Cargando');
+--IF NEW.dispatch_status = 'Detenido' and CONDITION = TRUE
+--THEN  
+  --SET SELECT TIMESTAMPDIFF(SECOND, '2012-06-06 13:13:55', '2012-06-06 15:20:18');
+  --INSERT INTO bar (a, b) VALUES(NEW.a, NEW.b) ;
+--END IF
 
 --CREATE TRIGGER create_dispatch_insights_row 
 --AFTER INSERT ON dispatch

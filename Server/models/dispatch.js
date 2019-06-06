@@ -85,7 +85,11 @@ class Dispatch {
                 driverPhoneNumber: dispatch.driverPhoneNumber,
                 producerName: dispatch.producerName,
                 producerLocation: dispatch.producerLocation,
-                truckGPSImei: dispatch.truckGPSImei
+                producerPhoneNumber: dispatch.producerPhoneNumber,
+                truckGPSImei: dispatch.truckGPSImei,
+                truckBrand: dispatch.truckBrand,
+                truckModel: dispatch.truckModel,
+                truckYear: dispatch.truckYear
             };
 
             return callback(null, dispatch_data);
@@ -190,6 +194,49 @@ class Dispatch {
 
         });
     }
+
+    static editTimesPerStatus() {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_dispatch_status(?, ?);`,
+            [dispatchId, 'En tránsito a Viña'],
+            function (err, results, fields) {
+                console.log
+                if (err) {
+                    if (err.code == "ER_DUP_ENTRY") {
+                        return callback({ message: err.sqlMessage });
+                    }
+                    return callback(err);
+                }
+                return callback(null, true);
+
+            });
+    }
+
+    static startDispatch(idDispatch, callback) {
+
+    }
+    //end status should be either 'Cancelado' or 'Terminado'
+    static terminateDispatch(dispatchId, endStatus, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_dispatch_status(?, ?);`,
+            [dispatchId, endStatus],
+            function (err, results, fields) {
+                console.log
+                if (err) {
+                    if (err.code == "ER_DUP_ENTRY") {
+                        return callback({ message: err.sqlMessage });
+                    }
+                    return callback(err);
+                }
+                return callback(null, true);
+
+            });
+    }
+
 }
 
 module.exports = Dispatch

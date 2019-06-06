@@ -1,8 +1,8 @@
 export class InsightsData {
 
     dispatchReference : number;
-    stoppedTime : number;
-    unloadYardTime : number;
+    stoppedTime : String;
+    unloadYardTime : String;
     textMessagesSent : number;
     lastMessageSentDate: number;
 }

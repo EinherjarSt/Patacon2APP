@@ -159,6 +159,7 @@ export class EditTruckComponent implements OnInit {
   getTruckData() {
     this.truckService.getTruck(this.data.licencePlate).subscribe({
       next: result => {
+        console.log(result);
         this.editTruckForm.get('licencePlate').setValue(result.licencePlate);
         this.editTruckForm.get('gpsReference').setValue(result.ref_gps);
         this.editTruckForm.get('driverReference').setValue(result.ref_driver);
@@ -186,7 +187,9 @@ export class EditTruckComponent implements OnInit {
   onCloseConfirm() { 
     //console.log('rut: '+this.run);
     let truckData = this.editTruckForm.value;
-    console.log(this.editTruckForm.value);
+    //console.log(this.editTruckForm.value);
+    console.log("onCloseConfirm en editar");
+    console.log(truckData);
     this.truckService.updateTruck(truckData).subscribe({
       next: result => {
         console.log(result);
