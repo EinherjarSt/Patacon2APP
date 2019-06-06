@@ -1,12 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { RouteService } from 'src/app/services/route.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { InfoRoute } from 'src/app/model-classes/infoRoute';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Location } from 'src/app/model-classes/location';
-import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
-import { Producer } from 'src/app/model-classes/producer';
-import { Route } from 'src/app/model-classes/route';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  RouteService
+} from 'src/app/services/route.service';
+import {
+  MatDialog,
+  MatDialogConfig
+} from '@angular/material';
+import {
+  InfoRoute
+} from 'src/app/model-classes/infoRoute';
+import {
+  FormGroup,
+  Validators,
+  FormBuilder
+} from '@angular/forms';
+import {
+  Location
+} from 'src/app/model-classes/location';
+import {
+  ConfirmationDialogComponent
+} from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import {
+  Producer
+} from 'src/app/model-classes/producer';
+import {
+  Route
+} from 'src/app/model-classes/route';
 declare const google: any;
 
 @Component({
@@ -19,9 +41,9 @@ export class RoutesComponent implements OnInit {
     latitude: number,
     longitude: number
   } = {
-      latitude: -35.0012238,
-      longitude: -71.2308186
-    }
+    latitude: -35.0012238,
+    longitude: -71.2308186
+  }
   shouldRun: boolean;
   overviewPath;
   map;
@@ -54,7 +76,7 @@ export class RoutesComponent implements OnInit {
 
   constructor(private routeService: RouteService,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {}
 
   ngOnInit() {
     this.shouldRun = true;
@@ -87,7 +109,9 @@ export class RoutesComponent implements OnInit {
     });
   }
 
-  initMap(map, origin, destination, waypoints: {location: string}[] = null , draggable = false) {
+  initMap(map, origin, destination, waypoints: {
+    location: string
+  } [] = null, draggable = false) {
     var directionsService = new google.maps.DirectionsService;
     if (!this.directionsDisplay) {
       this.directionsDisplay = new google.maps.DirectionsRenderer();
@@ -120,7 +144,9 @@ export class RoutesComponent implements OnInit {
     console.log(waypoints);
   };
 
-  displayRoute(origin, destination, service, display, waypoints: {location: string}[]) {
+  displayRoute(origin, destination, service, display, waypoints: {
+    location: string
+  } []) {
     service.route({
       origin: origin,
       destination: destination,
@@ -178,7 +204,7 @@ export class RoutesComponent implements OnInit {
     let position = this.directionsDisplay.directions.routes[0].legs[0];
     console.log(position);
     let route = {
-      start_position:{
+      start_position: {
         lat: position.start_location.lat(),
         lng: position.start_location.lng()
       },
@@ -191,23 +217,27 @@ export class RoutesComponent implements OnInit {
 
     for (const key in position.via_waypoints) {
       route.waypoint[key] = {
-        location: position.via_waypoints[key].lat() + ", " + position.via_waypoints[key].lng()
+        location: position.via_waypoints[key].lat() + ", " + position.via_waypoints[key].lng(),
+        'stopover':false 
       };
     }
 
+    let $this = this;
     console.log(route);
     const routeStr = JSON.stringify(route);
-    this.routeService.addRoute(this.registerRouteForm.value,routeStr).subscribe(
-      response => console.log('Success', response),
+    this.routeService.addRoute(this.registerRouteForm.value, routeStr).subscribe(
+      response => {
+        console.log('Success', response);
+        $this.updateData();
+      },
       error => console.error('Error', error));
 
     this.panelVisible = false;
-    this.routesInfo =null;
-    this.updateData();
+    this.routesInfo = null;
   }
 
-  updateData(){
-    this.routesInfo =[];
+  updateData() {
+    this.routesInfo = [];
     this.producers = [];
     this.getProducersWithRoutes();
     this.getProducersWithoutRoutes();
@@ -215,12 +245,12 @@ export class RoutesComponent implements OnInit {
 
   clickItem(idLocation) {
     console.log(idLocation);
-    this.routeService.getRoute(idLocation).subscribe(rt =>{
-      let route:Route;
+    this.routeService.getRoute(idLocation).subscribe(rt => {
+      let route: Route;
       route = rt;
       let json = JSON.parse(route.routes);
       console.log(json);
-      this.initMap(this.map,json.start_position,json.end_position,json.waypoint,false);
+      this.initMap(this.map, json.start_position, json.end_position, json.waypoint, false);
     })
     //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
     //MOSTRAR MAPA
@@ -257,25 +287,24 @@ export class RoutesComponent implements OnInit {
   clickDelete(event: Event, idLocation) {
     event.preventDefault();
     event.stopImmediatePropagation();
+    let $this = this;
     this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.routeService.deleteRoute(idLocation).subscribe(res => {
           console.log(res);
+          $this.updateData();
         });
       }
-    },e=>{},()=>{
-      this.updateData();
-    });
+    }, err => {});
   }
 
   changeState() {
-    if (this.panelVisible){
-       this.panelVisible = false;
-       this.directionsDisplay.setMap(null);
-      }
-    else{
+    if (this.panelVisible) {
+      this.panelVisible = false;
+      this.directionsDisplay.setMap(null);
+    } else {
       this.panelVisible = true;
-      
+
     }
     this.textBtn = "Agregar";
     this.getProducersWithoutRoutes();
@@ -284,7 +313,7 @@ export class RoutesComponent implements OnInit {
     this.btnAddRoute2 = true;
     this.locationField = true;
     this.producerField = false;
-    
+
   }
 
   showRoute(location) {
@@ -298,7 +327,9 @@ export class RoutesComponent implements OnInit {
 
   openDeletionConfirmationDialog() {
     var deletionDialogConfig = this.getDialogConfig();
-    deletionDialogConfig.data = { message: '¿Desea eliminar esta ruta?' };
+    deletionDialogConfig.data = {
+      message: '¿Desea eliminar esta ruta?'
+    };
     return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
   }
 
