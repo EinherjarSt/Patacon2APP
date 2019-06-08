@@ -10,7 +10,7 @@
             <div>
                 <mat-form-field appearance="standard" class="input">
                     <mat-label>Nombre</mat-label>
-                    <input matInput formControlName="name">
+                    <input matInput formControlName="name" maxlength="30">
                     <mat-error *ngIf="hasError('name', 'required')">Debe ingresar el nombre</mat-error>
                 </mat-form-field>
             </div>
@@ -18,9 +18,11 @@
             <div>
                 <mat-form-field appearance="standard" class="input">
                     <mat-label>RUT</mat-label>
-                    <input matInput formControlName="rut">
+                    <input matInput formControlName="rut" (input)="checkRun()" maxlength="10">
                     <mat-error *ngIf="hasError('rut', 'required')">Debe ingresar el rut</mat-error>
                     <mat-error *ngIf="hasError('rut', 'pattern')">Debe ingresar un rut válido</mat-error>
+                    <mat-error *ngIf="hasError('rut', 'verificator')">El digito verificador no corresponde al run ingresado</mat-error>
+
                 </mat-form-field>
             </div>
             
@@ -43,7 +45,7 @@
                   
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Dirección</mat-label>
-                        <input matInput formControlName="address">
+                        <input matInput formControlName="address" maxlength="100">
                     </mat-form-field>
         
                     <mat-form-field appearance="standard" class="input">
@@ -58,12 +60,13 @@
         
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Encargado</mat-label>
-                        <input matInput formControlName="manager">
+                        <input matInput formControlName="manager" maxlength="50">
                     </mat-form-field>
         
                     <mat-form-field appearance="standard" class="input">
                         <mat-label>Teléfono</mat-label>
-                        <input matInput formControlName="managerPhoneNumber">
+                        <input matInput formControlName="managerPhoneNumber" maxlength="9">
+                        <mat-error *ngIf="hasErrorLocation(i,'managerPhoneNumber', 'pattern')">El formato del numero no es valido</mat-error>
                     </mat-form-field>
                   
                   </mat-expansion-panel>
