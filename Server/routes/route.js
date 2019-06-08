@@ -34,6 +34,22 @@ app.put('/route/add',  passport.authenticate('jwt', {
 	});
 });
 
+app.post('/route/update',  passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+	let body = req.body;
+	
+	Route.updateRoute(body.ref_location,body.routes, (err, result) => {
+		if(err){
+			return res.status(400).json(err);
+		}
+
+		return res.json({
+			message: "The producer has been added correctly"
+		});
+	});
+});
+
 app.get('/route/getAllInfo', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {

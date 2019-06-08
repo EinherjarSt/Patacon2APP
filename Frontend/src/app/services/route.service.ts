@@ -30,6 +30,19 @@ export class RouteService {
     );
   }
 
+  updateRoute(idLocation,jsonRoute): Observable<boolean>{
+    const body = new HttpParams()
+    .set('routes', jsonRoute)
+    .set('ref_location',idLocation);
+    return this.http.post<{ msg: string}>(env.api.concat("/route/update"), body)
+    .pipe(
+      map(result => {
+        console.log(result.msg);
+        return true;
+      })
+    );
+  }
+
   getRoute(id_location: string): Observable<Route>{
     const body = new HttpParams()
     .set('id_location', id_location);

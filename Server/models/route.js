@@ -28,6 +28,25 @@ class Route{
         });
     }
 
+    static updateRoute(ref_location,routes, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback funtion. Please provide them');
+        }
+        pool.query('CALL update_route(?, ?)', [
+            ref_location,
+            routes
+        ], function(err, result, fields){
+            if(err){
+                if(err.code == "ER_DUP_ENTRY"){
+                    return callback({message: err.sqlMessage});
+                }
+                return callback(err);
+            }
+
+            return callback(null, true);
+        });
+    }
+
     static getRoute(location_id, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
@@ -40,14 +59,11 @@ class Route{
                 return callback({message : "There isn't result"});
             }
             let result = results[0][0];
-            console.log("aaaaa");
-            console.log(results[0][0].refLocation);
             let loc = new Location(result.refLocation,result.refProducer,result.addressLocation,result.latitude,
                 result.longitude,result.manager, result.managerPhoneNumber);
 
             return callback(null, new Route(result.idRoute, result.routes,loc));
         });
-        console.log(query);
     }
 
 
@@ -154,7 +170,6 @@ class Route{
             }
             return callback(null, true);
         });
-        console.log(query);
     }
 
 }module.exports = Route

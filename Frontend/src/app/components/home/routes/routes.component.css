@@ -9,6 +9,10 @@ agm-map {
   position: relative;
 }
 
+.mat-expansion-panel-body{
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
 .map-content {
 
   height: 85vh;
@@ -57,12 +61,12 @@ p.copyright {
 }
 .expansion{
   margin: 1px;
+  padding:0 !important;
 }
 .expansion-title{
   height: 50px !important;
 }
 .expansion-content{
-  
   padding-left: 5px;
 }
 .nameLocation{

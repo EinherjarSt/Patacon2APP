@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" />
 <mat-sidenav-container class="example-container" *ngIf="shouldRun">
   <mat-sidenav #sidenav [mode]="'side'" [position]="'end'" [opened]="'true'">
-    <div class="title"><b>Rutas</b></div>
+    <div class="title">
+      <b>Rutas</b>
+    </div>
     <div>
       <button mat-raised-button (click)="changeState()" disabled="{{this.panelVisible}}">Agregar Ruta</button>
     </div>
@@ -13,8 +15,8 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="expansion-content">
-          <mat-nav-list>
-            <mat-list-item *ngFor="let location of info.locations">
+          <mat-nav-list >
+            <mat-list-item *ngFor="let location of info.locations" class="algo">
               <div fxLayout="row" class="item" (click)="clickItem(location.id_location)">
                 <div fxFlex="70" class="nameLocation">
                   {{location.address}}
@@ -33,11 +35,16 @@
         </div>
       </mat-expansion-panel>
     </div>
-
-    <div id="total"></div>
   </mat-sidenav>
 
   <mat-sidenav-content>
+      <div class="map-content">
+          <mat-button-toggle class="sidenav-button" mat-button 
+              (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
+          <agm-map [latitude]="center.latitude" [longitude]="center.longitude" (mapReady)="onMapReady($event)">
+          </agm-map>
+    
+        </div>
     <form [formGroup]="registerRouteForm">
       <mat-card id="floating-panel" *ngIf="this.panelVisible" class="animated fadeInDown">
 
@@ -52,6 +59,14 @@
 
                 <label class="label"> <b>{{producerName}}</b></label> <br><label> {{locationName}}</label>
               </div>
+            </div>
+          </div>
+          <div fxFlex="43" class="buttons">
+            <div fxLayout="row">
+              <div fxFlex="48" class="btnAdd">
+                <button mat-raised-button class="btnSubmit" (click)="actionEdit(this.idLocation)" disabled="{{this.btnAddRoute2}}">{{textBtn}}</button>
+              </div>
+              <button mat-raised-button (click)="changeState()">Cancelar</button>
             </div>
           </div>
         </ng-template>
@@ -80,15 +95,16 @@
               </mat-form-field>
             </div>
           </div>
-        </ng-template>
-        <div fxFlex="43" class="buttons">
-          <div fxLayout="row">
-            <div fxFlex="48" class="btnAdd">
-              <button mat-raised-button class="btnSubmit" (click)="addRoute()" disabled="{{this.btnAddRoute2}}">{{textBtn}}</button>
+          <div fxFlex="43" class="buttons">
+            <div fxLayout="row">
+              <div fxFlex="48" class="btnAdd">
+                <button mat-raised-button class="btnSubmit" (click)="addRoute()" disabled="{{this.btnAddRoute2}}">{{textBtn}}</button>
+              </div>
+              <button mat-raised-button (click)="changeState()">Cancelar</button>
             </div>
-            <button mat-raised-button (click)="changeState()">Cancelar</button>
           </div>
-        </div>
+        </ng-template>
+      
         <!--<b>Inicio: </b>
           <select id="start" [(ngModel)]="selectedValue" (ngModelChange)="selectChange($event)">
             <option *ngFor="let item of startSelect" [value] = item.location>{{item.name}}</option>
@@ -101,15 +117,7 @@
 
       </mat-card>
     </form>
-    <div class="map-content">
-
-      <mat-button-toggle class="sidenav-button" mat-button (click)="sidenav.toggle(); state = !state">
-        <mat-icon>keyboard_arrow_{{direction}}</mat-icon>
-      </mat-button-toggle>
-      <agm-map [latitude]="center.latitude" [longitude]="center.longitude" (mapReady)="onMapReady($event)">
-      </agm-map>
-
-    </div>
+    
 
 
   </mat-sidenav-content>

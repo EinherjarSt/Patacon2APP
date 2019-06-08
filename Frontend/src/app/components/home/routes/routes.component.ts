@@ -1,40 +1,32 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  RouteService
-} from 'src/app/services/route.service';
-import {
-  MatDialog,
-  MatDialogConfig
-} from '@angular/material';
-import {
-  InfoRoute
-} from 'src/app/model-classes/infoRoute';
-import {
-  FormGroup,
-  Validators,
-  FormBuilder
-} from '@angular/forms';
-import {
-  Location
-} from 'src/app/model-classes/location';
-import {
-  ConfirmationDialogComponent
-} from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import {Component, Input,OnInit} from '@angular/core';
+import {RouteService} from 'src/app/services/route.service';
+import {  MatDialog, MatDialogConfig} from '@angular/material';
+import {InfoRoute} from 'src/app/model-classes/infoRoute';
+import {FormGroup,Validators,FormBuilder} from '@angular/forms';
+import {Location} from 'src/app/model-classes/location';
+import { trigger, transition, animate, style } from "@angular/animations";
+import {ConfirmationDialogComponent} from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import {
   Producer
 } from 'src/app/model-classes/producer';
-import {
-  Route
-} from 'src/app/model-classes/route';
+import {Route} from 'src/app/model-classes/route';
 declare const google: any;
 
 @Component({
   selector: 'app-routes',
   templateUrl: './routes.component.html',
-  styleUrls: ['./routes.component.css']
+  styleUrls: ['./routes.component.css'],
+  animations: [
+    trigger("direction", [
+      transition("right <=> left", [
+        style({
+          transform: "scale(1,5)",
+          opacity: 0
+        }),
+        animate(".2s 0s ease-out")
+      ])
+    ])
+  ]
 })
 export class RoutesComponent implements OnInit {
   center: {
@@ -58,9 +50,11 @@ export class RoutesComponent implements OnInit {
   editRoute = false;
   locationName;
   producerName;
+  idLocation;
   selectedProducer: number;
   selectedLocation: number;
   textBtn = "Agregar";
+   @Input() public state: boolean = true;
 
   registerRouteForm: FormGroup = this.formBuilder.group({
     ref_producer: ['', [Validators.required]],
@@ -120,7 +114,7 @@ export class RoutesComponent implements OnInit {
 
       // How it is a callback the context of this change.
       this.directionsDisplay.addListener('directions_changed', function () {
-        $this.computeTotalDistance($this.directionsDisplay.getDirections());
+        //$this.computeTotalDistance($this.directionsDisplay.getDirections());
         console.log("direction");
         console.log($this.directionsDisplay.getDirections());
         $this.some_method($this.directionsDisplay);
@@ -162,6 +156,7 @@ export class RoutesComponent implements OnInit {
     });
   }
 
+  /*
   computeTotalDistance(result) {
     var total = 0;
     var myroute = result.routes[0];
@@ -171,7 +166,7 @@ export class RoutesComponent implements OnInit {
     total = total / 1000;
     document.getElementById('total').innerHTML = total + ' km';
   }
-
+*/
   onMapClick(event, map) {
     console.log(event);
     let marker1 = new google.maps.Marker({
@@ -229,6 +224,7 @@ export class RoutesComponent implements OnInit {
       response => {
         console.log('Success', response);
         $this.updateData();
+        this.directionsDisplay.setMap(null);
       },
       error => console.error('Error', error));
 
@@ -251,9 +247,7 @@ export class RoutesComponent implements OnInit {
       let json = JSON.parse(route.routes);
       console.log(json);
       this.initMap(this.map, json.start_position, json.end_position, json.waypoint, false);
-    })
-    //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
-    //MOSTRAR MAPA
+    });
     this.panelVisible = false;
     console.log("ITEM");
   }
@@ -264,25 +258,65 @@ export class RoutesComponent implements OnInit {
 
     if (this.panelVisible) this.panelVisible = false;
     else this.panelVisible = true;
+
     this.textBtn = "Editar";
     this.locationName = location.address;
+    this.idLocation = location.id_location;
     this.producerName = producer.producerName;
     this.editRoute = true;
-    this.registerRouteForm.setValue({
-      ref_producer: producer.producerName,
-      ref_location: location.address
-    });
-
 
     this.locationField = true;
     this.btnAddRoute2 = false;
     this.producerField = true;
 
-    //LLAMAR FUNCION PARA OBTENER RUTA POR IDLOCATION
-    //MOSTRAR MAPA PARA EDITAR
-
+    this.routeService.getRoute(location.id_location).subscribe(rt => {
+      let route: Route;
+      route = rt;
+      let json = JSON.parse(route.routes);
+      console.log(json);
+      this.initMap(this.map, json.start_position, json.end_position, json.waypoint, true);
+    });
     console.log("EDITAR");
   }
+
+
+  actionEdit(idLocation){
+    let position = this.directionsDisplay.directions.routes[0].legs[0];
+    console.log(position);
+    let route = {
+      start_position: {
+        lat: position.start_location.lat(),
+        lng: position.start_location.lng()
+      },
+      end_position: {
+        lat: position.end_location.lat(),
+        lng: position.end_location.lng()
+      },
+      waypoint: []
+    }
+
+    for (const key in position.via_waypoints) {
+      route.waypoint[key] = {
+        location: position.via_waypoints[key].lat() + ", " + position.via_waypoints[key].lng(),
+        'stopover':false 
+      };
+    }
+
+    let $this = this;
+    console.log(route);
+    const routeStr = JSON.stringify(route);
+    $this = this;
+    this.routeService.updateRoute(idLocation,routeStr).subscribe(res =>{
+      console.log(res);
+      $this.updateData();
+      this.directionsDisplay.setMap(null);
+    })
+
+    this.panelVisible = false;
+    this.routesInfo = null;
+  }
+
+
 
   clickDelete(event: Event, idLocation) {
     event.preventDefault();
@@ -293,6 +327,7 @@ export class RoutesComponent implements OnInit {
         this.routeService.deleteRoute(idLocation).subscribe(res => {
           console.log(res);
           $this.updateData();
+          this.directionsDisplay.setMap(null);
         });
       }
     }, err => {});
@@ -301,11 +336,12 @@ export class RoutesComponent implements OnInit {
   changeState() {
     if (this.panelVisible) {
       this.panelVisible = false;
-      this.directionsDisplay.setMap(null);
+      
     } else {
       this.panelVisible = true;
 
     }
+    this.directionsDisplay.setMap(null);
     this.textBtn = "Agregar";
     this.getProducersWithoutRoutes();
     this.editRoute = false;
@@ -343,5 +379,8 @@ export class RoutesComponent implements OnInit {
 
   public hasError = (controlName: string, errorName: string) => {
     return this.registerRouteForm.get(controlName).hasError(errorName);
+  }
+  protected get direction(): "right" | "left" {
+    return this.state ? "right" : "left";
   }
 }
