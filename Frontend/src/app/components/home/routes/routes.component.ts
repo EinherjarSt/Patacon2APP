@@ -6,9 +6,7 @@ import {FormGroup,Validators,FormBuilder} from '@angular/forms';
 import {Location} from 'src/app/model-classes/location';
 import { trigger, transition, animate, style } from "@angular/animations";
 import {ConfirmationDialogComponent} from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
-import {
-  Producer
-} from 'src/app/model-classes/producer';
+import { NotifierService } from 'angular-notifier';
 import {Route} from 'src/app/model-classes/route';
 declare const google: any;
 
@@ -36,6 +34,7 @@ export class RoutesComponent implements OnInit {
     latitude: -35.0012238,
     longitude: -71.2308186
   }
+  private readonly notifier: NotifierService;
   shouldRun: boolean;
   overviewPath;
   map;
@@ -70,7 +69,10 @@ export class RoutesComponent implements OnInit {
 
   constructor(private routeService: RouteService,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    notifierService: NotifierService) {
+      this.notifier = notifierService;
+    }
 
   ngOnInit() {
     this.shouldRun = true;
@@ -191,13 +193,10 @@ export class RoutesComponent implements OnInit {
   selectChange(event) {
     console.log(event);
     this.initMap(this.map, event, this.endSelect.location);
-
   }
 
   addRoute() {
-    console.log("AKI");
     let position = this.directionsDisplay.directions.routes[0].legs[0];
-    console.log(position);
     let route = {
       start_position: {
         lat: position.start_location.lat(),
@@ -218,15 +217,16 @@ export class RoutesComponent implements OnInit {
     }
 
     let $this = this;
-    console.log(route);
     const routeStr = JSON.stringify(route);
     this.routeService.addRoute(this.registerRouteForm.value, routeStr).subscribe(
       response => {
-        console.log('Success', response);
+        this.notifier.notify('info', 'Ruta agregada exitosamente');
         $this.updateData();
         this.directionsDisplay.setMap(null);
       },
-      error => console.error('Error', error));
+      error => {
+        this.notifier.notify('error', 'Error: No se ha podido agregar la ruta');
+        console.error('Error', error)});
 
     this.panelVisible = false;
     this.routesInfo = null;
@@ -240,16 +240,13 @@ export class RoutesComponent implements OnInit {
   }
 
   clickItem(idLocation) {
-    console.log(idLocation);
     this.routeService.getRoute(idLocation).subscribe(rt => {
       let route: Route;
       route = rt;
       let json = JSON.parse(route.routes);
-      console.log(json);
       this.initMap(this.map, json.start_position, json.end_position, json.waypoint, false);
     });
     this.panelVisible = false;
-    console.log("ITEM");
   }
 
   clickEdit(event: Event, location, producer) {
@@ -273,16 +270,13 @@ export class RoutesComponent implements OnInit {
       let route: Route;
       route = rt;
       let json = JSON.parse(route.routes);
-      console.log(json);
       this.initMap(this.map, json.start_position, json.end_position, json.waypoint, true);
     });
-    console.log("EDITAR");
   }
 
 
   actionEdit(idLocation){
     let position = this.directionsDisplay.directions.routes[0].legs[0];
-    console.log(position);
     let route = {
       start_position: {
         lat: position.start_location.lat(),
@@ -303,20 +297,19 @@ export class RoutesComponent implements OnInit {
     }
 
     let $this = this;
-    console.log(route);
     const routeStr = JSON.stringify(route);
     $this = this;
     this.routeService.updateRoute(idLocation,routeStr).subscribe(res =>{
-      console.log(res);
+      this.notifier.notify('info', 'Ruta modificada exitosamente');
       $this.updateData();
       this.directionsDisplay.setMap(null);
-    })
+    },error=>{
+      this.notifier.notify('error', 'Error: No se ha podido modificar la ruta');
+    });
 
     this.panelVisible = false;
     this.routesInfo = null;
   }
-
-
 
   clickDelete(event: Event, idLocation) {
     event.preventDefault();
@@ -325,21 +318,23 @@ export class RoutesComponent implements OnInit {
     this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.routeService.deleteRoute(idLocation).subscribe(res => {
-          console.log(res);
           $this.updateData();
           this.directionsDisplay.setMap(null);
+          this.notifier.notify('info', 'La ruta ha sido eliminada');
+        }, err => {
+          this.notifier.notify('error', 'Error: La ruta no ha podido ser eliminada');
         });
       }
-    }, err => {});
+    }, err => {
+      
+    });
   }
 
   changeState() {
     if (this.panelVisible) {
       this.panelVisible = false;
-      
     } else {
       this.panelVisible = true;
-
     }
     this.directionsDisplay.setMap(null);
     this.textBtn = "Agregar";
@@ -354,9 +349,7 @@ export class RoutesComponent implements OnInit {
 
   showRoute(location) {
     this.btnAddRoute2 = false;
-
     let origin = "" + location.latitude + "," + location.longitude + "";
-    console.log(origin);
     this.initMap(this.map, origin, this.endSelect.location, null, true);
 
   }
