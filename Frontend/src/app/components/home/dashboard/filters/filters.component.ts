@@ -28,6 +28,7 @@ export class FiltersComponent implements OnInit {
 
   ngOnInit() {
     this.getDispatches()
+    this.selection.changed.subscribe(event => {this.selectedChangeEvent.emit(event.source.selected)});
     
   }
 
@@ -69,6 +70,7 @@ export class FiltersComponent implements OnInit {
       next: (data) => {
         this.dataSource.data = data;
         this.selectedChangeEvent.emit(data);
+        this.masterToggle();
         this.isDataLoading = false;
       },
       error: (err) => {
