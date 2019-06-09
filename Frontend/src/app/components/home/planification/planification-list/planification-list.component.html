@@ -15,7 +15,8 @@
 
   </div>
 <div fxFlex="50">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <div class="ctable">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" id="table">
 
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Cosecha</th>
@@ -81,7 +82,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator class="mat-elevation-z8" [pageSize]="5" [pageSizeOptions]="[10, 15, 20, 30, 50]">
-    </mat-paginator>
   </div>
+    <mat-paginator class="mat-elevation-z8 pag" [pageSize]="5" [pageSizeOptions]="[10, 15, 20, 30, 50]">
+    </mat-paginator>
+  
 </div>

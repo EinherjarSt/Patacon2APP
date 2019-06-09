@@ -12,7 +12,7 @@
               {{option.name}}
             </mat-option>
           </mat-autocomplete>
-          <mat-error *ngIf="hasError('ref_producer', 'required')">Debe ingresar un productor</mat-error>
+          <mat-error *ngIf="verifyProd()||hasError('ref_producer', 'notListed') ">Debe seleccionar un productor de la lista</mat-error>
         </mat-form-field>
       </div>
       <div class="container" id ="location">
@@ -41,9 +41,9 @@
       <div class="container" id = "kg">
         <mat-form-field appearance="standard">
           <mat-label>Kg a cosechar</mat-label>
-          <input formControlName="kilograms" matInput placeholder="">
+          <input formControlName="kilograms" matInput placeholder="" maxlength="6">
           <mat-error *ngIf="hasError('kilograms', 'required')">Debe ingresar la cantidad de kg</mat-error>
-          <mat-error *ngIf="hasError('kilograms', 'pattern')">Debe ingresar solo números</mat-error>
+          <mat-error *ngIf="hasError('kilograms', 'pattern')">Debe ingresar una cantidad mayor a 1</mat-error>
         </mat-form-field>
       </div>
       <div class="container" id ="variety">
@@ -102,7 +102,7 @@
       <div class="container" id = "obs">
         <mat-form-field appearance="standard">
           <mat-label>Observaciones</mat-label>
-          <input formControlName="comment" matInput placeholder="">
+          <input formControlName="comment" matInput placeholder="" maxlength="150">
         </mat-form-field>
       </div>
     </form>
