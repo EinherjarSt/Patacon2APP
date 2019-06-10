@@ -193,6 +193,25 @@ export class RegisterDispatchComponent implements OnInit {
       error: result => { }
     });
   }
+  
+  
+  setDriverAutocompleteValue() {
+    let driverRut = this.registerDispatchForm.value.truckReference.ref_driver;
+    let autocompleteValue =  {driverReference: this.findDriverOption(driverRut)};
+    this.registerDispatchForm.patchValue(autocompleteValue);
+
+    if(autocompleteValue.driverReference) {
+      console.log("Lo encontré");
+
+    }
+    else {
+      console.log("No lo encontré");
+    }
+  }
+
+  findDriverOption(driverRut) {
+    return this.driverOptions.find(driverOption => driverOption.run == driverRut);
+  }
 
   openSuccessMessage() {
     this.snackBar.open('El despacho ha sido registrado.', 'Cerrar', {

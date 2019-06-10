@@ -29,7 +29,7 @@ export class DispatchListComponent implements OnInit {
   dispatches: Dispatch[];
   planificationId: number;
   public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-    "arrivalAtPataconDatetime", "send", "edit", "delete"];
+    "arrivalAtPataconDatetime","start", "cancel", "terminate", "send", "edit", "delete"];
   public dataSource = new MatTableDataSource<Dispatch>();
 
   @ViewChild(MatSort) sort: MatSort;
@@ -77,6 +77,36 @@ export class DispatchListComponent implements OnInit {
           next: result => { this.refreshTable(); },
           error: result => { }
         });
+      }
+
+    });
+  }
+
+  terminateDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea terminar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.terminateDispatch(dispatch_id, "Terminado");
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  cancelDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.terminateDispatch(dispatch_id, "Cancelado");
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  startDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.startDispatch(dispatch_id);
+        this.refreshTable();
       }
 
     });
@@ -216,7 +246,7 @@ export class DispatchListComponent implements OnInit {
   }
 
 
-  public terminateDispatch(dispatchId, endStatus) {
+  public _terminateDispatch(dispatchId, endStatus) {
     this.dispatchService.terminateDispatch(dispatchId, endStatus);
   }
 

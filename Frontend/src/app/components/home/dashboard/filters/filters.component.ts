@@ -18,6 +18,7 @@ export class FiltersComponent implements OnInit {
   displayedColumns: string[] = ["select","truck","state","destination","details"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
+  selectedDispatches = this.selection.selected;
   isDataLoading: boolean;
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
@@ -32,6 +33,7 @@ export class FiltersComponent implements OnInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
+
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
@@ -53,6 +55,7 @@ export class FiltersComponent implements OnInit {
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: Filter): string {
+    
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -78,8 +81,6 @@ export class FiltersComponent implements OnInit {
 
   openDispatchDetailsDialog(dispatch: Filter) {
 
-    console.log("Data");
-    console.log(dispatch);
     var dialogConfig = this.getDialogConfig();
     dialogConfig.data = dispatch;
 
