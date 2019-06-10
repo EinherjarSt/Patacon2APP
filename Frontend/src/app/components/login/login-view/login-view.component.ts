@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray} from '@angular/forms'
 import { AuthService } from '../../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatTableDataSource, MatDialog, MatSort, MatPaginator, MatDialogConfig } from '@angular/material';
+//import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+
 
 
 @Component({
@@ -14,7 +17,8 @@ export class LoginViewComponent implements OnInit {
 
   form : FormGroup;
 
-  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) { 
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute)
+ { 
     this.form = new FormGroup({
       'email': new FormControl("",[Validators.required, Validators.email]),
       'password': new FormControl("", Validators.required)
@@ -39,6 +43,16 @@ export class LoginViewComponent implements OnInit {
       error: (error) => {console.log(error.error)}
     });
   }
+
+  /* openResetPasswordDialog(): void {
+    const dialogRef = this.dialog.open(ResetPasswordComponent, {
+      width: '500px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === "Confirm") this.refreshTable();
+    });
+  } */
 
   resetPassword()
   {

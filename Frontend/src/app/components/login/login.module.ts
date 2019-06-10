@@ -10,14 +10,14 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 @NgModule({
   declarations: [
-    LoginViewComponent
+    LoginViewComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
     LoginRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ResetPasswordComponent,
     MaterialModule
   ]
 })

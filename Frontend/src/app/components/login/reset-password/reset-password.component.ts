@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatTableDataSource, MatDialog, MatSort, MatPaginator, MatDialogConfig } from '@angular/material';
+
 
 @Component({
     selector: 'app-reset-password',
@@ -9,6 +12,8 @@ import { Router } from '@angular/router';
   })
 
 export class ResetPasswordComponent implements OnInit {
+
+    //resetPasswordForm: FormGroup;
 
     constructor(private auth:AuthService, private router:Router) { }
     ngOnInit() {
