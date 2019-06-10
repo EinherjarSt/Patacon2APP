@@ -1,14 +1,9 @@
+<mat-tab-group>
+    <mat-tab label="General" [routerLink]="['general']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"> 
+        
+    </mat-tab>
+    <mat-tab label="Por chofer" [routerLink]="['choferes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" >
 
-<div class="container" fxLayout="row" fxLayout.xs="column" fxFlexFill >
-    
-  <div fxFlex="15" class="sec1" fxFlex.xs="55">
-      first-section
-  </div>
-  <div fxFlex="30" class="sec2" >
-      second-section
-  </div>
-  <div fxFlex="55" class="sec3" fxFlex.xs="15">
-      third-section
-  </div>
-   
-</div>
+    </mat-tab>
+</mat-tab-group>
+<router-outlet></router-outlet>

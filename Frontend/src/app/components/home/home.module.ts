@@ -51,6 +51,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 
 
 
+
 @NgModule({
   declarations: [
     HomeComponent, 
@@ -86,7 +87,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    
   ],
   imports: [
     CommonModule,

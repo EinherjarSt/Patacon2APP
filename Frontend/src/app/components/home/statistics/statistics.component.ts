@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent implements OnInit {
+  
 
   constructor() { }
 
