@@ -1,9 +1,4 @@
 <mat-tab-group>
-    <mat-tab label="General" [routerLink]="['general']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"> 
-        
-    </mat-tab>
-    <mat-tab label="Por chofer" [routerLink]="['choferes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}" >
-
-    </mat-tab>
+  <mat-tab label="General"><app-general-summary></app-general-summary></mat-tab>
+  <mat-tab label="Choferes"><app-summary-by-driver></app-summary-by-driver> </mat-tab>
 </mat-tab-group>
-<router-outlet></router-outlet>
