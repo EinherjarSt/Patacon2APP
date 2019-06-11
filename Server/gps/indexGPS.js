@@ -13,7 +13,7 @@ GPS_DATA = {};
 var server = gps.server(gpsOptions, function (device, connection) {
     
     device.on("login_request", function (device_id, msg_parts) {
-        GPSDevice.getGPS(device_id, (err, gpsDevice) => {
+        GPSDevice.getGPSWithRoute(device_id, (err, gpsResult) => {
             if (err) {
                 console.log("gps error");
                 console.log(err);
@@ -24,7 +24,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
             GPS_DATA[device.uid] = {
                 imei: device.uid,
                 location: null,
-                route:[]
+                route: gpsResult.route
             }
 
             this.login_authorized(true);
