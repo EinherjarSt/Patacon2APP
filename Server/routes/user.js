@@ -3,6 +3,7 @@ const app = express();
 
 const passport = require('passport');
 const User = require('../models/user');
+const ResetPassword = require('../models/resetPassword');
 const bcrypt = require('bcrypt');
 
 app.put('/user/add', passport.authenticate('jwt', {
@@ -129,19 +130,19 @@ app.post('/user/remove', passport.authenticate('jwt', {
     });
 })
 
-/*app.post('/user/forgot-password', function (req, res) {
+app.post('/user/forgot-password', function (req, res) {
     const email = req.body.email
-    User.findOne(
+    User.getUserbyEmail(
         {
             where: {email: email},//checking if the email address sent by client is present in the db(valid)
         })
         .then(function (user) {
             if (!user) {
-                return throwFailed(res, 'No user found with that email address.')
+                return throwFailed(res, 'No hay usuarios con ese correo.')
             }
     //Agregar modelo para tabla de reset passwords en base de datos
     //Se necesita para poder ir haciendo los cambios        
-    ResetPassword.findOne(
+    ResetPassword.findOneUserToChangePassword(
         { 
             where: {userId: user.id, status: 0},    
         }).then(function (resetPassword) 
@@ -162,12 +163,13 @@ app.post('/user/remove', passport.authenticate('jwt', {
                         if (!item)
                             return throwFailed(res, 'Oops problem in creating new password record')
                         let mailOptions = {
-                            from: '"<jyothi pitta>" jyothi.pitta@ktree.us',
+                            from: '"<Reset Password>" patacon.reset@gmail.com',
                             to: user.email,
                             subject: 'Reset your account password',
                             html: '<h4><b>Reset Password</b></h4>' +
                             '<p>To reset your password, complete this form:</p>' +
                             '<a href=' + config.clientUrl + 'reset/' + user.id + '/' + token + '">' + config.clientUrl + 'reset/' + user.id + '/' + token + '</a>' +
+                            '<a href='+ www.patacon.tk/reset-password1 + '></a>' +
                             '<br><br>' +
                             '<p>--Team</p>'
                         }
@@ -181,6 +183,6 @@ app.post('/user/remove', passport.authenticate('jwt', {
                 })
             });
         })
- })*/
+ })
 
 module.exports = app;
