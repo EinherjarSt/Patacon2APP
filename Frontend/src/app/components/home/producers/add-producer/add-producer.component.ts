@@ -11,6 +11,10 @@ import { ProducersService } from 'src/app/services/producers.service';
 export class AddProducerComponent implements OnInit {
   producerForm: FormGroup;
   expanded = true;
+  lat: number = -35.0012238;
+  lng: number = -71.2308186;
+  lat2: number = -34.147774;
+  lng2: number = -70.741592;
 
   constructor(public dialogRef: MatDialogRef<AddProducerComponent>, 
     private producersService: ProducersService,
