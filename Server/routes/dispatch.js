@@ -131,7 +131,6 @@ app.put('/despachos/terminar/:id', passport.authenticate('jwt', {
 app.delete('/despachos/eliminar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(req);
     Dispatch.deleteDispatch(req.params.id, (err, result) => {
         if (err) {
             return res.status(400).json(err);

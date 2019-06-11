@@ -30,6 +30,7 @@ export class LatestEventsComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+  
   showDispach(id){
     //OPEN DISPATCH WINDOW
   }
