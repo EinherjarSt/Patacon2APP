@@ -28,7 +28,7 @@
       <mat-form-field class="example-full-width">
         <input formControlName="truckReference" type="text" placeholder="Asigne un camión un camión" aria-label="Number" matInput
           [matAutocomplete]="truckAuto">
-        <mat-autocomplete [displayWith]="truckToDisplayableString" #truckAuto="matAutocomplete">
+        <mat-autocomplete (optionSelected)="setDriverAutocompleteValue()" [displayWith]="truckToDisplayableString" #truckAuto="matAutocomplete">
           <mat-option *ngFor="let truckOption of truckFilteredOptions | async" [value]="truckOption">
             {{truckToDisplayableString(truckOption)}}
           </mat-option>
