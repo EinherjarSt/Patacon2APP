@@ -18,9 +18,8 @@ export class FiltersComponent implements OnInit {
   displayedColumns: string[] = ["select","truck","state","destination","details"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
-  selectedDispatches = this.selection.selected;
+  selectedDispatches : Filter[] = this.selection.selected;
   isDataLoading: boolean;
-  selectedDispatches: Filter[];
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
