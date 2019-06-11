@@ -22,7 +22,6 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
             // Fill the basic of information to send
             GPS_DATA[device.uid] = {
-                imei: device.uid,
                 location: null,
                 route: gpsResult.route
             }
@@ -51,11 +50,10 @@ var server = gps.server(gpsOptions, function (device, connection) {
             longitude: gpsData.longitude,
             velocity: gpsData.velocity,
         };
-        return gpsData;
     });
 
     connection.on('close', (hadError) =>{
         console.log(`connection \with device ${device.uid} is close`);
-        delete GPS_POSITIONS[device.uid];
+        delete GPS_DATA[device.uid];
     })
 });

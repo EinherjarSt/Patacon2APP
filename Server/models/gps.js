@@ -37,7 +37,7 @@ class GPSDevice {
         gps INNER JOIN truck ON gps.imei = truck.ref_gps
         INNER JOIN dispatch ON truck.id_truck = dispatch.ref_truck
         INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
-        INNER JOIN route ON planification.ref_location = route.ref_location;
+        INNER JOIN route ON planification.ref_location = route.ref_location
         WHERE imei = ?`, [imei], function (err, results, fields) {
             if (err) {
                 return callback(err);
