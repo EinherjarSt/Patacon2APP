@@ -45,11 +45,9 @@ import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirm
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
+import { GeneralSummaryComponent } from './statistics/general-summary/general-summary.component';
+import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-
-
-
-
 
 
 @NgModule({
@@ -87,7 +85,9 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    StatisticsComponent,
+    GeneralSummaryComponent,
+    SummaryByDriverComponent,
+    StatisticsComponent
     
   ],
   imports: [
