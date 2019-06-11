@@ -75,7 +75,6 @@ app.post('/user/disable', passport.authenticate('jwt', {
 }), (req, res) => {
     console.log("user/disable");
     console.log(req.body);+
-    console.log("borrar");
     console.log(req.body.status);
     let body = req.body;
     let disabled = body.disabled === 'true' ? true : false;

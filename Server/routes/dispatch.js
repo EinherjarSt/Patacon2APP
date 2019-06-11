@@ -8,8 +8,8 @@ app.get('/despachos/:planification_id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     Dispatch.getDispatches(req.params.planification_id, (err, dispatches) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(dispatches);
@@ -19,8 +19,8 @@ app.get('/despachos/:planification_id', passport.authenticate('jwt', {
 app.get('/despachos_completos', (req, res) => {
 
     Dispatch.getDispatchesWithFullInfo((err, dispatches) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(dispatches);
@@ -47,8 +47,8 @@ app.get('/despachos/:id', passport.authenticate('jwt', {
 }), (req, res) => {
 
     Dispatch.getDispatchById(req.params.id, (err, dispatch) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(dispatch);

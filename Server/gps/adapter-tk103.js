@@ -70,6 +70,7 @@ var adapter = function (device) {
       this.send_command(null, "ON");
     }
     else if (cmd === 'do-nothing'){
+      console.log("do-nothing adapter.tk103");
       console.log(msg_parts);
     }
   }

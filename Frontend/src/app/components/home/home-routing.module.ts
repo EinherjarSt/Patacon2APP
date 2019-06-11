@@ -12,6 +12,7 @@ import { GpsComponent } from './gps/gps.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
 import { AuthGuard } from '../../guard/auth.guard';
+import { RoutesComponent } from './routes/routes.component';
 
 
 
@@ -30,6 +31,7 @@ const routes: Routes = [
      {path: 'despachos/:id', component: DispatchListComponent},
      {path: 'planificacion',component: PlanificationListComponent},
      {path: 'gps', component: GpsComponent},
+     {path: 'routes', component: RoutesComponent},
      {path: 'estadisticas', component: StatisticsComponent}
     ]
   }
