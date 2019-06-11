@@ -75,11 +75,19 @@ export class ProducerListComponent implements OnInit {
   }
 
   openLocationUpdateDialog(id_location: string){
-
+    console.log(id_location);
   }
 
   deleteLocation(id_location: string){
-
+    console.log(id_location);
+    this.producerService.deleteLocation(id_location).subscribe({
+      next: result =>{
+        console.log("Se ha eliminado correctamente la ubicación");
+      },
+      error: result => {
+        console.log("error");
+      }
+    });
   }
 
   deleteProducer(rut: string){

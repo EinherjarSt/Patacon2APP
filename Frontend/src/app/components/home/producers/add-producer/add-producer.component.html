@@ -54,16 +54,6 @@
                         </mat-form-field>
             
                         <mat-form-field appearance="standard" class="input">
-                            <mat-label>Latitud</mat-label>
-                            <input matInput formControlName="latitude">
-                        </mat-form-field>
-            
-                        <mat-form-field appearance="standard" class="input">
-                            <mat-label>Longitud</mat-label>
-                            <input matInput formControlName="longitude">
-                        </mat-form-field>
-            
-                        <mat-form-field appearance="standard" class="input">
                             <mat-label>Encargado</mat-label>
                             <input matInput formControlName="manager">
                         </mat-form-field>
@@ -72,7 +62,12 @@
                             <mat-label>Teléfono</mat-label>
                             <input matInput formControlName="managerPhoneNumber">
                         </mat-form-field>
-                        <agm-map [latitude]="lat" [longitude]="lng2"></agm-map>
+
+                        <div class="map-content">
+                            <agm-map [latitude]="lat" [longitude]="lng2" (mapClick)="mapClicked(i,$event)">
+                                <agm-marker [latitude]="markers[i].lat" [longitude]="markers[i].lng"></agm-marker>
+                            </agm-map>
+                        </div>
                     </mat-expansion-panel>
                 </div>
     
