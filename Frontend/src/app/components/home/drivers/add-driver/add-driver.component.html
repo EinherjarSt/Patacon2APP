@@ -8,9 +8,11 @@
     <div class="container">
         <mat-form-field appearance= "standard">
             <mat-label>R.U.N</mat-label>
-            <input formControlName="run" class="test" matInput placeholder="11.111.111-1" required>
+            <input formControlName="run" class="test" matInput placeholder="11111111-1" (input)="checkRun()" maxlength="10">
             <mat-error *ngIf="hasError('run', 'required')">Debe ingresar un Run</mat-error>
             <mat-error *ngIf="hasError('run', 'pattern')">Debe ingrese un run valido</mat-error>
+            <mat-error *ngIf="hasError('run', 'verificator')">El digito verificador no corresponde al run ingresado</mat-error>
+
           </mat-form-field>
 
     </div>
@@ -18,7 +20,7 @@
     <div class="container">
       <mat-form-field appearance= "standard">
         <mat-label>Nombre</mat-label>
-        <input formControlName="name" matInput placeholder="">
+        <input formControlName="name" matInput placeholder="" maxlength="30">
         <mat-error *ngIf="hasError('name', 'required')">Debe ingresar un Nombre</mat-error>
       </mat-form-field>
     </div>
@@ -26,21 +28,21 @@
     <div class="container">
       <mat-form-field appearance= "standard">
         <mat-label>Apellido Paterno</mat-label>
-        <input formControlName="surname"matInput placeholder="">
+        <input formControlName="surname"matInput placeholder="" maxlength="30">
         <mat-error *ngIf="hasError('surname', 'required')">Debe ingresar un Apellido Paterno</mat-error>
       </mat-form-field>
     </div>
     <div class="container">
       <mat-form-field appearance= "standard">
           <mat-label>Apellido Materno</mat-label>
-          <input formControlName="surname2" matInput placeholder="">
+          <input formControlName="surname2" matInput placeholder="" maxlength="30">
           <mat-error *ngIf="hasError('surname2', 'required')">Debe ingresar un Apellido Materno</mat-error>
         </mat-form-field>
     </div>
     <div class="container">
       <mat-form-field appearance= "standard" id="lastInput">
           <mat-label>Telefono</mat-label>
-          <input formControlName="phoneNumber" matInput placeholder="Ej: 999999999">
+          <input formControlName="phoneNumber" matInput placeholder="Ej: 999999999" maxlength="9">
           <mat-error *ngIf="hasError('phoneNumber', 'required')">Debe ingresar un Número Telefónico</mat-error>
           <mat-error *ngIf="hasError('phoneNumber', 'pattern')">Debe ingrese un Número Telefónico valido</mat-error>
         </mat-form-field>

@@ -5,7 +5,8 @@ import {
   FormControl,
   FormGroup,
   Validators,
-  FormBuilder
+  FormBuilder,
+  AbstractControl
 } from "@angular/forms";
 import { DriversService } from "../../../../services/drivers.service";
 
@@ -28,7 +29,7 @@ export class AddDriverComponent implements OnInit {
   ngOnInit() {}
 
   registerDriverForm: FormGroup = this.formBuilder.group({
-    run: ["", [Validators.required, Validators.pattern(/^\d{1,2}\.\d{3}\.\d{3}[-][0-9kK]{1}$/)]],
+    run: ["", [Validators.required, Validators.pattern(/^\d{1,2}\d{3}\d{3}[-][0-9kK]{1}$/), this.checkVerificatorDigit]],
     name: ["", [Validators.required]],
     surname: ["", [Validators.required]],
     surname2: ["", [Validators.required]],
@@ -67,5 +68,68 @@ export class AddDriverComponent implements OnInit {
     this.snackBar.open("El chofer ha sido registrado.", "Cerrar", {
       duration: 5000
     });
+  }
+
+  checkRun() {
+    let run = this.registerDriverForm.get("run");
+    //Despejar Puntos
+    var runClean = run.value.replace('.', '');
+    // Despejar Guión
+    runClean = runClean.replace('-', '');
+
+    // Aislar Cuerpo y Dígito Verificador
+    let body = runClean.slice(0, -1);
+    let dv = runClean.slice(-1).toUpperCase();
+
+    // Formatear RUN
+    run.setValue(body + '-' + dv);
+  }
+
+  checkVerificatorDigit(control: AbstractControl) {
+    let run = control;
+    if (run.value == "") return null;
+    //Despejar Puntos
+    var runClean = run.value.replace('.', '');
+    // Despejar Guión
+    runClean = runClean.replace('-', '');
+  
+    // Aislar Cuerpo y Dígito Verificador
+    let body = runClean.slice(0, -1);
+    let dv = runClean.slice(-1).toUpperCase();
+  
+    // Calcular Dígito Verificador
+    let suma = 0;
+    let multiplo = 2;
+  
+    // Para cada dígito del Cuerpo
+    for (let i = 1; i <= body.length; i++) {
+  
+      // Obtener su Producto con el Múltiplo Correspondiente
+      let index = multiplo * runClean.charAt(body.length - i);
+  
+      // Sumar al Contador General
+      suma = suma + index;
+  
+      // Consolidar Múltiplo dentro del rango [2,7]
+      if (multiplo < 7) {
+        multiplo = multiplo + 1;
+      } else {
+        multiplo = 2;
+      }
+  
+    }
+  
+    // Calcular Dígito Verificador en base al Módulo 11
+    let dvEsperado = 11 - (suma % 11);
+  
+    // Casos Especiales (0 y K)
+    dv = (dv == 'K') ? 10 : dv;
+    dv = (dv == 0) ? 11 : dv;
+  
+    // Validar que el Cuerpo coincide con su Dígito Verificador
+    if (dvEsperado != dv) {
+      return {verificator : true};
+    }
+    else null;
   }
 }
