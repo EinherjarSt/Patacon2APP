@@ -1,0 +1,14 @@
+.card{
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.image{
+    width: 100%;
+    max-width: 80px;
+    max-height: 100px;
+    padding-top: 20px;
+  }
+.userName{
+    text-align: center;
+}
