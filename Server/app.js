@@ -38,3 +38,33 @@ function cleanup() {
   console.log("Clean pool of connections");
   mysql.pool.end();
 }
+
+googleMapsClient = require('@google/maps').createClient({
+  key: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+});
+
+let route = {
+	"end_position" : {
+		"lat" : -35.078144,
+		"lng" : -71.260446
+	},
+	"start_position" : {
+		"lat" : -35.955394,
+		"lng" : -72.420513
+	},
+	"waypoint" : ["-35.6201617, -72.3830878", "-35.2739352, -72.15754720000001", "-35.2103306, -71.41166479999998"]
+}
+
+googleMapsClient.directions({
+      origin: route.start_position,
+      destination: route.end_position,
+      waypoints : route.waypoint,
+      mode: 'driving',
+}, function (err, response) {
+  if (response.status === 200) {
+    console.log("Aqui debe imprimir");
+    console.log(JSON.stringify(response.json.routes[0].overview_polyline.points));
+  } else {
+    alert('Could not display directions due to: ' + status);
+  }
+});

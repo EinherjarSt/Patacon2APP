@@ -57,3 +57,4 @@ var server = gps.server(gpsOptions, function (device, connection) {
         delete GPS_DATA[device.uid];
     })
 });
+

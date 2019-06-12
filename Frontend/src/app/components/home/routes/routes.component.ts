@@ -147,8 +147,7 @@ export class RoutesComponent implements OnInit {
       origin: origin,
       destination: destination,
       waypoints,
-      travelMode: 'DRIVING',
-      avoidTolls: true
+      travelMode: 'DRIVING'
     }, function (response, status) {
       if (status === 'OK') {
         display.setDirections(response);
