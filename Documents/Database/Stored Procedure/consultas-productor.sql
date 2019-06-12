@@ -4,7 +4,7 @@ CREATE PROCEDURE `add_producer`(
 	IN `_name` text,
 	IN `_rut` VARCHAR(13)
 ) BEGIN
-  INSERT INTO `producer` (`name`,`rut`) VALUES (_name, _rut);
+  INSERT INTO `producer` (`name`,`rut`, `disabled`) VALUES (_name, _rut, 0);
 END//
 
 DROP PROCEDURE IF EXISTS `add_location`//
@@ -14,7 +14,7 @@ CREATE PROCEDURE `add_location`(
 	IN `_latitude` VARCHAR(255),
 	IN `_longitude` VARCHAR(255),
 	IN `_manager` text,
-	IN `_managerPhoneNumber` VARCHAR(11)
+	IN `_managerPhoneNumber` VARCHAR(12)
 ) BEGIN
   INSERT INTO `location` (`ref_producer`, `address`, `latitude`, `longitude`, `manager`, `managerPhoneNumber`)
   VALUES (_ref_producer, _address, _latitude, _longitude, _manager, _managerPhoneNumber);
@@ -30,6 +30,15 @@ CREATE PROCEDURE `update_producer`(
        WHERE `producer`.`rut` = _rut;
 END//
 
+DROP PROCEDURE IF EXISTS `delete_producer`//
+CREATE PROCEDURE `delete_producer`(
+	IN `_rut` VARCHAR(13)
+) BEGIN
+     UPDATE `producer` SET 
+      `disabled` = 1
+       WHERE `producer`.`rut` = _rut;
+END//
+
 DROP PROCEDURE IF EXISTS `update_location`//
 CREATE PROCEDURE `update_location`(
 	IN `_id_location` int(11),
@@ -38,7 +47,7 @@ CREATE PROCEDURE `update_location`(
 	IN `_latitude` VARCHAR(255),
 	IN `_longitude` VARCHAR(255),
 	IN `_manager` text,
-	IN `_managerPhoneNumber` VARCHAR(11)
+	IN `_managerPhoneNumber` VARCHAR(12)
 ) BEGIN
      UPDATE `location` SET 
       `address` = _address,

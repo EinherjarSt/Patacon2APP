@@ -8,6 +8,8 @@ import { TrucksService } from 'src/app/services/trucks.service';
 import { GpsService } from 'src/app/services/gps.service';
 import { timer, Subscription } from "rxjs";
 import {ProducerviewService} from 'src/app/services/producerview.service';
+import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
+import { isNumber } from 'util';
 
 
 
@@ -39,20 +41,24 @@ export class ProducerComponent implements OnInit , OnDestroy{
     }
     
   ngOnInit() {
-    let id = this.producerViewService.decryptNumber(this.route.snapshot.paramMap.get('idDispatch'));
+    let id= this.producerViewService.decryptNumber(this.route.snapshot.paramMap.get('idDispatch'));
     console.log("decrypt:"+id);
-
     this.dispatch_id = id;
     this.dispatchService.getDispatchWithFullInfo(this.dispatch_id).subscribe(data=>{
       this.info = data
-      if(this.info.producerName==null){
+      
+      if(this.info==null){
         this.router.navigate(['/not-found']);
+        return;
       }
       else if(!this.verifyConditionsView(this.info)){
         this.router.navigate(['/not-found']);
+        return;
       }
       let date = this.info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
       this.info.arrivalAtVineyardDatetime = date;
+    }, err=>{
+      this.router.navigate(['/not-found']);
     });
 
     this.gpsTimer = timer(3000, 15000).subscribe(() => {

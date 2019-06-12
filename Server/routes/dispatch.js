@@ -27,9 +27,7 @@ app.get('/despachos_completos', (req, res) => {
     });
 })
 
-app.get('/despachos_completos/:id', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+app.get('/despachos_completos/:id', (req, res) => {
 
     Dispatch.getDispatchWithFullInfo(req.params.id, (err, dispatches) =>{
         console.log(err);
@@ -131,7 +129,6 @@ app.put('/despachos/terminar/:id', passport.authenticate('jwt', {
 app.delete('/despachos/eliminar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(req);
     Dispatch.deleteDispatch(req.params.id, (err, result) => {
         if (err) {
             return res.status(400).json(err);

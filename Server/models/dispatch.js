@@ -64,6 +64,7 @@ class Dispatch {
             if (err) {
                 return callback(err);
             }
+            if(results[0][0].dispatchId ==null)return callback(err);
             var a = 1;
             let result = results[0];
 
@@ -139,6 +140,16 @@ class Dispatch {
         }
         pool.query(`DELETE FROM dispatch WHERE id_dispatch = ${dispatch_id}`, function (err, results, fields) {
             if (err) {
+
+                console.log("--------------Errores------------------");
+                console.log(err);
+
+                console.log(" ------------------Results -----------------");
+                console.log(results);
+                console.log("-------------------Fields----------------");
+                console.log(fields);
+
+                
                 if (err.code == "ER_DUP_ENTRY") {
                     return callback({ message: err.sqlMessage });
                 }
@@ -195,14 +206,15 @@ class Dispatch {
         });
     }
 
-    static editTimesPerStatus() {
+
+    static startDispatch(dispatchId, callback) {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
         pool.query(`CALL edit_dispatch_status(?, ?);`,
-            [dispatchId, 'En tránsito a Viña'],
+            [dispatchId, 'En tránsito a viña'],
             function (err, results, fields) {
-                console.log
+                
                 if (err) {
                     if (err.code == "ER_DUP_ENTRY") {
                         return callback({ message: err.sqlMessage });
@@ -211,12 +223,10 @@ class Dispatch {
                 }
                 return callback(null, true);
 
-            });
+        });
     }
 
-    static startDispatch(idDispatch, callback) {
 
-    }
     //end status should be either 'Cancelado' or 'Terminado'
     static terminateDispatch(dispatchId, endStatus, callback) {
         if (!callback || !(typeof callback === 'function')) {
@@ -225,7 +235,14 @@ class Dispatch {
         pool.query(`CALL edit_dispatch_status(?, ?);`,
             [dispatchId, endStatus],
             function (err, results, fields) {
-                console.log
+                console.log("--------------Errores------------------");
+                console.log(err);
+
+                console.log(" ------------------Results -----------------");
+                console.log(results);
+                console.log("-------------------Fields----------------");
+                console.log(fields);
+                
                 if (err) {
                     if (err.code == "ER_DUP_ENTRY") {
                         return callback({ message: err.sqlMessage });
