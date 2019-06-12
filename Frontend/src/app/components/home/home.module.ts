@@ -48,7 +48,7 @@ import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-
 import { GeneralSummaryComponent } from './statistics/general-summary/general-summary.component';
 import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -98,7 +98,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     MaterialModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
-    })
+    }),
+    ChartsModule
   ],
   entryComponents: [
     AddUserComponent,
