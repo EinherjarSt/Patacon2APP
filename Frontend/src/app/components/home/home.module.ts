@@ -47,6 +47,7 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
 import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { UpdateLocationComponent } from './producers/update-location/update-location.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
+    UpdateLocationComponent,
     RoutesComponent,
     StatisticsComponent
   ],
@@ -113,7 +115,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditUserComponent,
     EditDriverComponent,
     EditTruckComponent,
-    DispatchDetailsComponent
+    DispatchDetailsComponent,
+    UpdateLocationComponent
   ],
 })
 export class HomeModule { }

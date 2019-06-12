@@ -3,6 +3,13 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder, AbstractControl} from '@angular/forms';
 import { ProducersService } from 'src/app/services/producers.service';
 
+interface marker {
+	lat: string;
+	lng: string;
+	label?: string;
+	draggable: boolean;
+}
+
 @Component({
   selector: 'app-add-producer',
   templateUrl: './add-producer.component.html',
@@ -11,6 +18,12 @@ import { ProducersService } from 'src/app/services/producers.service';
 export class AddProducerComponent implements OnInit {
   producerForm: FormGroup;
   expanded = true;
+  lat: number = -35.0012238;
+  lng: number = -71.2308186;
+  lat2: number = -34.147774;
+  lng2: number = -70.741592;
+
+  markers: marker[] = []
 
   constructor(public dialogRef: MatDialogRef<AddProducerComponent>, 
     private producersService: ProducersService,
@@ -70,6 +83,12 @@ export class AddProducerComponent implements OnInit {
       this.expanded = true;
     }
 
+    this.markers.push({
+      lat: '0',
+      lng: '0',
+      draggable: true
+    });
+
     locations.push(this.fb.group({
       expanded: this.expanded,
       address: new FormControl(''),
@@ -87,13 +106,21 @@ export class AddProducerComponent implements OnInit {
   }
 
   public hasError = (controlName: string, errorName: string) => {
-    console.log(this.producerForm);
     return this.producerForm.get(controlName).hasError(errorName);
   };
 
+  mapClicked(i: any, $event: any) {
+    const locations = this.producerForm.get('locations') as FormArray;
+
+    this.markers[i].lat = $event.coords.lat;
+    this.markers[i].lng = $event.coords.lng;
+
+    locations.value[i].latitude = $event.coords.lat;
+    locations.value[i].longitude = $event.coords.lng;
+  }
+
   public hasErrorLocation = (index: number, controlName: string, errorName: string) => {
     let formArray = this.producerForm.get("locations") as FormArray;
-    console.log(formArray.at(index))
     return formArray.at(index).get(controlName).hasError(errorName);
   };
 
