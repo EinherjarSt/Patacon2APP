@@ -4,6 +4,7 @@ import { AddProducerComponent } from '../add-producer/add-producer.component';
 import { Producer } from 'src/app/model-classes/producer';
 import { ProducersService } from 'src/app/services/producers.service';
 import { UpdateProducerComponent } from '../update-producer/update-producer.component';
+import { UpdateLocationComponent } from '../update-location/update-location.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -75,7 +76,14 @@ export class ProducerListComponent implements OnInit {
   }
 
   openLocationUpdateDialog(id_location: string){
-    console.log(id_location);
+    const dialogRef = this.dialog.open(UpdateLocationComponent, {
+      data: id_location,
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   deleteLocation(id_location: string){

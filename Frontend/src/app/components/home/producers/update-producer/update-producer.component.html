@@ -20,55 +20,6 @@
                     <input matInput formControlName="rut">
                 </mat-form-field>
             </div>
-            
-            <h4>
-                Ubicaciones
-            </h4>
-
-            <div formArrayName="locations" *ngFor="let location of producerForm.get('locations')['controls']; let i = index">
-                <mat-expansion-panel formGroupName="{{i}}" class="locations">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                        Dirección: {{location.value.address}}
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Dirección</mat-label>
-                        <input matInput formControlName="address">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Latitud</mat-label>
-                        <input matInput formControlName="latitude">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Longitud</mat-label>
-                        <input matInput formControlName="longitude">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Encargado</mat-label>
-                        <input matInput formControlName="manager">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Teléfono</mat-label>
-                        <input matInput formControlName="managerPhoneNumber">
-                    </mat-form-field>
-
-                    <div>
-                        <button mat-raised-button (click)="deleteLocation(location.get('id_location').value)">Eliminar</button>
-                    </div>
-                    
-                </mat-expansion-panel>
-            </div>
-
-            <div>
-                <button mat-raised-button (click)="addLocationForm()">+</button>
-                <button mat-raised-button (click)="deleteLocationForm()">-</button>
-            </div>
         </div>
     </form>
 </mat-dialog-content>
@@ -77,10 +28,10 @@
 
 <div class="action-buttons">
     <div class="button-div">
-        <button mat-raised-button color="primary" class="button" (click)="onSubmit()">Aceptar</button>
+        <button mat-raised-button (click)="onSubmit()">Aceptar</button>
     </div>
     
     <div class="button-div">
-        <button mat-raised-button color="primary" class="button" (click)="onNoClick()">Cancelar</button>
+        <button mat-raised-button (click)="onNoClick()">Cancelar</button>
     </div>
 </div>

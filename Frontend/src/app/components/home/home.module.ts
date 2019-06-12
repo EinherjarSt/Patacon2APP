@@ -46,6 +46,7 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { UpdateLocationComponent } from './producers/update-location/update-location.component';
 
 
 
@@ -86,7 +87,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    UpdateLocationComponent
   ],
   imports: [
     CommonModule,
@@ -114,7 +116,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditUserComponent,
     EditDriverComponent,
     EditTruckComponent,
-    DispatchDetailsComponent
+    DispatchDetailsComponent,
+    UpdateLocationComponent
   ],
 })
 export class HomeModule { }

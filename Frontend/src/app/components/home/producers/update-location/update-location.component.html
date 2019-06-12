@@ -1,0 +1,48 @@
+<h3>
+  Detalles de la ubicación
+</h3>
+
+<hr>
+
+<mat-dialog-content>
+    <form [formGroup]="locationForm">
+        <div>
+          <mat-form-field appearance="standard" class="input">
+            <mat-label>Dirección</mat-label>
+            <input matInput formControlName="address">
+          </mat-form-field>
+
+          <mat-form-field appearance="standard" class="input">
+              <mat-label>Latitud</mat-label>
+              <input matInput formControlName="latitude">
+          </mat-form-field>
+
+          <mat-form-field appearance="standard" class="input">
+              <mat-label>Longitud</mat-label>
+              <input matInput formControlName="longitude">
+          </mat-form-field>
+
+          <mat-form-field appearance="standard" class="input">
+              <mat-label>Encargado</mat-label>
+              <input matInput formControlName="manager">
+          </mat-form-field>
+
+          <mat-form-field appearance="standard" class="input">
+              <mat-label>Teléfono</mat-label>
+              <input matInput formControlName="managerPhoneNumber">
+          </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<hr>
+
+<div class="action-buttons">
+    <div class="button-div">
+        <button mat-raised-button (click)="onSubmit()">Aceptar</button>
+    </div>
+    
+    <div class="button-div">
+        <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+    </div>
+</div>
