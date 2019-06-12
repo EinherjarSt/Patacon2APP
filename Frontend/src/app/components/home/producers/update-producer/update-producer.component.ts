@@ -106,4 +106,14 @@ export class UpdateProducerComponent implements OnInit {
     }
     
   }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.producerForm.get(controlName).hasError(errorName);
+  };
+
+  public hasErrorLocation = (index: number, controlName: string, errorName: string) => {
+    let formArray = this.producerForm.get("locations") as FormArray;
+    console.log(formArray.at(index))
+    return formArray.at(index).get(controlName).hasError(errorName);
+  };
 }

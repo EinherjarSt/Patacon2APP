@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "experimentalDecorators": true,
-    "types": []
+    "types": ["googlemaps"
+    ]
   },
   "exclude": [
     "test.ts",

@@ -18,17 +18,29 @@ app.get('/informacion/:dispatchId', passport.authenticate('jwt', {
     });
 })
 
-app.put('/despachos/informacion/:id', passport.authenticate('jwt', {
+
+app.put('/informacion/editar_tiempo_por_estado/:dispatchId', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(req.body);
     let body = req.body;
-        
 
-    let dispatch = new Dispatch(req.params.id, body.driverReference, body.truckReference, body.planificationReference, 
-        body.shippedKilograms, body.arrivalAtPataconDatetime, body.arrivalAtVineyardDatetime,
-        body.containerType, body.status);
-    Dispatch.editDispatch(dispatch, (err, result) => {
+    InsightsData.editTimesPerStatusOfDispatch(req.params.dispatchId, body.stoppedTime, body.inUnloadYardTime, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "El tiempo que estuve cada el despacho en cada estado ha sido actualizado"
+        });
+    });
+    
+})
+
+app.put('/informacion_mensaje/editar/:id_despacho', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let body = req.body;
+    
+    InsightsData.editLastMessageSentData(req.params.id_despacho, body.messageDateTime, (err, result) => {
         if (err) {
             return res.status(400).json(err);
         }

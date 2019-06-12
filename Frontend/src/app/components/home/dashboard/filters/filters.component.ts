@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { Filter } from 'src/app/model-classes/filter';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -18,20 +18,24 @@ export class FiltersComponent implements OnInit {
   displayedColumns: string[] = ["select","truck","state","destination","details"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
+  selectedDispatches : Filter[] = this.selection.selected;
   isDataLoading: boolean;
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
   @ViewChild(MatSort) sort: MatSort;
+  @Output() selectedChangeEvent = new EventEmitter<Filter[]>();
 
   ngOnInit() {
     this.getDispatches()
+    this.selection.changed.subscribe(event => {this.selectedChangeEvent.emit(event.source.selected)});
     
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
+
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
@@ -53,6 +57,7 @@ export class FiltersComponent implements OnInit {
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: Filter): string {
+    
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -66,6 +71,8 @@ export class FiltersComponent implements OnInit {
     this._dispatchesService.getDispatchesWithFullInfo().subscribe({
       next: (data) => {
         this.dataSource.data = data;
+        this.selectedChangeEvent.emit(data);
+        this.masterToggle();
         this.isDataLoading = false;
       },
       error: (err) => {
@@ -78,8 +85,6 @@ export class FiltersComponent implements OnInit {
 
   openDispatchDetailsDialog(dispatch: Filter) {
 
-    console.log("Data");
-    console.log(dispatch);
     var dialogConfig = this.getDialogConfig();
     dialogConfig.data = dispatch;
 

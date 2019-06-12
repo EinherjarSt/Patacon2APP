@@ -68,3 +68,10 @@ tr.example-element-row:not(.example-expanded-row):active {
   padding-left: 20px;
   padding-right: 10px;
 }
+.container {
+  display: flex;
+  flex-direction: column;
+}
+mat-form-field{
+  padding: -10px;
+}

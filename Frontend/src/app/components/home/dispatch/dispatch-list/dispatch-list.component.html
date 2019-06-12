@@ -7,7 +7,7 @@
         Agregar despacho
       </button>
     </div>
-    <div fxFlex="30">
+    <div fxFlex="30" class="container">
 
       <mat-form-field>
         <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
@@ -42,21 +42,62 @@
       <!-- Fecha de ida -->
       <ng-container matColumnDef="arrivalAtVineyardDatetime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y hora de ida </th>
-        <td mat-cell *matCellDef="let element"> {{ (element.arrivalAtVineyardDate + ' ' + element.arrivalAtVineyardTime) | date:dateFormat}} </td>
+        <td mat-cell *matCellDef="let element">
+          {{ (element.arrivalAtVineyardDate + ' ' + element.arrivalAtVineyardTime) | date:dateFormat}} </td>
       </ng-container>
 
       <!-- Fecha de vuelta -->
       <ng-container matColumnDef="arrivalAtPataconDatetime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha y hora de vuelta </th>
-        <td mat-cell *matCellDef="let element"> {{(element.arrivalAtPataconDate + ' ' + element.arrivalAtPataconTime) | date:dateFormat }} </td>
+        <td mat-cell *matCellDef="let element">
+          {{(element.arrivalAtPataconDate + ' ' + element.arrivalAtPataconTime) | date:dateFormat }} </td>
       </ng-container>
+
+
+
+      <!-- Start dispatch -->
+      <ng-container matColumnDef="start">
+        <th mat-header-cell *matHeaderCellDef> Empezar </th>
+        <td mat-cell *matCellDef="let element">
+
+            <button [disabled]="element.status.localeCompare('Pendiente') != 0" mat-icon-button color="primary" (click)="startDispatch(element.id)">
+              <mat-icon class="mat-18">arrow_right_alt</mat-icon>
+            </button>
+
+        </td>
+      </ng-container>
+      
+<!-- Cancel dispatch -->
+      <ng-container matColumnDef="cancel">
+          <th mat-header-cell *matHeaderCellDef> Cancelar </th>
+          <td mat-cell *matCellDef="let element">
+  
+              <button [disabled]="element.status.localeCompare('Terminado') == 0 || element.status.localeCompare('Cancelado') == 0" mat-icon-button color="primary" (click)="cancelDispatch(element.id)">
+                  <mat-icon class="mat-18">delete_forever</mat-icon>
+                </button>
+        
+          </td>
+        </ng-container>
+
+        <!-- Terminate dispatch -->
+      <ng-container matColumnDef="terminate">
+          <th mat-header-cell *matHeaderCellDef> Terminar </th>
+          <td mat-cell *matCellDef="let element">
+  
+             
+        <button [disabled]="element.status.localeCompare('Terminado') == 0 || element.status.localeCompare('Cancelado') == 0" mat-icon-button color="primary" (click)="terminateDispatch(element.id)">
+            <mat-icon class="mat-18">close</mat-icon>
+          </button>
+  
+          </td>
+        </ng-container>
 
 
       <!-- Send message -->
       <ng-container matColumnDef="send">
         <th mat-header-cell *matHeaderCellDef> Notificar </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="sendSMS(element.id)">
+          <button mat-icon-button color="primary" (click)="sendSMS(element.id);">
             <mat-icon class="mat-18">send</mat-icon>
           </button>
         </td>

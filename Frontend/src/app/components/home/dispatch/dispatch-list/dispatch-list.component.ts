@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { Dispatch } from '../../../../model-classes/dispatch'
 import { DatePipe } from '@angular/common';
 import { DispatchesService } from '../../../../services/dispatches.service';
+import { InsightsService } from '../../../../services/insights.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
@@ -28,7 +29,7 @@ export class DispatchListComponent implements OnInit {
   dispatches: Dispatch[];
   planificationId: number;
   public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-    "arrivalAtPataconDatetime", "send", "edit", "delete"];
+    "arrivalAtPataconDatetime","start", "cancel", "terminate", "send", "edit", "delete"];
   public dataSource = new MatTableDataSource<Dispatch>();
 
   @ViewChild(MatSort) sort: MatSort;
@@ -41,7 +42,8 @@ export class DispatchListComponent implements OnInit {
     private route: ActivatedRoute,
     private dispatchService: DispatchesService,
     private producerViewService: ProducerviewService,
-    private smsService: SMS) { }
+    private smsService: SMS,
+    private insightsService: InsightsService) { }
 
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -69,7 +71,7 @@ export class DispatchListComponent implements OnInit {
   }
 
   deleteDispatch(dispatch_id) {
-    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+    this.openConfirmationDialog('¿Desea eliminar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
           next: result => { this.refreshTable(); },
@@ -80,10 +82,40 @@ export class DispatchListComponent implements OnInit {
     });
   }
 
-  openDeletionConfirmationDialog() {
+  terminateDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea terminar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.terminateDispatch(dispatch_id, "Terminado");
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  cancelDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.terminateDispatch(dispatch_id, "Cancelado");
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  startDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.startDispatch(dispatch_id);
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  openConfirmationDialog(message) {
 
     var deletionDialogConfig = this.getDialogConfig();
-    deletionDialogConfig.data = { message: '¿Desea eliminar este despacho?' };
+    deletionDialogConfig.data = { message: message };
     return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
   }
 
@@ -104,48 +136,67 @@ export class DispatchListComponent implements OnInit {
   }
 
   sendSMS(idDispatch) {
-    let info: Filter;
-    this.dispatchService.getDispatchWithFullInfo(idDispatch).subscribe(res => {
-      info = res;
-      console.log(res);
-      let condition = this.verifyConditionsSMS(info);
-      if (condition!=0) { 
-        //INSERT AN ALERT HEREEEE!!!!
-        if(condition==1){
-          console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n EL CAMION NO TIENE GPS!!");
-        }
-        else if (condition==2){
-          console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n TIENE ESTADO PENDIENTE!!");
-        }
-        else{
-          console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n TIENE ESTADO TERMINADO!!");
-        }
-        
+    let message = "";
+    //hacer consulta y agregar al mensaje los datos
+    this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data =>{
+      if(data!= null){
+        if(data.textMessagesSent!=null){
+        message = "Ha enviado "+data.textMessagesSent+ " mensaje(s) al productor.\n" +
+        "Último mensaje enviado: "+ moment(data.lastMessageSentDate).format('DD/MM/YYYY hh:mm a')+"\n\n";
       }
-      else {
-        let message = "\nDespacho Iniciado! \n" +
-          "Chofer: " + info.driverName + " " + info.driverSurname + "/" + info.driverRun +
-          "\nTel: " + info.driverPhoneNumber;
-
-        //THE ARRIVAL TIME ISN'T IN THE MESSAGE BECAUSE THIS DOESN'T FIT INTO FREE SMS's
-        //FOR THE FULL VERSION ADD THE NEXT LINES 
-        /**
-            let date = info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
-            message+="\nLlegada: "+date +"\n";
-        */
-
-        let idCypher = this.producerViewService.encryptNumber(info.dispatchId + "");
-        //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
-        let url = "\nhttp://localhost:4200/#/producer/" + idCypher;
-        message += url;
-
-        this.smsService.sendMessage(info.producerPhoneNumber, message).subscribe(res => {
+      }
+    },e=>{},()=>{
+    message = message + "¿Desea enviar un nuevo sms?";
+    this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        let info: Filter;
+        this.dispatchService.getDispatchWithFullInfo(idDispatch).subscribe(res => {
+          info = res;
           console.log(res);
-          //if(res=='') SHOW SOME ALERT WINDOW that the message wasn't sent
+          let condition = this.verifyConditionsSMS(info);
+          if (condition != 0) {
+
+            if (condition == 1) {
+              //INSERT AN ALERT HEREEEE!!!!
+              console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n EL CAMION NO TIENE GPS!!");
+            }
+            else if (condition == 2) {
+              //INSERT AN ALERT HEREEEE!!!!
+              console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n TIENE ESTADO PENDIENTE!!");
+            }
+            else {
+              //INSERT AN ALERT HEREEEE!!!!
+              console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n TIENE ESTADO TERMINADO!!");
+            }
+
+          }
+          else {
+            let message = "\nDespacho Iniciado! \n" +
+              "Chofer: " + info.driverName + " " + info.driverSurname + "/" + info.driverRun +
+              "\nTel: " + info.driverPhoneNumber;
+
+            //THE ARRIVAL TIME ISN'T IN THE MESSAGE BECAUSE THIS DOESN'T FIT INTO FREE SMS's
+            //FOR THE FULL VERSION ADD THE NEXT LINES 
+            /**
+                let date = info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
+                message+="\nLlegada: "+date +"\n";
+            */
+
+            let idCypher = this.producerViewService.encryptNumber(info.dispatchId + "");
+            //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
+            let url = "\nhttp://localhost:4200/#/producer/" + idCypher;
+            message += url;
+            this.smsService.sendMessage(info.producerPhoneNumber, message).subscribe(res => {
+              console.log(res);
+                this.insightsService.editLastMessageSentData(info.dispatchId);
+            });
+          }
+
         });
       }
 
     });
+  });
   }
 
   /**
@@ -156,10 +207,10 @@ export class DispatchListComponent implements OnInit {
    * 3: The status is 'Terminado'
    * @param filter 
    */
-  verifyConditionsSMS(filter :Filter){
-    if(filter.truckGPSImei==null)return 1;
-    else if(filter.dispatchStatus=='Pendiente') return 2;
-    else if(filter.dispatchStatus=='Terminado') return 3;
+  verifyConditionsSMS(filter: Filter) {
+    if (filter.truckGPSImei == null) return 1;
+    else if (filter.dispatchStatus == 'Pendiente') return 2;
+    else if (filter.dispatchStatus == 'Terminado') return 3;
     return 0;
   }
 
@@ -184,6 +235,8 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
+
+
   refreshTable() {
     this.getDispatches();
   }
@@ -192,14 +245,11 @@ export class DispatchListComponent implements OnInit {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
-  public sendSMS2(dispatchId){
-    /*
-    this.dispatchesService.getDispatchWithFullInfo(dispatchId).subscribe(
-      data => {console.log(data)},
-      err => console.log("Error trayendo el bicho")
-      );
-    */
+
+  public _terminateDispatch(dispatchId, endStatus) {
+    this.dispatchService.terminateDispatch(dispatchId, endStatus);
   }
+
 }
 
 

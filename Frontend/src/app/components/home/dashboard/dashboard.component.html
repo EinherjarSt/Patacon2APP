@@ -9,7 +9,7 @@
           <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
         <!--Aqui va los filtros-->
-        <app-filters></app-filters>
+        <app-filters (selectedChangeEvent)="mapUpdate($event)"></app-filters>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -30,13 +30,13 @@
           
           <mat-button-toggle class="sidenav-button" mat-button 
           (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
-          <agm-map [latitude]="lat" [longitude]="lng2">
-            <!-- <agm-marker [latitude]="lat" [longitude]="lng">
-              <agm-info-window>Börk</agm-info-window>
-            </agm-marker> -->
-            <!-- <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
+          <agm-map [latitude]="center.latitude" [longitude]="center.longitude" (mapReady)="onMapReady($event)" (mapClick)="onMapClick($event)">
             <agm-marker *ngFor="let imei of gpsKey" [latitude]="gpsPosition[imei].latitude" [longitude]="gpsPosition[imei].longitude">
-              <agm-info-window>imei: {{imei}}</agm-info-window>
+              <agm-info-window>IMEI: {{imei}}</agm-info-window>
+              <agm-info-window>Patente: {{dispatchInfo[imei].truckLicensePlate}}</agm-info-window>
+              <agm-info-window>Chofer: {{dispatchInfo[imei].driverName}}</agm-info-window>
+              <agm-info-window>Telefono: {{dispatchInfo[imei].driverPhoneNumber}}</agm-info-window>
+              <agm-info-window>Estado: {{dispatchInfo[imei].dispatchStatus}}</agm-info-window>
             </agm-marker>
           </agm-map>
          

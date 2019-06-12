@@ -15,7 +15,7 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Marca</mat-label>
-            <input matInput placeholder="" formControlName="brand" />
+            <input matInput placeholder="" formControlName="brand" maxlength="50" />
             <mat-error *ngIf="hasError('brand', 'required')">Debe ingresar la marca</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
@@ -24,7 +24,7 @@
         <div class="container">
         <mat-form-field class="example-full-width">
           <input formControlName="driverReference" type="text" placeholder="Asigne un chofer" aria-label="Chofer" matInput
-            [matAutocomplete]="driverAuto">
+            [matAutocomplete]="driverAuto" maxlength="50">
           <mat-autocomplete  [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
             <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
               {{driverToDisplayableString(driverOption)}}
@@ -54,7 +54,7 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Model</mat-label>
-            <input matInput placeholder="" formControlName="model" />
+            <input matInput placeholder="" formControlName="model" maxlength="50"/>
             <mat-error *ngIf="hasError('model', 'required')">Debe ingresar el modelo</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
@@ -63,8 +63,9 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Año</mat-label>
-            <input matInput placeholder="" formControlName="year"/>
+            <input matInput placeholder="" formControlName="year" maxlength="4"/>
             <mat-error *ngIf="hasError('year', 'required')">Debe ingresar el año</mat-error>
+            <mat-error *ngIf="hasError('year', 'pattern')">Ingrese un año valido</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -72,7 +73,7 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Carga Máxima</mat-label>
-            <input matInput placeholder="" formControlName="maxLoad"/>
+            <input matInput placeholder="" formControlName="maxLoad" maxlength="15"/>
             <mat-error *ngIf="hasError('maxLoad', 'required')">Debe ingresar el valor de carga máxima</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
@@ -80,7 +81,7 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Dueño</mat-label>
-            <input matInput placeholder="" formControlName="owner"/>
+            <input matInput placeholder="" formControlName="owner" maxlength="50"/>
             <mat-error *ngIf="hasError('owner', 'required')">Debe ingresar el nombre del propietario</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
@@ -88,7 +89,7 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Color</mat-label>
-            <input matInput placeholder="" formControlName="color"/>
+            <input matInput placeholder="" formControlName="color" maxlength="15"/>
             <mat-error *ngIf="hasError('color', 'required')">Debe ingresar el color</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>

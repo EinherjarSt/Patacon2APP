@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { environment as env } from "@env/environment";
 import * as moment from 'moment';
+import { InsightsService } from './insights.service';
 
 
 @Injectable({
@@ -12,11 +13,10 @@ import * as moment from 'moment';
 })
 export class DispatchesService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _insightsService: InsightsService) { }
 
   registerDispatch(data: any): Observable<boolean> {
-    console.log(data);
-    
+
     const body = new HttpParams()
       .set("driverReference", data.driverReference)
       .set("truckReference", data.truckReference)
@@ -42,7 +42,6 @@ export class DispatchesService {
   }
 
   editDispatch(data: any): Observable<boolean> {
-    console.log(data);
 
     const body = new HttpParams()
       .set("driverReference", data.driverReference)
@@ -87,16 +86,16 @@ export class DispatchesService {
     console.log("ID en servicio " + planificationId);
     return this._http.get<any[]>(env.api.concat("/despachos/" + planificationId)).pipe(
       map(result => {
-        
+
         return result.map(data => this.dispatchDataToDispatchObject(data));
       })
     );
   }
-  
+
   getDispatchesWithFullInfo(): Observable<any[]> {
     return this._http.get<any[]>(env.api.concat("/despachos_completos")).pipe(
       map(result => {
-        return result;  
+        return result;
       })
     );
   }
@@ -104,12 +103,12 @@ export class DispatchesService {
   getDispatchWithFullInfo(dispatchId): Observable<any> {
     return this._http.get<any>(env.api.concat("/despachos_completos/" + dispatchId)).pipe(
       map(result => {
-        return result;  
+        return result;
       })
     );
   }
 
-  formValuesToDispatchObject(data) : Dispatch{
+  formValuesToDispatchObject(data): Dispatch {
     var formValues = data;
 
     return new Dispatch(
@@ -120,11 +119,11 @@ export class DispatchesService {
       formValues.shippedKilograms,
       formValues.arrivalAtPataconDate.format('YYYY-MM-DD'),
       formValues.arrivalAtPataconTime,
-      formValues.arrivalAtVineyardDate.format('YYYY-MM-DD'), 
+      formValues.arrivalAtVineyardDate.format('YYYY-MM-DD'),
       formValues.arrivalAtVineyardTime,
       formValues.status,
       formValues.containerType
-      );
+    );
   }
 
   dispatchDataToDispatchObject(data) {
@@ -140,23 +139,72 @@ export class DispatchesService {
       data.shippedKilograms,
       arrivalAtPataconDatetime[0],
       arrivalAtPataconDatetime[1],
-      arrivalAtVineyardDatetime[0], 
+      arrivalAtVineyardDatetime[0],
       arrivalAtVineyardDatetime[1],
       data.status,
       data.containerType
     );
   }
 
-  
-  getDispatchById(dispatch_id) : Observable<Dispatch>{
 
-    return this._http.get<Dispatch>(env.api.concat(`/despachos/`+ dispatch_id)).pipe(
+  getDispatchById(dispatch_id): Observable<Dispatch> {
+
+    return this._http.get<Dispatch>(env.api.concat(`/despachos/` + dispatch_id)).pipe(
       map(result => {
         return this.dispatchDataToDispatchObject(result);
       })
     );
   }
-  
+
+  startDispatch(dispatchId) {
+    return this._http
+      .get(env.api.concat("/despachos/empezar/" + dispatchId))
+      .pipe(
+        map(result => {
+          return true;
+        })
+      );
+
+  }
+
+  //endStatus should be either 'Terminado' or 'Cancelado'
+  terminateDispatch(dispatchId, endStatus) {
+
+    const body = new HttpParams().set("endStatus", endStatus);
+    this._http.put<Dispatch>(env.api.concat(`/despachos/terminar/` + dispatchId), body).subscribe(
+
+      response => {
+
+        this._insightsService.calculateTotalTimePerStatus(dispatchId).subscribe(
+          timePerStatus => {
+
+            const body = new HttpParams().set("stoppedTime", this._durationToString(timePerStatus.stopped)).
+              set("inUnloadYardTime", this._durationToString(timePerStatus.inUnloadYard));
+
+            this._http.put<any>(env.api.concat(`/informacion/editar_tiempo_por_estado/` + dispatchId), body)
+              .pipe(
+                map(result => {
+                  return true;
+                })
+              );
+          }
+        );
+      }
+
+    );
+
+
+
+  }
+
+  _durationToString(duration) {
+    let seconds = duration.seconds();
+    let minutes = duration.minutes();
+    let hours = duration.hours() + 24 * duration.days() + 24 * 30 * duration.months();
+    return `${hours}:${minutes}:${seconds}`
+  }
+
+
 
 }
 

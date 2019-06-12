@@ -10,6 +10,7 @@
               matInput
               placeholder=""
               formControlName="imei"
+              maxlength="15"
             />
             <mat-error *ngIf="hasError('imei', 'required')">Debe ingresar un imei</mat-error>
             <mat-error *ngIf="hasError('imei', 'pattern')">Debe ingresar un imei valido</mat-error>
@@ -20,8 +21,10 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Número</mat-label>
-            <input matInput placeholder="" formControlName="simNumber" />
+            <input matInput placeholder="999999999" formControlName="simNumber" maxlength="9"/>
+
             <mat-error *ngIf="hasError('simNumber', 'required')">Debe ingresar un numero</mat-error>
+            <mat-error *ngIf="hasError('simNumber', 'pattern')">El formato del numero no es valido</mat-error>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
@@ -29,14 +32,14 @@
         <div class="container">
           <mat-form-field appearance="standard">
             <mat-label>Marca</mat-label>
-            <input matInput placeholder="" formControlName="brand" />
+            <input matInput placeholder="" formControlName="brand" maxlength="30"/>
             <mat-hint></mat-hint>
           </mat-form-field>
         </div>
         <div class="container">
             <mat-form-field appearance="standard">
               <mat-label>Modelo</mat-label>
-              <input matInput placeholder="" formControlName="model" />
+              <input matInput placeholder="" formControlName="model" maxlength="30"/>
               <mat-hint></mat-hint>
             </mat-form-field>
           </div>

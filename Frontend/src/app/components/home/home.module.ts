@@ -45,12 +45,9 @@ import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirm
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
+import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { UpdateLocationComponent } from './producers/update-location/update-location.component';
-
-
-
-
 
 @NgModule({
   declarations: [
@@ -87,8 +84,9 @@ import { UpdateLocationComponent } from './producers/update-location/update-loca
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    StatisticsComponent,
     UpdateLocationComponent
+    RoutesComponent,
+    StatisticsComponent
   ],
   imports: [
     CommonModule,
@@ -97,7 +95,8 @@ import { UpdateLocationComponent } from './producers/update-location/update-loca
     ReactiveFormsModule,
     MaterialModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc',
+      libraries: ['geometry', 'drawing']
     })
   ],
   entryComponents: [
