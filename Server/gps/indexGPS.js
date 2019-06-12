@@ -9,6 +9,8 @@ var gpsOptions = {
 
 // Global var that contain the route and info of gps
 GPS_DATA = {};
+let geofenceTimer;
+let outInRouteTimer;
 
 var server = gps.server(gpsOptions, function (device, connection) {
 
@@ -29,6 +31,13 @@ var server = gps.server(gpsOptions, function (device, connection) {
             this.login_authorized(true);
             device.emit("login");
         })
+
+        if(geofenceTimer){
+           geofenceTimer =  setInterval(geofence, 5*1000*60);
+        }
+        if (outInRoute){
+            outInRouteTimer = setInterval(outInRoute, 5*1000*60);
+        }
     });
 
     device.on("login", function () {
@@ -55,6 +64,10 @@ var server = gps.server(gpsOptions, function (device, connection) {
     connection.on('close', (hadError) => {
         console.log(`connection \with device ${device.uid} is close`);
         delete GPS_DATA[device.uid];
+        if (!Object.hasOwnProperty(GPS_DATA)){
+            clearInterval(geofenceTimer);
+            clearInterval(outInRouteTimer)
+        }
     })
 });
 
