@@ -34,6 +34,40 @@ export class InsightsService {
       );
   }
 
+  public getNumberOfMessagesSent(startDate, endDate) {
+    const body = new HttpParams().set('startDate', startDate)
+    .set('endDate', endDate);
+
+    return this._http
+      .put<{ msg: string }>(env.api.concat("/informacion/cantidad_de_mensajes"), body);
+  }
+
+  public getSuccessfulDispatchCount(startDate, endDate) {
+    const body = new HttpParams().set('startDate', startDate)
+    .set('endDate', endDate);
+
+    return this._http
+      .put<{ msg: string }>(env.api.concat("/informacion/cantidad_despachos_exitosos"), body);
+      
+  }
+
+  public getCanceledDispatchCount(startDate, endDate) {
+    const body = new HttpParams().set('startDate', startDate)
+    .set('endDate', endDate);
+
+    return this._http
+      .put<{ msg: string }>(env.api.concat("/informacion/cantidad_despachos_cancelados"), body);
+      
+  }
+
+  public getDispatchesInsightsByDataRange(startDate, endDate) {
+    const body = new HttpParams().set('startDate', startDate)
+    .set('endDate', endDate);
+
+    return this._http
+      .put<{ msg: string }>(env.api.concat("/informacion/despachos_por_fecha"), body);
+      
+  }
 
   calculateTotalTimePerStatus(dispatchId) {
     return this._lastEventsService.getAllEventsOfDispatch(dispatchId).pipe(

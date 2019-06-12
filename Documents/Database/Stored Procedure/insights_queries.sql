@@ -55,6 +55,67 @@ END //
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS count_dispatches;
+DELIMITER //
+CREATE PROCEDURE count_dispatches (  
+  IN statusToFilterBy VARCHAR(255),
+  IN startDate DATETIME,
+  IN endDate DATETIME
+)
+BEGIN
+  SELECT COUNT(id_dispatch) as dispatchCount
+  FROM dispatch WHERE status = statusToFilterBy 
+  AND dispatch.arrivalAtVineyardDate >= startDate 
+  AND dispatch.arrivalAtVineyardDate <= endDate;
+END //
+DELIMITER ;
+
+
+
+
+DROP PROCEDURE IF EXISTS get_dispatches_insights;
+DELIMITER //
+CREATE PROCEDURE get_dispatches_insights (  
+  IN startDate DATETIME,
+  IN endDate DATETIME
+)
+BEGIN
+  SELECT 
+  driver.run AS driverRun,
+  driver.name AS driverName,
+  driver.surname AS driverSurname,
+  producer.name AS producerName,
+  truck.licencePlate AS truckLicensePlate,
+  dispatch.arrivalAtPataconDate AS dispatchDate,
+  insights_data.textMessagesSent AS textMessagesSent,
+  insights_data.stoppedTime AS stoppedTime,
+  insights_data.unloadYardTime AS unloadYardTime
+  FROM dispatch
+  INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
+  INNER JOIN driver ON dispatch.ref_driver = driver.run
+  INNER JOIN producer ON planification.ref_producer = producer.rut
+  INNER JOIN truck ON dispatch.ref_truck = truck.id_truck
+  INNER JOIN insights_data ON insights_data.refDispatch = dispatch.id_dispatch
+  WHERE dispatch.arrivalAtPataconDate >= startDate 
+  AND dispatch.arrivalAtPataconDate <= endDate;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS count_text_messages_sent;
+DELIMITER //
+CREATE PROCEDURE count_text_messages_sent (  
+  IN startDate DATETIME,
+  IN endDate DATETIME
+)
+BEGIN
+  SELECT SUM(insights_data.textMessagesSent) as textMessageCount
+  FROM dispatch INNER JOIN insights_data ON dispatch.id_dispatch=insights_data.refDispatch 
+  WHERE dispatch.arrivalAtVineyardDate >= startDate 
+  AND dispatch.arrivalAtVineyardDate <= endDate;
+END //
+DELIMITER ;
+
+
 --CREATE TRIGGER create_dispatch_insights_row 
 --AFTER INSERT ON dispatch
 --SET CONDITION = SELECT EXISTS (SELECT * FROM recent_events WHERE ref_Dispatch = NEW.ref_Dispatch && dispatch_status = 'Cargando');
