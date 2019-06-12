@@ -23,6 +23,7 @@
   "homepage": "https://github.com/lgsilvestre/PataconAPP_G2#readme",
   "dependencies": {
     "@google/maps": "^0.5.5",
+    "@mapbox/polyline": "^1.1.0",
     "@turf/turf": "^5.1.6",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
