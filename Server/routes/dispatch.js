@@ -27,9 +27,7 @@ app.get('/despachos_completos', (req, res) => {
     });
 })
 
-app.get('/despachos_completos/:id', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+app.get('/despachos_completos/:id', (req, res) => {
 
     Dispatch.getDispatchWithFullInfo(req.params.id, (err, dispatches) =>{
         console.log(err);

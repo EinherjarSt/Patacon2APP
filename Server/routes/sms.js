@@ -11,7 +11,7 @@ const client = require('twilio')(accountSid,authToken);
 
 var sms= {
     sendMessage: function(phoneNumber,msg, callback) {
-        let phone = '+'+phoneNumber;
+        let phone = '+56'+phoneNumber;
         client.messages.create({
             to: phone,
             from: myPhone,
