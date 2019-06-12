@@ -7,7 +7,7 @@ import { DispatchesService } from '../../../../services/dispatches.service';
 import { InsightsService } from '../../../../services/insights.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { environment as env } from "@env/environment";
+import { environmentProd as env } from "@env/environment.prod";
 import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
 import { EditDispatchComponent } from '../edit-dispatch/edit-dispatch.component'
 import * as moment from 'moment';
