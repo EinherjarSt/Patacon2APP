@@ -26,6 +26,8 @@ import {
     MatExpansionModule,
     MatButtonToggleModule,
     MatSlideToggleModule,
+    MatTooltipModule,
+    MatTabsModule,
     MatStepperModule
 }
 from '@angular/material';
@@ -61,6 +63,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatSlideToggleModule,
         MatProgressSpinnerModule,
         MatExpansionModule,
+        MatTooltipModule,
+        MatTabsModule,   
         MatStepperModule       
     ],
     exports: [
@@ -91,6 +95,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatCheckboxModule,
         MatButtonToggleModule,
         MatSlideToggleModule,
+        MatTooltipModule,
+        MatTabsModule,
         MatStepperModule
 
     ]
