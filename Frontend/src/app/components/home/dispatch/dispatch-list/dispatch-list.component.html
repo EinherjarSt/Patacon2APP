@@ -72,7 +72,7 @@
           <th mat-header-cell *matHeaderCellDef> Cancelar </th>
           <td mat-cell *matCellDef="let element">
   
-              <button [disabled]="element.status.localeCompare('Terminado') == 0 || element.status.localeCompare('Cancelado') == 0" mat-icon-button color="primary" (click)="cancelDispatch(element.id)">
+              <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="cancelDispatch(element.id)">
                   <mat-icon class="mat-18">delete_forever</mat-icon>
                 </button>
         
@@ -85,19 +85,18 @@
           <td mat-cell *matCellDef="let element">
   
              
-        <button [disabled]="element.status.localeCompare('Terminado') == 0 || element.status.localeCompare('Cancelado') == 0" mat-icon-button color="primary" (click)="terminateDispatch(element.id)">
+        <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="terminateDispatch(element.id)">
             <mat-icon class="mat-18">close</mat-icon>
           </button>
   
           </td>
         </ng-container>
 
-
       <!-- Send message -->
       <ng-container matColumnDef="send">
         <th mat-header-cell *matHeaderCellDef> Notificar </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="sendSMS(element.id);">
+          <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="sendSMS(element.id);">
             <mat-icon class="mat-18">send</mat-icon>
           </button>
         </td>
@@ -107,7 +106,7 @@
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="openEditDispatchDialog(element)">
+          <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="openEditDispatchDialog(element)">
             <mat-icon class="mat-18">edit</mat-icon>
           </button>
         </td>

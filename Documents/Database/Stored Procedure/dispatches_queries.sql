@@ -70,6 +70,8 @@ BEGIN
 END //
 DELIMITER ;
 
+
+
 DROP PROCEDURE IF EXISTS get_dispatches_with_full_info;
 DELIMITER //
 CREATE PROCEDURE get_dispatches_with_full_info ()

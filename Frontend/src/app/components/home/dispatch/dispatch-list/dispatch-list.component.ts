@@ -105,8 +105,8 @@ export class DispatchListComponent implements OnInit {
   startDispatch(dispatch_id) {
     this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
-        this.dispatchesService.startDispatch(dispatch_id);
-        this.refreshTable();
+        this.dispatchesService.startDispatch(dispatch_id).subscribe(
+          res => this.refreshTable());
       }
 
     });
@@ -235,7 +235,9 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
-
+  isDispatchTerminated(dispatch) {
+    return dispatch.status.localeCompare('Terminado') == 0 || dispatch.status.localeCompare('Cancelado') == 0;
+  }
 
   refreshTable() {
     this.getDispatches();
