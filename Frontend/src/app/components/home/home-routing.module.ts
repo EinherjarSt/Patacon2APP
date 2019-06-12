@@ -14,6 +14,8 @@ import { GeneralSummaryComponent } from './statistics/general-summary/general-su
 import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 
+import { AuthGuard } from '../../guard/auth.guard';
+import { RoutesComponent } from './routes/routes.component';
 
 
 const routes: Routes = [
@@ -31,7 +33,8 @@ const routes: Routes = [
      {path: 'despachos/:id', component: DispatchListComponent},
      {path: 'planificacion',component: PlanificationListComponent},
      {path: 'gps', component: GpsComponent},
-     {path: 'estadisticas', component: StatisticsComponent},
+     {path: 'routes', component: RoutesComponent},
+     {path: 'estadisticas', component: StatisticsComponent}
     ]
   }
 ];

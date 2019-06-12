@@ -4,17 +4,26 @@ import { AddProducerComponent } from '../add-producer/add-producer.component';
 import { Producer } from 'src/app/model-classes/producer';
 import { ProducersService } from 'src/app/services/producers.service';
 import { UpdateProducerComponent } from '../update-producer/update-producer.component';
+import { UpdateLocationComponent } from '../update-location/update-location.component';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-producer-list',
   templateUrl: './producer-list.component.html',
-  styleUrls: ['./producer-list.component.css']
+  styleUrls: ['./producer-list.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])]
 })
 export class ProducerListComponent implements OnInit {
 
   producers: Producer[];
-  displayedColumns: string[] = ["name", "rut", "locations", "details", "delete"];
+  displayedColumns: string[] = ["name", "rut", "details", "delete"];
   dataSource: MatTableDataSource<Producer>;
+  expandedElement: Producer | null;
 
   constructor(private producerService: ProducersService, private dialog: MatDialog) { }
 
@@ -45,7 +54,7 @@ export class ProducerListComponent implements OnInit {
 
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProducerComponent, {
-      width: '500px',
+      width: '600px',
       height: '95%'
     });
   
@@ -66,8 +75,38 @@ export class ProducerListComponent implements OnInit {
     });
   }
 
-  deleteProducer(rut: string){
+  openLocationUpdateDialog(id_location: string){
+    const dialogRef = this.dialog.open(UpdateLocationComponent, {
+      data: id_location,
+      width: '500px',
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  deleteLocation(id_location: string){
+    console.log(id_location);
+    this.producerService.deleteLocation(id_location).subscribe({
+      next: result =>{
+        console.log("Se ha eliminado correctamente la ubicación");
+      },
+      error: result => {
+        console.log("error");
+      }
+    });
+  }
+
+  deleteProducer(rut: string){
+    this.producerService.deleteProducer(rut).subscribe({
+      next: (result) => {
+        console.log(result);
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
   }
 
   refreshTable() {

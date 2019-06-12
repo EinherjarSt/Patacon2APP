@@ -1,0 +1,106 @@
+mat-sidenav {
+  width: 32%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+agm-map {
+  height: 100%;
+  position: relative;
+}
+
+.mat-expansion-panel-body{
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+.map-content {
+
+  height: 85vh;
+
+}
+
+.sidenav-button {
+  position: absolute;
+  z-index: 1;
+  right: 10px;
+  top: 1px;
+  background-color: white;
+
+  text-decoration: none;
+  box-shadow: 0px 1px 4px -1px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+
+}
+
+p.copyright {
+  position: absolute;
+  right: 10px;
+  top: 1px;
+}
+
+#floating-panel {
+  position: absolute;
+  min-width: 450px;
+  top: 10px;
+  left: 20%;
+  height: 65px;
+  z-index: 5;
+  padding: 5px;
+  padding-left: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.title{
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  font-size: 18px;
+}
+.routesList{
+  padding-top: 20px;
+}
+.expansion{
+  margin: 1px;
+  padding:0 !important;
+}
+.expansion-title{
+  height: 50px !important;
+}
+.expansion-content{
+  padding-left: 5px;
+}
+.nameLocation{
+  padding-top: 10px;
+}
+.actions{
+  width: 100%;
+  z-index: 5;
+}
+.item{
+  width: 100%;
+}
+.producer{
+  width: 100%;
+  padding-right: 10px;
+}
+.locations{
+  width: 100%;
+}
+.buttons{
+  width: 100%;
+  padding-top: 10px;
+}
+.labelLocation{
+  width: 100%;
+}
+.iconLocation{
+  font-size: 35px;
+  padding-top: 8px;
+}
+.label{
+  margin: 0 !important;
+}
+.btnSubmit{
+  width: 80px;
+  margin-right: 5px;
+}

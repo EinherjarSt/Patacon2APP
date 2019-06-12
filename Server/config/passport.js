@@ -24,7 +24,6 @@ passport.use(new LocalStrategy({
             }
             user.verifyPassword(password, (error, isPassword) => {
                 if (error) {
-                    console.log("here");
                     console.log(error);
                     return done(null, false, {
                         code: ERROR.LOGIN_FAILED,

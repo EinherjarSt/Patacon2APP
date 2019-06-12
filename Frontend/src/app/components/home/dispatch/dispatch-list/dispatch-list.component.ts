@@ -7,6 +7,7 @@ import { DispatchesService } from '../../../../services/dispatches.service';
 import { InsightsService } from '../../../../services/insights.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
+import { environment as env } from "@env/environment";
 import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
 import { EditDispatchComponent } from '../edit-dispatch/edit-dispatch.component'
 import * as moment from 'moment';
@@ -29,7 +30,7 @@ export class DispatchListComponent implements OnInit {
   dispatches: Dispatch[];
   planificationId: number;
   public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-    "arrivalAtPataconDatetime", "send", "edit", "delete"];
+    "arrivalAtPataconDatetime","start", "cancel", "terminate", "send", "edit", "delete"];
   public dataSource = new MatTableDataSource<Dispatch>();
 
   @ViewChild(MatSort) sort: MatSort;
@@ -77,6 +78,36 @@ export class DispatchListComponent implements OnInit {
           next: result => { this.refreshTable(); },
           error: result => { }
         });
+      }
+
+    });
+  }
+
+  terminateDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea terminar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.terminateDispatch(dispatch_id, "Terminado");
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  cancelDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.terminateDispatch(dispatch_id, "Cancelado");
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  startDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.dispatchesService.startDispatch(dispatch_id).subscribe(
+          res => this.refreshTable());
       }
 
     });
@@ -154,7 +185,8 @@ export class DispatchListComponent implements OnInit {
 
             let idCypher = this.producerViewService.encryptNumber(info.dispatchId + "");
             //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
-            let url = "\nhttp://localhost:4200/#/producer/" + idCypher;
+            let link = env.api.concat("/#/producer/" + idCypher);
+            let url = "\n"+link;
             message += url;
             this.smsService.sendMessage(info.producerPhoneNumber, message).subscribe(res => {
               console.log(res);
@@ -205,7 +237,9 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
-
+  isDispatchTerminated(dispatch) {
+    return dispatch.status.localeCompare('Terminado') == 0 || dispatch.status.localeCompare('Cancelado') == 0;
+  }
 
   refreshTable() {
     this.getDispatches();
@@ -216,7 +250,7 @@ export class DispatchListComponent implements OnInit {
   }
 
 
-  public terminateDispatch(dispatchId, endStatus) {
+  public _terminateDispatch(dispatchId, endStatus) {
     this.dispatchService.terminateDispatch(dispatchId, endStatus);
   }
 

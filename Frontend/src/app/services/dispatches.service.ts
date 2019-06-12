@@ -157,8 +157,11 @@ export class DispatchesService {
   }
 
   startDispatch(dispatchId) {
+
+    const body = new HttpParams();
+    
     return this._http
-      .get(env.api.concat("/despachos/empezar/" + dispatchId))
+      .put(env.api.concat("/despachos/empezar/" + dispatchId), body)
       .pipe(
         map(result => {
           return true;
@@ -192,8 +195,6 @@ export class DispatchesService {
       }
 
     );
-
-
 
   }
 

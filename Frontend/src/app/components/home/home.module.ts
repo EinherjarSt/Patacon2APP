@@ -47,7 +47,9 @@ import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
 import { GeneralSummaryComponent } from './statistics/general-summary/general-summary.component';
 import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
+import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { UpdateLocationComponent } from './producers/update-location/update-location.component';
 import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
@@ -87,6 +89,8 @@ import { ChartsModule } from 'ng2-charts';
     DispatchDetailsComponent,
     GeneralSummaryComponent,
     SummaryByDriverComponent,
+    UpdateLocationComponent,
+    RoutesComponent,
     StatisticsComponent
     
   ],
@@ -97,7 +101,8 @@ import { ChartsModule } from 'ng2-charts';
     ReactiveFormsModule,
     MaterialModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc',
+      libraries: ['geometry', 'drawing']
     }),
     ChartsModule
   ],
@@ -117,7 +122,8 @@ import { ChartsModule } from 'ng2-charts';
     EditUserComponent,
     EditDriverComponent,
     EditTruckComponent,
-    DispatchDetailsComponent
+    DispatchDetailsComponent,
+    UpdateLocationComponent
   ],
 })
 export class HomeModule { }
