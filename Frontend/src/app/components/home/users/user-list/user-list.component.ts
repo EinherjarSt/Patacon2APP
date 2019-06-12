@@ -55,7 +55,9 @@ export class UserListComponent implements OnInit {
   openAddDialog(){
     let dialogRef = this.dialog.open(AddUserComponent, {
       width: '450px',
-      data: 'This text is passed into the dialog'
+      data: 'This text is passed into the dialog',
+      disableClose: true,
+      autoFocus: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
@@ -71,6 +73,8 @@ export class UserListComponent implements OnInit {
     const dialogRef = this.dialog.open(EditUserComponent, {
       data: run,
       width: '500px',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {

@@ -6,7 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./general-summary.component.css']
 })
 export class GeneralSummaryComponent implements OnInit {
-
+  
+  /*
+  successfulDispatch
+  canceledDispatch
+  messagesSent
+*/
   displayedColumns: string[] =  ['id', 'producer', '', 'symbol'];
 
   constructor() { }

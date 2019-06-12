@@ -6,6 +6,7 @@ import { ProducersService } from 'src/app/services/producers.service';
 import { UpdateProducerComponent } from '../update-producer/update-producer.component';
 import { UpdateLocationComponent } from '../update-location/update-location.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-producer-list',
@@ -19,13 +20,15 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ])]
 })
 export class ProducerListComponent implements OnInit {
-
+  private readonly notifier: NotifierService;
   producers: Producer[];
   displayedColumns: string[] = ["name", "rut", "details", "delete"];
   dataSource: MatTableDataSource<Producer>;
   expandedElement: Producer | null;
 
-  constructor(private producerService: ProducersService, private dialog: MatDialog) { }
+  constructor(private producerService: ProducersService, private dialog: MatDialog, notifierService: NotifierService) { 
+    this.notifier = notifierService;
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -55,11 +58,17 @@ export class ProducerListComponent implements OnInit {
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProducerComponent, {
       width: '600px',
-      height: '95%'
+      height: '95%',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if(result === "Confirm") this.refreshTable();
+      if(result === "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Productor agregado exitosamente');
+
+      } 
       console.log('The dialog was closed');
     });
   }
@@ -68,6 +77,8 @@ export class ProducerListComponent implements OnInit {
     const dialogRef = this.dialog.open(UpdateProducerComponent, {
       data: rut,
       width: '500px',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {
@@ -79,6 +90,8 @@ export class ProducerListComponent implements OnInit {
     const dialogRef = this.dialog.open(UpdateLocationComponent, {
       data: id_location,
       width: '500px',
+      disableClose: true,
+      autoFocus: true
     });
 
     dialogRef.afterClosed().subscribe(result => {

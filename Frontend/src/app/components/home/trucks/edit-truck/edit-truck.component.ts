@@ -195,7 +195,6 @@ export class EditTruckComponent implements OnInit {
       next: result => {
         console.log(result);
         console.log(truckData);
-        this.openSuccessMessage();
         this.dialogRef.close('Confirm');
       },
       error: result => {console.log(result)}
@@ -206,11 +205,6 @@ export class EditTruckComponent implements OnInit {
     this.dialogRef.close('Cancel');
   }
 
-  openSuccessMessage() {
-    this.snackBar.open("El camion ha sido editado.", "Cerrar", {
-      duration: 2000, verticalPosition: 'bottom'
-    });
-  }
 
   public hasError = (controlName: string, errorName: string) => {
     return this.editTruckForm.get(controlName).hasError(errorName);
