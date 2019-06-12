@@ -5,6 +5,7 @@ import { GpsService } from 'src/app/services/gps.service';
 import { AddGpsComponent } from '../add-gps/add-gps.component';
 import { EditGpsComponent } from '../edit-gps/edit-gps.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-gps-list',
@@ -12,13 +13,15 @@ import { ConfirmationDialogComponent } from 'src/app/components/core/confirmatio
   styleUrls: ['./gps-list.component.css']
 })
 export class GpsListComponent implements OnInit {
-
+  private readonly notifier: NotifierService;
   gps: Gps[];
   displayedColumns: string[] = ["imei", "number", "brand", "model", "edit", "delete"];
   dialogResult ="";
   dataSource = new MatTableDataSource<Gps>();
 
-  constructor(private gpsService: GpsService, private dialog: MatDialog) { }
+  constructor(private gpsService: GpsService, private dialog: MatDialog, notifierService: NotifierService) { 
+    this.notifier = notifierService;
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -48,10 +51,16 @@ export class GpsListComponent implements OnInit {
   openAddDialog(){
     let dialogRef = this.dialog.open(AddGpsComponent, {
       width: '450px',
-      data: 'This text is passed into the dialog'
+      data: 'This text is passed into the dialog',
+      disableClose: true,
+      autoFocus: true
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result == 'Confirm') this.refreshTable();
+      if(result == 'Confirm'){
+        this.refreshTable();
+        this.notifier.notify('info', 'GPS agregado exitosamente');
+
+      } 
       this.dialogResult = result;
     })
   }
@@ -60,9 +69,16 @@ export class GpsListComponent implements OnInit {
     let dialogRef = this.dialog.open(EditGpsComponent, {
       width: '450px',
       data: {imei},
+      disableClose: true,
+      autoFocus: true
+
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.refreshTable();
+      if (result == 'Confirm'){
+        this.refreshTable();
+        this.notifier.notify('info', 'GPS editado exitosamente');
+
+      } 
       this.dialogResult = result;
     })
   }
@@ -71,7 +87,11 @@ export class GpsListComponent implements OnInit {
     this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
       if(confirmation.confirmed) {
         this.gpsService.deleteGPS(imei).subscribe({
-          next: result => { this.refreshTable(); },
+          next: result => {
+             this.refreshTable(); 
+             this.notifier.notify('info', 'GPS eliminado exitosamente');
+
+            },
           error: result => {}
         }); 
       }
@@ -90,6 +110,9 @@ export class GpsListComponent implements OnInit {
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+
+
+   
     return dialogConfig;
   }
 
