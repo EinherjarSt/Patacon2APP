@@ -38,8 +38,7 @@
                                                             aria-label="Chofer" matInput>
 
                                                         <mat-option
-                                                            *ngFor="let driverOption of driverFilteredOptions | async"
-                                                            [value]="driverOption">
+                                                            >
                                                             {{driverToDisplayableString(driverOption)}}
                                                         </mat-option>
                                                     </mat-form-field>
@@ -52,7 +51,7 @@
                                 </div>
                                 <div class="col-lg-3 col-md-12 col-sm-12">
                                     <mat-dialog-actions>
-                                        <button mat-raised-button (click)="filterStatistics()">Consultar</button>
+                                        <button mat-raised-button>Consultar</button>
                                     </mat-dialog-actions>
                                 </div>
 
