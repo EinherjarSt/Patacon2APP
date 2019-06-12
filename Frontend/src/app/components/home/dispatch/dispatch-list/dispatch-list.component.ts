@@ -185,7 +185,7 @@ export class DispatchListComponent implements OnInit {
 
             let idCypher = this.producerViewService.encryptNumber(info.dispatchId + "");
             //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
-            let link = env.api.concat("/#/producer/" + idCypher);
+            let link = env.prod.concat("/#/producer/" + idCypher);
             let url = "\n"+link;
             message += url;
             this.smsService.sendMessage(info.producerPhoneNumber, message).subscribe(res => {
