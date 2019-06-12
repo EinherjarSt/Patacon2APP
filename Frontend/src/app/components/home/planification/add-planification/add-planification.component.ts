@@ -159,11 +159,11 @@ export class AddPlanificationComponent implements OnInit {
       //EDITAR
       this.planificationService.updatePlanification(this.registerPlanificationForm.value,this.data.planification_id+"").subscribe(
       response =>{ 
-        this.notifier.notify('info', 'Planificación Agregada con éxito');
+        this.notifier.notify('info', 'Planificación Editada con éxito');
         console.log('Success', response)
       }, 
       error => {
-        this.notifier.notify('error', 'Error al ingresar la planificación');
+        this.notifier.notify('error', 'Error al editar la planificación');
         console.error('Error', error)
       });
     }
@@ -171,11 +171,11 @@ export class AddPlanificationComponent implements OnInit {
       //AGREGAR
       this.planificationService.createPlanification(this.registerPlanificationForm.value).subscribe(
         response =>{ 
-          this.notifier.notify('info', 'Planificación Editada con éxito');
+          this.notifier.notify('info', 'Planificación Agregada con éxito');
           console.log('Success', response)
         }, 
         error => {
-          this.notifier.notify('error', 'Error al editar la planificación');
+          this.notifier.notify('error', 'Error al agregar la planificación');
           console.error('Error', error)
         });
 
