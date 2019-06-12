@@ -84,7 +84,7 @@ import { UpdateLocationComponent } from './producers/update-location/update-loca
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    UpdateLocationComponent
+    UpdateLocationComponent,
     RoutesComponent,
     StatisticsComponent
   ],

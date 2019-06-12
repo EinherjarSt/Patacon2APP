@@ -106,7 +106,6 @@ export class AddProducerComponent implements OnInit {
   }
 
   public hasError = (controlName: string, errorName: string) => {
-    console.log(this.producerForm);
     return this.producerForm.get(controlName).hasError(errorName);
   };
 
@@ -122,7 +121,6 @@ export class AddProducerComponent implements OnInit {
 
   public hasErrorLocation = (index: number, controlName: string, errorName: string) => {
     let formArray = this.producerForm.get("locations") as FormArray;
-    console.log(formArray.at(index))
     return formArray.at(index).get(controlName).hasError(errorName);
   };
 

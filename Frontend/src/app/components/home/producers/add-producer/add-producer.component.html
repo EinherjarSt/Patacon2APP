@@ -24,6 +24,7 @@
                             <input matInput formControlName="rut">
                             <mat-error *ngIf="hasError('rut', 'required')">Debe ingresar el rut</mat-error>
                             <mat-error *ngIf="hasError('rut', 'pattern')">Debe ingresar un rut válido</mat-error>
+                            <mat-error *ngIf="hasError('rut', 'verificator')">El digito verificador no corresponde al rut ingresado</mat-error>
                         </mat-form-field>
                     </div>
                 </div>
@@ -61,6 +62,7 @@
                         <mat-form-field appearance="standard" class="input">
                             <mat-label>Teléfono</mat-label>
                             <input matInput formControlName="managerPhoneNumber">
+                            <mat-error *ngIf="hasErrorLocation(i,'managerPhoneNumber', 'pattern')">El formato del número no es válido</mat-error>
                         </mat-form-field>
 
                         <div class="map-content">
