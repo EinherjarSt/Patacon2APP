@@ -58,16 +58,9 @@ export class AddDriverComponent implements OnInit {
       response => {
         console.log("Success", response);
         this.onCloseConfirm();
-        this.openSuccessMessage();
       },
       error => console.error("Error", error)
     );
-  }
-
-  openSuccessMessage() {
-    this.snackBar.open("El chofer ha sido registrado.", "Cerrar", {
-      duration: 5000
-    });
   }
 
   checkRun() {
