@@ -100,7 +100,9 @@ function outOfRoute() {
             const location = element.location;
             const route = element.route;
             const dispatchInfo = element.dispatch;
+            console.log("outOfRoute antes de if")
             if (!location || location.signal === 'L' || dispatchInfo.status !== STATUS.TRAVELING_TO_PATACON) continue;
+            console.log("outOfRoute antes de if")
 
             googleMapsClient.directions({
                 origin: route.start_position,
@@ -154,7 +156,9 @@ function geofence() {
             const location = element.location;
             const route = element.route;
             const dispatchInfo = element.dispatch;
+            console.log("geofence antes de if")
             if (!location || location.signal === 'L') continue;
+            console.log("geofence despues de if")
 
             let radius = 1;
             let options = {
