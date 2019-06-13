@@ -67,6 +67,7 @@ export class ProducerComponent implements OnInit , OnDestroy{
     this.gpsTimer = timer(3000, 15000).subscribe(() => {
       this.gpsService.getPositionOf([this.info.truckGPSImei]).subscribe(gpsPos =>{
         this.gpsPosition = gpsPos;
+        console.log(this.gpsPosition);
       });
     });
   }
