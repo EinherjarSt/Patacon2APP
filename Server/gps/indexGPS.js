@@ -68,6 +68,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
         console.log(`connection \with device ${device.uid} is close`);
         delete GPS_DATA[device.uid];
         if (!Object.hasOwnProperty(GPS_DATA)) {
+            console.log("CLEAR INTERVALS_______________________________________________________")
             clearInterval(geofenceTimer);
             geofenceTimer = undefined;
             clearInterval(outOfRouteTimer);
