@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/model-classes/user';
-import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatSort, MatPaginator, MatDialogConfig } from '@angular/material';
 import { UsersService } from 'src/app/services/users.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
-
+import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-user-list',
@@ -13,12 +14,15 @@ import { EditUserComponent } from '../edit-user/edit-user.component';
 })
 export class UserListComponent implements OnInit {
 
+  private readonly notifier: NotifierService;
   users: User[];
-  displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "disabled"];
+  displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "delete"];
   dataSource: MatTableDataSource<User>;
   dialogResult = "";
 
-  constructor(private usersService: UsersService, private dialog: MatDialog) { }
+  constructor(private usersService: UsersService, private dialog: MatDialog, notifierService: NotifierService) {
+    this.notifier = notifierService;
+   }
 
 
   @ViewChild(MatSort) sort: MatSort;
@@ -48,15 +52,20 @@ export class UserListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog(){
+  openAddDialog(){
     let dialogRef = this.dialog.open(AddUserComponent, {
       width: '450px',
-      data: 'This text is passed into the dialog'
+      data: 'This text is passed into the dialog',
+      disableClose: true,
+      autoFocus: true
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog closed: ${result}');
+      console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
-      this.ngOnInit();
+      if (result == 'Confirm'){
+        this.refreshTable();
+        this.notifier.notify('info', 'Usuario agregado exitosamente');
+      } 
     })
   }
 
@@ -64,13 +73,19 @@ export class UserListComponent implements OnInit {
     const dialogRef = this.dialog.open(EditUserComponent, {
       data: run,
       width: '500px',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.ngOnInit();
+      if (result == 'Confirm'){
+        this.refreshTable();
+        this.notifier.notify('info', 'Usuario editado exitosamente');
+      } 
     });
   }
+
   color = 'accent';
   checked = true;
   onChange(userData){
@@ -87,8 +102,38 @@ export class UserListComponent implements OnInit {
     console.log(userData.run, userData.disabled);
   }
 
+  refreshTable() {
+    this.getUsers();
+  }
 
+  deleteUser(run: string) {
+    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+      if(confirmation.confirmed) {
+        this.usersService.removeUser(run).subscribe({
+          next: result => { 
+            this.refreshTable(); 
+            this.notifier.notify('info', 'Usuario eliminado exitosamente');
+          },
+          error: result => {}
+        }); 
+      }
+    });
+  }
 
-  
+  openDeletionConfirmationDialog() {
+    
+    var deletionDialogConfig = this.getDialogConfig();
+    deletionDialogConfig.data = { message: '¿Desea eliminar este usuario?'};
+    return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
+  }
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    return dialogConfig;
+  }
+
 
 }

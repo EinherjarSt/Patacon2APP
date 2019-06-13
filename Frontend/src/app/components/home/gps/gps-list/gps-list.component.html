@@ -1,12 +1,11 @@
-<h2 id="title">Gps</h2>
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
   <div fxLayout="row" fxFlex="50" align-items>
     <div fxFlex="70">
         <button mat-raised-button (click)="openAddDialog()"> 
-          <mat-icon>add</mat-icon> Agregar Gps
+          <mat-icon>add</mat-icon> Agregar gps
         </button>
     </div>
-    <div fxFlex="30">
+    <div fxFlex="30" class="container">
       <mat-form-field >
           <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
       </mat-form-field>

@@ -8,8 +8,8 @@
     "start": "nodemon ./Server/app.js",
     "start-server": "pm2 start ./Server/app.js --name patacon-backend",
     "stop-server": "pm2 stop patacon-backend",
-    "restart-server": "pm2 restart patacon-backend",
-    "delete-server": "pm2 delete patacon-backend"
+    "delete-server": "pm2 delete patacon-backend",
+    "restart-server": "npm run delete-server && npm run start-server"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/lgsilvestre/PataconAPP_G2#readme",
   "dependencies": {
+    "@google/maps": "^0.5.5",
+    "@mapbox/polyline": "^1.1.0",
+    "@turf/turf": "^5.1.6",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -32,6 +35,7 @@
     "mysql": "github:mysqljs/mysql",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "twilio": "^3.31.0"
   }
 }

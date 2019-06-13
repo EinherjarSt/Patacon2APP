@@ -10,6 +10,20 @@ app.get('/event/getall', passport.authenticate('jwt', {
 }), (req, res) => {
 
     LastEvent.getAllEvents((err, event) =>{
+        if (err){
+            console.log(err);
+            return res.status(400).json(err);
+        }
+        return res.json(event);
+    });
+})
+
+app.get('/eventos/:dispatchId', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+
+
+    LastEvent.getAllEventsOfDispatch(req.params.dispatchId, (err, event) =>{
         console.log(err);
         if (err){
             return res.status(400).json(err);
@@ -22,6 +36,7 @@ app.get('/event/getall', passport.authenticate('jwt', {
 app.get('/event/get/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
+
     let id_event = req.params.id;
     LastEvent.getEvent(id_event, (err, event) => {
         if (err) {

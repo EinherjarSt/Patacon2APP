@@ -1,82 +1,109 @@
 <div>
-    <h2 mat-dialog-title>Agregar Camión</h2>
-    <hr />
-    <mat-dialog-content>
-      <form [formGroup]="addTruckForm">
-        <div class="container">
-          <mat-form-field appearance="standard">
-            <mat-label>Patente</mat-label>
-            <input
-              matInput
-              placeholder=""
-              formControlName="licencePlate"
-            />
-            <mat-hint></mat-hint>
-          </mat-form-field>
-        </div>
-  
-        <div class="container">
-          <mat-form-field appearance="standard">
-            <mat-label>Marca</mat-label>
-            <input matInput placeholder="" formControlName="brand" />
-            <mat-hint></mat-hint>
-          </mat-form-field>
-        </div>
-  
-        <div class="container">
-          <mat-form-field appearance="standard">
-            <mat-label>Model</mat-label>
-            <input matInput placeholder="" formControlName="model" />
-            <mat-hint></mat-hint>
-          </mat-form-field>
-        </div>
-  
-        <div class="container">
-          <mat-form-field appearance="standard">
-            <mat-label>Año</mat-label>
-            <input matInput placeholder="" formControlName="year" />
-            <mat-hint></mat-hint>
-          </mat-form-field>
-        </div>
-  
-        <div class="container">
-          <mat-form-field appearance="standard">
-            <mat-label>Carga Máxima</mat-label>
-            <input
-              matInput
-              placeholder=""
-              formControlName="maxLoad"
-            />
-            <mat-hint></mat-hint>
-          </mat-form-field>
-        </div>
-        <div class="container">
-            <mat-form-field appearance="standard">
-                <mat-label>Dueño</mat-label>
-                <input
-                matInput
-                placeholder=""
-                formControlName="owner"
-                />
-            <mat-hint></mat-hint>
-            </mat-form-field>
-        </div>
-        <div class="container">
-          <mat-form-field appearance="standard">
-            <mat-label>Color</mat-label>
-            <input
-              matInput
-              placeholder=""
-              formControlName="color"
-            />
-            <mat-hint></mat-hint>
-          </mat-form-field>
-        </div>
-      </form>
-    </mat-dialog-content>
-    <hr />
-    <mat-dialog-actions>
-      <button mat-raised-button (click)="onCloseConfirm()">Agregar</button>
-      <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
-    </mat-dialog-actions>
+  <h2 mat-dialog-title>Agregar Camión</h2>
+  <hr>
+  <mat-dialog-content>
+    <form [formGroup]="addTruckForm">
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Patente</mat-label>
+
+          <input matInput placeholder="" formControlName="licencePlate" [value]="input.value.toUpperCase()" #input
+            maxlength="13" />
+          <mat-error *ngIf="hasError('licencePlate', 'required')">Debe ingresar la patente</mat-error>
+
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Marca</mat-label>
+          <input matInput placeholder="" formControlName="brand" maxlength="50" />
+          <mat-error *ngIf="hasError('brand', 'required')">Debe ingresar la marca</mat-error>
+          <mat-hint></mat-hint>
+
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Model</mat-label>
+          <mat-error *ngIf="hasError('model', 'required')">Debe ingresar el modelo</mat-error>
+          <input matInput placeholder="" formControlName="model" maxlength="50" />
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field class="example-full-width">
+          <input formControlName="ref_driver" type="text" placeholder="Asigne un chofer" aria-label="Number" matInput
+            [matAutocomplete]="driverAuto">
+          <mat-autocomplete [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
+            <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
+              {{driverToDisplayableString(driverOption)}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="addTruckForm.controls['ref_driver'].hasError('incorrect')">
+            Seleccione una opción válida del listado
+          </mat-error>
+
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field class="example-full-width">
+          <input formControlName="ref_gps" type="text" placeholder="Asigne un gps" aria-label="Number" matInput
+            [matAutocomplete]="gpsAuto">
+          <mat-autocomplete [displayWith]="gpsToDisplayableString" #gpsAuto="matAutocomplete">
+            <mat-option *ngFor="let gpsOption of gpsFilteredOptions | async" [value]="gpsOption">
+              {{gpsToDisplayableString(gpsOption)}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="addTruckForm.controls['ref_gps'].hasError('incorrect')">
+            Seleccione una opción válida del listado
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Año</mat-label>
+          <input matInput placeholder="" formControlName="year" maxlength="4" />
+          <mat-error *ngIf="hasError('year', 'required')">Debe ingresar el año</mat-error>
+          <mat-error *ngIf="hasError('year', 'pattern')">Ingrese un año valido</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Carga Máxima</mat-label>
+          <input matInput placeholder="" formControlName="maxLoad" maxlength="15" />
+          <mat-error *ngIf="hasError('maxLoad', 'required')">Debe ingresar el valor de carga máxima</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Dueño</mat-label>
+          <input matInput placeholder="" formControlName="owner" maxlength="50" />
+          <mat-error *ngIf="hasError('owner', 'required')">Debe ingresar el nombre del propietario</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="container">
+        <mat-form-field appearance="standard">
+          <mat-label>Color</mat-label>
+          <input matInput placeholder="" formControlName="color" maxlength="15">
+          <mat-error *ngIf="hasError('color', 'required')">Debe ingresar el color</mat-error>
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <hr />
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onFormSubmit()" [disabled]="addTruckForm.invalid">Agregar</button>
+    <button mat-raised-button (click)="onCloseCancel()">Cancelar</button>
+  </mat-dialog-actions>
 </div>

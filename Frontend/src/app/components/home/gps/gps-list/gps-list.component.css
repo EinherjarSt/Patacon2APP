@@ -8,9 +8,18 @@ table {
   margin-bottom: 15px;
   }
   .list-container{
+    padding-top: 5%;
   padding-left: 5%;
   padding-right: 5%;
   }
   th.mat-sort-header-sorted {
     color: black;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  mat-form-field{
+    padding: -10px;
   }

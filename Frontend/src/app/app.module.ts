@@ -15,6 +15,53 @@ import {environment as env} from '@env/environment';
 import { MatPaginatorIntl } from '@angular/material';
 import { HttpConfigInterceptor } from './interceptor/httpconfig.interceptor';
 
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+
+
+/**
+ * Custom angular notifier options
+ */
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'middle',
+			distance: 12
+		},
+		vertical: {
+			position: 'top',
+			distance: 110,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
+
 export function jwtTokenGetter() {
   return localStorage.getItem('access_token');
 }
@@ -37,7 +84,8 @@ export function jwtTokenGetter() {
         blacklistedRoutes: [`${env.api}/login`]
       }
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },

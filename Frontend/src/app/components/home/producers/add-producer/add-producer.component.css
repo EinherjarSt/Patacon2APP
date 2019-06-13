@@ -4,12 +4,36 @@
     width: 100%;
 }
 
+.locations{
+    margin-bottom: 10px;
+}
+
+.formulario{
+    height: 100%;
+}
+
+.item-test{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .input{
     width: 100%;
+    margin-top: -13px;
 }
 
 .button{
-    background-color: rgb(128, 0, 0);
+    margin-right: 5px;
+}
+
+.location-button{
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    width: 32px;
+    height:32px;
 }
 
 .register-button{
@@ -19,11 +43,12 @@
 
 .input-div{
     width:100%;
+    height: 100%;
 }
 
 .action-buttons{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
 .button-div{
@@ -36,4 +61,13 @@
 
 table{
     width: 100%;
+}
+
+.map-content{
+    height: 300px;
+    width: 100%;
+}
+
+agm-map {
+    height: 300px;
 }

@@ -2,17 +2,106 @@
   <h2 mat-dialog-title>Detalles</h2>
   <hr>
   <mat-dialog-content>
-      <mat-list-item> <b>ID:</b> {{data.code}} </mat-list-item>
-      <mat-list-item> <b>Productor:</b> {{data.producer}} </mat-list-item>
-      <mat-list-item> <b>Fecha:</b> {{data.date}} </mat-list-item>
-      <mat-list-item> <b>Ubicación:</b> {{data.location}} </mat-list-item>
-      <mat-list-item> <b>Total kg:</b> {{data.kilos}} </mat-list-item>
-      <mat-list-item> <b>Tipo envase:</b> {{data.container}} </mat-list-item>
-      <mat-list-item> <b>Tipo cosecha:</b> {{data.harvest}} </mat-list-item>
-      <mat-list-item> <b>Variedad:</b> {{data.variety}} </mat-list-item>
-      <mat-list-item> <b>Calidad:</b> {{data.quality}} </mat-list-item>
-      <mat-list-item> <b>Transporte:</b> {{data.freight}} </mat-list-item>
-      <mat-list-item> <b>Observaciones:</b> {{data.comment}}</mat-list-item>
+      <mat-list-item> 
+        <div fxLayout="row" class="item">
+            <div fxFlex="40">
+              <b>Productor:</b>
+            </div>
+            <div class="desc">
+              {{data.ref_producer.name}} 
+            </div>
+        </div>
+      </mat-list-item>
+      <mat-list-item>
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Fecha:</b>
+              </div>
+              <div class="desc">
+                {{data.date}} 
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item> 
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Ubicación:</b>
+              </div>
+              <div class="desc">
+                {{data.ref_location.address}}
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item> 
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Total kg:</b>
+              </div>
+              <div class="desc">
+                {{data.kilograms}}
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item>
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Tipo envase:</b>
+              </div>
+              <div class="desc">
+                {{data.containerType}} 
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item>
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Tipo cosecha:</b>
+              </div>
+              <div class="desc">
+                {{data.harvestingType}}
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item> 
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Variedad:</b>
+              </div>
+              <div class="desc">
+                {{data.grapeVariety}}
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item> 
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Calidad:</b>
+              </div>
+              <div class="desc">
+                {{data.quality}}
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item> 
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Transporte:</b>
+              </div>
+              <div class="desc">
+                {{data.freight}}
+              </div>
+          </div>
+      </mat-list-item>
+      <mat-list-item> 
+          <div fxLayout="row" class="item">
+              <div fxFlex="40">
+                <b>Observaciones:</b>
+              </div>
+              <div class="desc">
+                {{data.comment}}
+              </div>
+          </div>
+      </mat-list-item>
   </mat-dialog-content>
   <hr>
   <mat-dialog-actions >

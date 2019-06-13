@@ -20,4 +20,16 @@ td.mat-cell {
 }
 
 
+.custom-mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  
+.custom-mat-header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
   

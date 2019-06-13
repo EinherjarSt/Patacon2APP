@@ -24,7 +24,7 @@ IN `_owner` text,
 IN `_color` text
 ) BEGIN
   UPDATE `truck` SET 
-     `licencePlate` = _licencePlate,
+     -- `licencePlate` = _licencePlate,
      `brand` = _brand,
      `model` = _model,
      `year` =  _year,
@@ -54,3 +54,13 @@ IN `_licencePlate` VARCHAR(13),
 END//
 
 DELIMITER ;
+
+CREATE TABLE insights_data(
+     refDispatch INT,
+     stoppedTime INT,
+     unloadYardTime INT,
+     textMessagesSent INT,
+     lastMessageSentDate DATETIME,
+     FOREIGN KEY (refDispatch) REFERENCES dispatch(id_dispatch)
+);
+

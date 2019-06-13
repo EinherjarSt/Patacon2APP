@@ -1,0 +1,87 @@
+<div fxFlex=column class="my-form-container">
+  <h2 mat-dialog-title>{{title}}</h2>
+  <hr>
+  <mat-dialog-content>
+
+    <form [formGroup]="detailsForm" class="example-form">
+      <input readonly formControlName="dispatchId" type="hidden">
+      <!----------------- Misc  -------------->
+
+      <h4 class= "mat-subheading-1">Información general</h4>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Estado</mat-label>
+        <input readonly ng-disabled="true" formControlName="dispatchStatus" matInput placeholder="">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Tipo de contenedor</mat-label>
+        <input readonly formControlName="containerType" matInput placeholder="" >
+      </mat-form-field>
+
+      
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Kilos de uvas transportados</mat-label>
+        <input readonly formControlName="shippedKilograms" matInput placeholder="" >
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Fecha y hora de ida</mat-label>
+        <input readonly formControlName="arrivalAtPataconDatetime" matInput placeholder="" >
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Fecha y hora de ida</mat-label>
+        <input readonly formControlName="arrivalAtVineyardDatetime" matInput placeholder="" >
+      </mat-form-field>
+
+
+
+      <!-----------------DESTINY ----------------->
+      <h4 class= "mat-subheading-1">Destino</h4>
+        
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Productor</mat-label>
+        <input readonly formControlName="producerName" matInput placeholder="">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Dirección</mat-label>
+        <input readonly formControlName="producerLocation" matInput placeholder="">
+      </mat-form-field>
+
+      <!------------------ Driver and truck  ------------------>
+
+      <h4 class= "mat-subheading-1">Camión y conductor</h4> 
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Patente del camión</mat-label>
+        <input readonly formControlName="truckLicensePlate" matInput placeholder="">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Rut del chofer</mat-label>
+        <input readonly formControlName="driverRun" matInput placeholder="">
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Nombre chofer</mat-label>
+        <input readonly formControlName="driverName" matInput placeholder="">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="standard">
+        <mat-label>Número de contacto de chofer</mat-label>
+        <input readonly formControlName="driverPhoneNumber" matInput placeholder="">
+      </mat-form-field>
+      
+
+    </form>
+
+  </mat-dialog-content>
+  <hr>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="onReturn()">Volver</button>
+  </mat-dialog-actions>
+
+</div>

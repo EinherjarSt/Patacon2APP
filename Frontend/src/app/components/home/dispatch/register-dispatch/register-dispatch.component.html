@@ -6,6 +6,25 @@
     <form [formGroup]="registerDispatchForm" class="example-form">
       <input formControlName="id" type="hidden">
       <input formControlName="planificationReference" type="hidden">
+      
+
+      <!------------------ Truck  ------------------>
+
+      <mat-form-field class="example-full-width">
+        <input formControlName="truckReference" type="text" placeholder="Asigne un camión un camión" aria-label="Number" matInput
+          [matAutocomplete]="truckAuto">
+        <mat-autocomplete (optionSelected)="setDriverAutocompleteValue()" [displayWith]="truckToDisplayableString" #truckAuto="matAutocomplete">
+          <mat-option *ngFor="let truckOption of truckFilteredOptions | async" [value]="truckOption">
+            {{truckToDisplayableString(truckOption)}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="registerDispatchForm.controls['truckReference'].hasError('incorrect')">
+          Seleccione una opción válida del listado
+        </mat-error>
+
+      </mat-form-field>
+
+
       <!----------------- Driver  -------------->
 
       <mat-form-field class="example-full-width">
@@ -18,22 +37,6 @@
         </mat-autocomplete>
 
         <mat-error *ngIf="registerDispatchForm.controls['driverReference'].hasError('incorrect')">
-          Seleccione una opción válida del listado
-        </mat-error>
-
-      </mat-form-field>
-
-      <!------------------ Truck  ------------------>
-
-      <mat-form-field class="example-full-width">
-        <input formControlName="truckReference" type="text" placeholder="Asigne un camión un camión" aria-label="Number" matInput
-          [matAutocomplete]="truckAuto">
-        <mat-autocomplete [displayWith]="truckToDisplayableString" #truckAuto="matAutocomplete">
-          <mat-option *ngFor="let truckOption of truckFilteredOptions | async" [value]="truckOption">
-            {{truckToDisplayableString(truckOption)}}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-error *ngIf="registerDispatchForm.controls['truckReference'].hasError('incorrect')">
           Seleccione una opción válida del listado
         </mat-error>
 
@@ -99,16 +102,6 @@
         </mat-error>
       </mat-form-field>
 
-      <!------------------- Status ------------------>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Estado</mat-label>
-        <mat-select formControlName="status">
-          <mat-option *ngFor="let statusOption of statusOptions" [value]="statusOption">
-            {{statusOption}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
 
       <!-- ------------------ Container ------------------>
       <div>

@@ -51,15 +51,15 @@ export class EditDispatchComponent implements OnInit {
   truckOptions: Truck[];
   truckFilteredOptions: Observable<Truck[]>;
 
-  statusOptions: string[] = ['En tránsito a viña', 'Cargando', 'En patio',
-    'En tránsito a viña', 'Detenido', 'Terminado'];
+  statusOptions: string[] = ['En camino a viña', 'Detenido camino a viña', 'Cargando', 'En camino a Patacon',
+    'Detenido camino a Patacon', 'En patio'];
 
 
   createForm() {
     this.editDispatchForm = this._formBuilder.group({
       id: [],
-      driverReference: ['', [Validators.required,AutocompleteValidOption]],
-      truckReference: ['', [Validators.required,AutocompleteValidOption]],
+      driverReference: ['', [Validators.required, AutocompleteValidOption]],
+      truckReference: ['', [Validators.required, AutocompleteValidOption]],
       planificationReference: [],
       shippedKilograms: ['', [Validators.required, Validators.min(1), Validators.pattern('([1-9][0-9]*)$')]],
       arrivalAtVineyardDate: ['', [Validators.required]],
@@ -157,10 +157,10 @@ export class EditDispatchComponent implements OnInit {
 
 
   truckToDisplayableString(truck: Truck): string {
-    return truck ?  truck.licencePlate + ' / ' + truck.maxLoad + 'Kg': '';
+    return truck ? truck.licencePlate + ' / ' + truck.maxLoad + 'Kg' : '';
   }
 
-  
+
 
   public hasError = (controlName: string, errorName: string) => {
     return this.editDispatchForm.get(controlName).hasError(errorName);
@@ -214,16 +214,16 @@ export class EditDispatchComponent implements OnInit {
   }
 
   setDriverAutocompleteValue() {
-    this.editDispatchForm.patchValue({driverReference: this.findDriverOption(this.dispatchData.driverReference)})
+    this.editDispatchForm.patchValue({ driverReference: this.findDriverOption(this.dispatchData.driverReference) })
   }
 
-  
+
   setTruckAutocompleteValue() {
-    this.editDispatchForm.patchValue({truckReference: this.findTruckOption(this.dispatchData.truckReference)})
+    this.editDispatchForm.patchValue({ truckReference: this.findTruckOption(this.dispatchData.truckReference) })
   }
 
-  findTruckOption(truckId: string) {
-    return this.truckOptions.find(truckOption => truckOption.licencePlate.localeCompare(truckId) == 0)
+  findTruckOption(truckId) {
+    return this.truckOptions.find(truckOption => truckOption.id_truck == truckId);
   }
 
   findDriverOption(driverId: string) {
@@ -255,7 +255,7 @@ export class EditDispatchComponent implements OnInit {
       duration: 2000,
     });
   }
-  
+
   onCloseSubmit() {
     this.dialogRef.close({ confirmed: true });
 

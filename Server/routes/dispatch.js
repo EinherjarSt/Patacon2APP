@@ -4,11 +4,32 @@ const passport = require("passport");
 const Dispatch = require("../models/dispatch");
 const bcrypt = require('bcrypt');
 
-app.get('/despachos', passport.authenticate('jwt', {
+app.get('/despachos/:planification_id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
+    Dispatch.getDispatches(req.params.planification_id, (err, dispatches) =>{
+        if (err){
+            console.log(err);
+            return res.status(400).json(err);
+        }
+        return res.json(dispatches);
+    });
+})
 
-    Dispatch.getDispatches((err, dispatches) =>{
+app.get('/despachos_completos', (req, res) => {
+
+    Dispatch.getDispatchesWithFullInfo((err, dispatches) =>{
+        if (err){
+            console.log(err);
+            return res.status(400).json(err);
+        }
+        return res.json(dispatches);
+    });
+})
+
+app.get('/despachos_completos/:id', (req, res) => {
+
+    Dispatch.getDispatchWithFullInfo(req.params.id, (err, dispatches) =>{
         console.log(err);
         if (err){
             return res.status(400).json(err);
@@ -17,13 +38,15 @@ app.get('/despachos', passport.authenticate('jwt', {
     });
 })
 
+
+
 app.get('/despachos/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
 
     Dispatch.getDispatchById(req.params.id, (err, dispatch) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(dispatch);
@@ -34,7 +57,6 @@ app.get('/despachos/:id', passport.authenticate('jwt', {
 app.put('/despachos/registrar', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(req.body);
     let body = req.body;
         
 
@@ -55,16 +77,12 @@ app.put('/despachos/registrar', passport.authenticate('jwt', {
 app.put('/despachos/editar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("request");
-    console.log(req.body);
     let body = req.body;
         
 
     let dispatch = new Dispatch(req.params.id, body.driverReference, body.truckReference, body.planificationReference, 
         body.shippedKilograms, body.arrivalAtPataconDatetime, body.arrivalAtVineyardDatetime,
         body.containerType, body.status);
-    console.log("dispatch");
-    console.log(dispatch);
     Dispatch.editDispatch(dispatch, (err, result) => {
         if (err) {
             return res.status(400).json(err);
@@ -76,11 +94,41 @@ app.put('/despachos/editar/:id', passport.authenticate('jwt', {
     
 })
 
+
+
+app.put('/despachos/empezar/:idDispatch', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    Dispatch.startDispatch(req.params.idDispatch, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Dispatch is terminated."
+        });
+    });
+    
+})
+
+app.put('/despachos/terminar/:id', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+
+    let body = req.body;
+    Dispatch.terminateDispatch(req.params.id, body.endStatus, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Dispatch is terminated."
+        });
+    });
+    
+})
+
 app.delete('/despachos/eliminar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("ACCAAAA");
-    console.log(req);
     Dispatch.deleteDispatch(req.params.id, (err, result) => {
         if (err) {
             return res.status(400).json(err);

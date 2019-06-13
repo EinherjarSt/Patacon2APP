@@ -1,12 +1,14 @@
 export class Truck {
+    id_truck: string;
     licencePlate: string;
+    ref_driver: string;
     ref_gps: string;
     brand: string;
     model: string;
     year: string;
     maxLoad: string;
     owner: string;
-    color: string
+    color: string;
     disabled: boolean;
-    available: boolean
+    available: boolean;
 }

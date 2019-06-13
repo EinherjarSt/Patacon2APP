@@ -75,7 +75,6 @@ app.post('/user/disable', passport.authenticate('jwt', {
 }), (req, res) => {
     console.log("user/disable");
     console.log(req.body);+
-    console.log("borrar");
     console.log(req.body.status);
     let body = req.body;
     let disabled = body.disabled === 'true' ? true : false;
@@ -115,5 +114,18 @@ app.get('/user/getall', passport.authenticate('jwt', {
     });
 })
 
+app.post('/user/remove', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let body = req.body;
+    User.removeUser(body.run, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "User has been removed"
+        });
+    });
+})
 
 module.exports = app;

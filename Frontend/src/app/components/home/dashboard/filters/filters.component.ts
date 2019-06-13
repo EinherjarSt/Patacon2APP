@@ -1,8 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { Filter } from 'src/app/model-classes/filter';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FilterService } from 'src/app/services/filter.service';
+import { DispatchesService } from '../../../../services/dispatches.service';
+import { MatDialog, MatDialogConfig } from "@angular/material";
+import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.component';
+
 
 @Component({
   selector: 'app-filters',
@@ -11,30 +15,30 @@ import { FilterService } from 'src/app/services/filter.service';
 })
 export class FiltersComponent implements OnInit {
 
-  displayedColumns: string[] = ["select","truck","state","origin","destination","details"];
+  displayedColumns: string[] = ["select","truck","state","destination","details"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
+  selectedDispatches : Filter[] = this.selection.selected;
+  isDataLoading: boolean;
 
-  constructor(private filterService: FilterService) { }
+  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
   @ViewChild(MatSort) sort: MatSort;
+  @Output() selectedChangeEvent = new EventEmitter<Filter[]>();
 
   ngOnInit() {
-    this.filterService.getAllRows().subscribe(
-      data => {
-        this.dataSource.data = data as Filter[];
-      },
-      error => console.log("Error")
-    )
+    this.getDispatches()
+    this.selection.changed.subscribe(event => {this.selectedChangeEvent.emit(event.source.selected)});
     
-  }
-
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
 
    /** Whether the number of selected elements matches the total number of rows. */
@@ -53,11 +57,47 @@ export class FiltersComponent implements OnInit {
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: Filter): string {
+    
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.dispatchId + 1}`;
   }
 
+
+  getDispatches(): void {
+
+    this.isDataLoading = true;
+    this._dispatchesService.getDispatchesWithFullInfo().subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+        this.selectedChangeEvent.emit(data);
+        this.masterToggle();
+        this.isDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+
+
+  openDispatchDetailsDialog(dispatch: Filter) {
+
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = dispatch;
+
+    this.dialog.open(DispatchDetailsComponent, dialogConfig);
+  }
+
+
+  getDialogConfig() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    return dialogConfig;
+  }
 
 }
