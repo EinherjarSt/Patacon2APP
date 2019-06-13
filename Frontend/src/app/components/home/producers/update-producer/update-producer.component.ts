@@ -61,7 +61,7 @@ export class UpdateProducerComponent implements OnInit {
 
     this.producersService.modifyProducer(producerData).subscribe({
       next: result => {
-        this.dialogRef.close();
+        this.dialogRef.close("Confirm");
       },
       error: result => {
         console.log("error");

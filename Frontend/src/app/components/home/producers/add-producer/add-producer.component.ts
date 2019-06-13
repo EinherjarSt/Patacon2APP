@@ -64,7 +64,7 @@ export class AddProducerComponent implements OnInit {
     for(let location of producerData.locations){
       this.producersService.addLocation(producerData.rut ,location).subscribe({
         next: result => {
-          this.dialogRef.close();
+          this.dialogRef.close("Confirm");
         },
         error: result =>{
           console.log("error");

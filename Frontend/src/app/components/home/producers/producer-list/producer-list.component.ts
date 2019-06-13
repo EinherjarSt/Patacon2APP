@@ -64,6 +64,7 @@ export class ProducerListComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if(result === "Confirm"){
         this.refreshTable();
         this.notifier.notify('info', 'Productor agregado exitosamente');
@@ -81,7 +82,8 @@ export class ProducerListComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if(result === "Confirm"){
+      console.log(result);
+      if(result == "Confirm"){
         this.refreshTable();
         this.notifier.notify('info', 'Productor modificado exitosamente');
       } 
@@ -97,7 +99,10 @@ export class ProducerListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if(result == "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Ubicación modificada exitosamente');
+      } 
     });
   }
 
@@ -105,8 +110,10 @@ export class ProducerListComponent implements OnInit {
     console.log(id_location);
     this.producerService.deleteLocation(id_location).subscribe({
       next: result =>{
-        this.refreshTable();
-        console.log("Se ha eliminado correctamente la ubicación");
+        if(result == true){
+          this.refreshTable();
+          this.notifier.notify('info', 'Ubicación eliminada exitosamente');
+        }
       },
       error: result => {
         console.log("error");
@@ -117,8 +124,10 @@ export class ProducerListComponent implements OnInit {
   deleteProducer(rut: string){
     this.producerService.deleteProducer(rut).subscribe({
       next: (result) => {
-        this.refreshTable();
-        console.log(result);
+        if(result == true){
+          this.refreshTable();
+          this.notifier.notify('info', 'Productor eliminado exitosamente');
+        }
       },
       error: (err) => {
         console.log(err)

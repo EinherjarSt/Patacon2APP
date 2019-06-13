@@ -50,7 +50,7 @@ export class UpdateLocationComponent implements OnInit {
 
     this.producersService.modifyLocation(locationData).subscribe({
       next: result => {
-        this.dialogRef.close();
+        this.dialogRef.close("Confirm");
       },
       error: result => {
         console.log("error");
