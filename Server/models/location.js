@@ -78,8 +78,18 @@ class Location{
         });
 	}
 
-	static deleteLocation(){
+	static deleteLocation(id_location, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback funtion. Please provide them');
+        }
 
+        let query = pool.query('DELETE FROM location WHERE id_location = ?', [id_location], function(err, results, fields){
+            if(err){
+                return callback(err);
+            }
+            
+            return callback(null, true);
+        });
 	}
 
 	static updateLocation(location, callback){

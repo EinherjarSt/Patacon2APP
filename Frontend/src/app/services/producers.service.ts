@@ -112,8 +112,28 @@ export class ProducersService {
     );
   }
 
-  deleteProducer(){
-    
+  deleteProducer(rut: string){
+    const body = new HttpParams()
+    .set('rut', rut);
+
+    return this.http.post<{ msg: string}>(env.api.concat("/producer/delete/"+rut), body)
+    .pipe(
+      map(result =>{
+        return true;
+      })
+    );
+  }
+
+  deleteLocation(id_location): Observable<boolean>{
+    const body = new HttpParams()
+    .set('id_location', id_location);
+
+    return this.http.post<{ msg: string}>(env.api.concat("/producer/deleteLocation/"+id_location), body)
+    .pipe(
+      map(result =>{
+        return true;
+      })
+    );
   }
 
   getData(){

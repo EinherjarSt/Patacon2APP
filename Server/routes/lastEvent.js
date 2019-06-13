@@ -10,8 +10,8 @@ app.get('/event/getall', passport.authenticate('jwt', {
 }), (req, res) => {
 
     LastEvent.getAllEvents((err, event) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(event);

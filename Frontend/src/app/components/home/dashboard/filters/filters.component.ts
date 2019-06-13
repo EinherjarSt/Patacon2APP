@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { Filter } from 'src/app/model-classes/filter';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -18,15 +18,17 @@ export class FiltersComponent implements OnInit {
   displayedColumns: string[] = ["select","truck","state","destination","details"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
-  selectedDispatches = this.selection.selected;
+  selectedDispatches : Filter[] = this.selection.selected;
   isDataLoading: boolean;
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
   @ViewChild(MatSort) sort: MatSort;
+  @Output() selectedChangeEvent = new EventEmitter<Filter[]>();
 
   ngOnInit() {
     this.getDispatches()
+    this.selection.changed.subscribe(event => {this.selectedChangeEvent.emit(event.source.selected)});
     
   }
 
@@ -69,6 +71,8 @@ export class FiltersComponent implements OnInit {
     this._dispatchesService.getDispatchesWithFullInfo().subscribe({
       next: (data) => {
         this.dataSource.data = data;
+        this.selectedChangeEvent.emit(data);
+        this.masterToggle();
         this.isDataLoading = false;
       },
       error: (err) => {

@@ -6,22 +6,7 @@
     <form [formGroup]="registerDispatchForm" class="example-form">
       <input formControlName="id" type="hidden">
       <input formControlName="planificationReference" type="hidden">
-      <!----------------- Driver  -------------->
-
-      <mat-form-field class="example-full-width">
-        <input formControlName="driverReference" type="text" placeholder="Asigne un chofer" aria-label="Chofer" matInput
-          [matAutocomplete]="driverAuto">
-        <mat-autocomplete  [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
-          <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
-            {{driverToDisplayableString(driverOption)}}
-          </mat-option>
-        </mat-autocomplete>
-
-        <mat-error *ngIf="registerDispatchForm.controls['driverReference'].hasError('incorrect')">
-          Seleccione una opción válida del listado
-        </mat-error>
-
-      </mat-form-field>
+      
 
       <!------------------ Truck  ------------------>
 
@@ -34,6 +19,24 @@
           </mat-option>
         </mat-autocomplete>
         <mat-error *ngIf="registerDispatchForm.controls['truckReference'].hasError('incorrect')">
+          Seleccione una opción válida del listado
+        </mat-error>
+
+      </mat-form-field>
+
+
+      <!----------------- Driver  -------------->
+
+      <mat-form-field class="example-full-width">
+        <input formControlName="driverReference" type="text" placeholder="Asigne un chofer" aria-label="Chofer" matInput
+          [matAutocomplete]="driverAuto">
+        <mat-autocomplete  [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
+          <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
+            {{driverToDisplayableString(driverOption)}}
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-error *ngIf="registerDispatchForm.controls['driverReference'].hasError('incorrect')">
           Seleccione una opción válida del listado
         </mat-error>
 

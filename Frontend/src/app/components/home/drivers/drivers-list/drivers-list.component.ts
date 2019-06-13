@@ -6,6 +6,7 @@ import { AddDriverComponent } from "../add-driver/add-driver.component";
 import { Driver } from "../../../../model-classes/driver";
 import { DriversService } from "../../../../services/drivers.service";
 import { EditDriverComponent } from "../edit-driver/edit-driver.component";
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: "app-drivers-list",
@@ -13,6 +14,8 @@ import { EditDriverComponent } from "../edit-driver/edit-driver.component";
   styleUrls: ["./drivers-list.component.css"]
 })
 export class DriversListComponent implements OnInit {
+
+  private readonly notifier: NotifierService;
   dialogResult = "";
   drivers: Driver[];
   displayedColumns: string[] = [
@@ -28,9 +31,11 @@ export class DriversListComponent implements OnInit {
 
   constructor(
     private driversService: DriversService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    notifierService: NotifierService
   ) {
     this.dataSource = new MatTableDataSource<Driver>();
+    this.notifier = notifierService;
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -59,23 +64,34 @@ export class DriversListComponent implements OnInit {
 
   openAddDialog(): void {
     let dialogRef = this.dialog.open(AddDriverComponent, {
-      width: "400px"
+      width: "400px",
+      disableClose: true,
+      autoFocus: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("Dialog closed");
-      this.ngOnInit();
+      if (result == 'Confirm'){
+        this.refreshTable();
+        this.notifier.notify('info', 'Chofer agregado exitosamente');
+      } 
     });
   }
 
   openUpdateDialog(run: string) {
     const dialogRef = this.dialog.open(EditDriverComponent, {
       data: run,
-      width: "500px"
+      width: "500px",
+      disableClose: true,
+      autoFocus: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.refreshTable();
+      if (result == 'Confirm') {
+        this.refreshTable();
+        this.notifier.notify('info', 'Chofer editado exitosamente');
+
+
+      }
     });
   }
 
@@ -87,6 +103,8 @@ export class DriversListComponent implements OnInit {
           this.driversService.deleteDriver(run).subscribe({
             next: result => {
               this.refreshTable();
+              this.notifier.notify('info', 'Chofer eliminado exitosamente');
+
             },
             error: result => {}
           });

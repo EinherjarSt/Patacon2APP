@@ -62,3 +62,12 @@
 table{
     width: 100%;
 }
+
+.map-content{
+    height: 300px;
+    width: 100%;
+}
+
+agm-map {
+    height: 300px;
+}

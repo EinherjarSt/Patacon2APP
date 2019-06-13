@@ -17,49 +17,8 @@
             <div>
                 <mat-form-field appearance="standard" class="input">
                     <mat-label>RUT</mat-label>
-                    <input matInput formControlName="rut" maxlength="10">
+                    <input matInput formControlName="rut" maxlength="10" readonly>
                 </mat-form-field>
-            </div>
-            
-            <h4>
-                Ubicaciones
-            </h4>
-
-            <div formArrayName="locations" *ngFor="let location of producerForm.get('locations')['controls']; let i = index">
-                <mat-expansion-panel formGroupName="{{i}}" class="locations">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                        Dirección: {{location.value.address}}
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Dirección</mat-label>
-                        <input matInput formControlName="address" maxlength="100">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Latitud</mat-label>
-                        <input matInput formControlName="latitude">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Longitud</mat-label>
-                        <input matInput formControlName="longitude">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Encargado</mat-label>
-                        <input matInput formControlName="manager" maxlength="50">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Teléfono</mat-label>
-                        <input matInput formControlName="managerPhoneNumber" maxlength="9">
-                        <mat-error *ngIf="hasErrorLocation(i,'managerPhoneNumber', 'pattern')">El formato del numero no es valido</mat-error>
-                    </mat-form-field>
-                    
-                </mat-expansion-panel>
             </div>
         </div>
     </form>
@@ -69,10 +28,10 @@
 
 <div class="action-buttons">
     <div class="button-div">
-        <button mat-raised-button color="primary" class="button" (click)="onSubmit()">Aceptar</button>
+        <button mat-raised-button (click)="onSubmit()">Aceptar</button>
     </div>
     
     <div class="button-div">
-        <button mat-raised-button color="primary" class="button" (click)="onNoClick()">Cancelar</button>
+        <button mat-raised-button (click)="onNoClick()">Cancelar</button>
     </div>
 </div>

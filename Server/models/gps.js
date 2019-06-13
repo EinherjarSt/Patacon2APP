@@ -103,6 +103,25 @@ class GPSDevice {
         });
     }
 
+    static getGPSWithTruckAndDriverData(imei, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`SELECT * FROM gps WHERE imei = ?`, [imei], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback({code: ERROR.NOT_FOUND, message : `Imei ${imei} don't registered`});
+            }
+            if (results.length > 1) {
+                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the gps imei is not unique"});
+            }
+            let result = results[0];
+            return callback(null, new GPSDevice(result.imei, result.simNumber, result.brand, result.model));
+        });
+    }
+
 }
 
 module.exports = GPSDevice;
