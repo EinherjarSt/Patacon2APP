@@ -21,7 +21,7 @@
                     <div>
                         <mat-form-field appearance="standard" class="input">
                             <mat-label>RUT</mat-label>
-                            <input matInput formControlName="rut">
+                            <input matInput formControlName="rut" placeholder="11111111-1" (input)="checkRun()" maxlength="10">
                             <mat-error *ngIf="hasError('rut', 'required')">Debe ingresar el rut</mat-error>
                             <mat-error *ngIf="hasError('rut', 'pattern')">Debe ingresar un rut válido</mat-error>
                             <mat-error *ngIf="hasError('rut', 'verificator')">El digito verificador no corresponde al rut ingresado</mat-error>
@@ -52,16 +52,19 @@
                         <mat-form-field appearance="standard" class="input">
                             <mat-label>Dirección</mat-label>
                             <input matInput formControlName="address">
+                            <mat-error>Debe ingresar una dirección</mat-error>
                         </mat-form-field>
             
                         <mat-form-field appearance="standard" class="input">
                             <mat-label>Encargado</mat-label>
                             <input matInput formControlName="manager">
+                            <mat-error>Debe ingresar un encargado</mat-error>
                         </mat-form-field>
             
                         <mat-form-field appearance="standard" class="input">
                             <mat-label>Teléfono</mat-label>
-                            <input matInput formControlName="managerPhoneNumber">
+                            <input matInput formControlName="managerPhoneNumber" placeholder="Ej: 999999999" maxlength="9">
+                            <mat-error>Debe ingresar un número de teléfono</mat-error>
                             <mat-error *ngIf="hasErrorLocation(i,'managerPhoneNumber', 'pattern')">El formato del número no es válido</mat-error>
                         </mat-form-field>
 

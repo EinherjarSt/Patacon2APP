@@ -69,7 +69,6 @@ export class ProducerListComponent implements OnInit {
         this.notifier.notify('info', 'Productor agregado exitosamente');
 
       } 
-      console.log('The dialog was closed');
     });
   }
 
@@ -82,7 +81,10 @@ export class ProducerListComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if(result === "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Productor modificado exitosamente');
+      } 
     });
   }
 
@@ -103,6 +105,7 @@ export class ProducerListComponent implements OnInit {
     console.log(id_location);
     this.producerService.deleteLocation(id_location).subscribe({
       next: result =>{
+        this.refreshTable();
         console.log("Se ha eliminado correctamente la ubicación");
       },
       error: result => {
@@ -114,6 +117,7 @@ export class ProducerListComponent implements OnInit {
   deleteProducer(rut: string){
     this.producerService.deleteProducer(rut).subscribe({
       next: (result) => {
+        this.refreshTable();
         console.log(result);
       },
       error: (err) => {
