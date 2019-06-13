@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.shouldRun = true;
     this.gpsTimer = timer(3000, 5000).subscribe(() => {
-      if (!(this.dispatchInfo && this.dispatchInfo == {})) {
+      if (this.dispatchInfo && Object.entries(this.dispatchInfo).length !== 0) {
         let arrayGPS: string[] = Object.keys(this.dispatchInfo);
         console.log("call service getPositionOf " + JSON.stringify(arrayGPS));
         this.gpsService.getPositionOf(arrayGPS).subscribe({
