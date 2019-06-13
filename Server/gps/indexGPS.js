@@ -69,7 +69,9 @@ var server = gps.server(gpsOptions, function (device, connection) {
         delete GPS_DATA[device.uid];
         if (!Object.hasOwnProperty(GPS_DATA)) {
             clearInterval(geofenceTimer);
-            clearInterval(outOfRouteTimer)
+            geofenceTimer = undefined;
+            clearInterval(outOfRouteTimer);
+            outOfRoute = undefined;
         }
     })
 });
