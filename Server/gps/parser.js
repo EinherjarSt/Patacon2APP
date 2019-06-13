@@ -16,8 +16,7 @@ var parser = {
         let regexpNumeros = new RegExp("^[0-9]{10,}$");
         if ($data.indexOf("imei", 0) === -1 && regexpNumeros.test($data.replace(";", "")) === false) {
         	console.log("Unknown error in parser");
-            $cliente.end();
-            return
+            return;
         }
         let imei = this.getImei($data);
         let returnedObject = {imei};

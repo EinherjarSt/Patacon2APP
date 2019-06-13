@@ -254,6 +254,26 @@ class Dispatch {
             });
     }
 
+    static editDispatchStatus(id, statusValue, callback) {
+
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL edit_dispatch_status(?,?)`, [
+            id, statusValue
+        ], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({code: ERROR.NOT_FOUND, message: "This gps don't exist"}, false);
+            }
+            return callback(null, true);
+
+        });
+    }
+
 }
 
 module.exports = Dispatch

@@ -186,7 +186,7 @@ export class RoutesComponent implements OnInit {
       console.log("Is in route")
     }
 
-    cascadiaFault.setMap(map);
+    //cascadiaFault.setMap(map);
   }
 
   selectChange(event) {

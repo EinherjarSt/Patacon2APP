@@ -31,7 +31,7 @@
           <mat-button-toggle class="sidenav-button" mat-button 
           (click)="sidenav.toggle(); state = !state"><mat-icon>keyboard_arrow_{{direction}}</mat-icon></mat-button-toggle>
           <agm-map [latitude]="center.latitude" [longitude]="center.longitude" (mapReady)="onMapReady($event)" (mapClick)="onMapClick($event)">
-            <agm-marker *ngFor="let imei of gpsKey" [latitude]="gpsPosition[imei].location.latitude" [longitude]="gpsPosition[imei].location.longitude">
+            <agm-marker *ngFor="let imei of gpsKey" [latitude]="gpsPosition[imei].location?.latitude" [longitude]="gpsPosition[imei].location?.longitude">
               <agm-info-window>
                 IMEI: {{imei}} <br>
                 <div *ngIf="dispatchInfo[imei]">
