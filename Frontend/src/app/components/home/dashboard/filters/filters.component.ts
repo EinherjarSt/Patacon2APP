@@ -100,7 +100,4 @@ export class FiltersComponent implements OnInit {
     return dialogConfig;
   }
 
-  
-
-
 }

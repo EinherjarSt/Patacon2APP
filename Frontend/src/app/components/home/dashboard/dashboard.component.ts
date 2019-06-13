@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   gpsKey: string[];
   @Input() public state: boolean = true;
   gpsTimer: Subscription;
-  DispatchInfo: { [key : string] : {
+  dispatchInfo: { [key : string] : {
     truckLicensePlate: string,
     driverName: string,
     driverPhoneNumber: string,
@@ -55,8 +55,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.shouldRun = true;
     this.gpsTimer = timer(3000, 5000).subscribe(() => {
-      if (!(this.DispatchInfo && this.DispatchInfo == {})) {
-        let arrayGPS: string[] = Object.keys(this.DispatchInfo);
+      if (!(this.dispatchInfo && this.dispatchInfo == {})) {
+        let arrayGPS: string[] = Object.keys(this.dispatchInfo);
         console.log("call service getPositionOf " + JSON.stringify(arrayGPS));
         this.gpsService.getPositionOf(arrayGPS).subscribe({
           next: gpsPosition => {
@@ -91,11 +91,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   mapUpdate(data: Filter[]) {
-    this.DispatchInfo = {};
+    this.dispatchInfo = {};
     console.log(data);
     if (data){
       data.forEach(element => {
-        this.DispatchInfo[element.truckGPSImei] = {
+        this.dispatchInfo[element.truckGPSImei] = {
           truckLicensePlate: element.truckLicensePlate,
           driverName : element.driverName,
           driverPhoneNumber : element.driverPhoneNumber,

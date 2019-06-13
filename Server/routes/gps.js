@@ -75,7 +75,7 @@ app.get('/gps/getposition', (req, res) => {
         gps = req.query['gps'];
         console.log("query gps/getposition: " + gps);
         if (gps === undefined || gps == '[]'){
-            return res.json(GPS_DATA);
+            return res.json({});
         }
         let gpsArray = JSON.parse(gps);
         console.log(GPS_DATA);

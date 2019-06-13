@@ -28,6 +28,31 @@ class GPSDevice {
         });
     }
 
+    static getGPSWithRoute(imei, callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`
+            SELECT DISTINCT imei, routes, dispatch.id_dispatch, dispatch.status, dispatch.ref_truck FROM 
+            gps INNER JOIN truck ON gps.imei = truck.ref_gps
+            INNER JOIN dispatch ON truck.id_truck = dispatch.ref_truck
+            INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
+            INNER JOIN route ON planification.ref_location = route.ref_location
+            WHERE imei = ? AND dispatch.status <> 'Cancelado' && dispatch.status <> 'Terminado'`, [imei], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback({code: ERROR.NOT_FOUND, message : `Imei ${imei} don't registered`});
+            }
+            if (results.length > 1) {
+                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the gps imei is not unique"});
+            }
+            let result = results[0];
+            return callback(null, {imei : result.imei, route: result.routes, dispatch:{id_dispatch: result.id_dispatch, id_truck: result.ref_truck, status: result.status}});
+        });
+    }
+
     static getAllGPS(callback){
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
