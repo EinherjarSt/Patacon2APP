@@ -212,7 +212,7 @@ class Dispatch {
             throw new Error('There is not a callback function. Please provide them');
         }
         pool.query(`CALL edit_dispatch_status(?, ?);`,
-            [dispatchId, 'En tránsito a viña'],
+            [dispatchId, 'En camino a viña'],
             function (err, results, fields) {
                 
                 if (err) {
