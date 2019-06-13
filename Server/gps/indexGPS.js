@@ -31,14 +31,14 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
             this.login_authorized(true);
             device.emit("login");
-                if(!geofenceTimer){
-                    console.log("Llamando geofence")
-                   geofenceTimer =  setInterval(geofence, 1*1000*60);
-                }
-                if (!outOfRouteTimer){
-                    console.log("Llamando outOfRoute")
-                    outOfRouteTimer = setInterval(outOfRoute, 5*1000*60);
-                }
+            if (!geofenceTimer) {
+                console.log("Llamando geofence")
+                geofenceTimer = setInterval(geofence, 1 * 1000 * 60);
+            }
+            if (!outOfRouteTimer) {
+                console.log("Llamando outOfRoute")
+                outOfRouteTimer = setInterval(outOfRoute, 5 * 1000 * 60);
+            }
         })
 
     });
@@ -67,7 +67,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
     connection.on('close', (hadError) => {
         console.log(`connection \with device ${device.uid} is close`);
         delete GPS_DATA[device.uid];
-        if (!Object.hasOwnProperty(GPS_DATA)){
+        if (!Object.hasOwnProperty(GPS_DATA)) {
             clearInterval(geofenceTimer);
             clearInterval(outOfRouteTimer)
         }
@@ -88,9 +88,9 @@ const lastEvent = require('../models/lastEvent');
 
 const STATUS = {
     LOADING: 'Cargando',
-    TRAVELING_TO_PATACON:'En camino a Patacon',
-    IN_PATIO:'En patio',
-    TRAVELING_TO_VINEYARD:'En tránsito a viña'
+    TRAVELING_TO_PATACON: 'En camino a Patacon',
+    IN_PATIO: 'En patio',
+    TRAVELING_TO_VINEYARD: 'En tránsito a viña'
 }
 
 function outOfRoute() {
@@ -123,10 +123,10 @@ function outOfRoute() {
                     let distance = turf.pointToLineDistance(pt, turfLine);
                     console.log(distance + " KM");
                     console.log("Deberia haber terminado de calcular");
-                    if (distance > 1){
+                    if (distance > 1) {
                         console.log("Escribiendo en last");
                         lastEvent.insertOutOfRouteEvent(dispatchInfo.id_truck, dispatchInfo.id_dispatch, (err, res) => {
-                            if (err){
+                            if (err) {
                                 console.log(err);
                             }
 
@@ -150,6 +150,7 @@ function cleanWaypoint(waypoints) {
 }
 
 function geofence() {
+    console.log("geofence");
     for (const key in GPS_DATA) {
         if (GPS_DATA.hasOwnProperty(key)) {
             const element = GPS_DATA[key];
@@ -170,7 +171,7 @@ function geofence() {
             };
             console.log(location);
             let pt = turf.point([location.latitude, location.longitude]);
-            
+
             //evaluate geofence in start_position
             let center = [route.start_position.lat, route.start_position.lng];
             console.log("start_position geofence " + center);
@@ -184,39 +185,37 @@ function geofence() {
             let geofence_patacon = turf.circle(center, radius, options);
             console.log(turf.booleanPointInPolygon(pt, geofence_patacon));
 
-            if (turf.booleanPointInPolygon(pt, geofence_vineyard) && dispatchInfo.status !== STATUS.LOADING){
+            if (turf.booleanPointInPolygon(pt, geofence_vineyard) && dispatchInfo.status !== STATUS.LOADING) {
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.LOADING, (err, res) => {
                     console.log("Loading")
-                    if (err){
+                    if (err) {
                         console.log("Error al cambiar estado automaticamente");
                         return;
                     }
-                    if(res){
+                    if (res) {
                         element.dispatch.status = STATUS.LOADING;
                     }
                 })
-            }
-            else if (turf.booleanPointInPolygon(pt, geofence_patacon) && dispatchInfo.status !== STATUS.IN_PATIO){
+            } else if (turf.booleanPointInPolygon(pt, geofence_patacon) && dispatchInfo.status !== STATUS.IN_PATIO) {
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.IN_PATIO, (err, res) => {
                     console.log("En patio")
-                    if (err){
+                    if (err) {
                         console.log("Error al cambiar estado automaticamente");
                         return;
                     }
-                    if(res){
+                    if (res) {
                         element.dispatch.status = STATUS.IN_PATIO;
                     }
                 })
-            }
-            else if (dispatchInfo.status !== STATUS.TRAVELING_TO_PATACON && dispatchInfo.status !== STATUS.TRAVELING_TO_VINEYARD){
-                
+            } else if (dispatchInfo.status !== STATUS.TRAVELING_TO_PATACON && dispatchInfo.status !== STATUS.TRAVELING_TO_VINEYARD) {
+
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.TRAVELING_TO_PATACON, (err, res) => {
                     console.log("Camino a patacon")
-                    if (err){
+                    if (err) {
                         console.log("Error al cambiar estado automaticamente");
                         return;
                     }
-                    if(res){
+                    if (res) {
                         element.dispatch.status = STATUS.TRAVELING_TO_PATACON;
                     }
                 })
