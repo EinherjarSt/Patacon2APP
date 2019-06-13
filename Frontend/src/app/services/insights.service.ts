@@ -39,7 +39,7 @@ export class InsightsService {
     .set('endDate', endDate);
 
     return this._http
-      .put<{ msg: string }>(env.api.concat("/informacion/cantidad_de_mensajes"), body);
+      .put<{ messageCount: number }>(env.api.concat("/informacion/cantidad_de_mensajes"), body);
   }
 
   public getSuccessfulDispatchCount(startDate, endDate) {
@@ -47,7 +47,7 @@ export class InsightsService {
     .set('endDate', endDate);
 
     return this._http
-      .put<{ msg: string }>(env.api.concat("/informacion/cantidad_despachos_exitosos"), body);
+      .put<{ dispatchCount: number}>(env.api.concat("/informacion/cantidad_despachos_exitosos"), body);
       
   }
 
@@ -56,7 +56,7 @@ export class InsightsService {
     .set('endDate', endDate);
 
     return this._http
-      .put<{ msg: string }>(env.api.concat("/informacion/cantidad_despachos_cancelados"), body);
+      .put<{ dispatchCount: number }>(env.api.concat("/informacion/cantidad_despachos_cancelados"), body);
       
   }
 
@@ -65,7 +65,7 @@ export class InsightsService {
     .set('endDate', endDate);
 
     return this._http
-      .put<{ msg: string }>(env.api.concat("/informacion/despachos_por_fecha"), body);
+      .put<any>(env.api.concat("/informacion/despachos_por_fecha"), body);
       
   }
 

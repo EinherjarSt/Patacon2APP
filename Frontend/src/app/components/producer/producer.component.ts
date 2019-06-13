@@ -20,10 +20,13 @@ import { isNumber } from 'util';
 })
 
 export class ProducerComponent implements OnInit , OnDestroy{
-  lat: number = -35.0012238;
-  lng: number = -71.2308186;
-  lat2: number = -34.147774;
-  lng2: number = -70.741592;
+  center: {
+    latitude: number;
+    longitude: number;
+  } = {
+    latitude: -35.0012238,
+    longitude: -71.2308186
+  };
   info : Filter;
   data : Filter[];
   truck: Truck;

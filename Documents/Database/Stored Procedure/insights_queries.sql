@@ -115,16 +115,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
---CREATE TRIGGER create_dispatch_insights_row 
---AFTER INSERT ON dispatch
---SET CONDITION = SELECT EXISTS (SELECT * FROM recent_events WHERE ref_Dispatch = NEW.ref_Dispatch && dispatch_status = 'Cargando');
---IF NEW.dispatch_status = 'Detenido' and CONDITION = TRUE
---THEN  
-  --SET SELECT TIMESTAMPDIFF(SECOND, '2012-06-06 13:13:55', '2012-06-06 15:20:18');
-  --INSERT INTO bar (a, b) VALUES(NEW.a, NEW.b) ;
---END IF
-
 --CREATE TRIGGER create_dispatch_insights_row 
 --AFTER INSERT ON dispatch
 --FOR EACH ROW 
