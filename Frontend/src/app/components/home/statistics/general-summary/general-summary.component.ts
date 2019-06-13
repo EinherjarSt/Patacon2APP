@@ -1,22 +1,82 @@
 import { Component, OnInit } from '@angular/core';
+import { InsightsService } from 'src/app/services/insights.service';
+import { MatDatepicker } from '@angular/material';
+import { FormControl } from '@angular/forms';
+import * as moment from 'moment';
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-general-summary',
   templateUrl: './general-summary.component.html',
-  styleUrls: ['./general-summary.component.css']
+  styleUrls: ['./general-summary.component.css'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+
+  ]
 })
 export class GeneralSummaryComponent implements OnInit {
-  
-  /*
-  successfulDispatch
-  canceledDispatch
-  messagesSent
-*/
-  displayedColumns: string[] =  ['id', 'producer', '', 'symbol'];
 
-  constructor() { }
+  startDate: FormControl;
+  endDate: FormControl;
+
+  successfulDispatches: number;
+  canceledDispatches: number;
+  messagesSent: number;
+
+  displayedColumns: string[] = ['id', 'producer', '', 'symbol'];
+
+  constructor(private insightsService: InsightsService, private notifierService: NotifierService) { }
 
   ngOnInit() {
+    this.startDate = new FormControl();
+    this.endDate = new FormControl();
   }
+
+
+  getInsights() {
+    if (this.startDate.value != undefined && this.endDate.value != undefined) {
+      var dateRangeStart = this.startDate.value.format('YYYY-MM-DD HH:mm:ss');
+      var dateRangeEnd = this.endDate.value.format('YYYY-MM-DD HH:mm:ss');
+
+      this.getCanceledDispatches(dateRangeStart, dateRangeEnd);
+      this.getMessagesSentCount(dateRangeStart, dateRangeEnd);
+      this.getSuccessfulDispatchesCount(dateRangeStart, dateRangeEnd);
+    }
+    else {
+      this.notifierService.notify('warning', 'Debe ingresar ambas fechas');
+    }
+  }
+
+  getCanceledDispatches(startDate, endDate) {
+
+    this.insightsService.getCanceledDispatchCount(startDate, endDate).subscribe(
+      data => {
+        this.canceledDispatches = data.dispatchCount;
+      });
+  }
+
+  getSuccessfulDispatchesCount(startDate, endDate) {
+    this.insightsService.getSuccessfulDispatchCount(startDate, endDate).subscribe(
+      data => {
+        this.successfulDispatches = data.dispatchCount;
+      }
+    );
+  }
+
+  getMessagesSentCount(startDate, endDate) {
+    this.insightsService.getNumberOfMessagesSent(startDate, endDate).subscribe(
+      data => {
+        this.messagesSent = data.messageCount;
+      }
+    );
+  }
+
+
+
+
 
 }
