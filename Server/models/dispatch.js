@@ -64,7 +64,7 @@ class Dispatch {
             if (err) {
                 return callback(err);
             }
-            if(results[0][0].dispatchId ==null)return callback(err);
+            if(results[0][0]== undefined)return callback(err);
             var a = 1;
             let result = results[0];
 

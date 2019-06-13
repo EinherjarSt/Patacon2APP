@@ -75,7 +75,7 @@ export class AddProducerComponent implements OnInit {
 
   addLocation(){
     const locations = this.producerForm.get('locations') as FormArray;
-
+    console.log(locations.valid);
     if(locations.length > 0){
       this.expanded = false;
     }
@@ -91,18 +91,25 @@ export class AddProducerComponent implements OnInit {
 
     locations.push(this.fb.group({
       expanded: this.expanded,
-      address: new FormControl(''),
+      address: new FormControl('', [Validators.required]),
       latitude: new FormControl(''),
       longitude: new FormControl(''),
-      manager: new FormControl(''),
-      managerPhoneNumber: new FormControl('', Validators.pattern(/^\d{9}$/))
+      manager: new FormControl('', [Validators.required]),
+      managerPhoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^\d{9}$/)])
     }));
   }
 
   deleteLocation(){
     const locations = this.producerForm.get('locations') as FormArray;
 
-    locations.removeAt(locations.length-1);
+    if(locations.length > 1){
+      locations.removeAt(locations.length-1);
+    }
+    else{
+      console.log("No se puede eliminar el formulario");
+    }
+
+    
   }
 
   public hasError = (controlName: string, errorName: string) => {
