@@ -23,13 +23,14 @@ export class LatestEventsComponent implements OnInit, OnDestroy {
   }
 
   isWarning(element):boolean{
-    if(element.substr(0,1)=='¡'){
+    if(element && element.substr(0,1)=='¡'){
       return true;
     }
     else{
       return false;
     }
   }
+  
   showDispach(id){
     //OPEN DISPATCH WINDOW
   }

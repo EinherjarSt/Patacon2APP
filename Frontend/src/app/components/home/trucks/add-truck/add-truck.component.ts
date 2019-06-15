@@ -164,7 +164,6 @@ export class AddTruckComponent implements OnInit {
         console.log("Success", response);
         console.log(newTruck);
         this.onCloseConfirm();
-        this.openSuccessMessage();
       },
       error => {
         console.error("Error", error);
@@ -179,12 +178,6 @@ export class AddTruckComponent implements OnInit {
 
   openFailureMessage() {
     this.snackBar.open("Ya hay un camion deshabilitado con esta patente.", "Cerrar", {
-      duration: 2000, verticalPosition: 'bottom'
-    });
-  }
-
-  openSuccessMessage() {
-    this.snackBar.open("El camion ha sido registrado.", "Cerrar", {
       duration: 2000, verticalPosition: 'bottom'
     });
   }

@@ -31,6 +31,79 @@ class InsightsData {
         });
     }
 
+
+    static getDispatchesCountInDateRange(status, startDate, endDate, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }        
+        let query = pool.query(`CALL count_dispatches(?,?,?)`, [status, startDate, endDate], function (err, results, fields) {
+            if(results==null){
+                return callback(err);
+            }
+            else if (results[0]==null) {
+                return callback(err);
+            }else{
+                if(results.length == 0 ) {
+                    return callback(null, {dispatchCount: 0});
+                }
+                else {
+                    return callback(null, {dispatchCount: results[0][0].dispatchCount});
+                }
+            }
+        });
+    }
+
+
+    static getNumberOfMessagesSentInDateRange(startDate, endDate, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }        
+        let query = pool.query(`CALL count_text_messages_sent(?,?)`, [startDate, endDate], function (err, results, fields) {
+            if(results==null){
+                return callback(err);
+            }
+            else if (results[0]==null) {
+                return callback(err);
+            }else{
+                if(results.length == 0 ) {
+                    return callback(null, {messageCount: 0});
+                }
+                else {
+                    return callback(null, {messageCount: results[0][0].textMessageCount});
+                }
+            }
+        });
+    }
+
+   
+
+    static getDispatchesInDateRangeInsights(startDate, endDate, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }        
+        pool.query(`CALL get_dispatches_insights(?,?)`, [startDate, endDate], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let dispatchesInsights = []
+            for (const dispatchInsight of results[0]) {
+                dispatchesInsights.push({
+                    driverRun: dispatchInsight.driverRun,
+                    driverName: dispatchInsight.driverName,
+                    driverSurname: dispatchInsight.driverSurname,
+                    producerName: dispatchInsight.producerName,
+                    truckLicensePlate: dispatchInsight.truckLicensePlate,
+                    dispatchDate: dispatchInsight.dispatchDate,
+                    textMessagesSent: dispatchInsight.textMessagesSent,
+                    stoppedTime: dispatchInsight.stoppedTime,
+                    unloadYardTime: dispatchInsight.unloadYardTime
+                });
+            }
+
+            return callback(null, dispatchesInsights);
+        });
+    }
+
     static editTimesPerStatusOfDispatch(dispatchId, stoppedTime, inUnloadYardTime, callback) {
 
 

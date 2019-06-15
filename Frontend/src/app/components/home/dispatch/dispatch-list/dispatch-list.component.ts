@@ -7,6 +7,7 @@ import { DispatchesService } from '../../../../services/dispatches.service';
 import { InsightsService } from '../../../../services/insights.service';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
+import { environment as env } from "@env/environment";
 import { RegisterDispatchComponent } from '../register-dispatch/register-dispatch.component';
 import { EditDispatchComponent } from '../edit-dispatch/edit-dispatch.component'
 import * as moment from 'moment';
@@ -105,8 +106,8 @@ export class DispatchListComponent implements OnInit {
   startDispatch(dispatch_id) {
     this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
-        this.dispatchesService.startDispatch(dispatch_id);
-        this.refreshTable();
+        this.dispatchesService.startDispatch(dispatch_id).subscribe(
+          res => this.refreshTable());
       }
 
     });
@@ -184,7 +185,8 @@ export class DispatchListComponent implements OnInit {
 
             let idCypher = this.producerViewService.encryptNumber(info.dispatchId + "");
             //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
-            let url = "\nhttp://localhost:4200/#/producer/" + idCypher;
+            let link = env.prod.concat("/#/producer/" + idCypher);
+            let url = "\n"+link;
             message += url;
             this.smsService.sendMessage(info.producerPhoneNumber, message).subscribe(res => {
               console.log(res);
@@ -235,7 +237,9 @@ export class DispatchListComponent implements OnInit {
     return dialogConfig;
   }
 
-
+  isDispatchTerminated(dispatch) {
+    return dispatch.status.localeCompare('Terminado') == 0 || dispatch.status.localeCompare('Cancelado') == 0;
+  }
 
   refreshTable() {
     this.getDispatches();

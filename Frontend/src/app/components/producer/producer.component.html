@@ -3,8 +3,10 @@
   <div class="location">{{info.producerLocation}}</div>
 </div>
 <div class="map-content">
-  <agm-map [latitude]="lat" [longitude]="lng2"></agm-map>
-  <!--agm-marker [latitude]="gpsPosition[{{info.truckGPSImei}}].latitude" [longitude]="gpsPosition[{{info.truckGPSImei}}].longitude"></agm-marker-->
+  <agm-map [latitude]="center.latitude" [longitude]="center.longitude">
+    <!--agm-marker  [latitude]="gpsPosition[this.info.truckGPSImei].location?.latitude" [longitude]="gpsPosition[this.info.truckGPSImei].location?.longitude"-->
+    <!--/agm-marker-->
+  </agm-map>
 </div>
 <div class="title"> <b>Información</b> </div>
 

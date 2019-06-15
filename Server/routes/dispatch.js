@@ -8,8 +8,8 @@ app.get('/despachos/:planification_id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     Dispatch.getDispatches(req.params.planification_id, (err, dispatches) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(dispatches);
@@ -19,17 +19,15 @@ app.get('/despachos/:planification_id', passport.authenticate('jwt', {
 app.get('/despachos_completos', (req, res) => {
 
     Dispatch.getDispatchesWithFullInfo((err, dispatches) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(dispatches);
     });
 })
 
-app.get('/despachos_completos/:id', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+app.get('/despachos_completos/:id', (req, res) => {
 
     Dispatch.getDispatchWithFullInfo(req.params.id, (err, dispatches) =>{
         console.log(err);
@@ -47,8 +45,8 @@ app.get('/despachos/:id', passport.authenticate('jwt', {
 }), (req, res) => {
 
     Dispatch.getDispatchById(req.params.id, (err, dispatch) =>{
-        console.log(err);
         if (err){
+            console.log(err);
             return res.status(400).json(err);
         }
         return res.json(dispatch);
@@ -131,7 +129,6 @@ app.put('/despachos/terminar/:id', passport.authenticate('jwt', {
 app.delete('/despachos/eliminar/:id', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log(req);
     Dispatch.deleteDispatch(req.params.id, (err, result) => {
         if (err) {
             return res.status(400).json(err);

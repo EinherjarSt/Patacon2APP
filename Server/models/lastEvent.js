@@ -62,6 +62,21 @@ class LastEvent {
             return callback(null, events);
         });
     }
+
+    static insertOutOfRouteEvent(ref_truck, id_dispatch, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL insert_last_event(?, ?)`, [
+            ref_truck,
+            id_dispatch
+        ], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, true);
+        });
+    }
 }
 
 module.exports = LastEvent

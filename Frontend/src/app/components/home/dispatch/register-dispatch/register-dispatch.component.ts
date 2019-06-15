@@ -49,9 +49,6 @@ export class RegisterDispatchComponent implements OnInit {
   truckOptions: Truck[];
   truckFilteredOptions: Observable<Truck[]>;
 
-  statusOptions: string[] = ['En tránsito a viña', 'Cargando', 'En patio',
-    'En tránsito a viña', 'Detenido', 'Terminado'];
-
 
 
   registerDispatchForm: FormGroup = this._formBuilder.group({
@@ -199,14 +196,6 @@ export class RegisterDispatchComponent implements OnInit {
     let driverRut = this.registerDispatchForm.value.truckReference.ref_driver;
     let autocompleteValue =  {driverReference: this.findDriverOption(driverRut)};
     this.registerDispatchForm.patchValue(autocompleteValue);
-
-    if(autocompleteValue.driverReference) {
-      console.log("Lo encontré");
-
-    }
-    else {
-      console.log("No lo encontré");
-    }
   }
 
   findDriverOption(driverRut) {
