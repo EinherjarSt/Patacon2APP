@@ -88,7 +88,7 @@ import { ChartsModule } from 'ng2-charts';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    ConfigurationViewComponent
+    ConfigurationViewComponent,
     GeneralSummaryComponent,
     SummaryByDriverComponent,
     UpdateLocationComponent,

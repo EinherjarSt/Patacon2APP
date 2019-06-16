@@ -4,11 +4,47 @@
     margin-right: 10%;
 }
 .image{
-    width: 100%;
-    max-width: 80px;
-    max-height: 100px;
-    padding-top: 20px;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+    border-radius: 50%;
+    max-width: 100px;
+    max-height: 130px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
-.userName{
+.identification{
     text-align: center;
+}
+.header{
+    justify-content: center;
+}
+.title{
+    font-size: 22px;
+}
+.info{
+    width: 100%;
+    
+}
+.editContent{
+    border-left: 1px solid #c4c4c4;
+    height: auto;
+    padding-left: 20px;
+    width: 100%;
+}
+.restorePass{
+    /*padding-left: 50px;
+    border-left: 1px solid #c4c4c4;*/
+    height: auto;
+    width: 100%;
+}
+.btnPasword{
+    position: relative;
+    left: 50px;
+
+}
+.btnData{
+    position: relative;
+    left: 60px;
 }

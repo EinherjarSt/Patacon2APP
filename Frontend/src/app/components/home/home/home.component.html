@@ -18,8 +18,8 @@
 
           <mat-icon>account_box</mat-icon> Usuario
 
-          <mat-menu #menu="matMenu" [overlapTrigger]="false">
-            <button mat-menu-item class="user-menu">
+          <mat-menu  #menu="matMenu" [overlapTrigger]="false">
+            <button (click)="configureAccount()" mat-menu-item class="user-menu">
               <mat-icon>settings</mat-icon>
               <span>Perfil</span>
             </button>
