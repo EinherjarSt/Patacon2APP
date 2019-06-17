@@ -130,9 +130,9 @@ app.post('/user/remove', passport.authenticate('jwt', {
     });
 })
 
-app.post('/user/forgot-password', function (req, res) {
+/* app.post('/user/forgot-password', function (req, res) {
     const email = req.body.email
-    User.getUserbyEmail(
+    ResetPassword.findOneUserToChangePassword(
         {
             where: {email: email},//checking if the email address sent by client is present in the db(valid)
         })
@@ -140,49 +140,10 @@ app.post('/user/forgot-password', function (req, res) {
             if (!user) {
                 return throwFailed(res, 'No hay usuarios con ese correo.')
             }
+
     //Agregar modelo para tabla de reset passwords en base de datos
     //Se necesita para poder ir haciendo los cambios        
-    ResetPassword.findOneUserToChangePassword(
-        { 
-            where: {userId: user.id, status: 0},    
-        }).then(function (resetPassword) 
-            {
-                if (resetPassword)
-                    resetPassword.destroy({
-                        where: {
-                            id: resetPassword.id
-                        }
-                    })
-                token = crypto.randomBytes(32).toString('hex')//creating the token to be sent to the forgot password form (react)
-                bcrypt.hash(token, null, null, function (err, hash) {//hashing the password to store in the db node.js
-                    ResetPassword.create({
-                        userId: user.id,
-                        resetPasswordToken: hash,
-                        expire: moment.utc().add(config.tokenExpiry, 'seconds'),
-                    }).then(function (item) {
-                        if (!item)
-                            return throwFailed(res, 'Oops problem in creating new password record')
-                        let mailOptions = {
-                            from: '"<Reset Password>" patacon.reset@gmail.com',
-                            to: user.email,
-                            subject: 'Reset your account password',
-                            html: '<h4><b>Reset Password</b></h4>' +
-                            '<p>To reset your password, complete this form:</p>' +
-                            '<a href=' + config.clientUrl + 'reset/' + user.id + '/' + token + '">' + config.clientUrl + 'reset/' + user.id + '/' + token + '</a>' +
-                            '<a href='+ www.patacon.tk/reset-password1 + '></a>' +
-                            '<br><br>' +
-                            '<p>--Team</p>'
-                        }
-                        let mailSent = sendMail(mailOptions)//sending mail to the user where he can reset password.User id and the token generated are sent as params in a link
-                        if (mailSent) {
-                            return res.json({success: true, message: 'Check your mail to reset your password.'})
-                        } else {
-                            return throwFailed(error, 'Unable to send email.');
-                        }
-                    })
-                })
-            });
         })
- })
+ }) */
 
 module.exports = app;

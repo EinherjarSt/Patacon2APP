@@ -9,6 +9,7 @@ app.use(require('./dispatch'));
 app.use(require('./truck'));
 app.use(require('./producers'));
 app.use(require('./gps'));
+app.use(require('./resetPassword'));
 app.use(require('./lastEvent'));
 app.use(require('./insights'));
 

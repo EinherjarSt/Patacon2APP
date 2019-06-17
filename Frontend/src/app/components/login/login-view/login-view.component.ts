@@ -56,8 +56,8 @@ export class LoginViewComponent implements OnInit {
 
   resetPassword()
   {
-    this.router.navigate(['reset-password']);
     console.log("Quiero restablecer contraseña");
+    this.router.navigate(['reset-password']);
     return;
   }
 
