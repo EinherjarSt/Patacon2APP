@@ -37,7 +37,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
             }
             if (!outOfRouteTimer) {
                 console.log("Llamando outOfRoute")
-                outOfRouteTimer = setInterval(outOfRoute, 5 * 1000 * 60);
+                outOfRouteTimer = setInterval(outOfRoute, 1 * 1000 * 60);
             }
         })
 
@@ -188,7 +188,7 @@ function geofence() {
             let geofence_patacon = turf.circle(center, radius, options);
             console.log(turf.booleanPointInPolygon(pt, geofence_patacon));
 
-            if (turf.booleanPointInPolygon(pt, geofence_vineyard) && dispatchInfo.status !== STATUS.LOADING) {
+            if (turf.booleanPointInPolygon(pt, geofence_vineyard) && dispatchInfo.status === STATUS.TRAVELING_TO_VINEYARD) {
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.LOADING, (err, res) => {
                     console.log("Loading")
                     if (err) {
@@ -199,7 +199,7 @@ function geofence() {
                         element.dispatch.status = STATUS.LOADING;
                     }
                 })
-            } else if (turf.booleanPointInPolygon(pt, geofence_patacon) && dispatchInfo.status !== STATUS.IN_PATIO) {
+            } else if (turf.booleanPointInPolygon(pt, geofence_patacon) && dispatchInfo.status === STATUS.TRAVELING_TO_PATACON) {
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.IN_PATIO, (err, res) => {
                     console.log("En patio")
                     if (err) {
@@ -210,7 +210,7 @@ function geofence() {
                         element.dispatch.status = STATUS.IN_PATIO;
                     }
                 })
-            } else if (dispatchInfo.status !== STATUS.TRAVELING_TO_PATACON && dispatchInfo.status !== STATUS.TRAVELING_TO_VINEYARD) {
+            } else if (dispatchInfo.status === STATUS.LOADING) {
 
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.TRAVELING_TO_PATACON, (err, res) => {
                     console.log("Camino a patacon")
