@@ -51,6 +51,7 @@ import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { UpdateLocationComponent } from './producers/update-location/update-location.component';
 import { ChartsModule } from 'ng2-charts';
+import { AddLocationComponent } from './producers/add-location/add-location.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { ChartsModule } from 'ng2-charts';
     SummaryByDriverComponent,
     UpdateLocationComponent,
     RoutesComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    AddLocationComponent
     
   ],
   imports: [
@@ -123,7 +125,8 @@ import { ChartsModule } from 'ng2-charts';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    UpdateLocationComponent
+    UpdateLocationComponent,
+    AddLocationComponent
   ],
 })
 export class HomeModule { }
