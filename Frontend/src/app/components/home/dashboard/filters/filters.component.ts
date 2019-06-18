@@ -15,7 +15,7 @@ import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.c
 })
 export class FiltersComponent implements OnInit {
 
-  displayedColumns: string[] = ["select","truck","state","destination","details"];
+  displayedColumns: string[] = ["select","truck","state","destination", "options"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
   selectedDispatches : Filter[] = this.selection.selected;
@@ -36,7 +36,13 @@ export class FiltersComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  public mensajeBoton() { 
+    console.log('se apretó el botón de opciones');
+  }
 
+  public mensajeCheckbox() {
+    console.log('se apretó el checkbox');
+  }
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }

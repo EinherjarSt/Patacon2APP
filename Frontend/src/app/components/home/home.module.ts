@@ -51,6 +51,7 @@ import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { UpdateLocationComponent } from './producers/update-location/update-location.component';
 import { ChartsModule } from 'ng2-charts';
+import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pending-dispatches.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { ChartsModule } from 'ng2-charts';
     SummaryByDriverComponent,
     UpdateLocationComponent,
     RoutesComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    PendingDispatchesComponent
     
   ],
   imports: [

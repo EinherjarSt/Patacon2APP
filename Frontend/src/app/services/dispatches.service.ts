@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Dispatch } from '../model-classes/dispatch';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { environment as env } from "@env/environment";
 import * as moment from 'moment';
@@ -99,6 +99,15 @@ export class DispatchesService {
       })
     );
   }
+  getDispatchesWithFullInfoByStatus(status): Observable<any[]> {
+    return this._http.get<any[]>(env.api.concat("/despachos_completos")).pipe(
+      map(dispatches => {
+        return dispatches.filter(dispatch => dispatch.dispatchStatus.localeCompare(status));
+      })
+    );
+  }
+  
+  
 
   getDispatchWithFullInfo(dispatchId): Observable<any> {
     return this._http.get<any>(env.api.concat("/despachos_completos/" + dispatchId)).pipe(
