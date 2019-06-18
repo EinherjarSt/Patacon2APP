@@ -85,6 +85,22 @@ export class ResetPasswordComponent implements OnInit {
       });
     }
 
+    comprobationOfCode()
+    {
+      let ver_code = this.getVerCodeForm.get("verCode").value;
+      console.log("verCode");
+      this.resetPassword.verificateCode(ver_code).subscribe({
+        next: result => {
+          console.log(result);
+          console.log("codigo asociado con un mail");
+          //this.thisDialogRef.close('Confirm');
+        },
+        error: result => {
+          console.log("error");
+        }
+      });
+    }
+
     /* generateCode()
     {
       console.log("Codigo generado1");

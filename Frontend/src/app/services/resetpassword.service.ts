@@ -5,6 +5,8 @@ import { User } from "../model-classes/user";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ResetPassword } from '../model-classes/reset_password';
+//import * as nodemailer from 'nodemailer';
+
 
 @Injectable({
     providedIn: "root"
@@ -24,8 +26,34 @@ import { ResetPassword } from '../model-classes/reset_password';
         return result;
      }
 
-    createCode(email: string): Observable<boolean> {
+    createCode(email: string): Observable<boolean> {      
         var verification_code = ResetPasswordService.makeCode(8);
+        //var nodemailer = require('nodemailer');
+
+        /* var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'patacon.reset@gmail.com',
+            pass: 'patacon2'
+          }
+        });
+
+        var mailOptions = {
+          from: 'patacon.reset@gmail.com',
+          to: 'gerardoestrada14@hotmail.com',
+          subject: 'Sending Email using Node.js',
+          text: 'That was easy!'
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+
+        }); */
+ 
         const body = new HttpParams()
           .set("email", email)
           .set("verification_code", verification_code);
@@ -39,6 +67,21 @@ import { ResetPassword } from '../model-classes/reset_password';
             })
           );
       }
+
+    verificateCode(ver_code: string): Observable<ResetPassword>{
+        //const body = new HttpParams()
+          //.set("verification_code", ver_code);
+    
+        return this.http.get<ResetPassword>(env.api.concat("/resetpassword/verification"+ver_code))
+          .pipe(
+            map(result => {
+              //console.log(result.msg);
+              console.log(result);
+              return result;
+            })
+          );
+    }
+
 
     /* findUserbyEmail(email: string): Observable<boolean>{
         //const body = new HttpParams()

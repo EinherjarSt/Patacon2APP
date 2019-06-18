@@ -47,4 +47,26 @@ app.put('/resetpassword/add', function (req, res) {
         });
     })  
 
+app.get('/resetpassword/verification/:ver_code', function (req, res) {
+    //console.log("user/create");
+    console.log(req.body);
+    //let body = req.body;
+    /* let salt = parseInt(process.env.BCRYPT_SALT);
+    bcrypt.hash(body.password, salt, function (err, hashedPassword) {
+        if (err) {
+            return res.status(400).json({
+                error: {
+                    message: err.message
+                }
+            });
+        }  */
+    let code = req.params.code;
+    ResetPassword.getEmailByCode(code, (err, resetPassword) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(resetPassword);
+    });
+    })
+
 module.exports = app;
