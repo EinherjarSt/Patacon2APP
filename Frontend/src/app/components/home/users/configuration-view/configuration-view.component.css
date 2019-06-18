@@ -31,7 +31,6 @@
     border-left: 1px solid #c4c4c4;
     height: auto;
     padding-left: 20px;
-    width: 100%;
 }
 .restorePass{
     /*padding-left: 50px;
@@ -48,3 +47,10 @@
     position: relative;
     left: 60px;
 }
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+  }
