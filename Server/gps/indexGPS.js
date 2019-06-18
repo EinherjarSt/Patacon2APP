@@ -93,7 +93,7 @@ const STATUS = {
     LOADING: 'Cargando',
     TRAVELING_TO_PATACON: 'En camino a Patacon',
     IN_PATIO: 'En patio',
-    TRAVELING_TO_VINEYARD: 'En tránsito a viña'
+    TRAVELING_TO_VINEYARD: 'En camino a viña'
 }
 
 function outOfRoute() {
@@ -188,8 +188,10 @@ function geofence() {
             let geofence_patacon = turf.circle(center, radius, options);
             console.log(turf.booleanPointInPolygon(pt, geofence_patacon));
 
-            if (turf.booleanPointInPolygon(pt, geofence_vineyard) && dispatchInfo.status === STATUS.TRAVELING_TO_VINEYARD) {
-                dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.LOADING, (err, res) => {
+            if (turf.booleanPointInPolygon(pt, geofence_vineyard)) {
+                if (dispatchInfo.status === STATUS.TRAVELING_TO_VINEYARD){
+		    
+		    dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.LOADING, (err, res) => {
                     console.log("Loading")
                     if (err) {
                         console.log("Error al cambiar estado automaticamente");
@@ -199,8 +201,10 @@ function geofence() {
                         element.dispatch.status = STATUS.LOADING;
                     }
                 })
-            } else if (turf.booleanPointInPolygon(pt, geofence_patacon) && dispatchInfo.status === STATUS.TRAVELING_TO_PATACON) {
-                dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.IN_PATIO, (err, res) => {
+		}
+            } else if (turf.booleanPointInPolygon(pt, geofence_patacon) ) {
+		if(dispatchInfo.status === STATUS.TRAVELING_TO_PATACON){
+                	dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.IN_PATIO, (err, res) => {
                     console.log("En patio")
                     if (err) {
                         console.log("Error al cambiar estado automaticamente");
@@ -210,6 +214,7 @@ function geofence() {
                         element.dispatch.status = STATUS.IN_PATIO;
                     }
                 })
+		}
             } else if (dispatchInfo.status === STATUS.LOADING) {
 
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.TRAVELING_TO_PATACON, (err, res) => {
