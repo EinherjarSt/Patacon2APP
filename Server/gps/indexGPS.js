@@ -118,7 +118,7 @@ function outOfRoute() {
                     let distance = turf.pointToLineDistance(pt, turfLine);
                     console.log(distance + " KM");
                     console.log("Deberia haber terminado de calcular");
-                    if (distance > 1) {
+                    if (distance > 0.5 ){
                         console.log("Escribiendo en last");
                         lastEvent.insertOutOfRouteEvent(dispatchInfo.id_truck, dispatchInfo.id_dispatch, (err, res) => {
                             if (err) {
@@ -156,7 +156,7 @@ function geofence() {
             if (!location) continue;
             console.log("geofence despues de if")
 
-            let radius = 1;
+            let radius = 0.5;
             let options = {
                 steps: 10,
                 units: 'kilometers',
