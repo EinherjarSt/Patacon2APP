@@ -60,3 +60,13 @@ IN `_run` VARCHAR(13)
 END//
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `update_password`//
+CREATE PROCEDURE `update_password`(
+IN `_run` VARCHAR(13),
+IN `_password` VARCHAR(255)
+) BEGIN
+     UPDATE `user` SET 
+     `password` = _password
+     WHERE `user`.`run` = _run;
+END//
+DELIMITER ;

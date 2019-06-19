@@ -10,6 +10,7 @@ import { MaterialModule } from '../../material.module';
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { ConfigurationViewComponent} from './users/configuration-view/configuration-view.component'
 
 import { ProducersComponent } from './producers/producers.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
@@ -87,6 +88,7 @@ import { ChartsModule } from 'ng2-charts';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
+    ConfigurationViewComponent,
     GeneralSummaryComponent,
     SummaryByDriverComponent,
     UpdateLocationComponent,
