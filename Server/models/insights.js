@@ -95,6 +95,7 @@ class InsightsData {
                     truckLicensePlate: dispatchInsight.truckLicensePlate,
                     dispatchDate: dispatchInsight.dispatchDate,
                     textMessagesSent: dispatchInsight.textMessagesSent,
+                    lastMessageSentDate: dispatchInsight.lastMessageSentDate,
                     stoppedTime: dispatchInsight.stoppedTime,
                     unloadYardTime: dispatchInsight.unloadYardTime
                 });
