@@ -7,30 +7,40 @@
 <mat-dialog-content>
     <form [formGroup]="locationForm">
         <div>
-          <mat-form-field appearance="standard" class="input">
-            <mat-label>Dirección</mat-label>
-            <input matInput formControlName="address">
-          </mat-form-field>
+            <mat-form-field appearance="standard" class="input">
+                <mat-label>Dirección</mat-label>
+                <input matInput formControlName="address">
+            </mat-form-field>
 
-          <mat-form-field appearance="standard" class="input">
-              <mat-label>Latitud</mat-label>
-              <input matInput formControlName="latitude">
-          </mat-form-field>
+            <div class="form-div">
+                <mat-form-field appearance="standard" class="input">
+                    <mat-label>Latitud</mat-label>
+                    <input matInput formControlName="latitude">
+                </mat-form-field>
 
-          <mat-form-field appearance="standard" class="input">
-              <mat-label>Longitud</mat-label>
-              <input matInput formControlName="longitude">
-          </mat-form-field>
+                <mat-form-field appearance="standard" class="input">
+                    <mat-label>Longitud</mat-label>
+                    <input matInput formControlName="longitude">
+                </mat-form-field>
+            </div>
 
-          <mat-form-field appearance="standard" class="input">
-              <mat-label>Encargado</mat-label>
-              <input matInput formControlName="manager">
-          </mat-form-field>
+            <div class="form-div">
+                <mat-form-field appearance="standard" class="input">
+                    <mat-label>Encargado</mat-label>
+                    <input matInput formControlName="manager">
+                </mat-form-field>
 
-          <mat-form-field appearance="standard" class="input">
-              <mat-label>Teléfono</mat-label>
-              <input matInput formControlName="managerPhoneNumber">
-          </mat-form-field>
+                <mat-form-field appearance="standard" class="input">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput formControlName="managerPhoneNumber" maxlength="9">
+                </mat-form-field>
+            </div>
+            
+            <div class="map-content">
+                <agm-map [latitude]="+data.lat" [longitude]="+data.lng" (mapClick)="mapClicked(i,$event)">
+                    <agm-marker [latitude]="locationForm.get('latitude').value" [longitude]="locationForm.get('longitude').value"></agm-marker>
+                </agm-map>
+            </div>
         </div>
     </form>
 </mat-dialog-content>
