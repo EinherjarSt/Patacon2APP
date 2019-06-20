@@ -37,7 +37,7 @@
             </div>
             
             <div class="map-content">
-                <agm-map [latitude]="+data.lat" [longitude]="+data.lng" (mapClick)="mapClicked(i,$event)">
+                <agm-map [latitude]="+lat" [longitude]="+lng" (mapClick)="mapClicked($event)">
                     <agm-marker [latitude]="locationForm.get('latitude').value" [longitude]="locationForm.get('longitude').value"></agm-marker>
                 </agm-map>
             </div>
