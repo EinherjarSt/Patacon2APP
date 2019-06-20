@@ -97,9 +97,7 @@ BEGIN
   INNER JOIN location ON planification.ref_location = location.id_location
   INNER JOIN producer ON planification.ref_producer = producer.rut
   INNER JOIN truck ON dispatch.ref_truck = truck.id_truck
-  WHERE dispatch.status <> 'Terminado' 
-  && dispatch.status <> 'Pendiente'
-  && truck.ref_gps IS NOT NULL;
+  WHERE truck.ref_gps IS NOT NULL;
 END //
 DELIMITER ;
 
