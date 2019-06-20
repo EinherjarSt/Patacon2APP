@@ -2,7 +2,7 @@ var gps = require("gps-tracking");
 var GPSDevice = require("../models/gps");
 var gpsOptions = {
     'debug': true,
-    'port': 9001,
+    'port': process.env.PATACON_GPS_PORT,
     'device_adapter': require('./adapter-tk103'),
     'host': '0.0.0.0'
 }

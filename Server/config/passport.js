@@ -50,7 +50,7 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: process.env.JWT_SECRET
+        secretOrKey: process.env.PATACON_JWT_SECRET
     },
     function (jwtPayload, done) {
         //console.log("JWTStrategy %j ", jwtPayload)

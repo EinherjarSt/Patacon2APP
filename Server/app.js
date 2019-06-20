@@ -26,8 +26,8 @@ app.use(bodyParser.json());
 // Configuración global de rutas
 app.use(require('./routes/index'));
 
-app.listen(process.env.PORT, "0.0.0.0", () => {
-  console.log('Escuchando puerto: ', process.env.PORT);
+app.listen(process.env.PATACON_PORT, "0.0.0.0", () => {
+  console.log('Escuchando puerto: ', process.env.PATACON_PORT);
 });
 
 mysql.pool.on('acquire', function (connection) {

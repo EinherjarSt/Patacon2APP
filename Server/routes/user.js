@@ -11,7 +11,7 @@ app.put('/user/add', passport.authenticate('jwt', {
     console.log("user/create");
     console.log(req.body);
     let body = req.body;
-    let salt = parseInt(process.env.BCRYPT_SALT);
+    let salt = parseInt(process.env.PATACON_BCRYPT_SALT);
     bcrypt.hash(body.password, salt, function (err, hashedPassword) {
         if (err) {
             return res.status(400).json({
@@ -41,7 +41,7 @@ app.post('/user/update', passport.authenticate('jwt', {
 
     let body = req.body;
     if (body.password.trim() !== '') {
-        let salt = parseInt(process.env.BCRYPT_SALT);
+        let salt = parseInt(process.env.PATACON_BCRYPT_SALT);
         bcrypt.hash(body.password, salt, function (err, hashedPassword) {
             if (err) {
                 return res.status(400).json(err);
@@ -148,7 +148,7 @@ app.post('/user/updatePassword', passport.authenticate('jwt', {
 }), (req, res) => {
     console.log("user/updatePass");
     let body = req.body;
-    let salt = parseInt(process.env.BCRYPT_SALT);
+    let salt = parseInt(process.env.PATACON_BCRYPT_SALT);
         bcrypt.hash(body.password, salt, function (err, hashedPassword) {
             if (err) {
                 return res.status(400).json(err);
