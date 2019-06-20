@@ -9,4 +9,5 @@ export class InsightsDataTable {
     textMessagesSent: number;
     truckLicensePlate: string;
     unloadYardTime: string;
+    lastMessageSentDate: string;
 }
