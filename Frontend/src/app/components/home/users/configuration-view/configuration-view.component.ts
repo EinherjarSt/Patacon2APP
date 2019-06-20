@@ -17,7 +17,7 @@ import { NotifierService } from 'angular-notifier';
 export class ConfigurationViewComponent implements OnInit {
   private readonly notifier: NotifierService;
   private userId;
-  private user: User;
+  user: User;
   btnPassNoVisible = true;
   btnDataNoVisible = true;
   hideOld = true;
@@ -129,9 +129,11 @@ export class ConfigurationViewComponent implements OnInit {
       this.passForm.controls.newPass2.setErrors({
         notMatch:true
       });
+      return true;
       }
     else{
       this.passForm.controls.newPass2.setErrors(null);
+      return false;
     }
   }
 
