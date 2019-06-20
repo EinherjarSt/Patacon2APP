@@ -9,12 +9,11 @@ var gpsOptions = {
 
 // Global var that contain the route and info of gps
 GPS_DATA = {};
-let geofenceTimer;
-let outOfRouteTimer;
+const hasGoneOutOfRoute = {};
 
 var server = gps.server(gpsOptions, function (device, connection) {
-    geofenceTimer = setInterval(geofence, 1 * 1000 * 60);
-    outOfRouteTimer = setInterval(outOfRoute, 1 * 1000 * 60);
+   setInterval(geofence, 1 * 1000 * 60);
+   setInterval(outOfRoute, 1 * 1000 * 60);
 
     device.on("login_request", function (device_id, msg_parts) {
         GPSDevice.getGPSWithRoute(device_id, (err, gpsResult) => {
@@ -121,13 +120,15 @@ function outOfRoute() {
                     console.log("Deberia haber terminado de calcular");
                     if (distance > 0.2 ){
                         console.log("Escribiendo en last");
-                        lastEvent.insertOutOfRouteEvent(dispatchInfo.id_truck, dispatchInfo.id_dispatch, (err, res) => {
-                            if (err) {
-                                console.log(err);
-                            }
-
-                            console.log(res);
-                        });
+                        if (!hasGoneOutOfRoute[dispatchInfo.id_dispatch]){
+                            hasGoneOutOfRoute[dispatchInfo.id_dispatch] = true;
+                            lastEvent.insertOutOfRouteEvent(dispatchInfo.id_truck, dispatchInfo.id_dispatch, (err, res) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                console.log(res);
+                            });
+                        }
                     }
                 } else {
                     alert('Could not display directions due to: ' + status);
