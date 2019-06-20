@@ -5,6 +5,7 @@ import { Producer } from 'src/app/model-classes/producer';
 import { ProducersService } from 'src/app/services/producers.service';
 import { UpdateProducerComponent } from '../update-producer/update-producer.component';
 import { UpdateLocationComponent } from '../update-location/update-location.component';
+import { AddLocationComponent } from '../add-location/add-location.component';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { NotifierService } from 'angular-notifier';
 
@@ -89,11 +90,33 @@ export class ProducerListComponent implements OnInit {
       } 
     });
   }
+  
+  openAddLocationDialog(ref_producer: string){
+    const dialogRef = this.dialog.open(AddLocationComponent, {
+      data: ref_producer,
+      width: '700px',
+      disableClose: true,
+      autoFocus: true
+    });
 
-  openLocationUpdateDialog(id_location: string){
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Ubicación registrada exitosamente');
+      } 
+    });
+  }
+
+  openLocationUpdateDialog(id_location: string, latitude: number, longitude: number){
+
+    let comp = {
+      location: id_location,
+      lat: latitude,
+      lng: longitude
+    }
     const dialogRef = this.dialog.open(UpdateLocationComponent, {
-      data: id_location,
-      width: '500px',
+      data: comp,
+      width: '700px',
       disableClose: true,
       autoFocus: true
     });

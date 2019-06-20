@@ -128,4 +128,39 @@ app.post('/user/remove', passport.authenticate('jwt', {
     });
 })
 
+app.post('/user/verifyPassword', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("user/verify");
+
+    let body = req.body;
+    User.verifyPassword2(body.run, body.password, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(result);
+    });
+    
+})
+
+app.post('/user/updatePassword', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("user/updatePass");
+    let body = req.body;
+    let salt = parseInt(process.env.BCRYPT_SALT);
+        bcrypt.hash(body.password, salt, function (err, hashedPassword) {
+            if (err) {
+                return res.status(400).json(err);
+            }
+            
+    User.updatePassword(body.run, hashedPassword, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(result);
+    });
+    });
+})
+
 module.exports = app;

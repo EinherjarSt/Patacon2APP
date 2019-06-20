@@ -10,6 +10,7 @@ import { MaterialModule } from '../../material.module';
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { ConfigurationViewComponent} from './users/configuration-view/configuration-view.component'
 
 import { ProducersComponent } from './producers/producers.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
@@ -52,6 +53,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { UpdateLocationComponent } from './producers/update-location/update-location.component';
 import { ChartsModule } from 'ng2-charts';
 import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pending-dispatches.component';
+import { AddLocationComponent } from './producers/add-location/add-location.component';
 
 @NgModule({
   declarations: [
@@ -88,12 +90,14 @@ import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pendi
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
+    ConfigurationViewComponent,
     GeneralSummaryComponent,
     SummaryByDriverComponent,
     UpdateLocationComponent,
     RoutesComponent,
     StatisticsComponent,
-    PendingDispatchesComponent
+    PendingDispatchesComponent,
+    AddLocationComponent
     
   ],
   imports: [
@@ -125,7 +129,8 @@ import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pendi
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    UpdateLocationComponent
+    UpdateLocationComponent,
+    AddLocationComponent
   ],
 })
 export class HomeModule { }
