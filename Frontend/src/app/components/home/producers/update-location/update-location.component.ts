@@ -15,6 +15,10 @@ export class UpdateLocationComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<UpdateLocationComponent>, private producersService: ProducersService,
     @Inject(MAT_DIALOG_DATA) private data: any, private fb: FormBuilder) { 
+
+      this.lat = +data.lat;
+      this.lng = +data.lng;
+
       this.locationForm = this.fb.group({
         id_location : data.location,
         ref_productor: new FormControl(''),
@@ -63,7 +67,7 @@ export class UpdateLocationComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  mapClicked(i: any, $event: any) {
+  mapClicked($event: any) {
     this.locationForm.get('latitude').setValue($event.coords.lat);
     this.locationForm.get('longitude').setValue($event.coords.lng);
   }
