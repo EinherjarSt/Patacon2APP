@@ -37,8 +37,9 @@
                     Patente: {{dispatchInfo[imei].truckLicensePlate}} <br>
                     Chofer: {{dispatchInfo[imei].driverName}} <br>
                     Telefono: {{dispatchInfo[imei].driverPhoneNumber}} <br>
-                    Estado: {{dispatchInfo[imei].dispatchStatus}}
-                    Hora: {{gpsPosition[imei].location?.date}}
+                    Estado: {{dispatchInfo[imei].dispatchStatus}} <br>
+                    Hora: {{gpsPosition[imei].location?.date}} <br>
+                    Velocidad: {{gpsPosition[imei].location?.velocity}} 
                 </div>
               </agm-info-window>
             </agm-marker>
