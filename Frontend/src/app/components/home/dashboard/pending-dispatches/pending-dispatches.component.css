@@ -1,0 +1,35 @@
+.filter-table-container {
+    height: 300px;
+    overflow: auto;
+    
+  }
+table {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 300px;
+    
+}
+ 
+th.mat-header-cell {
+    text-align: left;
+}
+
+td.mat-cell {
+ font-size: small;
+}
+
+
+.custom-mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  
+.custom-mat-header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  

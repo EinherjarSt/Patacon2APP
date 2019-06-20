@@ -73,7 +73,7 @@ export class InsightsService {
     return this._lastEventsService.getAllEventsOfDispatch(dispatchId).pipe(
       map(events => {
         return {
-          stopped: this._calculateTotalTimeInStatus(events, 'Detenido'),
+          stopped: this._calculateTotalTimeInStatus(events, 'Detenido camino a Patacon'),
           inUnloadYard: this._calculateTotalTimeInStatus(events, 'En patio')
         };
       })

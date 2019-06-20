@@ -88,6 +88,7 @@ BEGIN
   truck.licencePlate AS truckLicensePlate,
   dispatch.arrivalAtPataconDate AS dispatchDate,
   insights_data.textMessagesSent AS textMessagesSent,
+  insights_data.lastMessageSentDate AS lastMessageSentDate,
   insights_data.stoppedTime AS stoppedTime,
   insights_data.unloadYardTime AS unloadYardTime
   FROM dispatch

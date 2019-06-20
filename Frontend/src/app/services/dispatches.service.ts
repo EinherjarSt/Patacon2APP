@@ -99,13 +99,8 @@ export class DispatchesService {
       })
     );
   }
-  getDispatchesWithFullInfoByStatus(status): Observable<any[]> {
-    return this._http.get<any[]>(env.api.concat("/despachos_completos")).pipe(
-      map(dispatches => {
-        return dispatches.filter(dispatch => dispatch.dispatchStatus.localeCompare(status));
-      })
-    );
-  }
+  
+ 
   
   
 
@@ -189,16 +184,13 @@ export class DispatchesService {
 
         this._insightsService.calculateTotalTimePerStatus(dispatchId).subscribe(
           timePerStatus => {
-
+            
             const body = new HttpParams().set("stoppedTime", this._durationToString(timePerStatus.stopped)).
               set("inUnloadYardTime", this._durationToString(timePerStatus.inUnloadYard));
 
-            this._http.put<any>(env.api.concat(`/informacion/editar_tiempo_por_estado/` + dispatchId), body)
-              .pipe(
-                map(result => {
-                  return true;
-                })
-              );
+            this._http.put<any>(env.api.concat(`/informacion/editar_tiempo_por_estado/` + dispatchId), body).subscribe(
+              res => {}
+            )
           }
         );
       }
