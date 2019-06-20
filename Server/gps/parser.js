@@ -79,7 +79,7 @@ var parser = {
             longitude: this.getCoordinates(dataArray[10]) * this.pointConverter(parseFloat(dataArray[9])),
             velocity: parseInt(dataArray[11], 10) * 1.85,
             orientation:parseInt(dataArray[12], 10),
-            recived: moment().format("YYYY-MM-DD HH:mm:ss")
+            received: moment().format("YYYY-MM-DD HH:mm:ss")
         };
         return $dataObject;
     },

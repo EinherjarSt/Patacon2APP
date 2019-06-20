@@ -39,7 +39,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
     device.on("login", function () {
         console.log("Hi! i'm " + device.uid);
-        device.send(`**,imei:${device.uid},C,5s`);
+        device.send(`**,imei:${device.uid},C,10s`);
         device.send(`**,imei:${device.uid},I,-4`);
     });
 
@@ -56,6 +56,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
                 latitude: gpsData.latitude,
                 longitude: gpsData.longitude,
                 velocity: gpsData.velocity,
+                date: gpsData.date
             };
         }
         else if (GPS_DATA[device.uid].location){
@@ -65,7 +66,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
     connection.on('close', (hadError) => {
         console.log(`connection \with device ${device.uid} is close`);
-        delete GPS_DATA[device.uid];
+        //delete GPS_DATA[device.uid];
     })
 });
 
@@ -118,7 +119,7 @@ function outOfRoute() {
                     let distance = turf.pointToLineDistance(pt, turfLine);
                     console.log(distance + " KM");
                     console.log("Deberia haber terminado de calcular");
-                    if (distance > 0.5 ){
+                    if (distance > 0.2 ){
                         console.log("Escribiendo en last");
                         lastEvent.insertOutOfRouteEvent(dispatchInfo.id_truck, dispatchInfo.id_dispatch, (err, res) => {
                             if (err) {
@@ -156,7 +157,7 @@ function geofence() {
             if (!location) continue;
             console.log("geofence despues de if")
 
-            let radius = 0.5;
+            let radius = 0.2;
             let options = {
                 steps: 10,
                 units: 'kilometers',
