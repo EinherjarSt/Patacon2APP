@@ -42,4 +42,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
+  configureAccount(){
+    let tokenInfo = this.auth.getTokenInfo();
+    let run:String = tokenInfo.run;
+    this.router.navigate(['inicio/configcuenta/'+run]);
+  }
+
 }

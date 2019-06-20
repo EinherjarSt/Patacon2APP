@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { UsersComponent } from './users/users.component';
+import { ConfigurationViewComponent } from './users/configuration-view/configuration-view.component';
 import { ProducersComponent } from './producers/producers.component';
 import { DriversComponent } from './drivers/drivers.component';
 import { TrucksComponent } from './trucks/trucks.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
     children:[
     {path: '',component: DashboardComponent},
      {path: 'usuarios',component: UsersComponent},
+     {path: 'configcuenta/:id',component:ConfigurationViewComponent},
      {path: 'productores', component: ProducersComponent},
      {path: 'choferes',component: DriversComponent},
      {path: 'camiones', component: TrucksComponent},

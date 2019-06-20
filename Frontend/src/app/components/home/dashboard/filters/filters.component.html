@@ -15,7 +15,7 @@
 
             </th>
             <td mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                <mat-checkbox (click)="$event.stopPropagation();" (change)="$event ? selection.toggle(row) : null"
                     [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
                 </mat-checkbox>
 
@@ -37,14 +37,33 @@
             <td mat-cell *matCellDef="let element"> {{element.producerName + ' ' + element.producerLocation}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="details">
-            <th mat-header-cell class="custom-mat-header" *matHeaderCellDef> Detalles </th>
+        <ng-container matColumnDef="options">
+            <th mat-header-cell class="custom-mat-header" *matHeaderCellDef> Opciones </th>
             <td mat-cell *matCellDef="let element">
-                <button mat-icon-button color="primary" (click)="openDispatchDetailsDialog(element);">
-                    <mat-icon class="mat-18">reorder</mat-icon>
+                <button (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu"
+                    aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
                 </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="openDispatchDetailsDialog(element); ">
+                        <mat-icon>notifications_off</mat-icon>
+                        <span>Detalles</span>
+                    </button>
+                    <button mat-menu-item color="primary" (click)="cancelDispatch(element.dispatchId)">
+                        <mat-icon>delete_forever</mat-icon>
+                        <span>Cancelar</span>
+                    </button>
+
+                    <button mat-menu-item color="primary" (click)="terminateDispatch(element.dispatchId)">
+                        <mat-icon>close</mat-icon>
+                        <span>Terminar</span>
+                    </button>
+
+                </mat-menu>
             </td>
         </ng-container>
+
+
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>

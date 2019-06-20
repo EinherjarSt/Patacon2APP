@@ -179,6 +179,48 @@ class User {
         });
     }
 
+    static verifyPassword2(run,password, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`SELECT password FROM user WHERE run = ?`, [run], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+            }
+            if (results.length > 1) {
+                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
+            }
+            let result = results[0];
+            bcrypt.compare(password,result.password ,function(err, res) {
+                if(err){
+                    callback(err);
+                }
+                return callback(null, res);
+            });
+        });
+    }
+
+    static updatePassword(run,password, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL update_password(?, ?)`, [
+            run,
+            password
+        ], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({ code: ERROR.NOT_FOUND, message: "This user don't exist"});
+            }
+            return callback(null, true);
+        });
+    }
 }
 
 module.exports = User
