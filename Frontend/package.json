@@ -32,6 +32,7 @@
     "@auth0/angular-jwt": "^2.1.0",
     "amazing-time-picker": "^1.8.0",
     "angular-notifier": "^4.1.1",
+    "angular7-csv": "^0.2.12",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
     "core-js": "^2.5.4",
