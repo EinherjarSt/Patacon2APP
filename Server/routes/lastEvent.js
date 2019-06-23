@@ -5,6 +5,7 @@ const passport = require('passport');
 const LastEvent = require('../models/lastEvent');
 
 
+
 app.get('/event/getall', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
@@ -26,6 +27,20 @@ app.get('/eventos/:dispatchId', passport.authenticate('jwt', {
     LastEvent.getAllEventsOfDispatch(req.params.dispatchId, (err, event) =>{
         console.log(err);
         if (err){
+            return res.status(400).json(err);
+        }
+        return res.json(event);
+    });
+})
+
+
+app.get('/event/getNevents/:count', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let count = req.params.count;
+
+    LastEvent.getNevents(count, (err, event) => {
+        if (err) {
             return res.status(400).json(err);
         }
         return res.json(event);

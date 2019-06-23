@@ -39,7 +39,6 @@ import { FiltersComponent } from './dashboard/filters/filters.component';
 import { GpsComponent } from './gps/gps.component';
 import { GpsListComponent } from './gps/gps-list/gps-list.component';
 import { AddGpsComponent } from './gps/add-gps/add-gps.component';
-import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
 import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
 import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirmation-dialog.component';
@@ -82,7 +81,6 @@ import { AddLocationComponent } from './producers/add-location/add-location.comp
     GpsComponent,
     GpsListComponent,
     AddGpsComponent,
-    LatestEventsComponent,
     EditDispatchComponent,
     EditGpsComponent,
     ConfirmationDialogComponent,
