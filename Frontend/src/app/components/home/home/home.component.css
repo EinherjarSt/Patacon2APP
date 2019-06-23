@@ -126,10 +126,6 @@ a:hover {
 
 ::ng-deep .mat-menu-panel {
   max-width: 400px !important;
-  
-}
-.mat-list-item{
-  
 }
 
 .desc{
