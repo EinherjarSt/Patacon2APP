@@ -7,6 +7,8 @@ import { DetailsComponent } from './details/details.component';
 import { AddPlanificationComponent } from '../add-planification/add-planification.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
+
 @Component({
   selector: 'app-planification-list',
   templateUrl: './planification-list.component.html',
@@ -16,10 +18,12 @@ export class PlanificationListComponent implements OnInit {
   planifications: Planification[];
   displayedColumns: string[] = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch', 'edit', 'delete'];
   dataSource: MatTableDataSource<Planification>;
+  userType: String;
 
   dialogResult = "";
   constructor(private producerService: ProducersService,
     private planificationService: PlanificationService,
+    private auth: AuthService,
     public dialog: MatDialog,
     public router: Router) {
     this.getP();
@@ -51,7 +55,11 @@ export class PlanificationListComponent implements OnInit {
 
   ngOnInit() {
     this.getP();
+    this.userType = this.auth.getUserType();
 
+    if(this.userType == "Encargado de Flota"){
+      this.displayedColumns = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch'];
+    }
   }
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();

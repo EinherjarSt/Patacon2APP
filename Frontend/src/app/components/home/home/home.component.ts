@@ -30,11 +30,13 @@ export const ROUTES: RouteInfo[] = [
 export class HomeComponent implements OnInit {
 
   menuItems: any[];
+  userType : String;
 
   constructor(private auth:AuthService, private router:Router) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.userType = this.auth.getUserType();
   }
 
   logout(){
