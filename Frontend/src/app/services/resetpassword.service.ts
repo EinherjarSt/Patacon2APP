@@ -5,7 +5,7 @@ import { User } from "../model-classes/user";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { ResetPassword } from '../model-classes/reset_password';
-//import * as nodemailer from 'nodemailer';
+// import { nodemailer } from "@';
 
 
 @Injectable({
@@ -29,37 +29,13 @@ import { ResetPassword } from '../model-classes/reset_password';
     createCode(email: string): Observable<boolean> {      
         var verification_code = ResetPasswordService.makeCode(8);
         //var nodemailer = require('nodemailer');
-
-        /* var transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'patacon.reset@gmail.com',
-            pass: 'patacon2'
-          }
-        });
-
-        var mailOptions = {
-          from: 'patacon.reset@gmail.com',
-          to: 'gerardoestrada14@hotmail.com',
-          subject: 'Sending Email using Node.js',
-          text: 'That was easy!'
-        };
-
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-
-        }); */
  
         const body = new HttpParams()
           .set("email", email)
           .set("verification_code", verification_code);
     
         return this.http
-          .put<{ msg: string }>(env.api.concat("/resetpassword/add"), body)
+          .put<{ msg: string }>(env.api.concat("/resetpassword/addcode"), body)
           .pipe(
             map(result => {
               console.log(result.msg);
@@ -68,7 +44,25 @@ import { ResetPassword } from '../model-classes/reset_password';
           );
       }
 
-    verificateCode(ver_code: string): Observable<ResetPassword>{
+      changePassword(verification_code: string, password: string): Observable<boolean> {      
+        //var verification_code = ResetPasswordService.makeCode(8);
+        //var nodemailer = require('nodemailer');
+ 
+        const body = new HttpParams()
+          .set("verification_code", verification_code)
+          .set("password", password);
+    
+        return this.http
+          .put<{ msg: string }>(env.api.concat("/resetpassword/addpassword"), body)
+          .pipe(
+            map(result => {
+              console.log(result.msg);
+              return true;
+            })
+          );
+      }
+
+    /* verificateCode(ver_code: string, password: string): Observable<ResetPassword>{
         //const body = new HttpParams()
           //.set("verification_code", ver_code);
     
@@ -80,10 +74,10 @@ import { ResetPassword } from '../model-classes/reset_password';
               return result;
             })
           );
-    }
+    }*/
 
 
-    /* findUserbyEmail(email: string): Observable<boolean>{
+    findUserbyEmail(email: string): Observable<boolean>{
         //const body = new HttpParams()
         //.set('email', email);
         //console.log(email);
@@ -93,5 +87,5 @@ import { ResetPassword } from '../model-classes/reset_password';
             return result;
         })
         );
-    } */
+    } 
 }

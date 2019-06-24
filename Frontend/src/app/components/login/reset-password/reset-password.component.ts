@@ -8,6 +8,7 @@ import { UsersService } from '../../../services/users.service';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ResetPassword } from '../../../model-classes/reset_password';
 import { ResetPasswordService } from '../../../services/resetpassword.service';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
 
 @Component({
@@ -17,24 +18,39 @@ import { ResetPasswordService } from '../../../services/resetpassword.service';
   })
 
 export class ResetPasswordComponent implements OnInit {
+    //isLinear = false;
     getEmailForm: FormGroup;
-    getVerCodeForm: FormGroup;
-    getNewPasswordForm: FormGroup;
+    getVerCodeAndNewPasswordForm: FormGroup;
+    selectedIndex = 0;
+    //getNewPasswordForm: FormGroup;
 
     //resetPasswordForm: FormGroup;
 
     constructor(private auth:AuthService, private router:Router, 
-      private resetPassword:ResetPasswordService) { 
+      private resetPassword:ResetPasswordService, private snackBar: MatSnackBar) { 
         this.getEmailForm = new FormGroup({
           email: new FormControl("")
         });
-        this.getVerCodeForm = new FormGroup({
-          verCode: new FormControl("")
+        this.getVerCodeAndNewPasswordForm = new FormGroup({
+          verCode: new FormControl(""),
+          newPassword: new FormControl(""),
+          newPasswordRepeated: new FormControl("")
         });
-        this.getNewPasswordForm = new FormGroup({
+        /*this.getNewPasswordForm = new FormGroup({
           newEmail: new FormControl("")
-        });
+        });*/
+        /* function emailValidator(control: FormControl) {
+          let email = control.value;
+          if (!this.comprobateIfUserExists()) {
+              return {
+                email: {email}
+              }
+            }
+          }
+          return null; (6)
+        } */
       }
+
     ngOnInit() {
         //this.menuItems = ROUTES.filter(menuItem => menuItem);
     }
@@ -68,15 +84,106 @@ export class ResetPasswordComponent implements OnInit {
         error: result => {}
       });
     } */
+
+    /*public hasError = (controlName: string, errorName: string) => {
+      return this.getEmailForm.get(controlName).hasError(errorName);
+    };*/
+
+    public selectionChange($event?: StepperSelectionEvent): void {
+      //debugger;
+      console.log('stepper.selectedIndex: ' + this.selectedIndex 
+          + '; $event.selectedIndex: ' + $event.selectedIndex);
   
-    generateCode()
+      if ($event.selectedIndex == 0) return; // First step is still selected
+  
+      this.selectedIndex = $event.selectedIndex;
+    }
+    public goto(index: number): void {
+      console.log('stepper.selectedIndex: ' + this.selectedIndex 
+          + '; goto index: ' + index);
+      if (index == 0) return; // First step is not selected anymore -ok
+      
+      this.selectedIndex = index;
+    }
+
+    openMailFailureMessage() {
+      this.snackBar.open("No hay usuarios registrados con este correo.", "Cerrar", {
+        duration: 2000, verticalPosition: 'bottom'
+      });
+    }
+
+    openCodeFailureMessage() {
+      this.snackBar.open("El codigo ingresado no es válido.", "Cerrar", {
+        duration: 2000, verticalPosition: 'bottom'
+      });
+    }
+
+    openPasswordFailureMessage() {
+      this.snackBar.open("Las contraseñas ingresadas no coinciden.", "Cerrar", {
+        duration: 2000, verticalPosition: 'bottom'
+      });
+    }
+
+    openSuccessMessage() {
+      this.snackBar.open("La contraseña ha sido modificada con éxito.", "Cerrar", {
+        duration: 2000, verticalPosition: 'bottom'
+      });
+    }
+
+    comprobateIfUserExists()
     {
       let email = this.getEmailForm.get("email").value;
-      console.log("email");
+      console.log(email);
+      this.resetPassword.findUserbyEmail(email).subscribe({
+        next: result => {
+          console.log(result);
+          this.goto(1);
+          this.generateCode(email);
+        },
+        error: result => {
+          this.openMailFailureMessage(); 
+          console.log("No existen usuarios registrados con el correo ingresado");
+        }
+      });
+    }
+
+    comprobateIfVerificationCodeExists()
+    {
+      let verification_code = this.getVerCodeAndNewPasswordForm.get("verCode").value;
+      let password = this.getVerCodeAndNewPasswordForm.get("newPassword").value;
+      let repeatedPassword = this.getVerCodeAndNewPasswordForm.get("newPasswordRepeated").value;
+      console.log(verification_code);
+      this.resetPassword.findUserbyEmail(verification_code).subscribe({
+        next: result => {
+          console.log(result);
+          if (password = repeatedPassword)
+          {
+            //setTimeout(this.openSuccessMessage(), 3000);
+            setTimeout( () => { this.openSuccessMessage(); }, 3000 );
+            this.changePassword(verification_code, password);
+          }
+          else
+          {
+            this.openPasswordFailureMessage();
+          }
+        },
+        error: result => {
+          this.openCodeFailureMessage(); 
+          console.log("No existen usuarios registrados con el correo ingresado");
+        }
+      });
+    }
+  
+    generateCode(email: string)
+    {
+      //let email = this.getEmailForm.get("email").value;
+      //console.log("email");
+      //console.log(email);
       this.resetPassword.createCode(email).subscribe({
         next: result => {
           console.log(result);
           console.log("codigo se ha generado");
+          //return true;
           //this.thisDialogRef.close('Confirm');
         },
         error: result => {
@@ -85,11 +192,31 @@ export class ResetPasswordComponent implements OnInit {
       });
     }
 
-    comprobationOfCode()
+    changePassword(verification_code: string, password: string)
+    {
+      //console.log("email");
+      console.log("Datos en componente");
+      console.log(verification_code);
+      console.log(password);
+      this.resetPassword.changePassword(verification_code, password).subscribe({
+        next: result => {
+          console.log(result);
+          console.log("codigo se ha generado");
+          this.router.navigate(['login']);
+          //this.thisDialogRef.close('Confirm');
+        },
+        error: result => {
+          console.log("error");
+        }
+      });
+    }
+
+    /* insertNewPassword()
     {
       let ver_code = this.getVerCodeForm.get("verCode").value;
       console.log("verCode");
-      this.resetPassword.verificateCode(ver_code).subscribe({
+      let password = this.getVerCodeForm.get("password").value;
+      this.resetPassword.verificateCode(ver_code, password).subscribe({
         next: result => {
           console.log(result);
           console.log("codigo asociado con un mail");
@@ -99,7 +226,7 @@ export class ResetPasswordComponent implements OnInit {
           console.log("error");
         }
       });
-    }
+    } */
 
     /* generateCode()
     {
@@ -151,3 +278,4 @@ export class ResetPasswordComponent implements OnInit {
     }*/
 
     }
+  

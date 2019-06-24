@@ -3,7 +3,6 @@ const app = express();
 
 const passport = require('passport');
 const User = require('../models/user');
-const ResetPassword = require('../models/resetPassword');
 const bcrypt = require('bcrypt');
 
 app.put('/user/add', passport.authenticate('jwt', {
@@ -129,21 +128,5 @@ app.post('/user/remove', passport.authenticate('jwt', {
         });
     });
 })
-
-/* app.post('/user/forgot-password', function (req, res) {
-    const email = req.body.email
-    ResetPassword.findOneUserToChangePassword(
-        {
-            where: {email: email},//checking if the email address sent by client is present in the db(valid)
-        })
-        .then(function (user) {
-            if (!user) {
-                return throwFailed(res, 'No hay usuarios con ese correo.')
-            }
-
-    //Agregar modelo para tabla de reset passwords en base de datos
-    //Se necesita para poder ir haciendo los cambios        
-        })
- }) */
 
 module.exports = app;
