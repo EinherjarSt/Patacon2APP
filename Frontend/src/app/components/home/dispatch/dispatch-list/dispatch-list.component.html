@@ -2,7 +2,7 @@
 
   <div fxLayout="row" fxFlex="50" align-items>
     <div fxFlex="70">
-      <button *ngIf="userType == 'Encargado de Flota' || userType == 'Gerente'" mat-raised-button (click)="openRegisterDispatchDialog()">
+      <button *ngIf="userType == 'Encargado de Flota' || userType == 'SysAdmin'" mat-raised-button (click)="openRegisterDispatchDialog()">
         <mat-icon>add</mat-icon>
         Agregar despacho
       </button>

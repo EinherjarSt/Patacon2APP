@@ -1,7 +1,7 @@
 <div class="list-container" fxLayout="column" fxLayoutGap="10px">
   <div fxLayout="row" fxFlex="50" align-items>
     <div fxFlex="70">
-      <button *ngIf="userType == 'Gerente' || userType == 'Coordinador'" mat-raised-button (click)="openDialog()">
+      <button *ngIf="userType == 'SysAdmin' || userType == 'Coordinador'" mat-raised-button (click)="openDialog()">
         <mat-icon>add</mat-icon>
         Agregar planificación
       </button>
