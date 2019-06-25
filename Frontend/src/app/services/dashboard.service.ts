@@ -24,11 +24,20 @@ export class DashboardService {
     );
   }
 
-  getAllEventsOfDispatch(dispatchId): Observable<Event[]> {
+  getNevents(count): Observable<Event[]> {
 
-    return this.http.get<Event[]>(env.api.concat("/eventos/" + dispatchId)).pipe(
+    return this.http.get<Event[]>(env.api.concat("/event/getNevents/"+count)).pipe(
       map(result => {
         console.log(result);
+        return result;
+      })
+    );
+  }
+
+
+  getAllEventsOfDispatch(dispatchId): Observable<Event[]> {
+    return this.http.get<Event[]>(env.api.concat("/eventos/" + dispatchId)).pipe(
+      map(result => {
         return result;
       })
     );

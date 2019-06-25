@@ -1,0 +1,36 @@
+.content {
+    min-width: 300px;
+    /*height: 400px;*/
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container > * {
+    width: 100%;
+  }
+
+  .row{
+    margin-bottom: 20px;
+  }
+  .main-content{
+    margin: 20px;
+  }
+  @media screen and (min-width: 960px){
+    .filter-card{
+      max-height: 80px;
+      
+    }
+  }
+
+  table {
+    width: 100%;
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+    
+  }
+
+  

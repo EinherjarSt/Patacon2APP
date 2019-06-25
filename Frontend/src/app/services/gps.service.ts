@@ -80,8 +80,8 @@ export class GpsService {
    * Get position only for gps that his imei are in gpsImei array
    * @param gpsImei: Array with imei of gps
    */
-  getPositionOf(gpsImei: [string]) {
-    const query = new HttpParams().set("gps", gpsImei.toString());
+  getPositionOf(gpsImei: string []) {
+    const query = new HttpParams().set("gps", JSON.stringify(gpsImei));
 
     return this.http
       .get<Gps[]>(env.api.concat("/gps/getposition"), {

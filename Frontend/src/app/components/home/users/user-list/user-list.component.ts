@@ -5,7 +5,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
-
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-user-list',
@@ -14,12 +14,15 @@ import { ConfirmationDialogComponent } from 'src/app/components/core/confirmatio
 })
 export class UserListComponent implements OnInit {
 
+  private readonly notifier: NotifierService;
   users: User[];
   displayedColumns: string[] = ["run", "name", "surname", "surname2", "email","details", "delete"];
   dataSource: MatTableDataSource<User>;
   dialogResult = "";
 
-  constructor(private usersService: UsersService, private dialog: MatDialog) { }
+  constructor(private usersService: UsersService, private dialog: MatDialog, notifierService: NotifierService) {
+    this.notifier = notifierService;
+   }
 
 
   @ViewChild(MatSort) sort: MatSort;
@@ -52,12 +55,17 @@ export class UserListComponent implements OnInit {
   openAddDialog(){
     let dialogRef = this.dialog.open(AddUserComponent, {
       width: '450px',
-      data: 'This text is passed into the dialog'
+      data: 'This text is passed into the dialog',
+      disableClose: true,
+      autoFocus: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
-      if (result == 'Confirm') this.refreshTable();
+      if (result == 'Confirm'){
+        this.refreshTable();
+        this.notifier.notify('info', 'Usuario agregado exitosamente');
+      } 
     })
   }
 
@@ -65,13 +73,19 @@ export class UserListComponent implements OnInit {
     const dialogRef = this.dialog.open(EditUserComponent, {
       data: run,
       width: '500px',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      if (result == 'Confirm') this.refreshTable();
+      if (result == 'Confirm'){
+        this.refreshTable();
+        this.notifier.notify('info', 'Usuario editado exitosamente');
+      } 
     });
   }
+
   color = 'accent';
   checked = true;
   onChange(userData){
@@ -96,7 +110,10 @@ export class UserListComponent implements OnInit {
     this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
       if(confirmation.confirmed) {
         this.usersService.removeUser(run).subscribe({
-          next: result => { this.refreshTable(); },
+          next: result => { 
+            this.refreshTable(); 
+            this.notifier.notify('info', 'Usuario eliminado exitosamente');
+          },
           error: result => {}
         }); 
       }
@@ -117,5 +134,6 @@ export class UserListComponent implements OnInit {
     dialogConfig.autoFocus = true;
     return dialogConfig;
   }
+
 
 }

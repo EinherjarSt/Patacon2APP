@@ -4,19 +4,32 @@ import { AddProducerComponent } from '../add-producer/add-producer.component';
 import { Producer } from 'src/app/model-classes/producer';
 import { ProducersService } from 'src/app/services/producers.service';
 import { UpdateProducerComponent } from '../update-producer/update-producer.component';
+import { UpdateLocationComponent } from '../update-location/update-location.component';
+import { AddLocationComponent } from '../add-location/add-location.component';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-producer-list',
   templateUrl: './producer-list.component.html',
-  styleUrls: ['./producer-list.component.css']
+  styleUrls: ['./producer-list.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])]
 })
 export class ProducerListComponent implements OnInit {
-
+  private readonly notifier: NotifierService;
   producers: Producer[];
-  displayedColumns: string[] = ["name", "rut", "locations", "details", "delete"];
+  displayedColumns: string[] = ["name", "rut", "details", "delete"];
   dataSource: MatTableDataSource<Producer>;
+  expandedElement: Producer | null;
 
-  constructor(private producerService: ProducersService, private dialog: MatDialog) { }
+  constructor(private producerService: ProducersService, private dialog: MatDialog, notifierService: NotifierService) { 
+    this.notifier = notifierService;
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -45,13 +58,19 @@ export class ProducerListComponent implements OnInit {
 
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProducerComponent, {
-      width: '500px',
-      height: '95%'
+      width: '600px',
+      height: '95%',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if(result === "Confirm") this.refreshTable();
-      console.log('The dialog was closed');
+      console.log(result);
+      if(result === "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Productor agregado exitosamente');
+
+      } 
     });
   }
 
@@ -59,15 +78,84 @@ export class ProducerListComponent implements OnInit {
     const dialogRef = this.dialog.open(UpdateProducerComponent, {
       data: rut,
       width: '500px',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      console.log(result);
+      if(result == "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Productor modificado exitosamente');
+      } 
+    });
+  }
+  
+  openAddLocationDialog(ref_producer: string){
+    const dialogRef = this.dialog.open(AddLocationComponent, {
+      data: ref_producer,
+      width: '700px',
+      disableClose: true,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Ubicación registrada exitosamente');
+      } 
+    });
+  }
+
+  openLocationUpdateDialog(id_location: string, latitude: number, longitude: number){
+
+    let comp = {
+      location: id_location,
+      lat: latitude,
+      lng: longitude
+    }
+    const dialogRef = this.dialog.open(UpdateLocationComponent, {
+      data: comp,
+      width: '700px',
+      disableClose: true,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Ubicación modificada exitosamente');
+      } 
+    });
+  }
+
+  deleteLocation(id_location: string){
+    console.log(id_location);
+    this.producerService.deleteLocation(id_location).subscribe({
+      next: result =>{
+        if(result == true){
+          this.refreshTable();
+          this.notifier.notify('info', 'Ubicación eliminada exitosamente');
+        }
+      },
+      error: result => {
+        console.log("error");
+      }
     });
   }
 
   deleteProducer(rut: string){
-
+    this.producerService.deleteProducer(rut).subscribe({
+      next: (result) => {
+        if(result == true){
+          this.refreshTable();
+          this.notifier.notify('info', 'Productor eliminado exitosamente');
+        }
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
   }
 
   refreshTable() {

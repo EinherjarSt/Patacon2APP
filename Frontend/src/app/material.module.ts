@@ -27,6 +27,10 @@ import {
     MatButtonToggleModule,
     MatSlideToggleModule,
     MatStepperModule
+    MatTooltipModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatBadgeModule
 }
 from '@angular/material';
 
@@ -60,7 +64,11 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatButtonToggleModule,
         MatSlideToggleModule,
         MatProgressSpinnerModule,
-        MatExpansionModule       
+        MatExpansionModule,
+        MatTooltipModule,
+        MatTabsModule,   
+        MatStepperModule,
+        MatBadgeModule
     ],
     exports: [
         FlexLayoutModule,
@@ -91,6 +99,10 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatButtonToggleModule,
         MatSlideToggleModule,
         MatStepperModule
+        MatTooltipModule,
+        MatTabsModule,
+        MatStepperModule,
+        MatBadgeModule
 
     ]
    

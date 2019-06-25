@@ -11,7 +11,7 @@ app.put('/user/add', passport.authenticate('jwt', {
     console.log("user/create");
     console.log(req.body);
     let body = req.body;
-    let salt = parseInt(process.env.BCRYPT_SALT);
+    let salt = parseInt(process.env.PATACON_BCRYPT_SALT);
     bcrypt.hash(body.password, salt, function (err, hashedPassword) {
         if (err) {
             return res.status(400).json({
@@ -41,7 +41,7 @@ app.post('/user/update', passport.authenticate('jwt', {
 
     let body = req.body;
     if (body.password.trim() !== '') {
-        let salt = parseInt(process.env.BCRYPT_SALT);
+        let salt = parseInt(process.env.PATACON_BCRYPT_SALT);
         bcrypt.hash(body.password, salt, function (err, hashedPassword) {
             if (err) {
                 return res.status(400).json(err);
@@ -75,7 +75,6 @@ app.post('/user/disable', passport.authenticate('jwt', {
 }), (req, res) => {
     console.log("user/disable");
     console.log(req.body);+
-    console.log("borrar");
     console.log(req.body.status);
     let body = req.body;
     let disabled = body.disabled === 'true' ? true : false;
@@ -126,6 +125,41 @@ app.post('/user/remove', passport.authenticate('jwt', {
         return res.json({
             message: "User has been removed"
         });
+    });
+})
+
+app.post('/user/verifyPassword', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("user/verify");
+
+    let body = req.body;
+    User.verifyPassword2(body.run, body.password, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(result);
+    });
+    
+})
+
+app.post('/user/updatePassword', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("user/updatePass");
+    let body = req.body;
+    let salt = parseInt(process.env.PATACON_BCRYPT_SALT);
+        bcrypt.hash(body.password, salt, function (err, hashedPassword) {
+            if (err) {
+                return res.status(400).json(err);
+            }
+            
+    User.updatePassword(body.run, hashedPassword, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(result);
+    });
     });
 })
 

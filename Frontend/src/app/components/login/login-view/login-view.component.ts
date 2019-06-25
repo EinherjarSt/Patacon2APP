@@ -6,7 +6,6 @@ import { MatTableDataSource, MatDialog, MatSort, MatPaginator, MatDialogConfig }
 //import { ResetPasswordComponent } from '../reset-password/reset-password.component';
 
 
-
 @Component({
   selector: 'app-login-view',
   templateUrl: './login-view.component.html',
@@ -14,15 +13,18 @@ import { MatTableDataSource, MatDialog, MatSort, MatPaginator, MatDialogConfig }
 })
 
 export class LoginViewComponent implements OnInit {
-
+  hiddenText = false;
+  errorText = false;
   form : FormGroup;
 
-  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute)
- { 
+
+  constructor(private auth: AuthService,
+     private router: Router, 
+    private route: ActivatedRoute) { 
     this.form = new FormGroup({
       'email': new FormControl("",[Validators.required, Validators.email]),
       'password': new FormControl("", Validators.required)
-    })
+    });
   }
 
   submit(){
@@ -33,14 +35,18 @@ export class LoginViewComponent implements OnInit {
       });
       return;
     }
-    let email:string = this.form.get('email').value;
-    let password:string  = this.form.get('password').value;
+    let email:string = this.form.get('email').value,
+    password:string  = this.form.get('password').value;
+    this.hiddenText = true;
     this.auth.login(email, password).subscribe({
       next: (result) =>{
         console.log();
         this.router.navigate([this.route.snapshot.queryParams['returnUrl'] || '/']); 
       },
-      error: (error) => {console.log(error.error)}
+      error: (error) => {
+        this.hiddenText = false;
+        this.errorText = true;
+        }
     });
   }
 
@@ -63,7 +69,9 @@ export class LoginViewComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  disableMessage(event:any){
+    this.errorText = false;
+  }
   public hasError = (controlName: string, errorName: string) => {
     return this.form.get(controlName).hasError(errorName);
   };

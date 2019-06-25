@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 <div class="toolbar">
   <mat-toolbar color="primary" class="toolbar-content">
     <mat-toolbar-row class="row1">
@@ -9,17 +10,62 @@
       <div fxShow="true" fxHide.lt-md="true">
         <!-- The following menu items will be hidden on both SM and XS screen sizes -->
 
-        <a href="#" mat-button>
-          <mat-icon>notifications</mat-icon>
+
+        <a mat-button [matMenuTriggerFor]="notifications" (click)="changeRead()" class="bell">
+          <mat-icon matBadge="{{this.countEventNotRead}}" matBadgePosition="before" matBadgeColor="warn" class="notify">notifications
+          </mat-icon>
           Notificaciones
         </a>
+        <mat-menu #notifications="matMenu" [overlapTrigger]="false" id="panel">
+          <mat-nav-list class="containerNotifications">
+            <mat-list-item *ngFor="let event of events" class="infoRow" (click)="showDispatch(event.ref_Dispach)">
+              <div class="container">
+                <div class="row">
+                  <div class="col-8">
+                    <div *ngIf="isWarning(event.description); then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock>
+                      <div class="block warning">{{event.status}}</div>
+                    </ng-template>
+                    <ng-template #elseBlock>
+                        <div class="block info">{{event.status}}</div>
+                    </ng-template>
+                  </div>
+                  <div class="col-4">
+                    <div class="time">
+                      <mat-icon class="iconClock">query_builder</mat-icon>
+                      {{event.time | date:'hh:mm a'}}
+                    </div>
+                    
+                  </div>
+                  
+                </div>
+                <div *ngIf="isWarning(event.description); then Showthen else Showelse"></div>
+                <ng-template #Showthen>
+                  <div class="description textWarn">
+                    <b>{{event.description}}</b>
+                  </div>
+                </ng-template>
+                <ng-template #Showelse>
+                  <div class="description">
+                  {{event.description}}
+                  </div>
+              </ng-template>
+              <div class="separator"></div> 
+              </div>
+             
+            </mat-list-item>
+            
+          </mat-nav-list>
+
+        </mat-menu>
+
 
         <a mat-button [matMenuTriggerFor]="menu">
 
           <mat-icon>account_box</mat-icon> Usuario
 
           <mat-menu #menu="matMenu" [overlapTrigger]="false">
-            <button mat-menu-item class="user-menu">
+            <button (click)="configureAccount()" mat-menu-item class="user-menu">
               <mat-icon>settings</mat-icon>
               <span>Perfil</span>
             </button>
@@ -49,10 +95,9 @@
         <a [routerLink]="['estadisticas']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>trending_up</mat-icon>
-
           Estadísticas
         </a>
-        
+
         <a [routerLink]="['usuarios']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>people</mat-icon>
@@ -85,6 +130,12 @@
           <mat-icon>table_chart</mat-icon>
           Planificación
         </a>
+        <a [routerLink]="['routes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+          mat-list-item>
+          <mat-icon>directions</mat-icon>
+          Rutas
+        </a>
+
 
       </mat-nav-list>
       <div class="copyright">

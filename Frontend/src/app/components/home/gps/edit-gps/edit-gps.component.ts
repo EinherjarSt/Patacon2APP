@@ -18,7 +18,7 @@ export class EditGpsComponent implements OnInit {
   ) {
     this.form = new FormGroup({
       imei: new FormControl("", Validators.required),
-      simNumber: new FormControl("", Validators.required),
+      simNumber: new FormControl("", [Validators.required, Validators.pattern(/^\d{9}$/)]),
       brand: new FormControl(""),
       model: new FormControl("")
     });

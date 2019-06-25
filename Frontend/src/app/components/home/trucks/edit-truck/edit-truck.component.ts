@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { GpsService } from '../../../../services/gps.service';
 import { DriversService } from '../../../../services/drivers.service';
 import { Truck } from 'src/app/model-classes/truck';
+import { AutocompleteValidOption } from '../truck.custom.validators';
 
 
 @Component({
@@ -30,11 +31,11 @@ export class EditTruckComponent implements OnInit {
 
   editTruckForm = new FormGroup({
     licencePlate: new FormControl('', [Validators.required]),
-    gpsReference: new FormControl(''),
-    driverReference: new FormControl(''),
+    gpsReference: new FormControl('', AutocompleteValidOption),
+    driverReference: new FormControl('', AutocompleteValidOption),
     brand: new FormControl('', [Validators.required]),
     model: new FormControl('', [Validators.required]),
-    year: new FormControl('', [Validators.required]),
+    year: new FormControl('', [Validators.required, Validators.pattern(/^\d{4}$/)]),
     maxLoad: new FormControl('', [Validators.required]),
     owner: new FormControl('', [Validators.required]),
     color: new FormControl('', [Validators.required])
@@ -194,7 +195,6 @@ export class EditTruckComponent implements OnInit {
       next: result => {
         console.log(result);
         console.log(truckData);
-        this.openSuccessMessage();
         this.dialogRef.close('Confirm');
       },
       error: result => {console.log(result)}
@@ -205,11 +205,6 @@ export class EditTruckComponent implements OnInit {
     this.dialogRef.close('Cancel');
   }
 
-  openSuccessMessage() {
-    this.snackBar.open("El camion ha sido editado.", "Cerrar", {
-      duration: 2000, verticalPosition: 'bottom'
-    });
-  }
 
   public hasError = (controlName: string, errorName: string) => {
     return this.editTruckForm.get(controlName).hasError(errorName);

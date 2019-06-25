@@ -1,0 +1,83 @@
+.card{
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.image{
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+    border-radius: 50%;
+    max-width: 100px;
+    max-height: 130px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+.identification{
+    text-align: center;
+}
+.header{
+    display:flex;
+}
+.title{
+    font-size: 22px;
+}
+.info,.row{
+    width: 100%;
+}
+.container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.containerBtnPass{
+    display:flex;
+    justify-content: right;
+}
+.separator{
+    border-left: 1px solid #c4c4c4;
+    height: auto;
+}
+.editContent{
+    
+    padding-left: 20px;
+}
+.restorePass{
+    height: auto;
+    width: 100%;
+}
+@media (max-width: 576px) { 
+    .editContent,.restorePass{
+        border-top: 1px solid #c4c4c4;
+        margin-top:20px;
+        padding-top: 20px;
+    }
+    .titleData,.titlePass{
+        text-align: center;
+        font-size: 18px;
+        padding-bottom: 10px;
+    }
+    .formPass,.formData{
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .btnData,.btnPassword{
+        width: 100%;
+        min-width: 100px;
+        max-width: 200px;
+        margin-top: 20px;
+    }
+    #inputData{
+        width: 200px;
+    }
+    .restorePass{
+        padding-left:0;
+    }
+}
+
+#input2{
+    width: 200px;
+}
+
+

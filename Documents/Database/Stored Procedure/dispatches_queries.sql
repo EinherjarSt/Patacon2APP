@@ -70,6 +70,8 @@ BEGIN
 END //
 DELIMITER ;
 
+
+
 DROP PROCEDURE IF EXISTS get_dispatches_with_full_info;
 DELIMITER //
 CREATE PROCEDURE get_dispatches_with_full_info ()
@@ -95,9 +97,7 @@ BEGIN
   INNER JOIN location ON planification.ref_location = location.id_location
   INNER JOIN producer ON planification.ref_producer = producer.rut
   INNER JOIN truck ON dispatch.ref_truck = truck.id_truck
-  WHERE dispatch.status <> 'Terminado' 
-  && dispatch.status <> 'Pendiente'
-  && truck.ref_gps IS NOT NULL;
+  WHERE truck.ref_gps IS NOT NULL;
 END //
 DELIMITER ;
 
@@ -121,8 +121,12 @@ BEGIN
   driver.phoneNumber AS driverPhoneNumber,
   producer.name AS producerName,
   location.address AS producerLocation,
+  location.managerPhoneNumber As producerPhoneNumber,
   truck.ref_gps AS truckGPSImei,
-  truck.licencePlate AS truckLicensePlate
+  truck.licencePlate AS truckLicensePlate,
+  truck.brand AS truckBrand,
+  truck.model AS truckModel,
+  truck.year AS truckYear
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run

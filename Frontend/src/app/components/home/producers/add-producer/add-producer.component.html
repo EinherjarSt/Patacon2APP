@@ -5,86 +5,101 @@
 <hr />
 
 <mat-dialog-content class="formulario">
-    <form [formGroup]="producerForm">
-        <div>
-            <div>
-                <mat-form-field appearance="standard" class="input">
-                    <mat-label>Nombre</mat-label>
-                    <input matInput formControlName="name">
-                    <mat-error *ngIf="hasError('name', 'required')">Debe ingresar el nombre</mat-error>
-                </mat-form-field>
-            </div>
-    
-            <div>
-                <mat-form-field appearance="standard" class="input">
-                    <mat-label>RUT</mat-label>
-                    <input matInput formControlName="rut">
-                    <mat-error *ngIf="hasError('rut', 'required')">Debe ingresar el rut</mat-error>
-                    <mat-error *ngIf="hasError('rut', 'pattern')">Debe ingresar un rut válido</mat-error>
-                </mat-form-field>
-            </div>
+    <mat-vertical-stepper [linear]="true" #stepper>
+        <mat-step>
+            <form [formGroup]="producerForm">
+                <ng-template matStepLabel>Ingrese los datos del productor</ng-template>
+                <div>
+                    <div>
+                        <mat-form-field appearance="standard" class="input">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="name">
+                            <mat-error *ngIf="hasError('name', 'required')">Debe ingresar el nombre</mat-error>
+                        </mat-form-field>
+                    </div>
             
-            <br>
+                    <div>
+                        <mat-form-field appearance="standard" class="input">
+                            <mat-label>RUT</mat-label>
+                            <input matInput formControlName="rut" placeholder="11111111-1" (input)="checkRun()" maxlength="10">
+                            <mat-error *ngIf="hasError('rut', 'required')">Debe ingresar el rut</mat-error>
+                            <mat-error *ngIf="hasError('rut', 'pattern')">Debe ingresar un rut válido</mat-error>
+                            <mat-error *ngIf="hasError('rut', 'verificator')">El digito verificador no corresponde al rut ingresado</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <button mat-raised-button matStepperNext>Siguiente</button>
+                </div>
+            </form>
+        </mat-step>
 
-            <h5>
-                Ubicaciones
-            </h5>
+        <mat-step>
+            <form [formGroup]="producerForm">
+                <ng-template matStepLabel>Ingrese los datos de las ubicaciones</ng-template>
+                <div formArrayName="locations" *ngFor="let location of producerForm.get('locations')['controls']; let i = index">
+                    <mat-expansion-panel formGroupName="{{i}}" class="locations" [expanded]="location.value.expanded">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            Ubicación {{i+1}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            Ingrese los datos de la nueva ubicación.
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        
+                        <mat-form-field appearance="standard" class="input">
+                            <mat-label>Dirección</mat-label>
+                            <input matInput formControlName="address">
+                            <mat-error>Debe ingresar una dirección</mat-error>
+                        </mat-form-field>
+            
+                        <mat-form-field appearance="standard" class="input">
+                            <mat-label>Encargado</mat-label>
+                            <input matInput formControlName="manager">
+                            <mat-error>Debe ingresar un encargado</mat-error>
+                        </mat-form-field>
+            
+                        <mat-form-field appearance="standard" class="input">
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput formControlName="managerPhoneNumber" placeholder="Ej: 999999999" maxlength="9">
+                            <mat-error>Debe ingresar un número de teléfono</mat-error>
+                            <mat-error *ngIf="hasErrorLocation(i,'managerPhoneNumber', 'pattern')">El formato del número no es válido</mat-error>
+                        </mat-form-field>
 
-            <div formArrayName="locations" *ngFor="let location of producerForm.get('locations')['controls']; let i = index">
-                <mat-expansion-panel formGroupName="{{i}}" class="locations" [expanded]="location.value.expanded">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Ubicación {{i+1}}
-                      </mat-panel-title>
-                      <mat-panel-description>
-                        Ingrese los datos de la nueva ubicación.
-                      </mat-panel-description>
-                    </mat-expansion-panel-header>
-                  
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Dirección</mat-label>
-                        <input matInput formControlName="address">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Latitud</mat-label>
-                        <input matInput formControlName="latitude">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Longitud</mat-label>
-                        <input matInput formControlName="longitude">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Encargado</mat-label>
-                        <input matInput formControlName="manager">
-                    </mat-form-field>
-        
-                    <mat-form-field appearance="standard" class="input">
-                        <mat-label>Teléfono</mat-label>
-                        <input matInput formControlName="managerPhoneNumber">
-                    </mat-form-field>
-                  
-                  </mat-expansion-panel>
-            </div>
+                        <div class="map-content">
+                            <agm-map [latitude]="lat" [longitude]="lng2" (mapClick)="mapClicked(i,$event)">
+                                <agm-marker [latitude]="markers[i].lat" [longitude]="markers[i].lng"></agm-marker>
+                            </agm-map>
+                        </div>
+                    </mat-expansion-panel>
+                </div>
+    
+                <div class="button-div">
+                    <button mat-raised-button class="location-button" (click)="addLocation()">+</button>
+                    <button mat-raised-button class="location-button" (click)="deleteLocation()">-</button>
+                </div>
+                
+                <br>
+                <div>
+                    <button mat-raised-button matStepperNext>Siguiente</button>
+                </div>    
+            </form>
+        </mat-step>
 
+        <mat-step>
+            <ng-template matStepLabel>Completado</ng-template>
             <div class="button-div">
-                <button mat-raised-button class="location-button" (click)="addLocation()">+</button>
-                <button mat-raised-button class="location-button" (click)="deleteLocation()">-</button>
+                <button mat-raised-button class="button" (click)="onSubmit()">Registrar</button>
             </div>
-
-        </div>
-    </form>
+        </mat-step>
+    </mat-vertical-stepper>
 </mat-dialog-content>
 
 <hr>
 
 <div class="action-buttons">
-    <div class="button-div">
-        <button mat-raised-button class="button" (click)="onSubmit()">Registrar</button>
-    </div>
-    
     <div class="button-div">
         <button mat-raised-button class="button" (click)="onNoClick()">Cancelar</button>
     </div>

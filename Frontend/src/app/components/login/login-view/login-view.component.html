@@ -12,19 +12,21 @@
             </mat-card-header>
             <mat-card-content class="body">
               <mat-form-field class="full">
-                <input matInput type="email" cols="30" rows="10" placeholder="Email" formControlName="email" />
-                <mat-error *ngIf="hasError('email', 'required')">Debe ingresar el email</mat-error>
-                <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un email valido</mat-error>
+                <input matInput (keyup)="disableMessage($event)" type="email" cols="30" rows="10" placeholder="Email" formControlName="email" />
+                <mat-error *ngIf="hasError('email', 'required')" >Debe ingresar el email</mat-error>
+                <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un email válido</mat-error>
               </mat-form-field>
               <mat-form-field class="full">
-                <input matInput placeholder="Contraseña" type="password" cols="30" rows="10"
+                <input matInput placeholder="Contraseña" (keyup)="disableMessage($event)" type="password" cols="30" rows="10"
                   formControlName="password" />
                 <mat-error *ngIf="hasError('password', 'required')">Debe ingresar la contraseña</mat-error>
               </mat-form-field>
-              <a href="#/login/reset-password" class="restore" type="click">¿Olvidaste tu contraseña?</a>
-              <button mat-button href="#" class="btn" type="submit">
-                Iniciar Sesión
+              <p *ngIf= "this.errorText" class = "errorMessage">Correo o contraseña inválidos!</p>
+              <a href="#/login/reset-password" class="restore">¿Olvidaste tu contraseña?</a>
+              <button mat-button href="#" class="btn" type="submit" *ngIf="!this.hiddenText">
+                <div >Iniciar Sesión</div>
               </button>
+              <div class="loader" id ="loading" *ngIf="this.hiddenText"></div>
             </mat-card-content>
           </mat-card>
         </form>

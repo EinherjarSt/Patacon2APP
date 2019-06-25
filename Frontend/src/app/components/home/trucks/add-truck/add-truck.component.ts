@@ -9,6 +9,7 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { GpsService } from '../../../../services/gps.service';
 import { DriversService } from '../../../../services/drivers.service';
+import { AutocompleteValidOption } from '../truck.custom.validators';
 
 @Component({
   selector: "app-add-truck",
@@ -29,11 +30,11 @@ export class AddTruckComponent implements OnInit {
   { 
     this.addTruckForm = new FormGroup({
       licencePlate: new FormControl("",[Validators.required]),
-      ref_gps: new FormControl(""),
-      ref_driver: new FormControl(""),
+      ref_gps: new FormControl("", AutocompleteValidOption),
+      ref_driver: new FormControl("", AutocompleteValidOption),
       brand: new FormControl("",[Validators.required]),
       model: new FormControl("",[Validators.required]),
-      year: new FormControl("",[Validators.required]),
+      year: new FormControl("",[Validators.required, Validators.pattern(/^\d{4}$/)]),
       maxLoad: new FormControl("",[Validators.required]),
       owner: new FormControl("",[Validators.required]),
       color: new FormControl("",[Validators.required])
@@ -163,7 +164,6 @@ export class AddTruckComponent implements OnInit {
         console.log("Success", response);
         console.log(newTruck);
         this.onCloseConfirm();
-        this.openSuccessMessage();
       },
       error => {
         console.error("Error", error);
@@ -178,12 +178,6 @@ export class AddTruckComponent implements OnInit {
 
   openFailureMessage() {
     this.snackBar.open("Ya hay un camion deshabilitado con esta patente.", "Cerrar", {
-      duration: 2000, verticalPosition: 'bottom'
-    });
-  }
-
-  openSuccessMessage() {
-    this.snackBar.open("El camion ha sido registrado.", "Cerrar", {
       duration: 2000, verticalPosition: 'bottom'
     });
   }

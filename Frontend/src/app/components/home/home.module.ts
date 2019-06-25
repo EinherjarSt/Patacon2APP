@@ -10,6 +10,7 @@ import { MaterialModule } from '../../material.module';
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { ConfigurationViewComponent} from './users/configuration-view/configuration-view.component'
 
 import { ProducersComponent } from './producers/producers.component';
 import { ProducerListComponent } from './producers/producer-list/producer-list.component';
@@ -38,18 +39,20 @@ import { FiltersComponent } from './dashboard/filters/filters.component';
 import { GpsComponent } from './gps/gps.component';
 import { GpsListComponent } from './gps/gps-list/gps-list.component';
 import { AddGpsComponent } from './gps/add-gps/add-gps.component';
-import { LatestEventsComponent } from './dashboard/latest-events/latest-events.component';
 import { EditDispatchComponent } from './dispatch/edit-dispatch/edit-dispatch.component';
 import { EditGpsComponent } from './gps/edit-gps/edit-gps.component';
 import { ConfirmationDialogComponent } from '../core/confirmation-dialog/confirmation-dialog.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
+import { GeneralSummaryComponent } from './statistics/general-summary/general-summary.component';
+import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
+import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-
-
-
-
+import { UpdateLocationComponent } from './producers/update-location/update-location.component';
+import { ChartsModule } from 'ng2-charts';
+import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pending-dispatches.component';
+import { AddLocationComponent } from './producers/add-location/add-location.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +81,6 @@ import { StatisticsComponent } from './statistics/statistics.component';
     GpsComponent,
     GpsListComponent,
     AddGpsComponent,
-    LatestEventsComponent,
     EditDispatchComponent,
     EditGpsComponent,
     ConfirmationDialogComponent,
@@ -86,7 +88,15 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditDriverComponent,
     EditTruckComponent,
     DispatchDetailsComponent,
-    StatisticsComponent
+    ConfigurationViewComponent,
+    GeneralSummaryComponent,
+    SummaryByDriverComponent,
+    UpdateLocationComponent,
+    RoutesComponent,
+    StatisticsComponent,
+    PendingDispatchesComponent,
+    AddLocationComponent
+    
   ],
   imports: [
     CommonModule,
@@ -95,8 +105,10 @@ import { StatisticsComponent } from './statistics/statistics.component';
     ReactiveFormsModule,
     MaterialModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc'
-    })
+      apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc',
+      libraries: ['geometry', 'drawing']
+    }),
+    ChartsModule
   ],
   entryComponents: [
     AddUserComponent,
@@ -114,7 +126,9 @@ import { StatisticsComponent } from './statistics/statistics.component';
     EditUserComponent,
     EditDriverComponent,
     EditTruckComponent,
-    DispatchDetailsComponent
+    DispatchDetailsComponent,
+    UpdateLocationComponent,
+    AddLocationComponent
   ],
 })
 export class HomeModule { }

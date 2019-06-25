@@ -16,8 +16,7 @@ var parser = {
         let regexpNumeros = new RegExp("^[0-9]{10,}$");
         if ($data.indexOf("imei", 0) === -1 && regexpNumeros.test($data.replace(";", "")) === false) {
         	console.log("Unknown error in parser");
-            $cliente.end();
-            return
+            return;
         }
         let imei = this.getImei($data);
         let returnedObject = {imei};
@@ -80,7 +79,7 @@ var parser = {
             longitude: this.getCoordinates(dataArray[10]) * this.pointConverter(parseFloat(dataArray[9])),
             velocity: parseInt(dataArray[11], 10) * 1.85,
             orientation:parseInt(dataArray[12], 10),
-            recived: moment().format("YYYY-MM-DD HH:mm:ss")
+            received: moment().format("YYYY-MM-DD HH:mm:ss")
         };
         return $dataObject;
     },

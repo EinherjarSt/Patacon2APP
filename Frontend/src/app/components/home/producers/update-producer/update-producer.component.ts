@@ -17,16 +17,8 @@ export class UpdateProducerComponent implements OnInit {
   name: string;
   rut: string;
   locations : Location[] = new Array();
-
-
-  producerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    rut: new FormControl({value:'', disabled: true}),
-    manager: new FormControl(''),
-    telephone: new FormControl('')
-  });
-
-
+  producerForm: FormGroup;
+  
   constructor(public dialogRef: MatDialogRef<UpdateProducerComponent>, private producersService: ProducersService,
      @Inject(MAT_DIALOG_DATA) private data, private fb: FormBuilder) {
 
@@ -51,22 +43,8 @@ export class UpdateProducerComponent implements OnInit {
           this.locations.push(item);
         }
 
-        const loc_form = this.producerForm.get('locations') as FormArray;
-
         this.producerForm.get('name').setValue(this.name);
         this.producerForm.get('rut').setValue(this.rut);
-
-        for(let location of this.locations){
-          loc_form.push(this.fb.group({
-            id_location :location.id_location,
-            ref_productor: location.ref_producer,
-            address: new FormControl(location.address),
-            latitude: new FormControl(location.latitude),
-            longitude: new FormControl(location.longitude),
-            manager: new FormControl(location.manager),
-            managerPhoneNumber: new FormControl(location.managerPhoneNumber)
-          }));
-        }
       },
       error: result => {
         console.log(result);
@@ -81,25 +59,61 @@ export class UpdateProducerComponent implements OnInit {
   onSubmit(){
     let producerData = this.producerForm.value;
 
-    console.log(this.producerForm.value.locations);
     this.producersService.modifyProducer(producerData).subscribe({
       next: result => {
-        this.dialogRef.close();
+        this.dialogRef.close("Confirm");
       },
       error: result => {
         console.log("error");
       }
     });
-
-    for(let location of this.producerForm.value.locations){
-      this.producersService.modifyLocation(location).subscribe({
-        next: result => {
-          this.dialogRef.close();
-        },
-        error: result => {
-          console.log("error");
-        }
-      });
-    }
   }
+
+  deleteLocation(id_location){
+    this.producersService.deleteLocation(id_location).subscribe({
+      next: result =>{
+        console.log("Se ha eliminado correctamente la ubicación");
+      },
+      error: result => {
+        console.log("error");
+      }
+    });
+  }
+
+  addLocationForm(){
+    const loc_form = this.producerForm.get('locations') as FormArray;
+
+    loc_form.push(this.fb.group({
+      new: true,
+      id_location :0,
+      ref_productor: this.producerForm.get('rut').value,
+      address: new FormControl(''),
+      latitude: new FormControl(''),
+      longitude: new FormControl(''),
+      manager: new FormControl(''),
+      managerPhoneNumber: new FormControl('')
+    }));
+  }
+
+  deleteLocationForm(){
+    const loc_form = this.producerForm.get('locations') as FormArray;
+
+    if(loc_form.at(loc_form.length-1).value.new == true){
+      loc_form.removeAt(loc_form.length-1);
+    }
+    else{
+      console.log("No se puede eliminar el formulario");
+    }
+    
+  }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.producerForm.get(controlName).hasError(errorName);
+  };
+
+  public hasErrorLocation = (index: number, controlName: string, errorName: string) => {
+    let formArray = this.producerForm.get("locations") as FormArray;
+    console.log(formArray.at(index))
+    return formArray.at(index).get(controlName).hasError(errorName);
+  };
 }

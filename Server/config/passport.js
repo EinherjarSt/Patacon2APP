@@ -24,7 +24,6 @@ passport.use(new LocalStrategy({
             }
             user.verifyPassword(password, (error, isPassword) => {
                 if (error) {
-                    console.log("here");
                     console.log(error);
                     return done(null, false, {
                         code: ERROR.LOGIN_FAILED,
@@ -51,7 +50,7 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: process.env.JWT_SECRET
+        secretOrKey: process.env.PATACON_JWT_SECRET
     },
     function (jwtPayload, done) {
         //console.log("JWTStrategy %j ", jwtPayload)

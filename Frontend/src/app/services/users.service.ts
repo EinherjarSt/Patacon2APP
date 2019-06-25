@@ -138,4 +138,49 @@ export class UsersService {
         })
       );
   }
+
+  
+  /** Request to server to verify a password.
+   */
+  verifyPassword(run:string,password:string): Observable<boolean> {
+    const body = new HttpParams()
+      .set("password",password)
+      .set("run", run);
+
+    return this.http
+      .post<{ msg: string }>(
+        env.api.concat("/user/verifyPassword"),
+        body,
+      )
+      .pipe(
+        map(result => {
+          if(result)
+          return true;
+          else return false;
+        })
+      );
+  }
+
+   /** Request to server to update a user.
+   * @param data Data to send to backend
+   */
+  updatePassword(run:string, password: string): Observable<boolean> {
+   
+    const body = new HttpParams()
+      .set("run", run)
+      .set("password", password);
+
+    return this.http
+      .post<{ msg: string }>(
+        env.api.concat("/user/updatePassword"),
+        body
+      )
+      .pipe(
+        map(result => {
+          console.log(result.msg);
+          return true;
+        })
+      );
+  }
+
 }

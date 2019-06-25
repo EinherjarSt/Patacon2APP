@@ -3,15 +3,15 @@ const app = express();
 
 const passport = require('passport');
 
-const accountSid = process.env.ACCOUNT_SID;
-const authToken = process.env.AUTH_TOKEN;
-const myPhone = process.env.MY_PHONENUMBER;
+const accountSid = process.env.PATACON_ACCOUNT_SID;
+const authToken = process.env.PATACON_AUTH_TOKEN;
+const myPhone = process.env.PATACON_MY_PHONENUMBER;
 
 const client = require('twilio')(accountSid,authToken);
 
 var sms= {
     sendMessage: function(phoneNumber,msg, callback) {
-        let phone = '+'+phoneNumber;
+        let phone = '+56'+phoneNumber;
         client.messages.create({
             to: phone,
             from: myPhone,

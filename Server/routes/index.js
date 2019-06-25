@@ -12,8 +12,8 @@ app.use(require('./gps'));
 app.use(require('./resetPassword'));
 app.use(require('./lastEvent'));
 app.use(require('./insights'));
-
 app.use(require('./sms'));
+app.use(require('./route'));
 app.use(require('./planification'));
 
 //app.use(require('./reset-password'));

@@ -5,6 +5,7 @@ import { ConfirmationDialogComponent } from "src/app/components/core/confirmatio
 import { TrucksService } from '../../../../services/trucks.service';
 import { Truck } from '../../../../model-classes/truck';
 import { EditTruckComponent } from "../edit-truck/edit-truck.component";
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-truck-view',
@@ -12,6 +13,8 @@ import { EditTruckComponent } from "../edit-truck/edit-truck.component";
   styleUrls: ['./truck-view.component.css']
 })
 export class TruckViewComponent implements OnInit {
+
+  private readonly notifier: NotifierService;
   dialogResult="";
   trucks: Truck[];
   displayedColumns: string[] = [
@@ -25,8 +28,9 @@ export class TruckViewComponent implements OnInit {
   dataSource: MatTableDataSource<Truck>;
 
   constructor( private trucksService : TrucksService,
-    public dialog: MatDialog){
+    public dialog: MatDialog, notifierService: NotifierService){
       this.dataSource = new MatTableDataSource<Truck>();
+      this.notifier = notifierService;
   }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -58,10 +62,15 @@ export class TruckViewComponent implements OnInit {
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddTruckComponent, {
       width: '500px',
+      disableClose: true,
+      autoFocus: true
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if (result === "Confirm") this.refreshTable();
+      if (result === "Confirm"){
+        this.refreshTable();
+        this.notifier.notify('info', 'Camión agregado exitosamente');
+      } 
     });
   }
 
@@ -74,6 +83,7 @@ export class TruckViewComponent implements OnInit {
     this.dialog.open(EditTruckComponent, dialogConfig).afterClosed().subscribe(confirmation => {
       if(confirmation === "Confirm") { 
         this.refreshTable();
+        this.notifier.notify('info', 'Camión editado exitosamente');
       }
     });
   }
@@ -113,6 +123,8 @@ export class TruckViewComponent implements OnInit {
         this.trucksService.disableTruck(truckData).subscribe({
           next: result => {
             console.log(result);
+            this.refreshTable();
+            this.notifier.notify('info', 'Camión eliminado exitosamente');
           },
           error: result => {
             console.log("error en componente para listar");
@@ -127,7 +139,7 @@ export class TruckViewComponent implements OnInit {
   openDeletionConfirmationDialog() {
     
     var deletionDialogConfig = this.getDialogConfig();
-    deletionDialogConfig.data = { message: '¿Desea eliminar este usuario?'};
+    deletionDialogConfig.data = { message: '¿Desea eliminar este camión?'};
     return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
   }
 
