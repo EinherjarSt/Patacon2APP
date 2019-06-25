@@ -18,7 +18,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
   })
 
 export class ResetPasswordComponent implements OnInit {
-    //isLinear = false;
+    isLinear = false;
     getEmailForm: FormGroup;
     getVerCodeAndNewPasswordForm: FormGroup;
     selectedIndex = 0;
@@ -29,12 +29,12 @@ export class ResetPasswordComponent implements OnInit {
     constructor(private auth:AuthService, private router:Router, 
       private resetPassword:ResetPasswordService, private snackBar: MatSnackBar) { 
         this.getEmailForm = new FormGroup({
-          email: new FormControl("")
+          email: new FormControl("", [Validators.required])
         });
         this.getVerCodeAndNewPasswordForm = new FormGroup({
-          verCode: new FormControl(""),
-          newPassword: new FormControl(""),
-          newPasswordRepeated: new FormControl("")
+          verCode: new FormControl("", [Validators.required]),
+          newPassword: new FormControl("", [Validators.required]),
+          newPasswordRepeated: new FormControl("", [Validators.required])
         });
         /*this.getNewPasswordForm = new FormGroup({
           newEmail: new FormControl("")
@@ -147,13 +147,13 @@ export class ResetPasswordComponent implements OnInit {
       });
     }
 
-    comprobateIfVerificationCodeExists()
+    /*comprobateIfVerificationCodeExists()
     {
       let verification_code = this.getVerCodeAndNewPasswordForm.get("verCode").value;
       let password = this.getVerCodeAndNewPasswordForm.get("newPassword").value;
       let repeatedPassword = this.getVerCodeAndNewPasswordForm.get("newPasswordRepeated").value;
       console.log(verification_code);
-      this.resetPassword.findUserbyEmail(verification_code).subscribe({
+      this.resetPassword.findVerificationCode(verification_code).subscribe({
         next: result => {
           console.log(result);
           if (password = repeatedPassword)
@@ -169,10 +169,10 @@ export class ResetPasswordComponent implements OnInit {
         },
         error: result => {
           this.openCodeFailureMessage(); 
-          console.log("No existen usuarios registrados con el correo ingresado");
+          console.log("Codigo de Verificacion no válido");
         }
       });
-    }
+    }*/
   
     generateCode(email: string)
     {
@@ -192,7 +192,80 @@ export class ResetPasswordComponent implements OnInit {
       });
     }
 
-    changePassword(verification_code: string, password: string)
+    changePassword()
+    {
+      let verification_code = this.getVerCodeAndNewPasswordForm.get("verCode").value;
+      let password = this.getVerCodeAndNewPasswordForm.get("newPassword").value;
+      let repeatedPassword = this.getVerCodeAndNewPasswordForm.get("newPasswordRepeated").value;
+      //console.log("email");
+      console.log("Datos en componente");
+      console.log(verification_code);
+      console.log(password);
+      this.resetPassword.findVerificationCode(verification_code).subscribe({
+        next: result => {
+          console.log(result);
+          if (password == repeatedPassword)
+          {
+            this.resetPassword.changePassword(verification_code, password).subscribe({
+              next: result => {
+                console.log(result);
+                console.log("codigo se ha generado");
+                setTimeout( () => { this.openSuccessMessage(); }, 3000 );
+                this.router.navigate(['login']);
+                //this.thisDialogRef.close('Confirm');
+              },
+              error: result => {
+                console.log("error");
+                this.openPasswordFailureMessage();
+              }
+            });
+          }
+          else
+          {
+            this.openPasswordFailureMessage();
+          }
+        },
+        error: result => {
+          this.openCodeFailureMessage(); 
+          console.log("Codigo de Verificacion no válido");
+        }
+      });
+    }
+
+    /*
+    funcional completo (no verifica codigo de verificacion)
+    changePassword()
+    {
+      let verification_code = this.getVerCodeAndNewPasswordForm.get("verCode").value;
+      let password = this.getVerCodeAndNewPasswordForm.get("newPassword").value;
+      let repeatedPassword = this.getVerCodeAndNewPasswordForm.get("newPasswordRepeated").value;
+      //console.log("email");
+      console.log("Datos en componente");
+      console.log(verification_code);
+      console.log(password);
+      if (password == repeatedPassword)
+      {
+        this.resetPassword.changePassword(verification_code, password).subscribe({
+          next: result => {
+            console.log(result);
+            console.log("codigo se ha generado");
+            this.router.navigate(['login']);
+            //this.thisDialogRef.close('Confirm');
+          },
+          error: result => {
+            console.log("error");
+            this.openPasswordFailureMessage();
+          }
+        });
+      }
+      else
+      {
+        this.openPasswordFailureMessage();
+      }
+      
+    }/*
+
+    /*changePassword(verification_code: string, password: string)
     {
       //console.log("email");
       console.log("Datos en componente");
@@ -209,7 +282,7 @@ export class ResetPasswordComponent implements OnInit {
           console.log("error");
         }
       });
-    }
+    }*/
 
     /* insertNewPassword()
     {

@@ -33,6 +33,8 @@ import { ResetPassword } from '../model-classes/reset_password';
         const body = new HttpParams()
           .set("email", email)
           .set("verification_code", verification_code);
+
+        console.log(verification_code);
     
         return this.http
           .put<{ msg: string }>(env.api.concat("/resetpassword/addcode"), body)
@@ -78,14 +80,27 @@ import { ResetPassword } from '../model-classes/reset_password';
 
 
     findUserbyEmail(email: string): Observable<boolean>{
-        //const body = new HttpParams()
-        //.set('email', email);
-        //console.log(email);
-        return this.http.get<boolean>(env.api.concat("/resetpassword/get/"+email))
-        .pipe(
-        map(result => {
-            return result;
-        })
-        );
+      //const body = new HttpParams()
+      //.set('email', email);
+      //console.log(email);
+      return this.http.get<boolean>(env.api.concat("/resetpassword/get/"+email))
+      .pipe(
+      map(result => {
+          return result;
+      })
+      );
     } 
+
+    findVerificationCode(verification_code: string): Observable<boolean>{
+      //const body = new HttpParams()
+      //.set('email', email);
+      //console.log(email);
+      console.log(verification_code);
+      return this.http.get<boolean>(env.api.concat("/resetpassword/get1/"+verification_code))
+      .pipe(
+      map(result => {
+          return result;
+      })
+      );
+  } 
 }

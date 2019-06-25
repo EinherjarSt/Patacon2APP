@@ -33,8 +33,8 @@ export class LoginViewComponent implements OnInit {
       });
       return;
     }
-    let email:string = this.form.get('email').value,
-    password:string  = this.form.get('password').value;
+    let email:string = this.form.get('email').value;
+    let password:string  = this.form.get('password').value;
     this.auth.login(email, password).subscribe({
       next: (result) =>{
         console.log();

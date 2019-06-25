@@ -23,18 +23,14 @@ app.get('/resetpassword/get/:email', function (req, res) {
     });
 })
 
-app.get('/resetpassword/get/:verification_code', function (req, res) {
+app.get('/resetpassword/get1/:verification_code', function (req, res) {
     let verification_code = req.params.verification_code;
+    console.log("/resetpassword/get/verification_code");
+    //console.log(verification_code);
     ResetPassword.getVerificationCode(verification_code, (err, result) => {
         if (err) {
             return res.status(400).json(err);
         }
-        /*ResetPassword.createVerificationCode(email, user => {
-            if (err){
-                return res.status(400).json(err);
-            }
-        });*/
-        //return true;
         return res.json(result);
     });
 })

@@ -21,7 +21,7 @@ class ResetPassword
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No encuentro usuarios"});
             }
             if (results.length > 1) {
                 return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
@@ -34,16 +34,18 @@ class ResetPassword
         });
     }
 
-    static getVerificationCode(code, callback) {
+    static getVerificationCode(verification_code, callback) {
+        console.log(verification_code);
+        console.log("/resetpassword/get/verification_code en models");
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        let query = pool.query(`SELECT * FROM reset_password WHERE verification_code = ?`, [code], function (err, results, fields) {
+        let query = pool.query(`SELECT * FROM reset_password WHERE verification_code = ?`, [verification_code], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No encuentro nada"});
             }
             if (results.length > 1) {
                 return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
@@ -51,7 +53,7 @@ class ResetPassword
             let result = results[0];
             //let thereIsAnUser = true;
             //return callback(thereIsAnUser);
-            return callback(null, new ResetPassword(result.email, null, result.verification_code));
+            return callback(null, new ResetPassword(result.email, result.password, result.verification_code));
             //return true;
         });
     }
