@@ -7,6 +7,9 @@ import { DetailsComponent } from './details/details.component';
 import { AddPlanificationComponent } from '../add-planification/add-planification.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
+import { DispatchesService } from 'src/app/services/dispatches.service';
+import { Dispatch } from 'src/app/model-classes/dispatch';
+import { dispatch } from 'rxjs/internal/observable/range';
 @Component({
   selector: 'app-planification-list',
   templateUrl: './planification-list.component.html',
@@ -21,7 +24,8 @@ export class PlanificationListComponent implements OnInit {
   constructor(private producerService: ProducersService,
     private planificationService: PlanificationService,
     public dialog: MatDialog,
-    public router: Router) {
+    public router: Router,
+    private dispatchService: DispatchesService) {
     this.getP();
   }
 
@@ -81,24 +85,45 @@ export class PlanificationListComponent implements OnInit {
   }
 
   deletePlanification(id) {
-    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this.planificationService.deletePlanification(id).subscribe(r => {
-          if (r) {
-            for (let i = 0; i < this.planifications.length; i++) {
-              const element = this.planifications[i];
-              if (element.planification_id == id) {
-                this.planifications.splice(i, 1);
-                i--;
-              }
+    this.dispatchService.getDispatches(id).subscribe(res=>{
+      let result:boolean = true;
+      let dispatchList: Dispatch[] = res;
+      for (let i = 0; i < dispatchList.length; i++) {
+        const dispatch = dispatchList[i];
+        if(dispatch.status!='Terminado') result = false;
+      }
+      if(!result){
+        console.log("NO SE PUEDE ELIMINAR! A QUE SI");
+      }
+      else{
+        this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+          if (confirmation.confirmed) {
+            for (let i = 0; i < dispatchList.length; i++) {
+              const dispatchId = dispatchList[i].id;
+              this.dispatchService.deleteDispatch(dispatchId).subscribe(res=>{
+
+              }, err=>{
+
+              });
             }
-            this.dataSource.data = this.planifications;
+            this.planificationService.deletePlanification(id).subscribe(r => {
+              if (r) {
+                for (let i = 0; i < this.planifications.length; i++) {
+                  const element = this.planifications[i];
+                  if (element.planification_id == id) {
+                    this.planifications.splice(i, 1);
+                    i--;
+                  }
+                }
+                this.dataSource.data = this.planifications;
+              }
+            });
           }
         });
       }
+    },err=>{}, ()=>{
+
     });
-
-
   }
 
   editPlanification(id) {
