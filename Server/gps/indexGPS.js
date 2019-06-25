@@ -68,7 +68,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
         //delete GPS_DATA[device.uid];
     });
 
-    connection.close('error', (err) => {
+    connection.on('error', (err) => {
         console.log("Ocurrio un error en la funcion connection.close");
         console.log(err);
         connection.close();
