@@ -54,71 +54,55 @@
       </ng-container>
 
 
-
-      <!-- Start dispatch -->
-      <ng-container matColumnDef="start">
-        <th mat-header-cell *matHeaderCellDef> Empezar </th>
+      <!-- options-->
+      <ng-container matColumnDef="options">
+        <th mat-header-cell class="custom-mat-header" *matHeaderCellDef> Opciones </th>
         <td mat-cell *matCellDef="let element">
+          <button (click)="$event.stopPropagation();" mat-icon-button [matMenuTriggerFor]="menu"
+            aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
 
-            <button [disabled]="element.status.localeCompare('Pendiente') != 0" mat-icon-button color="primary" (click)="startDispatch(element.id)">
-              <mat-icon class="mat-18">arrow_right_alt</mat-icon>
+            
+
+            <button mat-menu-item *ngIf="!isDispatchTerminated(element)" (click)="sendSMS(element.id);">
+              <mat-icon svgIcon="sendSMS"></mat-icon>
+              <span>Notificar productor</span>
             </button>
 
-        </td>
-      </ng-container>
-      
-<!-- Cancel dispatch -->
-      <ng-container matColumnDef="cancel">
-          <th mat-header-cell *matHeaderCellDef> Cancelar </th>
-          <td mat-cell *matCellDef="let element">
-  
-              <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="cancelDispatch(element.id)">
-                  <mat-icon class="mat-18">delete_forever</mat-icon>
-                </button>
-        
-          </td>
-        </ng-container>
+            <button mat-menu-item *ngIf="element.status.localeCompare('Pendiente') == 0" (click)="startDispatch(element.id)">
+              <mat-icon svgIcon="startDispatch"></mat-icon>
+              <span>Comenzar</span>
+            </button>
 
-        <!-- Terminate dispatch -->
-      <ng-container matColumnDef="terminate">
-          <th mat-header-cell *matHeaderCellDef> Terminar </th>
-          <td mat-cell *matCellDef="let element">
-  
-             
-        <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="terminateDispatch(element.id)">
-            <mat-icon class="mat-18">close</mat-icon>
-          </button>
-  
-          </td>
-        </ng-container>
+            <button mat-menu-item *ngIf="!isDispatchTerminated(element)" (click)="cancelDispatch(element.dispatchId)">
+              <mat-icon svgIcon="cancelDispatch"></mat-icon>
+              <span>Cancelar</span>
+            </button>
 
-      <!-- Send message -->
-      <ng-container matColumnDef="send">
-        <th mat-header-cell *matHeaderCellDef> Notificar </th>
-        <td mat-cell *matCellDef="let element">
-          <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="sendSMS(element.id);">
-            <mat-icon class="mat-18">send</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+            <button mat-menu-item *ngIf="!isDispatchTerminated(element)" (click)="terminateDispatch(element.dispatchId)">
+              <mat-icon svgIcon="terminateDispatch"></mat-icon>
+              <span>Terminar</span>
+            </button>
 
-      <!-- Edit -->
-      <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef> Editar </th>
-        <td mat-cell *matCellDef="let element">
-          <button [disabled]="isDispatchTerminated(element)" mat-icon-button color="primary" (click)="openEditDispatchDialog(element)">
-            <mat-icon class="mat-18">edit</mat-icon>
-          </button>
-        </td>
-      </ng-container>
 
-      <!-- Delete -->
-      <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> Eliminar </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="warn" (click)="deleteDispatch(element.id)">
-            <mat-icon class="mat-18">delete</mat-icon>
-          </button>
+            <button mat-menu-item (click)="openDispatchDetailsDialog(element);">
+              <mat-icon svgIcon="details"></mat-icon>
+              <span>Detalles</span>
+            </button>
+
+            <button mat-menu-item *ngIf="element.status.localeCompare('Pendiente') == 0" [disabled]="isDispatchTerminated(element)" (click)="openEditDispatchDialog(element)">
+              <mat-icon svgIcon="edit"></mat-icon>
+              <span>Editar</span>
+            </button>
+
+            <button mat-menu-item *ngIf="isDispatchTerminated(element)" (click)="deleteDispatch(element.id)">
+              <mat-icon svgIcon="delete"></mat-icon>
+              <span>Eliminar</span>
+            </button>
+
+          </mat-menu>
         </td>
       </ng-container>
 

@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Filter } from 'src/app/model-classes/filter';
 import { ProducerviewService } from 'src/app/services/producerview.service';
 import { SMS } from 'src/app/services/sms.service';
+import { DispatchDetailsComponent } from '../../dashboard/dispatch-details/dispatch-details.component';
 
 /**
  * @title Table with sorting
@@ -30,7 +31,7 @@ export class DispatchListComponent implements OnInit {
   dispatches: Dispatch[];
   planificationId: number;
   public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-    "arrivalAtPataconDatetime","start", "cancel", "terminate", "send", "edit", "delete"];
+    "arrivalAtPataconDatetime", "options"];
   public dataSource = new MatTableDataSource<Dispatch>();
 
   @ViewChild(MatSort) sort: MatSort;
@@ -134,6 +135,15 @@ export class DispatchListComponent implements OnInit {
         this.refreshTable();
       }
     });
+  }
+
+
+  openDispatchDetailsDialog(dispatch: Filter) {
+
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = dispatch;
+
+    this.dialog.open(DispatchDetailsComponent, dialogConfig);
   }
 
   sendSMS(idDispatch) {
