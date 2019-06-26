@@ -32,16 +32,16 @@ export class FiltersComponent implements OnInit {
   ngOnInit() {
     this.getDispatches()
     this.selection.changed.subscribe(event => { this.selectedChangeEvent.emit(event.source.selected) });
-    this.refreshTimer = timer(1000,15000).subscribe(
+    this.refreshTimer = timer(1000, 15000).subscribe(
       () => this.refreshTable()
     );
   }
-  
+
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.refreshTimer.unsubscribe();
-    
+
   }
 
   ngAfterViewInit(): void {
@@ -95,8 +95,8 @@ export class FiltersComponent implements OnInit {
 
 
   filterNotTerminatedAndNotPendingDispatches(dispatches) {
-    return dispatches.filter(dispatch => dispatch.dispatchStatus.localeCompare('Terminado') != 0 && 
-    dispatch.dispatchStatus.localeCompare('Cancelado') != 0 && dispatch.dispatchStatus.localeCompare('Pendiente') != 0);
+    return dispatches.filter(dispatch => dispatch.dispatchStatus.localeCompare('Terminado') != 0 &&
+      dispatch.dispatchStatus.localeCompare('Cancelado') != 0 && dispatch.dispatchStatus.localeCompare('Pendiente') != 0);
   }
 
   openDispatchDetailsDialog(dispatch: Filter) {
@@ -129,7 +129,47 @@ export class FiltersComponent implements OnInit {
 
 
   refreshTable() {
-    this.getDispatches();
+    this.isDataLoading = true;
+    this._dispatchesService.getDispatchesWithFullInfo().subscribe({
+      next: (dispatches) => {
+        let listedDispatches = this.selection.selected;
+        let filteredDispatches = this.filterNotTerminatedAndNotPendingDispatches(dispatches);
+
+        filteredDispatches.forEach(filteredDispatch => {
+          listedDispatches.forEach(listedDispatch => {
+            if (listedDispatch.dispatchId == filteredDispatch.dispatchId) {
+              listedDispatch.dispatchId  = filteredDispatch.dispatchId;
+              listedDispatch.dispatchStatus  = filteredDispatch.dispatchStatus;
+              listedDispatch.driverRef = filteredDispatch.driverRef;
+              listedDispatch.truckLicensePlate = filteredDispatch.truckLicensePlate;
+              listedDispatch.arrivalAtPataconDatetime = filteredDispatch.arrivalAtPataconDatetime;
+              listedDispatch.arrivalAtVineyardDatetime = filteredDispatch.arrivalAtVineyardDatetime;
+              listedDispatch.shippedKilograms = filteredDispatch.shippedKilograms;
+              listedDispatch.containerType = filteredDispatch.containerType;
+              listedDispatch.driverRun = filteredDispatch.driverRun;
+              listedDispatch.driverName = filteredDispatch.driverName;
+              listedDispatch.driverSurname = filteredDispatch.driverSurname;
+              listedDispatch.driverPhoneNumber = filteredDispatch.driverPhoneNumber;
+              listedDispatch.producerName = filteredDispatch.producerName;
+              listedDispatch.producerLocation = filteredDispatch.producerLocation;
+              listedDispatch.producerPhoneNumber = filteredDispatch.producerPhoneNumber;
+              listedDispatch.truckGPSImei = filteredDispatch.truckGPSImei;
+              listedDispatch.truckBrand = filteredDispatch.truckBrand;
+              listedDispatch.truckModel = filteredDispatch.truckModel;
+              listedDispatch.truckYear = filteredDispatch.truckYear;
+            }
+          });
+        });
+
+        //this.dataSource.data = data;
+        //this.selectedChangeEvent.emit(data);
+        //this.masterToggle();
+        this.isDataLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
 
@@ -152,6 +192,6 @@ export class FiltersComponent implements OnInit {
   }
 
 
-  
+
 
 }
