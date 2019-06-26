@@ -60,7 +60,7 @@ export class SMS {
             let message = "\nDespacho Iniciado! \n" +
               "Chofer: " + info.driverName + " " + info.driverSurname + "/" + info.driverRun +
               "\nTel: " + info.driverPhoneNumber;
-
+            message = this.getCleanedString(message);
             //THE ARRIVAL TIME ISN'T IN THE MESSAGE BECAUSE THIS DOESN'T FIT INTO FREE SMS's
             //FOR THE FULL VERSION ADD THE NEXT LINES 
             /**
@@ -96,6 +96,22 @@ export class SMS {
     else if (filter.dispatchStatus == 'Terminado') return 3;
     return 0;
   }
+
+  getCleanedString(text){
+    var specialChars = "!@#$^&%*()+=-[]\/{}|:<>?,.";
+    for (var i = 0; i < specialChars.length; i++) {
+        text= text.replace(new RegExp("\\" + specialChars[i], 'gi'), '');
+    }   
+ 
+    // Quitamos acentos y "ñ". Fijate en que va sin comillas el primer parametro
+    text = text.replace(/á/gi,"a");
+    text = text.replace(/é/gi,"e");
+    text = text.replace(/í/gi,"i");
+    text = text.replace(/ó/gi,"o");
+    text = text.replace(/ú/gi,"u");
+    text = text.replace(/ñ/gi,"n");
+    return text;
+ }
 
    }
   
