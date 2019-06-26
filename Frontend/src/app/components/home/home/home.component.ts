@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
   events: Event[];
   lastEventTimer: Subscription;
   menuItems: any[];
+  userType : String;
   eventNotRead: number[] =[];
   countEventNotRead: number=0;
   readEvents: number[] =[];
@@ -50,6 +51,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.userType = this.auth.getUserType();
     this.lastEventTimer = timer(1000,15000).subscribe(() => {
       this.dashboardService.getNevents(18).subscribe(data =>{
         this.events = data

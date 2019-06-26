@@ -17,6 +17,8 @@ import { Filter } from 'src/app/model-classes/filter';
 import { ProducerviewService } from 'src/app/services/producerview.service';
 import { SMS } from 'src/app/services/sms.service';
 import { DispatchDetailsComponent } from '../../dashboard/dispatch-details/dispatch-details.component';
+import { AuthService } from '../../../../services/auth.service';
+
 
 /**
  * @title Table with sorting
@@ -38,19 +40,26 @@ export class DispatchListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isDataLoading: boolean;
 
-
+  userType : String;
 
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
     private route: ActivatedRoute,
     private dispatchService: DispatchesService,
     
     private smsService: SMS,
-    private insightsService: InsightsService) { }
+    private insightsService: InsightsService,
+    private auth : AuthService) { }
 
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getDispatches();
     this.dataSource.sort = this.sort;
+    this.userType = this.auth.getUserType();
+
+    if(this.userType == "Coordinador"){
+      this.displayedColumns = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
+      "arrivalAtPataconDatetime","start", "cancel", "terminate", "send"];
+    }
   }
 
   ngAfterViewInit(): void {

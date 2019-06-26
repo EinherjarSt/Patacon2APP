@@ -52,4 +52,9 @@ export class AuthService {
     const token = localStorage.getItem('access_token');
     return this.jwtHelper.decodeToken(token);
   }
+
+  public getUserType(): String{
+    let tokenInfo = this.getTokenInfo();
+    return tokenInfo.position;
+  }
 }

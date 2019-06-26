@@ -99,36 +99,46 @@
         </a>
         
 
-        <a [routerLink]="['estadisticas']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['estadisticas']"  *ngIf="userType == 'SysAdmin'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+
           mat-list-item>
           <mat-icon svgIcon="insights"></mat-icon>
           Estadísticas
         </a>
 
-        <a [routerLink]="['usuarios']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['usuarios']" *ngIf="userType == 'SysAdmin'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon svgIcon="users"></mat-icon>
           Usuarios
         </a>
-        <a [routerLink]="['camiones']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['camiones']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon svgIcon="trucks"></mat-icon>
 
           Camiones
         </a>
-        
-        <a [routerLink]="['choferes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+
+        <a [routerLink]="['choferes']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+
           mat-list-item>
           <mat-icon svgIcon="driver"></mat-icon>
 
           Choferes
         </a>
 
-        <a [routerLink]="['productores']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+
+        <a [routerLink]="['productores']" *ngIf="userType == 'SysAdmin' || userType == 'Coordinador'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon svgIcon="producer"></mat-icon>
           Productores
         </a>
+
+        <a [routerLink]="['gps']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+          mat-list-item>
+          <mat-icon svgIcon="gps"></mat-icon>
+          Gps
+        </a>
+        
 
         <a [routerLink]="['routes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
@@ -136,11 +146,6 @@
           Rutas
         </a>
 
-        <a [routerLink]="['gps']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
-          mat-list-item>
-          <mat-icon svgIcon="gps"></mat-icon>
-          Gps
-        </a>
         
       </mat-nav-list>
      

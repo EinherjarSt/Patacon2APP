@@ -7,6 +7,8 @@ import { DetailsComponent } from './details/details.component';
 import { AddPlanificationComponent } from '../add-planification/add-planification.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
+
 import { DispatchesService } from 'src/app/services/dispatches.service';
 import { Dispatch } from 'src/app/model-classes/dispatch';
 import { dispatch } from 'rxjs/internal/observable/range';
@@ -22,10 +24,12 @@ export class PlanificationListComponent implements OnInit {
   displayedColumns: string[] = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch', 'edit', 'delete'];
   dataSource: MatTableDataSource<Planification>;
   private readonly notifier: NotifierService;
+  userType: String;
 
   dialogResult = "";
   constructor(private producerService: ProducersService,
     private planificationService: PlanificationService,
+    private auth: AuthService,
     public dialog: MatDialog,
     public router: Router,
     private dispatchService: DispatchesService,
@@ -60,7 +64,11 @@ export class PlanificationListComponent implements OnInit {
 
   ngOnInit() {
     this.getProducers();
+    this.userType = this.auth.getUserType();
 
+    if(this.userType == "Encargado de Flota"){
+      this.displayedColumns = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch'];
+    }
   }
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
