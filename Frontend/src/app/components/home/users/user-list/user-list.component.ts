@@ -54,7 +54,7 @@ export class UserListComponent implements OnInit {
 
   openAddDialog(){
     let dialogRef = this.dialog.open(AddUserComponent, {
-      width: '450px',
+      width: '600px',
       data: 'This text is passed into the dialog',
       disableClose: true,
       autoFocus: true
@@ -72,7 +72,7 @@ export class UserListComponent implements OnInit {
   openUpdateDialog(run: string){
     const dialogRef = this.dialog.open(EditUserComponent, {
       data: run,
-      width: '500px',
+      width: '600px',
       disableClose: true,
       autoFocus: true
     });

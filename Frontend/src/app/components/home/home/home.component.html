@@ -92,35 +92,35 @@
           Inicio
         </a>
 
-        <a [routerLink]="['estadisticas']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['estadisticas']"  *ngIf="userType == 'SysAdmin'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>trending_up</mat-icon>
           Estadísticas
         </a>
 
-        <a [routerLink]="['usuarios']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['usuarios']" *ngIf="userType == 'SysAdmin'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>people</mat-icon>
           Usuarios
         </a>
-        <a [routerLink]="['camiones']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['camiones']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>local_shipping</mat-icon>
 
           Camiones
         </a>
-        <a [routerLink]="['choferes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['choferes']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>contacts</mat-icon>
 
           Choferes
         </a>
-        <a [routerLink]="['productores']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['productores']" *ngIf="userType == 'SysAdmin' || userType == 'Coordinador'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>nature_people</mat-icon>
           Productores
         </a>
-        <a [routerLink]="['gps']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['gps']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
           <mat-icon>near_me</mat-icon>
           Gps
