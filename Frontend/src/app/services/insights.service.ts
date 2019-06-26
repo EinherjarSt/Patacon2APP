@@ -42,6 +42,17 @@ export class InsightsService {
       .put<{ messageCount: number }>(env.api.concat("/informacion/cantidad_de_mensajes"), body);
   }
 
+  public getDriversInsightsInDataRange(startDate, endDate) {
+    
+    const body = new HttpParams().set('startDate', startDate)
+    .set('endDate', endDate);
+
+    return this._http
+      .put<any>(env.api.concat("/informacion/estadisticas_por_chofer"), body);
+  }
+
+
+  
   public getSuccessfulDispatchCount(startDate, endDate) {
     const body = new HttpParams().set('startDate', startDate)
     .set('endDate', endDate);
@@ -80,6 +91,8 @@ export class InsightsService {
     );
 
   }
+
+  
 
   _calculateTotalTimeInStatus(events, status) {
 

@@ -102,6 +102,27 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DROP PROCEDURE IF EXISTS get_insights_per_driver;
+DELIMITER //
+CREATE PROCEDURE get_insights_per_driver (  
+  IN startDate DATETIME,
+  IN endDate DATETIME
+)
+BEGIN
+  SELECT driver.run AS driverRun,
+  driver.name AS driverName,
+  driver.surname AS driverSurname,
+  SEC_TO_TIME( SUM(TIME_TO_SEC(insights_data.stoppedTime)) ) AS timeSpentStopped
+  FROM dispatch 
+  INNER JOIN driver ON dispatch.ref_driver = driver.run
+  INNER JOIN insights_data ON insights_data.refDispatch = dispatch.id_dispatch
+  WHERE dispatch.arrivalAtPataconDate >= startDate 
+  AND dispatch.arrivalAtPataconDate <= endDate
+  GROUP BY driver.run;
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS count_text_messages_sent;
 DELIMITER //
 CREATE PROCEDURE count_text_messages_sent (  

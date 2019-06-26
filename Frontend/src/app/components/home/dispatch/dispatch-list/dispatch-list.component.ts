@@ -103,6 +103,11 @@ export class DispatchListComponent implements OnInit {
     });
   }
 
+  public test() {
+    this.insightsService.getDriversInsightsInDataRange('2019-06-01', '2019-06-30').subscribe(data => console.log(data),
+    err => console.log(err))
+  }
+
   startDispatch(dispatch_id) {
     this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {

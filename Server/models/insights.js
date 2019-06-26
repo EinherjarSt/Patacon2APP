@@ -76,6 +76,27 @@ class InsightsData {
     }
 
    
+    static getDriversInsightsInDateRange(startDate, endDate, callback) {
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }        
+        pool.query(`CALL get_insights_per_driver(?,?)`, [startDate, endDate], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let driversInsights = []
+            for (const driverInsights of results[0]) {
+                driversInsights.push({
+                    driverRun: driverInsights.driverRun,
+                    driverName: driverInsights.driverName,
+                    driverSurname: driverInsights.driverSurname,
+                    timeSpentStopped: driverInsights.timeSpentStopped
+                });
+            }
+
+            return callback(null, driversInsights);
+        });
+    }
 
     static getDispatchesInDateRangeInsights(startDate, endDate, callback) {
         if (!callback || !(typeof callback === 'function')) {

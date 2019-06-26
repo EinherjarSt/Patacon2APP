@@ -46,11 +46,24 @@ app.put('/informacion/cantidad_despachos_cancelados', passport.authenticate('jwt
     });
 })
 
+
 app.put('/informacion/despachos_por_fecha', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
     let body = req.body;
     InsightsData.getDispatchesInDateRangeInsights(body.startDate, body.endDate, (err, insightData) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json(insightData);
+    });
+})
+
+app.put('/informacion/estadisticas_por_chofer', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let body = req.body;
+    InsightsData.getDriversInsightsInDateRange(body.startDate, body.endDate, (err, insightData) => {
         if (err) {
             return res.status(400).json(err);
         }
