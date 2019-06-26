@@ -7,6 +7,7 @@ import { DispatchesService } from '../../../../services/dispatches.service';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import { timer, Subscription } from "rxjs";
 
 
 @Component({
@@ -21,6 +22,7 @@ export class FiltersComponent implements OnInit {
   selection = new SelectionModel<Filter>(true, []);
   selectedDispatches: Filter[] = this.selection.selected;
   isDataLoading: boolean;
+  refreshTimer: Subscription;
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
 
@@ -30,7 +32,16 @@ export class FiltersComponent implements OnInit {
   ngOnInit() {
     this.getDispatches()
     this.selection.changed.subscribe(event => { this.selectedChangeEvent.emit(event.source.selected) });
-
+    this.refreshTimer = timer(1000,15000).subscribe(
+      () => this.refreshTable()
+    );
+  }
+  
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.refreshTimer.unsubscribe();
+    
   }
 
   ngAfterViewInit(): void {

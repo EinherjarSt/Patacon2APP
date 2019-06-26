@@ -123,3 +123,79 @@ a:hover {
 		vertical-align:middle;
 		line-height:normal;
 }
+
+::ng-deep .mat-menu-panel {
+  max-width: 400px !important;
+}
+
+.desc{
+  width: 100%;
+}
+.item{
+  width: 100%;
+}
+.block{
+  text-align: center;
+  padding-left: 5px;
+  color: white;
+  min-width: 170px;
+  float: left;
+  border-radius: 7px;
+}
+.info{
+  
+  background: rgb(78, 78, 78);
+  
+}
+.warning{
+  background: rgb(197, 6, 6);
+}
+/*
+Yellow color to notification icon
+.notify{
+  color: rgb(206, 206, 14);
+}*/
+.containerNotifications{
+  max-height: 370px;
+  overflow: auto;
+}
+.iconClock{
+  font-size: 13px;
+  height: 16px;
+  width: 16px;
+}
+.time{
+  text-align:start;
+  color: rgb(165, 165, 165);
+}
+mat-list-item-content{
+  padding: 0 !important;
+}
+.container{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.infoRow{
+  font-size: 12px;
+  min-width: 350px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  height: 55px;
+  margin-bottom: 12px;
+  border-bottom-color: rgb(59, 57, 57);
+  border-bottom-width: 1px;
+}
+.description{
+  white-space:normal !important;
+  word-wrap: break-word;
+  padding-top: 8px;
+  padding-bottom: 5px;
+}
+.textWarn{
+  color: rgb(160, 1, 1);
+  font-size: 13px;
+}
+.separator{
+  border-bottom: 1px solid #d8d7d7;
+  padding: 1px;
+}

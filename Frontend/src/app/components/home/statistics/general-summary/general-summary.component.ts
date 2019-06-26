@@ -7,7 +7,7 @@ import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-mo
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NotifierService } from 'angular-notifier';
 import { InsightsDataTable } from 'src/app/model-classes/insights_data_table';
-
+import { AngularCsv } from 'angular7-csv/dist/Angular-csv'
 @Component({
   selector: 'app-general-summary',
   templateUrl: './general-summary.component.html',
@@ -31,8 +31,21 @@ export class GeneralSummaryComponent implements OnInit {
   displayedColumns: string[] = ["dispatchDate", "producerName", "truckLicensePlate", "driverRun","stoppedTime", "unloadYardTime", "textMessagesSent","lastMessageSentDate"]; 
   dataSource: MatTableDataSource<InsightsDataTable>;
 
+
+  csvOptions = {
+    fieldSeparator: ';',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: true,
+    showTitle: true,
+    title: 'Resumen general:',
+    useBom: true,
+    noDownload: false,
+    headers: ["Fecha", "Productor", "Camión", "Chofer","Tiempo detenido", "Tiempo en patio", "SMS enviados","Último mensaje enviado"]
+  };
   constructor(private insightsService: InsightsService, private notifierService: NotifierService) { }
 
+  
   ngOnInit() {
     this.startDate = new FormControl();
     this.endDate = new FormControl();
@@ -89,6 +102,10 @@ export class GeneralSummaryComponent implements OnInit {
       console.log(result)},
       error: (err) => {console.log(err);}
     });
+  }
+
+  downloadCSV(){
+    new AngularCsv(this.dataSource.data, "Resumen general", this.csvOptions)
   }
 
 

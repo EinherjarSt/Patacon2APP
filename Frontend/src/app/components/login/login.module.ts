@@ -5,18 +5,28 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginViewComponent } from './login-view/login-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
+import { CdkStepperModule} from '@angular/cdk/stepper';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+//import { ResetPassword2Component } from './reset-password2/reset-password2.component';
+import { MatStepperModule } from '@angular/material';
 
 
 @NgModule({
+  exports: [
+    CdkStepperModule,
+  ],
   declarations: [
-    LoginViewComponent
+    LoginViewComponent,
+    ResetPasswordComponent,
+    //ResetPassword2Component
   ],
   imports: [
     CommonModule,
     LoginRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    MatStepperModule
   ]
 })
 export class LoginModule { }
