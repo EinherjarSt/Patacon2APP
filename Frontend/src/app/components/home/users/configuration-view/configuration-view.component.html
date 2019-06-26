@@ -1,113 +1,124 @@
 <mat-card class="card">
   <mat-card-header class="header">
     <h3 class="title">Configuración de la Cuenta</h3>
+   
   </mat-card-header>
-  <mat-card-content >
-    <hr>
-    <div class="container">
-    <div class="row">
-      <div class=" col-sm-3">
-        <div class="info">
-          <img src="../../../assets/icons/silueta-hombre.jpg" class="image" />
-          <div class="identification">{{this.user.run}}</div>
-          <div class="identification"><b>{{this.user.position}}</b></div>
-        </div>
-      </div>
-      <hr FxShow="false" fxShow.xs="true">
-      <div class="separator"></div>
-      <div class=" col-sm editContent">
-        <form [formGroup]="form" class="formData1">
-          <div class="formData">
-          <div class="titleData"><b>Datos personales</b></div>
-          <div>
-            <mat-form-field appearance="standard" id="inputData">
-              <mat-label>Nombre</mat-label>
-              <input  matInput placeholder="" formControlName="name" maxlength="30" (keyup)="enableBtnData($event)" />
-              <mat-error *ngIf="hasError('name', 'required')">Debe ingresar un nombre</mat-error>
-              <mat-hint></mat-hint>
-            </mat-form-field>
+  <mat-card-content>
+    
+    <div class="container-fluid">
+      <hr>
+      <div class="row">
+        <div class="col-lg-4 col-md-12 col-sm-12 container">
+          <div class="info">
+            <img src="../../../assets/icons/silueta-hombre.jpg" class="image" />
+            <div class="identification">{{this.user.run}}</div>
+            <div class="identification"><b>{{this.user.position}}</b></div>
           </div>
-
-          <div>
-            <mat-form-field appearance="standard" id="inputData">
-              <mat-label>Apellido Paterno</mat-label>
-              <input matInput placeholder="" formControlName="surname" maxlength="30" (keyup)="enableBtnData($event)"/>
-              <mat-error *ngIf="hasError('surname', 'required')">Debe ingresar el apellido</mat-error>
-              <mat-hint></mat-hint>
-            </mat-form-field>
-          </div>
-
-          <div>
-            <mat-form-field appearance="standard" id="inputData">
-              <mat-label>Apellido Materno</mat-label>
-              <input matInput placeholder="" formControlName="surname2" maxlength="30" (keyup)="enableBtnData($event)"/>
-              <mat-error *ngIf="hasError('surname2', 'required')">Debe ingresar el apellido</mat-error>
-              <mat-hint></mat-hint>
-            </mat-form-field>
-          </div>
-
-          <div>
-            <mat-form-field appearance="standard" id="inputData">
-              <mat-label>Correo electrónico</mat-label>
-              <input matInput placeholder="ejemplo@patacon.cl" formControlName="email" maxlength="30" (keyup)="enableBtnData($event)" />
-              <mat-error *ngIf="hasError('email', 'required')">Debe ingresar el correo</mat-error>
-              <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un correo valido</mat-error>
-              <mat-hint></mat-hint>
-            </mat-form-field>
-          </div>
-        </div>
-        </form>
-        <button mat-raised-button (click)="onClickPersonalData()" class="btnData" [disabled]="form.invalid || this.btnDataNoVisible">Actualizar Datos</button>
-      </div>
-      <hr FxShow="false" fxShow.xs="true">
-      <div  class="col-sm restorePass">
-        <form [formGroup]="passForm">
-          <div class="formPass">
-          <div class="titlePass"><b>Cambiar Contraseña</b></div>
-          <div>
-            <mat-form-field appearance="standard">
-              <mat-label>Contraseña Anterior</mat-label>
-              <input matInput placeholder=" Ingrese su contraseña" [type]="hideOld ? 'password' : 'text'"
-                formControlName="originalPass" maxlength="30" />
-              <mat-error *ngIf="hasError2('originalPass','badPassword') ">Las contraseña es incorrecta</mat-error>
-              <mat-icon matSuffix (click)="hideOld = !hideOld">{{
-                      hideOld ? "visibility_off" : "visibility"
-                    }}</mat-icon>
-              <mat-hint></mat-hint>
-            </mat-form-field>
-          </div>
-          <div >
-            <mat-form-field appearance="standard">
-              <mat-label>Nueva Contraseña</mat-label>
-              <input matInput placeholder=" Ingrese su contraseña" (keyup)="enableCondition($event)"
-                [type]="hideNew ? 'password' : 'text'" formControlName="newPass1" maxlength="30" />
-              <mat-icon matSuffix (click)="hideNew = !hideNew">{{
-                        hideNew ? "visibility_off" : "visibility"
-                      }}</mat-icon>
-              <mat-hint></mat-hint>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field appearance="standard" id="input2">
-              <mat-label>Repita Nueva Contraseña</mat-label>
-              <input matInput placeholder=" Ingrese su contraseña" type="password" formControlName="newPass2"
-                maxlength="30" />
-              <mat-error *ngIf="verifyMatch()||hasError2('newPass2','notMatch') ">Las contraseñas no coinciden
-              </mat-error>
-            </mat-form-field>
-            <mat-hint></mat-hint>
-
-          </div>
-        </div>
-        </form>
-        <div class="containerBtnPass">
-          <button mat-raised-button (click)="onClickPassword()" class="btnPassword"
-          [disabled]="passForm.invalid || this.btnPassNoVisible">Actualizar Contraseña</button>
         </div>
         
-      </div>
+        <div class="col-lg-4 col-md-12 col-sm-12">
+          <form [formGroup]="form">
+            <div class="formData">
+              <div class="titleData"><b>Datos personales</b></div>
+              <div class="container">
+                <mat-form-field appearance="standard" id="inputData">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput placeholder="" formControlName="name" maxlength="30"
+                    (keyup)="enableBtnData($event)" />
+                  <mat-error *ngIf="hasError('name', 'required')">Debe ingresar un nombre</mat-error>
+                  <mat-hint></mat-hint>
+                </mat-form-field>
+              </div>
 
+              <div class="container">
+                <mat-form-field appearance="standard" id="inputData">
+                  <mat-label>Apellido Paterno</mat-label>
+                  <input matInput placeholder="" formControlName="surname" maxlength="30"
+                    (keyup)="enableBtnData($event)" />
+                  <mat-error *ngIf="hasError('surname', 'required')">Debe ingresar el apellido</mat-error>
+                  <mat-hint></mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="container">
+                <mat-form-field appearance="standard" id="inputData">
+                  <mat-label>Apellido Materno</mat-label>
+                  <input matInput placeholder="" formControlName="surname2" maxlength="30"
+                    (keyup)="enableBtnData($event)" />
+                  <mat-error *ngIf="hasError('surname2', 'required')">Debe ingresar el apellido</mat-error>
+                  <mat-hint></mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="container">
+                <mat-form-field appearance="standard" id="inputData">
+                  <mat-label>Correo electrónico</mat-label>
+                  <input matInput placeholder="ejemplo@patacon.cl" formControlName="email" maxlength="30"
+                    (keyup)="enableBtnData($event)" />
+                  <mat-error *ngIf="hasError('email', 'required')">Debe ingresar el correo</mat-error>
+                  <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un correo valido</mat-error>
+                  <mat-hint></mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="buttonData">
+                <button mat-raised-button (click)="onClickPersonalData()" 
+                [disabled]="form.invalid || this.btnDataNoVisible">Actualizar Datos</button>
+            </div>
+          </form>
+          
+          
+
+        </div>
+        <div class="col-lg-4 col-md-12 col-sm-12 container">
+          <form [formGroup]="passForm">
+            <div class="formPass">
+              <div class="titlePass"><b>Cambiar Contraseña</b></div>
+              <div class="container">
+                <mat-form-field appearance="standard">
+                  <mat-label>Contraseña Anterior</mat-label>
+                  <input matInput placeholder=" Ingrese su contraseña" [type]="hideOld ? 'password' : 'text'"
+                    formControlName="originalPass" maxlength="30" />
+                  <mat-error *ngIf="hasError2('originalPass','badPassword') ">Las contraseña es incorrecta</mat-error>
+                  <mat-icon matSuffix (click)="hideOld = !hideOld">{{
+                                  hideOld ? "visibility_off" : "visibility"
+                                }}</mat-icon>
+                  <mat-hint></mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="container">
+                <mat-form-field appearance="standard">
+                  <mat-label>Nueva Contraseña</mat-label>
+                  <input matInput placeholder=" Ingrese su contraseña" (keyup)="enableCondition($event)"
+                    [type]="hideNew ? 'password' : 'text'" formControlName="newPass1" maxlength="30" />
+                  <mat-icon matSuffix (click)="hideNew = !hideNew">{{
+                                    hideNew ? "visibility_off" : "visibility"
+                                  }}</mat-icon>
+                  <mat-hint></mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="container">
+                <mat-form-field appearance="standard" id="input2">
+                  <mat-label>Repita Nueva Contraseña</mat-label>
+                  <input matInput placeholder=" Ingrese su contraseña" type="password" formControlName="newPass2"
+                    maxlength="30" />
+                  <mat-error *ngIf="verifyMatch()||hasError2('newPass2','notMatch') ">Las contraseñas no coinciden
+                  </mat-error>
+                </mat-form-field>
+                
+              </div>
+            </div>
+            <div class="buttonData">
+                <button mat-raised-button (click)="onClickPassword()"
+                  [disabled]="passForm.invalid || this.btnPassNoVisible">Actualizar Contraseña</button>
+              </div>
+          </form>
+          
+
+        </div>
+      </div>
     </div>
-  </div>
+
+
   </mat-card-content>
 </mat-card>

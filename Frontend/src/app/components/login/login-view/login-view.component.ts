@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray} from '@angular/forms'
 import { AuthService } from '../../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatTableDataSource, MatDialog, MatSort, MatPaginator, MatDialogConfig } from '@angular/material';
+//import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+
 
 @Component({
   selector: 'app-login-view',
@@ -13,6 +16,7 @@ export class LoginViewComponent implements OnInit {
   hiddenText = false;
   errorText = false;
   form : FormGroup;
+
 
   constructor(private auth: AuthService,
      private router: Router, 
@@ -44,6 +48,23 @@ export class LoginViewComponent implements OnInit {
         this.errorText = true;
         }
     });
+  }
+
+  /* openResetPasswordDialog(): void {
+    const dialogRef = this.dialog.open(ResetPasswordComponent, {
+      width: '500px',
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === "Confirm") this.refreshTable();
+    });
+  } */
+
+  resetPassword()
+  {
+    console.log("Quiero restablecer contraseña");
+    this.router.navigate(['reset-password']);
+    return;
   }
 
   ngOnInit() {

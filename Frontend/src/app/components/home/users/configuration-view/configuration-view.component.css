@@ -30,6 +30,9 @@
     display: flex;
     flex-wrap: wrap;
 }
+.container > * {
+    width: 100% !important;
+  }
 .containerBtnPass{
     display:flex;
     justify-content: right;
@@ -46,7 +49,7 @@
     height: auto;
     width: 100%;
 }
-@media (max-width: 576px) { 
+@media (max-width: 991px) { 
     .editContent,.restorePass{
         border-top: 1px solid #c4c4c4;
         margin-top:20px;
@@ -57,17 +60,7 @@
         font-size: 18px;
         padding-bottom: 10px;
     }
-    .formPass,.formData{
-        display:flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .btnData,.btnPassword{
-        width: 100%;
-        min-width: 100px;
-        max-width: 200px;
-        margin-top: 20px;
-    }
+
     #inputData{
         width: 200px;
     }
@@ -78,6 +71,10 @@
 
 #input2{
     width: 200px;
+}
+
+.buttonData{
+    padding-left: 15px;
 }
 
 

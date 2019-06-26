@@ -24,10 +24,25 @@ class LastEvent {
                 return callback({message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
-            return callback(null, new LastEvent(result.id_event,result.time,result.description,result.ref_Dispach, result.status));
+            return callback(null, new LastEvent(result.id_event,result.time,result.description,result.ref_Dispatch, result.status));
         });
     }
 
+    static getNevents(count, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`CALL get_last_n_events(?)`, [count], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let events = []
+            for (const event of results[0]) {
+                events.push(new LastEvent(event.id_event,event.time,event.description,event.ref_Dispatch, event.status));
+            }
+            return callback(null, events);
+        });
+    }
 
     static getAllEvents(callback) {
         if(!callback || !(typeof callback === 'function')){
