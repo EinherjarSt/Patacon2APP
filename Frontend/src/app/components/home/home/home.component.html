@@ -88,61 +88,62 @@
       <mat-nav-list class="list">
         <a [routerLink]="['/inicio']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>dashboard</mat-icon>
+          <mat-icon svgIcon="dashboard"></mat-icon>
           Inicio
         </a>
 
+        <a [routerLink]="['planificacion']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+          mat-list-item>
+          <mat-icon svgIcon="planification"></mat-icon>
+          Planificación
+        </a>
+        
+
         <a [routerLink]="['estadisticas']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>trending_up</mat-icon>
+          <mat-icon svgIcon="insights"></mat-icon>
           Estadísticas
         </a>
 
         <a [routerLink]="['usuarios']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>people</mat-icon>
+          <mat-icon svgIcon="users"></mat-icon>
           Usuarios
         </a>
         <a [routerLink]="['camiones']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>local_shipping</mat-icon>
+          <mat-icon svgIcon="trucks"></mat-icon>
 
           Camiones
         </a>
+        
         <a [routerLink]="['choferes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>contacts</mat-icon>
+          <mat-icon svgIcon="driver"></mat-icon>
 
           Choferes
         </a>
+
         <a [routerLink]="['productores']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>nature_people</mat-icon>
+          <mat-icon svgIcon="producer"></mat-icon>
           Productores
         </a>
-        <a [routerLink]="['gps']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
-          mat-list-item>
-          <mat-icon>near_me</mat-icon>
-          Gps
-        </a>
-        <a [routerLink]="['planificacion']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
-          mat-list-item>
-          <mat-icon>table_chart</mat-icon>
-          Planificación
-        </a>
+
         <a [routerLink]="['routes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>directions</mat-icon>
+          <mat-icon svgIcon="route"></mat-icon>
           Rutas
         </a>
 
-
+        <a [routerLink]="['gps']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+          mat-list-item>
+          <mat-icon svgIcon="gps"></mat-icon>
+          Gps
+        </a>
+        
       </mat-nav-list>
-      <div class="copyright">
-        <span>
-          <small>&copy; Copyright 2019, Patacon</small>
-        </span>
-      </div>
+     
 
 
 

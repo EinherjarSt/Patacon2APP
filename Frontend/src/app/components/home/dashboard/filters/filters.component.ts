@@ -8,6 +8,11 @@ import { MatDialog, MatDialogConfig } from "@angular/material";
 import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { timer, Subscription } from "rxjs";
+import { SMS } from 'src/app/services/sms.service';
+import * as moment from 'moment';
+import { InsightsService } from '../../../../services/insights.service';
+
+
 
 
 @Component({
@@ -17,14 +22,15 @@ import { timer, Subscription } from "rxjs";
 })
 export class FiltersComponent implements OnInit {
 
-  displayedColumns: string[] = ["select", "truck", "state", "destination", "options"];
+  displayedColumns: string[] = ["select", "truck", "state", "destination", "actions"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
   selectedDispatches: Filter[] = this.selection.selected;
   isDataLoading: boolean;
   refreshTimer: Subscription;
 
-  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
+  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog,private smsService: SMS,
+    private insightsService: InsightsService) { }
 
   @ViewChild(MatSort) sort: MatSort;
   @Output() selectedChangeEvent = new EventEmitter<Filter[]>();
@@ -50,6 +56,10 @@ export class FiltersComponent implements OnInit {
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
+  isDispatchTerminated(dispatch) {
+    return dispatch.dispatchStatus.localeCompare('Terminado') == 0 || dispatch.dispatchStatus.localeCompare('Cancelado') == 0;
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -125,6 +135,27 @@ export class FiltersComponent implements OnInit {
       }
 
     });
+  }
+
+  sendSMS(idDispatch) {
+    let message = "";
+    //hacer consulta y agregar al mensaje los datos
+    this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data =>{
+      if(data!= null){
+        if(data.textMessagesSent!=null){
+        message = "Ha enviado "+data.textMessagesSent+ " mensaje(s) al productor.\n" +
+        "Último mensaje enviado: "+ moment(data.lastMessageSentDate).format('DD/MM/YYYY hh:mm a')+"\n\n";
+      }
+      }
+    },e=>{},()=>{
+    message = message + "¿Desea enviar un nuevo sms?";
+    this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this.smsService.sendSMS(idDispatch);
+
+      }
+    });
+  });
   }
 
 

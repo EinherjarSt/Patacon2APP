@@ -18,7 +18,21 @@ export class AppComponent {
     {name: 'dispatchDetails', url: "../assets/icons/dispatchDetails.svg"},
     {name: 'edit', url: "../assets/icons/editCRUD.svg"},
     {name: 'details', url: "../assets/icons/details.svg"},
-    {name: 'terminateDispatch', url: "../assets/icons/terminateDispatch.svg"}];
+    {name: 'terminateDispatch', url: "../assets/icons/terminateDispatch.svg"},
+    {name: 'dashboard', url: "../assets/icons/dashboard.svg"},
+    {name: 'gps', url: "../assets/icons/gps.svg"},
+    {name: 'users', url: "../assets/icons/users.svg"},
+    {name: 'driver', url: "../assets/icons/driver.svg"},
+    {name: 'route', url: "../assets/icons/route.svg"},
+    {name: 'trucks', url: "../assets/icons/trucks.svg"},
+    {name: 'producer', url: "../assets/icons/producer.svg"},
+    {name: 'planification', url: "../assets/icons/planification.svg"},
+    {name: 'insights', url: "../assets/icons/insights.svg"}
+    
+  
+  
+  
+  ];
     
 
   constructor(

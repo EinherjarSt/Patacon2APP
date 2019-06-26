@@ -5,6 +5,7 @@ import { Filter } from 'src/app/model-classes/filter';
 import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.component';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import { SMS } from 'src/app/services/sms.service';
 
 
 @Component({
@@ -15,11 +16,12 @@ import { ConfirmationDialogComponent } from 'src/app/components/core/confirmatio
 export class PendingDispatchesComponent implements OnInit {
 
   dateFormat = 'd/M/yy HH:mm';
-  displayedColumns: string[] = ["truck","destination", "arrivalAtVineyardDatetime", "options"];
+  displayedColumns: string[] = ["truck","destination", "arrivalAtVineyardDatetime", "actions"];
   isDataLoading: boolean;
   dataSource = new MatTableDataSource<Filter>();
 
-  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
+  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog,
+    private smsService: SMS) { }
 
   ngOnInit() {
     this.getDispatches()
@@ -45,16 +47,6 @@ export class PendingDispatchesComponent implements OnInit {
     return dispatches.filter(dispatch => dispatch.dispatchStatus.localeCompare('Pendiente') == 0);
   }
 
-  startDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this._dispatchesService.startDispatch(dispatch_id).subscribe(
-          res => this.refreshTable());
-      }
-
-    });
-  }
-
   refreshTable() {
     this.getDispatches();
   }
@@ -75,6 +67,29 @@ export class PendingDispatchesComponent implements OnInit {
   }
 
 
+  cancelDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this._dispatchesService.terminateDispatch(dispatch_id, "Cancelado");
+        this.refreshTable();
+      }
+
+    });
+  }
+
+  startDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this._dispatchesService.startDispatch(dispatch_id).subscribe(
+          res =>{
+            this.smsService.sendSMS(dispatch_id);
+            this.refreshTable();
+
+          } );
+      }
+
+    });
+  }
 
   openDispatchDetailsDialog(dispatch: Filter) {
 
