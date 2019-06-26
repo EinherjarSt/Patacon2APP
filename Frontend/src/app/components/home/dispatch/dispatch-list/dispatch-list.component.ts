@@ -16,6 +16,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Filter } from 'src/app/model-classes/filter';
 import { ProducerviewService } from 'src/app/services/producerview.service';
 import { SMS } from 'src/app/services/sms.service';
+import { DispatchDetailsComponent } from '../../dashboard/dispatch-details/dispatch-details.component';
+import { AuthService } from '../../../../services/auth.service';
+
 
 /**
  * @title Table with sorting
@@ -30,26 +33,33 @@ export class DispatchListComponent implements OnInit {
   dispatches: Dispatch[];
   planificationId: number;
   public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-    "arrivalAtPataconDatetime","start", "cancel", "terminate", "send", "edit", "delete"];
+    "arrivalAtPataconDatetime", "delete", "edit","actions"];
   public dataSource = new MatTableDataSource<Dispatch>();
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isDataLoading: boolean;
 
-
+  userType : String;
 
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
     private route: ActivatedRoute,
     private dispatchService: DispatchesService,
     
     private smsService: SMS,
-    private insightsService: InsightsService) { }
+    private insightsService: InsightsService,
+    private auth : AuthService) { }
 
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getDispatches();
     this.dataSource.sort = this.sort;
+    this.userType = this.auth.getUserType();
+
+    if(this.userType == "Coordinador"){
+      this.displayedColumns = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
+      "arrivalAtPataconDatetime","start", "cancel", "terminate", "send"];
+    }
   }
 
   ngAfterViewInit(): void {
@@ -140,8 +150,18 @@ export class DispatchListComponent implements OnInit {
     });
   }
 
-  sendSMS(idDispatch){
-   let message ="";
+
+  openDispatchDetailsDialog(dispatch: Filter) {
+
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = dispatch;
+
+    this.dialog.open(DispatchDetailsComponent, dialogConfig);
+  }
+
+  sendSMS(idDispatch) {
+    let message = "";
+    //hacer consulta y agregar al mensaje los datos
     this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data =>{
       if(data!= null){
         if(data.textMessagesSent!=null){

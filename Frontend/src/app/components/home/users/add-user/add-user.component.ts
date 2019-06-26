@@ -39,6 +39,7 @@ export class AddUserComponent implements OnInit {
       name: new FormControl("", [Validators.required]),
       surname: new FormControl("", [Validators.required]),
       surname2: new FormControl("", [Validators.required]),
+      position: new FormControl("", [Validators.required]),
       email: new FormControl("", [Validators.required, Validators.email]),
       password: new FormControl("", [Validators.required])
     });
