@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { DispatchesService } from 'src/app/services/dispatches.service';
 import { Dispatch } from 'src/app/model-classes/dispatch';
 import { dispatch } from 'rxjs/internal/observable/range';
+import { NotifierService } from 'angular-notifier';
+
 @Component({
   selector: 'app-planification-list',
   templateUrl: './planification-list.component.html',
@@ -19,17 +21,20 @@ export class PlanificationListComponent implements OnInit {
   planifications: Planification[];
   displayedColumns: string[] = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch', 'edit', 'delete'];
   dataSource: MatTableDataSource<Planification>;
+  private readonly notifier: NotifierService;
 
   dialogResult = "";
   constructor(private producerService: ProducersService,
     private planificationService: PlanificationService,
     public dialog: MatDialog,
     public router: Router,
-    private dispatchService: DispatchesService) {
-    this.getP();
+    private dispatchService: DispatchesService,
+    notifierService: NotifierService) {
+      this.notifier = notifierService;
+      this.getProducers();
   }
 
-  getP() {
+  getProducers() {
     this.planificationService.getAllPlanifications().subscribe(data => {
       this.planifications = data;
       //obtain name of producer
@@ -54,7 +59,7 @@ export class PlanificationListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.getP();
+    this.getProducers();
 
   }
   public doFilter = (value: string) => {
@@ -79,7 +84,7 @@ export class PlanificationListComponent implements OnInit {
       width: '400px'
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.getP();
+      if (result == 'Confirm') this.getProducers();
       this.dialogResult = result;
     })
   }
@@ -90,10 +95,11 @@ export class PlanificationListComponent implements OnInit {
       let dispatchList: Dispatch[] = res;
       for (let i = 0; i < dispatchList.length; i++) {
         const dispatch = dispatchList[i];
-        if(dispatch.status!='Terminado') result = false;
+        if(dispatch.status!='Terminado' ) result = false;
+        if(dispatch.status!='Cancelado') result= false;
       }
       if(!result){
-        console.log("NO SE PUEDE ELIMINAR! A QUE SI");
+        this.notifier.notify('error', 'No se puede Eliminar: Existen despachos que no han terminado');
       }
       else{
         this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
@@ -117,7 +123,10 @@ export class PlanificationListComponent implements OnInit {
                 }
                 this.dataSource.data = this.planifications;
               }
-            });
+              this.notifier.notify('info', 'Planificación Eliminada con éxito');
+            }), err=>{
+              this.notifier.notify('error', 'No se ha podido eliminar la planificación');
+            };
           }
         });
       }
@@ -138,7 +147,7 @@ export class PlanificationListComponent implements OnInit {
       data: selected
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.getP();
+      if (result == 'Confirm') this.getProducers();
       this.dialogResult = result;
     })
   }
