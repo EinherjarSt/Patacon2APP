@@ -103,7 +103,7 @@
                         <table mat-table [dataSource]="dataSource" matSort>
                             <ng-container matColumnDef="dispatchDate">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
-                                <td mat-cell *matCellDef="let element"> {{element.dispatchDate | date:'MM/dd/yyyy h:mm:ss'}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.dispatchDate | date:'dd/MM/yyyy h:mm'}} </td>
                             </ng-container>
                             <ng-container matColumnDef="producerName">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Productor</th>
@@ -137,7 +137,7 @@
 
                                 <ng-container matColumnDef="lastMessageSentDate">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Último sms</th>
-                                        <td mat-cell *matCellDef="let element"> {{element.lastMessageSentDate}} </td>
+                                        <td mat-cell *matCellDef="let element"> {{element.lastMessageSentDate | date:'dd/MM/yyyy h:mm'}} </td>
                                     </ng-container>
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
