@@ -71,7 +71,6 @@ var server = gps.server(gpsOptions, function (device, connection) {
     connection.on('error', (err) => {
         console.log("Ocurrio un error en la funcion connection.close");
         console.log(err);
-        connection.close();
     });
 });
 
