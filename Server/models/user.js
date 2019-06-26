@@ -39,7 +39,7 @@ class User {
                 return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
             }
             let result = results[0];
-            return callback({code: 200}, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled));
+            return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled));
         });
     }
 
