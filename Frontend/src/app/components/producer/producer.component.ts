@@ -27,6 +27,7 @@ export class ProducerComponent implements OnInit , OnDestroy{
     latitude: -35.0012238,
     longitude: -71.2308186
   };
+  
   info : Filter;
   data : Filter[];
   truck: Truck;
