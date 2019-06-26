@@ -53,6 +53,7 @@ import { UpdateLocationComponent } from './producers/update-location/update-loca
 import { ChartsModule } from 'ng2-charts';
 import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pending-dispatches.component';
 import { AddLocationComponent } from './producers/add-location/add-location.component';
+import { SummaryByProducerComponent } from './statistics/summary-by-producer/summary-by-producer.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { AddLocationComponent } from './producers/add-location/add-location.comp
     RoutesComponent,
     StatisticsComponent,
     PendingDispatchesComponent,
-    AddLocationComponent
+    AddLocationComponent,
+    SummaryByProducerComponent
     
   ],
   imports: [
