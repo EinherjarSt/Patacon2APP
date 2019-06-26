@@ -54,7 +54,6 @@ export class HomeComponent implements OnInit {
       this.dashboardService.getNevents(18).subscribe(data =>{
         this.events = data
       },e=>{},()=>{
-        console.log(this.activateAnimation);
         if(this.activateAnimation){ 
           this.animateCSS('.bell','tada',()=>{});
           this.playAudio();
@@ -65,7 +64,7 @@ export class HomeComponent implements OnInit {
 
           if(!this.readEvents.includes(event.id_event)){
             if(!this.eventNotRead.includes(event.id_event)){
-              if(event.description.substr(0,1)=='¡'){
+              if(event.description.substr(0,1)==='¡' && !this.activateAnimation){
                 this.activateAnimation =true;
                 this.animateCSS('.bell','tada',()=>{});
                 this.playAudio();
@@ -84,6 +83,7 @@ export class HomeComponent implements OnInit {
   logout(){
     this.auth.logout();
     this.router.navigate(['login']);
+    this.lastEventTimer.unsubscribe();
   }
 
   configureAccount(){

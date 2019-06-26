@@ -28,7 +28,6 @@ export class DashboardService {
 
     return this.http.get<Event[]>(env.api.concat("/event/getNevents/"+count)).pipe(
       map(result => {
-        console.log(result);
         return result;
       })
     );

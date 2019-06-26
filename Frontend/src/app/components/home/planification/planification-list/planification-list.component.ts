@@ -7,6 +7,11 @@ import { DetailsComponent } from './details/details.component';
 import { AddPlanificationComponent } from '../add-planification/add-planification.component';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
+import { DispatchesService } from 'src/app/services/dispatches.service';
+import { Dispatch } from 'src/app/model-classes/dispatch';
+import { dispatch } from 'rxjs/internal/observable/range';
+import { NotifierService } from 'angular-notifier';
+
 @Component({
   selector: 'app-planification-list',
   templateUrl: './planification-list.component.html',
@@ -16,16 +21,20 @@ export class PlanificationListComponent implements OnInit {
   planifications: Planification[];
   displayedColumns: string[] = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch', 'edit', 'delete'];
   dataSource: MatTableDataSource<Planification>;
+  private readonly notifier: NotifierService;
 
   dialogResult = "";
   constructor(private producerService: ProducersService,
     private planificationService: PlanificationService,
     public dialog: MatDialog,
-    public router: Router) {
-    this.getP();
+    public router: Router,
+    private dispatchService: DispatchesService,
+    notifierService: NotifierService) {
+      this.notifier = notifierService;
+      this.getProducers();
   }
 
-  getP() {
+  getProducers() {
     this.planificationService.getAllPlanifications().subscribe(data => {
       this.planifications = data;
       //obtain name of producer
@@ -50,7 +59,7 @@ export class PlanificationListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
-    this.getP();
+    this.getProducers();
 
   }
   public doFilter = (value: string) => {
@@ -75,30 +84,55 @@ export class PlanificationListComponent implements OnInit {
       width: '400px'
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.getP();
+      if (result == 'Confirm') this.getProducers();
       this.dialogResult = result;
     })
   }
 
   deletePlanification(id) {
-    this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this.planificationService.deletePlanification(id).subscribe(r => {
-          if (r) {
-            for (let i = 0; i < this.planifications.length; i++) {
-              const element = this.planifications[i];
-              if (element.planification_id == id) {
-                this.planifications.splice(i, 1);
-                i--;
-              }
+    this.dispatchService.getDispatches(id).subscribe(res=>{
+      let result:boolean = true;
+      let dispatchList: Dispatch[] = res;
+      for (let i = 0; i < dispatchList.length; i++) {
+        const dispatch = dispatchList[i];
+        if(dispatch.status!='Terminado' ) result = false;
+        if(dispatch.status!='Cancelado') result= false;
+      }
+      if(!result){
+        this.notifier.notify('error', 'No se puede Eliminar: Existen despachos que no han terminado');
+      }
+      else{
+        this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
+          if (confirmation.confirmed) {
+            for (let i = 0; i < dispatchList.length; i++) {
+              const dispatchId = dispatchList[i].id;
+              this.dispatchService.deleteDispatch(dispatchId).subscribe(res=>{
+
+              }, err=>{
+
+              });
             }
-            this.dataSource.data = this.planifications;
+            this.planificationService.deletePlanification(id).subscribe(r => {
+              if (r) {
+                for (let i = 0; i < this.planifications.length; i++) {
+                  const element = this.planifications[i];
+                  if (element.planification_id == id) {
+                    this.planifications.splice(i, 1);
+                    i--;
+                  }
+                }
+                this.dataSource.data = this.planifications;
+              }
+              this.notifier.notify('info', 'Planificación Eliminada con éxito');
+            }), err=>{
+              this.notifier.notify('error', 'No se ha podido eliminar la planificación');
+            };
           }
         });
       }
+    },err=>{}, ()=>{
+
     });
-
-
   }
 
   editPlanification(id) {
@@ -113,7 +147,7 @@ export class PlanificationListComponent implements OnInit {
       data: selected
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.getP();
+      if (result == 'Confirm') this.getProducers();
       this.dialogResult = result;
     })
   }
