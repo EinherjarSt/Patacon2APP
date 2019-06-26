@@ -97,8 +97,8 @@ BEGIN
   INNER JOIN producer ON planification.ref_producer = producer.rut
   INNER JOIN truck ON dispatch.ref_truck = truck.id_truck
   INNER JOIN insights_data ON insights_data.refDispatch = dispatch.id_dispatch
-  WHERE dispatch.arrivalAtPataconDate >= startDate 
-  AND dispatch.arrivalAtPataconDate <= endDate;
+  WHERE dispatch.arrivalAtVineyardDate >= startDate 
+  AND dispatch.arrivalAtVineyardDate <= endDate;
 END //
 DELIMITER ;
 
@@ -120,3 +120,4 @@ DELIMITER ;
 --AFTER INSERT ON dispatch
 --FOR EACH ROW 
 --INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL);
+

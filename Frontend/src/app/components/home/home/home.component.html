@@ -88,61 +88,67 @@
       <mat-nav-list class="list">
         <a [routerLink]="['/inicio']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>dashboard</mat-icon>
+          <mat-icon svgIcon="dashboard"></mat-icon>
           Inicio
         </a>
 
-        <a [routerLink]="['estadisticas']"  *ngIf="userType == 'SysAdmin'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        <a [routerLink]="['planificacion']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>trending_up</mat-icon>
+          <mat-icon svgIcon="planification"></mat-icon>
+          Planificación
+        </a>
+        
+
+        <a [routerLink]="['estadisticas']"  *ngIf="userType == 'SysAdmin'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+
+          mat-list-item>
+          <mat-icon svgIcon="insights"></mat-icon>
           Estadísticas
         </a>
 
         <a [routerLink]="['usuarios']" *ngIf="userType == 'SysAdmin'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>people</mat-icon>
+          <mat-icon svgIcon="users"></mat-icon>
           Usuarios
         </a>
         <a [routerLink]="['camiones']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>local_shipping</mat-icon>
+          <mat-icon svgIcon="trucks"></mat-icon>
 
           Camiones
         </a>
+
         <a [routerLink]="['choferes']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+
           mat-list-item>
-          <mat-icon>contacts</mat-icon>
+          <mat-icon svgIcon="driver"></mat-icon>
 
           Choferes
         </a>
+
+
         <a [routerLink]="['productores']" *ngIf="userType == 'SysAdmin' || userType == 'Coordinador'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>nature_people</mat-icon>
+          <mat-icon svgIcon="producer"></mat-icon>
           Productores
         </a>
+
         <a [routerLink]="['gps']" *ngIf="userType == 'SysAdmin' || userType == 'Encargado de Flota'" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>near_me</mat-icon>
+          <mat-icon svgIcon="gps"></mat-icon>
           Gps
         </a>
-        <a [routerLink]="['planificacion']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
-          mat-list-item>
-          <mat-icon>table_chart</mat-icon>
-          Planificación
-        </a>
+        
+
         <a [routerLink]="['routes']" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
           mat-list-item>
-          <mat-icon>directions</mat-icon>
+          <mat-icon svgIcon="route"></mat-icon>
           Rutas
         </a>
 
-
+        
       </mat-nav-list>
-      <div class="copyright">
-        <span>
-          <small>&copy; Copyright 2019, Patacon</small>
-        </span>
-      </div>
+     
 
 
 
