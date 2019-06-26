@@ -42,7 +42,7 @@ export class DispatchListComponent implements OnInit {
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
     private route: ActivatedRoute,
     private dispatchService: DispatchesService,
-    private producerViewService: ProducerviewService,
+    
     private smsService: SMS,
     private insightsService: InsightsService) { }
 
@@ -107,7 +107,11 @@ export class DispatchListComponent implements OnInit {
     this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.dispatchesService.startDispatch(dispatch_id).subscribe(
-          res => this.refreshTable());
+          res =>{
+            this.smsService.sendSMS(dispatch_id);
+            this.refreshTable();
+
+          } );
       }
 
     });
@@ -136,9 +140,8 @@ export class DispatchListComponent implements OnInit {
     });
   }
 
-  sendSMS(idDispatch) {
-    let message = "";
-    //hacer consulta y agregar al mensaje los datos
+  sendSMS(idDispatch){
+   let message ="";
     this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data =>{
       if(data!= null){
         if(data.textMessagesSent!=null){
@@ -150,70 +153,11 @@ export class DispatchListComponent implements OnInit {
     message = message + "¿Desea enviar un nuevo sms?";
     this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
-        let info: Filter;
-        this.dispatchService.getDispatchWithFullInfo(idDispatch).subscribe(res => {
-          info = res;
-          console.log(res);
-          let condition = this.verifyConditionsSMS(info);
-          if (condition != 0) {
+        this.smsService.sendSMS(idDispatch);
 
-            if (condition == 1) {
-              //INSERT AN ALERT HEREEEE!!!!
-              console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n EL CAMION NO TIENE GPS!!");
-            }
-            else if (condition == 2) {
-              //INSERT AN ALERT HEREEEE!!!!
-              console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n TIENE ESTADO PENDIENTE!!");
-            }
-            else {
-              //INSERT AN ALERT HEREEEE!!!!
-              console.log("NO SE PUEDE NOTIFICAR AL PRODUCTOR!!\n TIENE ESTADO TERMINADO!!");
-            }
-
-          }
-          else {
-            let message = "\nDespacho Iniciado! \n" +
-              "Chofer: " + info.driverName + " " + info.driverSurname + "/" + info.driverRun +
-              "\nTel: " + info.driverPhoneNumber;
-
-            //THE ARRIVAL TIME ISN'T IN THE MESSAGE BECAUSE THIS DOESN'T FIT INTO FREE SMS's
-            //FOR THE FULL VERSION ADD THE NEXT LINES 
-            /**
-                let date = info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
-                message+="\nLlegada: "+date +"\n";
-            */
-
-            let idCypher = this.producerViewService.encryptNumber(info.dispatchId + "");
-            //REPLACE THE LOCALHOST:4200 BY THE FINAL ADDRESS
-            let link = env.prod.concat("/#/producer/" + idCypher);
-            let url = "\n"+link;
-            message += url;
-            this.smsService.sendMessage(info.producerPhoneNumber, message).subscribe(res => {
-              console.log(res);
-                this.insightsService.editLastMessageSentData(info.dispatchId);
-            });
-          }
-
-        });
       }
-
     });
   });
-  }
-
-  /**
-   * Verify if an sms have correct data
-   * 0: is OK
-   * 1: The truck doesn't have GPS
-   * 2: The status is 'Pendiente'
-   * 3: The status is 'Terminado'
-   * @param filter 
-   */
-  verifyConditionsSMS(filter: Filter) {
-    if (filter.truckGPSImei == null) return 1;
-    else if (filter.dispatchStatus == 'Pendiente') return 2;
-    else if (filter.dispatchStatus == 'Terminado') return 3;
-    return 0;
   }
 
   openEditDispatchDialog(dispatch: Dispatch) {

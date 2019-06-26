@@ -186,6 +186,8 @@ mat-list-item-content{
   border-bottom-width: 1px;
 }
 .description{
+  white-space:normal !important;
+  word-wrap: break-word;
   padding-top: 8px;
   padding-bottom: 5px;
 }
