@@ -127,16 +127,6 @@ export class FiltersComponent implements OnInit {
   }
 
 
-  terminateDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea terminar este despacho?').afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this._dispatchesService.terminateDispatch(dispatch_id, "Terminado");
-        this.refreshTable();
-      }
-
-    });
-  }
-
 
   sendSMS(idDispatch) {
     let message = "";
@@ -163,20 +153,20 @@ export class FiltersComponent implements OnInit {
   refreshTable() {
     this.isDataLoading = true;
     let selectedDispatches = [...this.selection.selected];
-    let newSelection : Filter[] = [];
+    let newSelection: Filter[] = [];
     this._dispatchesService.getDispatchesWithFullInfo().subscribe({
       next: (dispatches) => {
         let filteredDispatches = this.filterNotTerminatedAndNotPendingDispatches(dispatches);
 
         selectedDispatches.forEach(selectedDispatch => {
           filteredDispatches.forEach(filteredDispatch => {
-            if(selectedDispatch.dispatchId == filteredDispatch.dispatchId) {
+            if (selectedDispatch.dispatchId == filteredDispatch.dispatchId) {
               newSelection.push(filteredDispatch);
             }
           });
 
         });
-        this.dataSource.data = filteredDispatches;        
+        this.dataSource.data = filteredDispatches;
         this.selection = new SelectionModel<Filter>(true, newSelection);
       },
       error: (err) => {
@@ -193,16 +183,49 @@ export class FiltersComponent implements OnInit {
     return this.dialog.open(ConfirmationDialogComponent, deletionDialogConfig);
   }
 
-  cancelDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this._dispatchesService.terminateDispatch(dispatch_id, "Cancelado");
-        this.refreshTable();
-      }
 
-    });
+  cancelDispatch(dispatch_id) {
+    
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+      confirmation => {
+        if (confirmation.confirmed) {
+          this._terminateDispatchAndCalculateInformation(dispatch_id, 'Cancelado');
+        }
+
+      });
 
   }
+
+  terminateDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+      confirmation => {
+        if (confirmation.confirmed) {
+          this._terminateDispatchAndCalculateInformation(dispatch_id, 'Terminado');
+        }
+
+      });
+
+  }
+
+  _terminateDispatchAndCalculateInformation(dispatch_id, endStatus) {
+    this._dispatchesService.terminateDispatch(dispatch_id, endStatus).subscribe(
+      res => {
+        this.insightsService.calculateTotalTimePerStatus(dispatch_id).subscribe(
+          timePerStatus => {
+
+            this.insightsService.setStatusTimesPerDispatch(dispatch_id,
+              timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
+                res => this.refreshTable()
+
+              );
+          }
+
+        );
+
+      }
+    );
+  }
+
 
 
 
