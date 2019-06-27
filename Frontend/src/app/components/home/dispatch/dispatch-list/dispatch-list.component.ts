@@ -93,24 +93,46 @@ export class DispatchListComponent implements OnInit {
     });
   }
 
-  terminateDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea terminar este despacho?').afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this.dispatchesService.terminateDispatch(dispatch_id, "Terminado");
-        this.refreshTable();
-      }
+  cancelDispatch(dispatch_id) {
+    
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+      confirmation => {
+        if (confirmation.confirmed) {
+          this._terminateDispatchAndCalculateInformation(dispatch_id, 'Cancelado');
+        }
 
-    });
+      });
+
   }
 
-  cancelDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this.dispatchesService.terminateDispatch(dispatch_id, "Cancelado");
-        this.refreshTable();
-      }
+  terminateDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+      confirmation => {
+        if (confirmation.confirmed) {
+          this._terminateDispatchAndCalculateInformation(dispatch_id, 'Terminado');
+        }
 
-    });
+      });
+
+  }
+
+  _terminateDispatchAndCalculateInformation(dispatch_id, endStatus) {
+    this.dispatchesService.terminateDispatch(dispatch_id, endStatus).subscribe(
+      res => {
+        this.insightsService.calculateTotalTimePerStatus(dispatch_id).subscribe(
+          timePerStatus => {
+
+            this.insightsService.setStatusTimesPerDispatch(dispatch_id,
+              timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
+                res => this.refreshTable()
+
+              );
+          }
+
+        );
+
+      }
+    );
   }
 
   startDispatch(dispatch_id) {

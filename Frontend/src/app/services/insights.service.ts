@@ -69,6 +69,21 @@ export class InsightsService {
       
   }
 
+  public setStatusTimesPerDispatch(dispatchId, stoppedDuration, inUnloadYardDuration){
+    const body = new HttpParams().set("stoppedTime", this._durationToString(stoppedDuration)).
+                  set("inUnloadYardTime", this._durationToString(inUnloadYardDuration));
+    
+                return this._http.put<any>(env.api.concat(`/informacion/editar_tiempo_por_estado/` + dispatchId), body);
+    
+  }
+
+  _durationToString(duration) {
+    let seconds = duration.seconds();
+    let minutes = duration.minutes();
+    let hours = duration.hours() + 24 * duration.days() + 24 * 30 * duration.months();
+    return `${hours}:${minutes}:${seconds}`
+  }
+
   calculateTotalTimePerStatus(dispatchId) {
     return this._lastEventsService.getAllEventsOfDispatch(dispatchId).pipe(
       map(events => {
@@ -80,6 +95,8 @@ export class InsightsService {
     );
 
   }
+
+
 
   _calculateTotalTimeInStatus(events, status) {
 
