@@ -3,7 +3,6 @@
         <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filtrar">
     </mat-form-field>
 </div>
-
 <div class="filter-table-container">
     <table mat-table class="custom-mat-table" [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="select">
