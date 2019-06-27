@@ -55,7 +55,7 @@
                   <span>Cancelar despacho</span>
                 </button>
     
-                <button mat-menu-item *ngIf="element.dispatchStatus.localeCompare('En patio') == 0" (click)="terminateDispatch(dispatchId)">
+                <button mat-menu-item *ngIf="element.dispatchStatus.localeCompare('En patio') == 0" (click)="terminateDispatch(element.dispatchId)">
                   <mat-icon svgIcon="terminateDispatch"></mat-icon>
                   <span>Terminar despacho</span>
                 </button>
