@@ -6,6 +6,9 @@ import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.c
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
 import { SMS } from 'src/app/services/sms.service';
+import { InsightsService } from '../../../../services/insights.service';
+import { timer, Subscription } from "rxjs";
+
 
 
 @Component({
@@ -19,12 +22,16 @@ export class PendingDispatchesComponent implements OnInit {
   displayedColumns: string[] = ["truck","destination", "arrivalAtVineyardDatetime", "actions"];
   isDataLoading: boolean;
   dataSource = new MatTableDataSource<Filter>();
+  refreshTimer: Subscription;
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog,
-    private smsService: SMS) { }
+    private smsService: SMS, private insightsService: InsightsService) { }
 
   ngOnInit() {
-    this.getDispatches()
+    this.getDispatches();
+    this.refreshTimer = timer(1000, 15000).subscribe(
+      () => this.refreshTable()
+    );
 
   }
 
@@ -68,13 +75,36 @@ export class PendingDispatchesComponent implements OnInit {
 
 
   cancelDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this._dispatchesService.terminateDispatch(dispatch_id, "Cancelado");
-        this.refreshTable();
-      }
+    
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+      confirmation => {
+        if (confirmation.confirmed) {
+          this._terminateDispatchAndCalculateInformation(dispatch_id, 'Cancelado');
+        }
 
-    });
+      });
+
+  }
+
+  
+
+  _terminateDispatchAndCalculateInformation(dispatch_id, endStatus) {
+    this._dispatchesService.terminateDispatch(dispatch_id, endStatus).subscribe(
+      res => {
+        this.insightsService.calculateTotalTimePerStatus(dispatch_id).subscribe(
+          timePerStatus => {
+
+            this.insightsService.setStatusTimesPerDispatch(dispatch_id,
+              timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
+                res => this.refreshTable()
+
+              );
+          }
+
+        );
+
+      }
+    );
   }
 
   startDispatch(dispatch_id) {
