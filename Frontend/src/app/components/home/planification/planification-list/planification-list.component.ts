@@ -21,7 +21,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class PlanificationListComponent implements OnInit {
   planifications: Planification[];
-  displayedColumns: string[] = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch', 'edit', 'delete'];
+  displayedColumns: string[] = ['date', 'producer', 'location', 'variety', 'kg', 'dispatch','details', 'edit', 'delete'];
   dataSource: MatTableDataSource<Planification>;
   private readonly notifier: NotifierService;
   userType: String;
