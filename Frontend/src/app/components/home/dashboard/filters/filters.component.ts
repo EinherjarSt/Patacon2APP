@@ -29,7 +29,7 @@ export class FiltersComponent implements OnInit {
   isDataLoading: boolean;
   refreshTimer: Subscription;
 
-  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog,private smsService: SMS,
+  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog, private smsService: SMS,
     private insightsService: InsightsService) { }
 
   @ViewChild(MatSort) sort: MatSort;
@@ -137,65 +137,47 @@ export class FiltersComponent implements OnInit {
     });
   }
 
+
   sendSMS(idDispatch) {
     let message = "";
     //hacer consulta y agregar al mensaje los datos
-    this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data =>{
-      if(data!= null){
-        if(data.textMessagesSent!=null){
-        message = "Ha enviado "+data.textMessagesSent+ " mensaje(s) al productor.\n" +
-        "Último mensaje enviado: "+ moment(data.lastMessageSentDate).format('DD/MM/YYYY hh:mm a')+"\n\n";
+    this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data => {
+      if (data != null) {
+        if (data.textMessagesSent != null) {
+          message = "Ha enviado " + data.textMessagesSent + " mensaje(s) al productor.\n" +
+            "Último mensaje enviado: " + moment(data.lastMessageSentDate).format('DD/MM/YYYY hh:mm a') + "\n\n";
+        }
       }
-      }
-    },e=>{},()=>{
-    message = message + "¿Desea enviar un nuevo sms?";
-    this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this.smsService.sendSMS(idDispatch);
+    }, e => { }, () => {
+      message = message + "¿Desea enviar un nuevo sms?";
+      this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
+        if (confirmation.confirmed) {
+          this.smsService.sendSMS(idDispatch);
 
-      }
+        }
+      });
     });
-  });
   }
 
 
   refreshTable() {
     this.isDataLoading = true;
+    let selectedDispatches = [...this.selection.selected];
+    let newSelection : Filter[] = [];
     this._dispatchesService.getDispatchesWithFullInfo().subscribe({
       next: (dispatches) => {
-        let listedDispatches = this.selection.selected;
         let filteredDispatches = this.filterNotTerminatedAndNotPendingDispatches(dispatches);
 
-        filteredDispatches.forEach(filteredDispatch => {
-          listedDispatches.forEach(listedDispatch => {
-            if (listedDispatch.dispatchId == filteredDispatch.dispatchId) {
-              listedDispatch.dispatchId  = filteredDispatch.dispatchId;
-              listedDispatch.dispatchStatus  = filteredDispatch.dispatchStatus;
-              listedDispatch.driverRef = filteredDispatch.driverRef;
-              listedDispatch.truckLicensePlate = filteredDispatch.truckLicensePlate;
-              listedDispatch.arrivalAtPataconDatetime = filteredDispatch.arrivalAtPataconDatetime;
-              listedDispatch.arrivalAtVineyardDatetime = filteredDispatch.arrivalAtVineyardDatetime;
-              listedDispatch.shippedKilograms = filteredDispatch.shippedKilograms;
-              listedDispatch.containerType = filteredDispatch.containerType;
-              listedDispatch.driverRun = filteredDispatch.driverRun;
-              listedDispatch.driverName = filteredDispatch.driverName;
-              listedDispatch.driverSurname = filteredDispatch.driverSurname;
-              listedDispatch.driverPhoneNumber = filteredDispatch.driverPhoneNumber;
-              listedDispatch.producerName = filteredDispatch.producerName;
-              listedDispatch.producerLocation = filteredDispatch.producerLocation;
-              listedDispatch.producerPhoneNumber = filteredDispatch.producerPhoneNumber;
-              listedDispatch.truckGPSImei = filteredDispatch.truckGPSImei;
-              listedDispatch.truckBrand = filteredDispatch.truckBrand;
-              listedDispatch.truckModel = filteredDispatch.truckModel;
-              listedDispatch.truckYear = filteredDispatch.truckYear;
+        selectedDispatches.forEach(selectedDispatch => {
+          filteredDispatches.forEach(filteredDispatch => {
+            if(selectedDispatch.dispatchId == filteredDispatch.dispatchId) {
+              newSelection.push(filteredDispatch);
             }
           });
-        });
 
-        //this.dataSource.data = data;
-        //this.selectedChangeEvent.emit(data);
-        //this.masterToggle();
-        this.isDataLoading = false;
+        });
+        this.dataSource.data = filteredDispatches;        
+        this.selection = new SelectionModel<Filter>(true, newSelection);
       },
       error: (err) => {
         console.log(err);
