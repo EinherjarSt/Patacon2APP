@@ -27,7 +27,9 @@ export class AppComponent {
     {name: 'trucks', url: "../assets/icons/trucks.svg"},
     {name: 'producer', url: "../assets/icons/producer.svg"},
     {name: 'planification', url: "../assets/icons/planification.svg"},
-    {name: 'insights', url: "../assets/icons/insights.svg"}
+    {name: 'insights', url: "../assets/icons/insights.svg"},
+    {name: 'dispatch', url: "../assets/icons/dispatch.svg"}
+
     
   
   

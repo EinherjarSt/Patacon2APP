@@ -51,12 +51,7 @@
                   <span>Notificar productor</span>
                 </button>
     
-                <button mat-menu-item *ngIf="element.dispatchStatus.localeCompare('Pendiente') == 0" (click)="startDispatch(dispatchId)">
-                  <mat-icon svgIcon="startDispatch"></mat-icon>
-                  <span>Comenzar despacho</span>
-                </button>
-    
-                <button mat-menu-item *ngIf="!isDispatchTerminated(element)" (click)="cancelDispatch(dispatchId)">
+                <button mat-menu-item *ngIf="!isDispatchTerminated(element)" (click)="cancelDispatch(element.dispatchId)">
                   <mat-icon svgIcon="cancelDispatch"></mat-icon>
                   <span>Cancelar despacho</span>
                 </button>
