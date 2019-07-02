@@ -47,7 +47,8 @@ class Dispatch {
                     truckGPSImei: dispatch.truckGPSImei,
                     truckBrand: dispatch.truckBrand,
                     truckModel: dispatch.truckModel,
-                    truckYear: dispatch.truckYear
+                    truckYear: dispatch.truckYear,
+                    grapeVariety: dispatch.grapeVariety
                 });
             }
 
@@ -90,7 +91,8 @@ class Dispatch {
                 truckGPSImei: dispatch.truckGPSImei,
                 truckBrand: dispatch.truckBrand,
                 truckModel: dispatch.truckModel,
-                truckYear: dispatch.truckYear
+                truckYear: dispatch.truckYear,
+                grapeVariety: dispatch.grapeVariety
             };
 
             return callback(null, dispatch_data);
@@ -141,14 +143,7 @@ class Dispatch {
         pool.query(`DELETE FROM dispatch WHERE id_dispatch = ${dispatch_id}`, function (err, results, fields) {
             if (err) {
 
-                console.log("--------------Errores------------------");
-                console.log(err);
-
-                console.log(" ------------------Results -----------------");
-                console.log(results);
-                console.log("-------------------Fields----------------");
-                console.log(fields);
-
+            
                 
                 if (err.code == "ER_DUP_ENTRY") {
                     return callback({ message: err.sqlMessage });
@@ -235,13 +230,6 @@ class Dispatch {
         pool.query(`CALL edit_dispatch_status(?, ?);`,
             [dispatchId, endStatus],
             function (err, results, fields) {
-                console.log("--------------Errores------------------");
-                console.log(err);
-
-                console.log(" ------------------Results -----------------");
-                console.log(results);
-                console.log("-------------------Fields----------------");
-                console.log(fields);
                 
                 if (err) {
                     if (err.code == "ER_DUP_ENTRY") {

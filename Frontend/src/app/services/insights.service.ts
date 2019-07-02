@@ -60,6 +60,10 @@ export class InsightsService {
       
   }
 
+  public incrementVisitsCounter(disptch_id) {
+    
+  }
+
   public getDispatchesInsightsByDataRange(startDate, endDate) {
     const body = new HttpParams().set('startDate', startDate)
     .set('endDate', endDate);

@@ -18,5 +18,6 @@ export class Filter {
   truckBrand:string;
   truckModel: string;
   truckYear: string;
+  grapeVariety: string
 }
   

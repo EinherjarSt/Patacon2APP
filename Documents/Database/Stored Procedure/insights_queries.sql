@@ -121,3 +121,18 @@ DELIMITER ;
 --FOR EACH ROW 
 --INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL);
 
+
+
+DROP PROCEDURE IF EXISTS incrementVisitsCounter;
+DELIMITER //
+CREATE PROCEDURE incrementVisitsCounter (  
+  IN dispatchId INT
+)
+BEGIN
+
+  UPDATE insights_data
+  SET visitsCounter = visitsCounter + 1
+  WHERE refDispatch = dispatchId;
+
+END //
+DELIMITER ;

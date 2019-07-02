@@ -102,5 +102,21 @@ app.put('/informacion_mensaje/editar/:id_despacho', passport.authenticate('jwt',
     
 })
 
+app.put('/despachos/:id/incrementar_contador_de_visitas', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    let body = req.body;
+    
+    InsightsData.incrementDispatchVisitsCounter(req.params.id, (err, result) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        return res.json({
+            message: "Dispatch has been modified"
+        });
+    });
+    
+})
+
 
 module.exports = app;
