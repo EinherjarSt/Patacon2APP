@@ -10,11 +10,11 @@ import { InsightsDataTable } from 'src/app/model-classes/insights_data_table';
 import { AngularCsv } from 'angular7-csv/dist/Angular-csv'
 
 @Component({
-  selector: 'app-summary-by-driver',
-  templateUrl: './summary-by-driver.component.html',
-  styleUrls: ['./summary-by-driver.component.css']
+  selector: 'app-summary-by-producer',
+  templateUrl: './summary-by-producer.component.html',
+  styleUrls: ['./summary-by-producer.component.css']
 })
-export class SummaryByDriverComponent implements OnInit {
+export class SummaryByProducerComponent implements OnInit {
 
   startDate: FormControl;
   endDate: FormControl;
@@ -23,7 +23,7 @@ export class SummaryByDriverComponent implements OnInit {
   canceledDispatches: number;
   messagesSent: number;
 
-  displayedColumns: string[] = ["dispatchDate", "producerName", "truckLicensePlate","stoppedTime", "unloadYardTime"]; 
+  displayedColumns: string[] = ["dispatchDate", "truckLicensePlate", "driverRun","stoppedTime", "unloadYardTime", "textMessagesSent","lastMessageSentDate", "nLinksVisited"]; 
   dataSource: MatTableDataSource<InsightsDataTable>;
 
 
@@ -38,7 +38,6 @@ export class SummaryByDriverComponent implements OnInit {
     noDownload: false,
     headers: ["Fecha", "Productor", "Camión", "Chofer","Tiempo detenido", "Tiempo en patio", "SMS enviados","Último mensaje enviado"]
   };
-
 
   constructor( private insightsService: InsightsService, private notifierService: NotifierService ) { }
 
@@ -101,6 +100,5 @@ export class SummaryByDriverComponent implements OnInit {
   downloadCSV(){
     new AngularCsv(this.dataSource.data, "Resumen general", this.csvOptions)
   }
-
 
 }
