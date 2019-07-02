@@ -54,7 +54,7 @@
             <div class="col-lg-4 col-md-12 col-sm-12">
                 <mat-card>
                     <mat-card-header>
-                        
+
                         <mat-card-title>Despachos</mat-card-title>
                         <mat-card-subtitle>Terminados</mat-card-subtitle>
                         <h3>{{successfulDispatches}}</h3>
@@ -64,13 +64,13 @@
             <div class="col-lg-4 col-md-12 col-sm-12">
                 <mat-card>
                     <mat-card-header>
-                        
+
                         <mat-card-title>Despachos</mat-card-title>
                         <mat-card-subtitle>Cancelados</mat-card-subtitle>
-                        
+
                         <h3>{{canceledDispatches}}</h3>
-                        
-                        
+
+
                     </mat-card-header>
                 </mat-card>
             </div>
@@ -92,20 +92,24 @@
                     <mat-card-header>
                         <mat-card-title>Detalle de despachos</mat-card-title>
                         <span class="example-spacer"></span>
-                        <button mat-button class="button-icon" (click)="downloadCSV()"><mat-icon>save_alt</mat-icon></button>
-                        
-                        <mat-card-subtitle>
-                          
-                        </mat-card-subtitle>
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" (keyup)="doFilter($event.target.value)"
+                                    placeholder="Buscar">
+                            </mat-form-field>
+                        </div>
+                        <button mat-button class="button-icon" (click)="downloadCSV()">
+                                <mat-icon>save_alt</mat-icon>
+                            </button>
                     </mat-card-header>
-                    <mat-form-field >
-                        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
-                    </mat-form-field>
+
+
                     <div class="table">
                         <table mat-table [dataSource]="dataSource" matSort>
                             <ng-container matColumnDef="dispatchDate">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
-                                <td mat-cell *matCellDef="let element"> {{element.dispatchDate | date:'dd/MM/yyyy h:mm a'}} </td>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.dispatchDate | date:'dd/MM/yyyy h:mm a'}} </td>
                             </ng-container>
                             <ng-container matColumnDef="producerName">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Productor</th>
@@ -133,14 +137,15 @@
                             </ng-container>
 
                             <ng-container matColumnDef="textMessagesSent">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> SMS enviados</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.textMessagesSent}} </td>
-                                </ng-container>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> SMS enviados</th>
+                                <td mat-cell *matCellDef="let element"> {{element.textMessagesSent}} </td>
+                            </ng-container>
 
-                                <ng-container matColumnDef="lastMessageSentDate">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Último sms</th>
-                                        <td mat-cell *matCellDef="let element"> {{element.lastMessageSentDate | date:'dd/MM/yyyy h:mm a'}} </td>
-                                    </ng-container>
+                            <ng-container matColumnDef="lastMessageSentDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Último sms</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.lastMessageSentDate | date:'dd/MM/yyyy h:mm a'}} </td>
+                            </ng-container>
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

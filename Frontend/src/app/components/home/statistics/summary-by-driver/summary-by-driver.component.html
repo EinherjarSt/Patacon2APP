@@ -104,13 +104,16 @@
                     <mat-card-header>
                         <mat-card-title>Detalle de despachos</mat-card-title>
                         <span class="example-spacer"></span>
+                        <div>
+                            <mat-form-field>
+                                <input matInput type="text" (keyup)="doFilter($event.target.value)"
+                                    placeholder="Buscar">
+                            </mat-form-field>
+                        </div>
                         <button mat-button class="button-icon" (click)="downloadCSV()">
                             <mat-icon>save_alt</mat-icon>
                         </button>
 
-                        <mat-card-subtitle>
-
-                        </mat-card-subtitle>
                     </mat-card-header>
 
                     <div class="table">

@@ -101,4 +101,8 @@ export class SummaryByProducerComponent implements OnInit {
     new AngularCsv(this.dataSource.data, "Resumen general", this.csvOptions)
   }
 
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+
 }
