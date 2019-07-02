@@ -26,6 +26,8 @@ BEGIN
 				SET msg :=CONCAT('¡',patente,' se encuentra detenido!');
 			ELSEIF NEW.status = 'Terminado' THEN
 				SET msg :=CONCAT(patente,' ha terminado su operación');
+			ELSEIF NEW.status = 'Cancelado' THEN
+				SET msg :=CONCAT('Se ha cancelado el despacho de ',patente);
 			END IF;
 		INSERT INTO recent_events (`time`,description,ref_Dispatch,`status`) VALUES (NOW(),msg,NEW.id_dispatch,NEW.status);
 		END IF;

@@ -53,6 +53,7 @@ import { UpdateLocationComponent } from './producers/update-location/update-loca
 import { ChartsModule } from 'ng2-charts';
 import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pending-dispatches.component';
 import { AddLocationComponent } from './producers/add-location/add-location.component';
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { AddLocationComponent } from './producers/add-location/add-location.comp
       apiKey: 'AIzaSyC1HH5VHGjmUH6NH_nWbquzVovye0VtNyc',
       libraries: ['geometry', 'drawing']
     }),
-    ChartsModule
+    ChartsModule,
+    MatIconModule
   ],
   entryComponents: [
     AddUserComponent,
