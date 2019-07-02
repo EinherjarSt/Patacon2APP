@@ -98,7 +98,9 @@
                           
                         </mat-card-subtitle>
                     </mat-card-header>
-
+                    <mat-form-field >
+                        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Buscar">
+                    </mat-form-field>
                     <div class="table">
                         <table mat-table [dataSource]="dataSource" matSort>
                             <ng-container matColumnDef="dispatchDate">
