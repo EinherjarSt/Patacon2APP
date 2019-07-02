@@ -18,10 +18,10 @@ class GPSDevice {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : `Imei ${imei} don't registered`});
+                return callback({code: ERROR.NOT_FOUND, message : `El gps ${imei} no se encuentra guardado`});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the gps imei is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "El gps ${imei} se encuentra duplicado"});
             }
             let result = results[0];
             return callback(null, new GPSDevice(result.imei, result.simNumber, result.brand, result.model));
@@ -43,10 +43,10 @@ class GPSDevice {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : `Imei ${imei} don't registered`});
+                return callback({code: ERROR.NOT_FOUND, message : `El gps ${imei} no se encuentra guardado`});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the gps imei is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : `El gps ${imei} se encuentra duplicado`});
             }
             let result = results[0];
             return callback(null, {imei : result.imei, route: result.routes, dispatch:{id_dispatch: result.id_dispatch, licensePlate: result.licencePlate, status: result.status}});
@@ -84,7 +84,7 @@ class GPSDevice {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This gps don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "El gps ${imei} no existe"});
             }
             return callback(null, true);
         });
@@ -102,7 +102,7 @@ class GPSDevice {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({code: ERROR.ER_DUP_ENTRY, message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY, message : 'El IMEI ya se encuentra utilizado.'});
                 }
                 return callback(err);
             }
@@ -110,19 +110,19 @@ class GPSDevice {
         });
     }
 
-    static deleteGPS(run, callback) {
+    static deleteGPS(imei, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
         pool.query(`CALL delete_gps(?)`, [
-           run
+        imei
         ], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This gps don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "El gps ${imei} no existe"});
             }
             return callback(null, true);
         });
@@ -137,10 +137,10 @@ class GPSDevice {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : `Imei ${imei} don't registered`});
+                return callback({code: ERROR.NOT_FOUND, message : `El gps ${imei} no se encuentra guardado`});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the gps imei is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "El gps ${imei} se encuentra duplicado"});
             }
             let result = results[0];
             return callback(null, new GPSDevice(result.imei, result.simNumber, result.brand, result.model));

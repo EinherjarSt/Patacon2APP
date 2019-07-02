@@ -33,10 +33,10 @@ class User {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No hubieron resultados"});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "Este usuario esta duplicado"});
             }
             let result = results[0];
             return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled));
@@ -52,10 +52,10 @@ class User {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No hubieron resultados"});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "Este usuario esta duplicado"});
             }
             let result = results[0];
             return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, undefined,result.position, result.disabled));
@@ -105,7 +105,7 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ code: ERROR.NOT_FOUND, message: "This user don't exist"});
+                return callback({ code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
             }
             return callback(null, true);
         });
@@ -131,7 +131,7 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This user don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
             }
             return callback(null, true);
         });
@@ -152,7 +152,7 @@ class User {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({code: ERROR.ER_DUP_ENTRY ,message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY ,message : "El run o email ya se encuentra en la base de datos"});
                 }
                 return callback(err);
             }
@@ -173,7 +173,7 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This user don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
             }
             return callback(null, true);
         });
@@ -188,10 +188,10 @@ class User {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No hubieron resultados"});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "Este usuario esta duplicado"});
             }
             let result = results[0];
             bcrypt.compare(password,result.password ,function(err, res) {
@@ -216,7 +216,7 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ code: ERROR.NOT_FOUND, message: "This user don't exist"});
+                return callback({ code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
             }
             return callback(null, true);
         });

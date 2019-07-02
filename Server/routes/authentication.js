@@ -15,7 +15,7 @@ app.post('/login', function (req, res) {
             if (err || !user) {
                 return res.status(400).json({
                     code: info ? info.code: ERROR.LOGIN_FAILED, 
-                    message: info ? info.message : 'Login failed',
+                    message: info ? info.message : 'Ingreso fallido',
                     user: user
                 });
             }
