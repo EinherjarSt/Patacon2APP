@@ -106,4 +106,20 @@ app.get("/driver/getall",
     }
 );
 
+app.get("/driver/getall2",
+    passport.authenticate("jwt", {
+        session: false
+    }),
+    (req, res) => {
+        console.log("driver/getall");
+        Driver.getAllDrivers2((err, drivers) => {
+            console.log(err);
+            if (err) {
+                return res.status(400).json(err);
+            }
+            return res.json(drivers);
+        });
+    }
+);
+
 module.exports = app;
