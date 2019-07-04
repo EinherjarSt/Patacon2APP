@@ -29,7 +29,8 @@ export class AddTruckComponent implements OnInit {
     private truckService: TrucksService, private gpsService : GpsService)
   { 
     this.addTruckForm = new FormGroup({
-      licencePlate: new FormControl("",[Validators.required]),
+      licencePlate: new FormControl("",[Validators.required, (Validators.pattern(/^[A-Z]{2}[-][0-9]{4}$/))]),
+      // ||/^[A-Z]{4}[-][0-9]{2}$/
       ref_gps: new FormControl("", AutocompleteValidOption),
       ref_driver: new FormControl("", AutocompleteValidOption),
       brand: new FormControl("",[Validators.required]),
@@ -96,7 +97,7 @@ export class AddTruckComponent implements OnInit {
 
   getDriverOptions() {
     this.isDriverListDataLoading = true;
-    this.driverService.getAllDrivers().subscribe({
+    this.driverService.getAllDriversForNewTruck().subscribe({
       next: (driver) => {
         this.driverOptions = driver;
         this.setDriverAutocompleteFilteringCapabilities();
@@ -130,6 +131,10 @@ export class AddTruckComponent implements OnInit {
 
 
   driverToDisplayableString(driver: Driver): string {
+    if (driver = null) 
+    { 
+      return 'No hay choferes disponibles para ser asignados';
+    }
     return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : '';
   }
 
