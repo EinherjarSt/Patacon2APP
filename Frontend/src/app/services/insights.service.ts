@@ -60,8 +60,11 @@ export class InsightsService {
       
   }
 
-  public incrementVisitsCounter(disptch_id) {
-    
+  public incrementVisitsCounter(dispatch_id) {
+    const body = new HttpParams();
+
+    return this._http
+      .put<{ dispatchCount: number }>(env.api.concat("/despachos/" + dispatch_id + "/incrementar_contador_de_visitas"), body);
   }
 
   public getDispatchesInsightsByDataRange(startDate, endDate) {

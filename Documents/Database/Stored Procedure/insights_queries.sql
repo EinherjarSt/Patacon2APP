@@ -90,7 +90,8 @@ BEGIN
   insights_data.textMessagesSent AS textMessagesSent,
   insights_data.lastMessageSentDate AS lastMessageSentDate,
   insights_data.stoppedTime AS stoppedTime,
-  insights_data.unloadYardTime AS unloadYardTime
+  insights_data.unloadYardTime AS unloadYardTime,
+  insights_data.visitsCounter AS visitsCounter
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run
@@ -116,10 +117,11 @@ BEGIN
 END //
 DELIMITER ;
 
+--DROP TRIGGER create_dispatch_insights_row;
 --CREATE TRIGGER create_dispatch_insights_row 
 --AFTER INSERT ON dispatch
 --FOR EACH ROW 
---INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL);
+--INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL, 0);
 
 
 

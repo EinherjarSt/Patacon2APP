@@ -98,6 +98,7 @@ class InsightsData {
                     lastMessageSentDate: dispatchInsight.lastMessageSentDate,
                     stoppedTime: dispatchInsight.stoppedTime,
                     unloadYardTime: dispatchInsight.unloadYardTime,
+                    visitsCounter: dispatchInsight.visitsCounter
                     
                 });
             }
@@ -111,7 +112,9 @@ class InsightsData {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL incrementVisitsCounter(?)`, [dispatchId, datetime], function (err, results, fields) {
+        pool.query(`CALL incrementVisitsCounter(?)`, [dispatchId], function (err, results, fields) {
+            console.log("Errores");
+            console.log(err);
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
                     return callback({ message: err.sqlMessage });

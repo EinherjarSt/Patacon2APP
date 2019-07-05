@@ -59,6 +59,7 @@ export class ProducerComponent implements OnInit, OnDestroy {
         this.router.navigate(['/not-found']);
         return;
       }
+      
       this.incrementVisitsCounter(this.dispatch_id);
 
       let date = this.info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11, 16);
@@ -80,7 +81,7 @@ export class ProducerComponent implements OnInit, OnDestroy {
     this.gpsTimer.unsubscribe();
   }
 
-  incrementVisitsCounter(dispatch_id) {
+  public incrementVisitsCounter(dispatch_id) {
     this.insightsService.incrementVisitsCounter(dispatch_id).subscribe(data => console.log('Lo logré'))
 
   }
