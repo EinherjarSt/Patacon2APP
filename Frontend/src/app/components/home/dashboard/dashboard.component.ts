@@ -40,7 +40,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   shouldRun: boolean;
   gpsPosition: any[];
   gpsKey: string[];
-
   @Input() public state: boolean = true;
   gpsTimer: Subscription;
   dispatchInfo: { [key : string] : {
@@ -67,6 +66,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.log(err);
           }
         });
+      }
+      else{
+        this.gpsKey = null;
+        this.gpsPosition = null;
       }
     });
   }
