@@ -7,4 +7,5 @@ export class User {
     password: string;
     position: string;
     disabled: boolean;
+    verification_code: string;
 }

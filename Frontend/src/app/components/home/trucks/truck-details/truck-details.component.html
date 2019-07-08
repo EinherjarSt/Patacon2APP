@@ -1,0 +1,78 @@
+<div>
+    <h2 mat-dialog-title>Detalles</h2>
+    <hr />
+    <mat-dialog-content>
+      <form [formGroup]="truckDetailsForm" class="example-form">
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Patente</mat-label>
+                <input matInput placeholder="" formControlName="licencePlate" readonly/>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Marca</mat-label>
+                <input matInput placeholder="" formControlName="brand" readonly/>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Modelo</mat-label>
+                <input matInput placeholder="" formControlName="model" readonly/>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Chofer</mat-label>
+                <input matInput formControlName="driverReference" placeholder=""
+                  [matAutocomplete]="driverAuto" maxlength="50" readonly/>
+                <mat-autocomplete  [displayWith]="driverToDisplayableString" #driverAuto="matAutocomplete">
+                  <mat-option *ngFor="let driverOption of driverFilteredOptions | async" [value]="driverOption">
+                    {{driverToDisplayableString(driverOption)}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>GPS</mat-label>
+                <input matInput formControlName="gpsReference" placeholder="" 
+                  [matAutocomplete]="gpsAuto" readonly/>
+                <mat-autocomplete [displayWith]="gpsToDisplayableString" #gpsAuto="matAutocomplete">
+                  <mat-option *ngFor="let gpsOption of gpsFilteredOptions | async" [value]="gpsOption">
+                    {{gpsToDisplayableString(gpsOption)}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Año</mat-label>
+                <input matInput placeholder="" formControlName="year" readonly/>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Carga Máxima</mat-label>
+                <input matInput placeholder="" formControlName="maxLoad" readonly/>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Dueño</mat-label>
+                <input matInput placeholder="" formControlName="owner" readonly/>
+              </mat-form-field>
+          </div>
+          <div class="container">
+              <mat-form-field appearance="standard">
+                <mat-label>Color</mat-label>
+                <input matInput placeholder="" formControlName="color" readonly/>
+              </mat-form-field>
+          </div>
+      </form>
+    </mat-dialog-content>
+    <hr />
+    <mat-dialog-actions>
+      <button mat-raised-button (click)="onCloseCancel()">Cerrar</button>
+    </mat-dialog-actions>
+</div>

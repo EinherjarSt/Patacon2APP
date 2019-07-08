@@ -29,14 +29,13 @@ export class AddTruckComponent implements OnInit {
     private truckService: TrucksService, private gpsService : GpsService)
   { 
     this.addTruckForm = new FormGroup({
-      licencePlate: new FormControl("",[Validators.required, (Validators.pattern(/^[A-Z]{2}[-][0-9]{4}$/))]),
-      // ||/^[A-Z]{4}[-][0-9]{2}$/
+      licencePlate: new FormControl("",[Validators.required, (Validators.pattern(/^[A-Z]{2}[-][0-9]{4}|[A-Z]{4}[-][0-9]{2}/))]),
       ref_gps: new FormControl("", AutocompleteValidOption),
       ref_driver: new FormControl("", AutocompleteValidOption),
       brand: new FormControl("",[Validators.required]),
       model: new FormControl("",[Validators.required]),
       year: new FormControl("",[Validators.required, Validators.pattern(/^\d{4}$/)]),
-      maxLoad: new FormControl("",[Validators.required]),
+      maxLoad: new FormControl("",[Validators.required, Validators.pattern(/^\d{5}$/)]),
       owner: new FormControl("",[Validators.required]),
       color: new FormControl("",[Validators.required])
     });
@@ -53,7 +52,7 @@ export class AddTruckComponent implements OnInit {
   
   getGpsOptions() {
     this.isGpsListDataLoading = true;
-    this.gpsService.getAllGPS().subscribe({
+    this.gpsService.getAllGPSAvailableForTrucks().subscribe({
       next: (gps) => {
         this.gpsOptions = gps;
         this.setGpsAutocompleteFilteringCapabilities();
@@ -97,7 +96,7 @@ export class AddTruckComponent implements OnInit {
 
   getDriverOptions() {
     this.isDriverListDataLoading = true;
-    this.driverService.getAllDriversForNewTruck().subscribe({
+    this.driverService.getAllDriversAvailableForNewTruck().subscribe({
       next: (driver) => {
         this.driverOptions = driver;
         this.setDriverAutocompleteFilteringCapabilities();

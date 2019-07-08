@@ -69,6 +69,20 @@ app.get('/gps/getall', passport.authenticate('jwt', {
     });
 })
 
+app.get('/gps/getall2', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
+    console.log("gps/getall2");
+
+    GPSDevice.getAllGPS2((err, gps) =>{
+        if (err){
+            console.log(err);
+            return res.status(400).json(err);
+        }
+        return res.json(gps);
+    });
+})
+
 app.get('/gps/getposition', (req, res) => {
     let gps;
     try{

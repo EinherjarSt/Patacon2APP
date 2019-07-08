@@ -71,7 +71,7 @@ export class DriversService {
    * @param data Data to send to backend
    */
 
-  getAllDriversForNewTruck(): Observable<Driver[]> {
+  getAllDriversAvailableForNewTruck(): Observable<Driver[]> {
     return this.http.get<Driver[]>(env.api.concat("/driver/getall2")).pipe(
       map(result => {
         //console.log(result);
