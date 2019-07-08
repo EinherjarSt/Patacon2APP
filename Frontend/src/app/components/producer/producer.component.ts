@@ -54,7 +54,13 @@ export class ProducerComponent implements OnInit , OnDestroy{
         this.router.navigate(['/not-found']);
         return;
       }
+      
       else if(!this.verifyConditionsView(this.info)){
+        this.router.navigate(['/not-found']);
+        return;
+      }
+      else if(this.info.dispatchStatus=='Terminado' || this.info.dispatchStatus=='En patio' || 
+      this.info.dispatchStatus=='Cancelado' || this.info.dispatchStatus=='En camino a Patacon'){
         this.router.navigate(['/not-found']);
         return;
       }
