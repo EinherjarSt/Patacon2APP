@@ -65,7 +65,6 @@ export class ProducerComponent implements OnInit, OnDestroy {
         this.router.navigate(['/not-found']);
         return;
       }
-      let date = this.info.arrivalAtVineyardDatetime.toString().replace(/T/, ' ').replace(/\..+/, '').substr(11,16);
       else if (!this.verifyConditionsView(this.info)) {
         this.router.navigate(['/not-found']);
         return;
