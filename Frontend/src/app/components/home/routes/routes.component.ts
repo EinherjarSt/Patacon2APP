@@ -50,6 +50,7 @@ export class RoutesComponent implements OnInit {
   locationName;
   producerName;
   idLocation;
+  total = 0;
   selectedProducer: number;
   selectedLocation: number;
   textBtn = "Agregar";
@@ -116,10 +117,12 @@ export class RoutesComponent implements OnInit {
 
       // How it is a callback the context of this change.
       this.directionsDisplay.addListener('directions_changed', function () {
-        //$this.computeTotalDistance($this.directionsDisplay.getDirections());
+       
         console.log("direction");
         console.log($this.directionsDisplay.getDirections());
-        $this.some_method($this.directionsDisplay);
+        $this.some_method($this.directionsDisplay); 
+        $this.computeTotalDistance($this.directionsDisplay.getDirections());
+        console.log("distancia:"+$this.total);
       });
     }
     this.directionsDisplay.setOptions({
@@ -131,12 +134,15 @@ export class RoutesComponent implements OnInit {
       this.displayRoute(origin, destination, directionsService,
         this.directionsDisplay, waypoints);
     }
-
+    this.computeTotalDistance(this.directionsDisplay.getDirections());
   }
 
   some_method = function (display) {
+    let $this: RoutesComponent = this;
+    
     var waypoints = display.directions.routes[0].legs[0].via_waypoint;
     this.overviewPath = display.getDirections().routes[0].overview_path;
+    $this.computeTotalDistance($this.directionsDisplay.getDirections());
     console.log(waypoints);
   };
 
@@ -157,17 +163,6 @@ export class RoutesComponent implements OnInit {
     });
   }
 
-  /*
-  computeTotalDistance(result) {
-    var total = 0;
-    var myroute = result.routes[0];
-    for (var i = 0; i < myroute.legs.length; i++) {
-      total += myroute.legs[i].distance.value;
-    }
-    total = total / 1000;
-    document.getElementById('total').innerHTML = total + ' km';
-  }
-*/
   onMapClick(event, map) {
     console.log(event);
     let marker1 = new google.maps.Marker({
@@ -367,6 +362,15 @@ export class RoutesComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     return dialogConfig;
+  }
+
+  computeTotalDistance(result) {
+    this.total=0;
+    var myroute = result.routes[0];
+    for (var i = 0; i < myroute.legs.length; i++) {
+      this.total += myroute.legs[i].distance.value;
+    }
+    this.total = this.total / 1000;
   }
 
   public hasError = (controlName: string, errorName: string) => {
