@@ -35,8 +35,8 @@ class ResetPassword
     }
 
     static getVerificationCode(verification_code, callback) {
-        console.log(verification_code);
-        console.log("/resetpassword/get/verification_code en models");
+        //console.log(verification_code);
+        //console.log("/resetpassword/get/verification_code en models");
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
@@ -63,13 +63,13 @@ class ResetPassword
         var email_user = reset.email;
         var ver_code_for_email = reset.verification_code;
         //let ver_code_for_email =
-        console.log("asidjaskjasdkjdk en resetPassword.js models");
+        //console.log("asidjaskjasdkjdk en resetPassword.js models");
         //var verification_code = makeCode(8);
         pool.query(`CALL add_ver_code2(?, ?)`, [
             reset.verification_code, 
             reset.email
         ], function (err, results, fields) {
-            console.log(err);
+            //console.log(err);
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
                     return callback({message : err.sqlMessage});
@@ -80,6 +80,8 @@ class ResetPassword
             //{
               //  return callback({message : "No existe usuario con ese"});
             //}
+            //var message = "<p style='font-weight:bold;'> Hi. My name is John </p>";
+            var body = '<center>Su código de verificación es: <p style="font-weight:bold;">' + ver_code_for_email + '</p> </center>';
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -92,7 +94,15 @@ class ResetPassword
                 from: 'patacon.reset@gmail.com',
                 to: email_user,
                 subject: 'Código de verificación para restablecer contraseña',
-                text: ver_code_for_email
+                //html: 'Embedded image: <img src="logoparamail"/>',
+                html: body
+                /*attachments: [
+                    {
+                      filename: 'LogoParaMail.png',
+                      path: '/Frontend/src/assets/images/LogoParaMail.png',
+                      cid: 'uniq-LogoParaMail.png' 
+                    }
+                  ]*/
             };
 
             transporter.sendMail(mailOptions, function(error, info){
@@ -118,7 +128,7 @@ class ResetPassword
             reset.verification_code, 
             reset.password
         ], function (err, results, fields) {
-            console.log(err);
+            //console.log(err);
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
                     return callback({message : err.sqlMessage});

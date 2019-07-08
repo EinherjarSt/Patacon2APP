@@ -47,6 +47,24 @@ class Driver {
             return callback(null, drivers);
         });
     }
+    
+    static getAllDrivers2(callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`SELECT * FROM driver WHERE has_truck_assigned = 0`, function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let drivers = [];
+            let disabled;
+            for (const driver of results) {
+                disabled = driver.disabled === 0 ? false: true;
+                drivers.push(new Driver(driver.run, driver.name, driver.surname, driver.surname2, driver.phoneNumber, disabled));
+            }
+            return callback(null, drivers);
+        });
+    }
 
     static updateDriver(driver, callback) {
         if(!callback || !(typeof callback === 'function')){

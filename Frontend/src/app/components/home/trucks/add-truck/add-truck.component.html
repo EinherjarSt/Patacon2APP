@@ -10,7 +10,7 @@
           <input matInput placeholder="" formControlName="licencePlate" [value]="input.value.toUpperCase()" #input
             maxlength="13" />
           <mat-error *ngIf="hasError('licencePlate', 'required')">Debe ingresar la patente</mat-error>
-
+          <mat-error *ngIf="hasError('licencePlate', 'pattern')">Debe ingresar una patente valida</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>
@@ -43,10 +43,11 @@
               {{driverToDisplayableString(driverOption)}}
             </mat-option>
           </mat-autocomplete>
+          <!--
           <mat-error *ngIf="addTruckForm.controls['ref_driver'].hasError('incorrect')">
             Seleccione una opción válida del listado
           </mat-error>
-
+          -->
         </mat-form-field>
       </div>
 

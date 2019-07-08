@@ -37,8 +37,8 @@ app.get('/resetpassword/get1/:verification_code', function (req, res) {
 
 app.put('/resetpassword/addcode', function (req, res) {
     //console.log("user/create");
-    console.log("addcode");
-    console.log(req.body);
+    //console.log("addcode");
+    //console.log(req.body);
     let body = req.body;
     /* let salt = parseInt(process.env.BCRYPT_SALT);
     bcrypt.hash(body.password, salt, function (err, hashedPassword) {
@@ -63,8 +63,8 @@ app.put('/resetpassword/addcode', function (req, res) {
 
 app.put('/resetpassword/addpassword', function (req, res) {
     //console.log("user/create");
-    console.log("addnewpassword");
-    console.log(req.body);
+    //console.log("addnewpassword");
+    // console.log(req.body);
     let body = req.body;
     let salt = parseInt(process.env.BCRYPT_SALT);
     bcrypt.hash(body.password, salt, function (err, hashedPassword) {

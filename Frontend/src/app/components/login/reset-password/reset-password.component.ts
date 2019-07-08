@@ -9,7 +9,9 @@ import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ResetPassword } from '../../../model-classes/reset_password';
 import { ResetPasswordService } from '../../../services/resetpassword.service';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-
+import { ResetMailDialogComponent } from './reset-mail-dialog/reset-mail-dialog.component';
+import { ResetCodeDialogComponent } from './reset-code-dialog/reset-code-dialog.component';
+import { ResetPasswordDialogComponent } from './reset-password-dialog/reset-password-dialog.component';
 
 @Component({
     selector: 'app-reset-password',
@@ -26,7 +28,7 @@ export class ResetPasswordComponent implements OnInit {
 
     //resetPasswordForm: FormGroup;
 
-    constructor(private auth:AuthService, private router:Router, 
+    constructor(public dialog: MatDialog, private auth:AuthService, private router:Router, 
       private resetPassword:ResetPasswordService, private snackBar: MatSnackBar) { 
         this.getEmailForm = new FormGroup({
           email: new FormControl("", [Validators.required])
@@ -54,6 +56,29 @@ export class ResetPasswordComponent implements OnInit {
     ngOnInit() {
         //this.menuItems = ROUTES.filter(menuItem => menuItem);
     }
+
+    openMailFailureDialog(): void {
+      let dialogRef = this.dialog.open(ResetMailDialogComponent, {
+        width: '250px',
+      });
+    }
+
+    openCodeFailureDialog(): void {
+      let dialogRef = this.dialog.open(ResetCodeDialogComponent, {
+        width: '250px',
+      });
+    }
+
+    openPasswordFailureDialog(): void {
+      let dialogRef = this.dialog.open(ResetPasswordDialogComponent, {
+        width: '250px',
+      });
+    }
+  
+      /*dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        this.animal = result;
+      });*/
     
     backToLogin(){
     //this.auth.logout();
@@ -91,22 +116,22 @@ export class ResetPasswordComponent implements OnInit {
 
     public selectionChange($event?: StepperSelectionEvent): void {
       //debugger;
-      console.log('stepper.selectedIndex: ' + this.selectedIndex 
-          + '; $event.selectedIndex: ' + $event.selectedIndex);
+      //console.log('stepper.selectedIndex: ' + this.selectedIndex 
+        //  + '; $event.selectedIndex: ' + $event.selectedIndex);
   
       if ($event.selectedIndex == 0) return; // First step is still selected
   
       this.selectedIndex = $event.selectedIndex;
     }
     public goto(index: number): void {
-      console.log('stepper.selectedIndex: ' + this.selectedIndex 
-          + '; goto index: ' + index);
+      //console.log('stepper.selectedIndex: ' + this.selectedIndex 
+        //  + '; goto index: ' + index);
       if (index == 0) return; // First step is not selected anymore -ok
       
       this.selectedIndex = index;
     }
 
-    openMailFailureMessage() {
+    /*openMailFailureMessage() {
       this.snackBar.open("No hay usuarios registrados con este correo.", "Cerrar", {
         duration: 2000, verticalPosition: 'bottom'
       });
@@ -122,7 +147,7 @@ export class ResetPasswordComponent implements OnInit {
       this.snackBar.open("Las contraseñas ingresadas no coinciden.", "Cerrar", {
         duration: 2000, verticalPosition: 'bottom'
       });
-    }
+    }*/
 
     openSuccessMessage() {
       this.snackBar.open("La contraseña ha sido modificada con éxito.", "Cerrar", {
@@ -133,15 +158,16 @@ export class ResetPasswordComponent implements OnInit {
     comprobateIfUserExists()
     {
       let email = this.getEmailForm.get("email").value;
-      console.log(email);
+      //console.log(email);
       this.resetPassword.findUserbyEmail(email).subscribe({
         next: result => {
-          console.log(result);
+          //console.log(result);
           this.goto(1);
           this.generateCode(email);
         },
         error: result => {
-          this.openMailFailureMessage(); 
+          //this.openMailFailureMessage(); 
+          this.openMailFailureDialog();
           console.log("No existen usuarios registrados con el correo ingresado");
         }
       });
@@ -181,7 +207,7 @@ export class ResetPasswordComponent implements OnInit {
       //console.log(email);
       this.resetPassword.createCode(email).subscribe({
         next: result => {
-          console.log(result);
+          //console.log(result);
           console.log("codigo se ha generado");
           //return true;
           //this.thisDialogRef.close('Confirm');
@@ -198,9 +224,9 @@ export class ResetPasswordComponent implements OnInit {
       let password = this.getVerCodeAndNewPasswordForm.get("newPassword").value;
       let repeatedPassword = this.getVerCodeAndNewPasswordForm.get("newPasswordRepeated").value;
       //console.log("email");
-      console.log("Datos en componente");
-      console.log(verification_code);
-      console.log(password);
+      //console.log("Datos en componente");
+      //console.log(verification_code);
+      //console.log(password);
       this.resetPassword.findVerificationCode(verification_code).subscribe({
         next: result => {
           console.log(result);
@@ -208,7 +234,7 @@ export class ResetPasswordComponent implements OnInit {
           {
             this.resetPassword.changePassword(verification_code, password).subscribe({
               next: result => {
-                console.log(result);
+                //console.log(result);
                 console.log("codigo se ha generado");
                 setTimeout( () => { this.openSuccessMessage(); }, 3000 );
                 this.router.navigate(['login']);
@@ -216,17 +242,17 @@ export class ResetPasswordComponent implements OnInit {
               },
               error: result => {
                 console.log("error");
-                this.openPasswordFailureMessage();
+                this.openPasswordFailureDialog();
               }
             });
           }
           else
           {
-            this.openPasswordFailureMessage();
+            this.openPasswordFailureDialog();
           }
         },
         error: result => {
-          this.openCodeFailureMessage(); 
+          this.openCodeFailureDialog(); 
           console.log("Codigo de Verificacion no válido");
         }
       });
@@ -351,4 +377,3 @@ export class ResetPasswordComponent implements OnInit {
     }*/
 
     }
-  
