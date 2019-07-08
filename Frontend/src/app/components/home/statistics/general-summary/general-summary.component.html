@@ -147,6 +147,11 @@
                                     {{element.lastMessageSentDate | date:'dd/MM/yyyy h:mm a'}} </td>
                             </ng-container>
 
+                            <ng-container matColumnDef="visitsCounter">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Visitas</th>
+                                <td mat-cell *matCellDef="let element"> {{element.visitsCounter}} </td>
+                            </ng-container>
+
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>

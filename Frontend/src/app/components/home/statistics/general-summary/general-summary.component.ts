@@ -28,7 +28,7 @@ export class GeneralSummaryComponent implements OnInit {
   canceledDispatches: number;
   messagesSent: number;
 
-  displayedColumns: string[] = ["dispatchDate", "producerName", "truckLicensePlate", "driverRun","stoppedTime", "unloadYardTime", "textMessagesSent","lastMessageSentDate"]; 
+  displayedColumns: string[] = ["dispatchDate", "producerName", "truckLicensePlate", "driverRun","stoppedTime", "unloadYardTime", "textMessagesSent","lastMessageSentDate","visitsCounter"]; 
   dataSource: MatTableDataSource<InsightsDataTable>;
 
 
@@ -41,7 +41,7 @@ export class GeneralSummaryComponent implements OnInit {
     title: 'Resumen general:',
     useBom: true,
     noDownload: false,
-    headers: ["Fecha", "Productor", "Camión", "Chofer","Tiempo detenido", "Tiempo en patio", "SMS enviados","Último mensaje enviado"]
+    headers: ["Fecha", "Productor", "Camión", "Chofer","Tiempo detenido", "Tiempo en patio", "SMS enviados","Último mensaje enviado", "Contador de visitas"]
   };
   constructor(private insightsService: InsightsService, private notifierService: NotifierService) { }
 
