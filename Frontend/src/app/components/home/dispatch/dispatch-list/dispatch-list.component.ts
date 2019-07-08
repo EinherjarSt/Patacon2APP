@@ -116,6 +116,7 @@ export class DispatchListComponent implements OnInit {
 
   }
 
+ 
   _terminateDispatchAndCalculateInformation(dispatch_id, endStatus) {
     this.dispatchesService.terminateDispatch(dispatch_id, endStatus).subscribe(
       res => {

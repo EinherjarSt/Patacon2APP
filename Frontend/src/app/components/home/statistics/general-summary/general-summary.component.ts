@@ -96,7 +96,7 @@ export class GeneralSummaryComponent implements OnInit {
   getStatisticsTableInformation(startDate, endDate){
     this.insightsService.getDispatchesInsightsByDataRange(startDate, endDate).subscribe({
       next: (result) => {
-        
+        console.log(result);
         this.dataSource.data = result;
         
       console.log(result)},
