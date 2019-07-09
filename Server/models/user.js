@@ -101,6 +101,9 @@ class User {
             // console.log("fields:");
             // console.log(fields);
             if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ code:err.code, message: `El rut o email ya existe` });
+                }
                 return callback(err);
             }
             if(results.affectedRows == 0){
@@ -152,7 +155,7 @@ class User {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({code: ERROR.ER_DUP_ENTRY ,message : "El run o email ya se encuentra en la base de datos"});
+                    return callback({code: ERROR.ER_DUP_ENTRY ,message : "El rut o el email se encuentra duplicado"});
                 }
                 return callback(err);
             }

@@ -180,7 +180,7 @@ class Truck {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ,message: `El camion ${licencePlate} no existe`});
+                return callback({code: ERROR.NOT_FOUND, message: `El camion ${licencePlate} no existe`});
             }
             return callback(null, true);
         });
@@ -299,7 +299,7 @@ class Truck {
                 return callback({code: ERROR.NOT_FOUND, message : `No existe el camion${licensePlate}`});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : `Existen multiples camiones con la misma licencia ${licencePlate}`});              }`});
+                return callback({code: ERROR.NOT_UNIQUE, message : `Existen multiples camiones con la misma licencia ${licencePlate}`});
             }
             let result = results[0];
             console.log(result.licencePlate)

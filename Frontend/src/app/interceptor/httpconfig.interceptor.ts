@@ -39,14 +39,14 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             //     return event;
             // }),
             catchError((error: HttpErrorResponse) => {
-                let data = {};
-                data = {
-                    reason: error && error.error.reason ? error.error.reason : '',
-                    status: error.status
-                };
-                console.log(error);
-                if (!error.url.includes('login')){
-                    this.notifierService.notify('error', `${error.error.message}`);
+                if (error.error instanceof ErrorEvent) {
+                    this.notifierService.notify('error', `Error en la conección`);
+                }
+                else{
+                    console.log(error);
+                    if (!error.url.includes('login')){
+                        this.notifierService.notify('error', `${error.error.message}`);
+                    }
                 }
                 return throwError(error);
             }));
