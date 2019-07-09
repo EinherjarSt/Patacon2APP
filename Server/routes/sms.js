@@ -27,11 +27,11 @@ var sms= {
 app.post('/sms/send', 
 passport.authenticate('jwt', {
     session: false
-}), (req, res) => {
+}), (req, res, next) => {
     let body = req.body;
     sms.sendMessage(body.phoneNumber, body.message, (err, result) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json({
             msg: result

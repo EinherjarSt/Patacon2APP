@@ -134,7 +134,7 @@ class InsightsData {
         pool.query(`CALL edit_time_per_status(?, ?, ?)`, [dispatchId, stoppedTime, inUnloadYardTime], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
-                    return callback({ message: err.sqlMessage });
+                    return callback({ code:err.code, message: `El despacho ${dispatchId} ya existe` });
                 }
                 return callback(err);
             }
@@ -151,7 +151,7 @@ class InsightsData {
         pool.query(`CALL edit_last_message_sent_data(?, ?)`, [dispatchId, datetime], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
-                    return callback({ message: err.sqlMessage });
+                    return callback({ code:err.code, message: `El despacho ${dispatchId} ya existe` });
                 }
                 return callback(err);
             }

@@ -12,10 +12,11 @@ import { environment as env } from "@env/environment";
 
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, retryWhen } from 'rxjs/operators';
+import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
-    constructor() { }
+    constructor(private notifierService: NotifierService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const token: string = localStorage.getItem('access_token');
         if (token && request.url.includes(env.api)) {
@@ -38,11 +39,15 @@ export class HttpConfigInterceptor implements HttpInterceptor {
             //     return event;
             // }),
             catchError((error: HttpErrorResponse) => {
-                let data = {};
-                data = {
-                    reason: error && error.error.reason ? error.error.reason : '',
-                    status: error.status
-                };
+                if (error.error instanceof ErrorEvent) {
+                    this.notifierService.notify('error', `Error en la conección`);
+                }
+                else{
+                    console.log(error);
+                    if (!error.url.includes('login')){
+                        this.notifierService.notify('error', `${error.error.message}`);
+                    }
+                }
                 return throwError(error);
             }));
     }

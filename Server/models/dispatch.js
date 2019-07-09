@@ -65,7 +65,7 @@ class Dispatch {
             if (err) {
                 return callback(err);
             }
-            if(results[0][0]== undefined)return callback(err);
+            if (results[0][0] == undefined) return callback(err);
             var a = 1;
             let result = results[0];
 
@@ -142,12 +142,6 @@ class Dispatch {
         }
         pool.query(`DELETE FROM dispatch WHERE id_dispatch = ${dispatch_id}`, function (err, results, fields) {
             if (err) {
-
-            
-                
-                if (err.code == "ER_DUP_ENTRY") {
-                    return callback({ message: err.sqlMessage });
-                }
                 return callback(err);
             }
             return callback(null, true);
@@ -168,7 +162,10 @@ class Dispatch {
 
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
-                    return callback({ message: err.sqlMessage });
+                    return callback({
+                        code: err.code,
+                        message: `El despacho ${dispatchId} ya existe`
+                    });
                 }
                 return callback(err);
             }
@@ -189,15 +186,10 @@ class Dispatch {
             dispatch.containerType, dispatch.status
         ], function (err, results, fields) {
 
-
             if (err) {
-                if (err.code == "ER_DUP_ENTRY") {
-                    return callback({ message: err.sqlMessage });
-                }
                 return callback(err);
             }
             return callback(null, true);
-
         });
     }
 
@@ -209,16 +201,13 @@ class Dispatch {
         pool.query(`CALL edit_dispatch_status(?, ?);`,
             [dispatchId, 'En camino a viña'],
             function (err, results, fields) {
-                
+
                 if (err) {
-                    if (err.code == "ER_DUP_ENTRY") {
-                        return callback({ message: err.sqlMessage });
-                    }
                     return callback(err);
                 }
                 return callback(null, true);
 
-        });
+            });
     }
 
 
@@ -230,11 +219,8 @@ class Dispatch {
         pool.query(`CALL edit_dispatch_status(?, ?);`,
             [dispatchId, endStatus],
             function (err, results, fields) {
-                
+
                 if (err) {
-                    if (err.code == "ER_DUP_ENTRY") {
-                        return callback({ message: err.sqlMessage });
-                    }
                     return callback(err);
                 }
                 return callback(null, true);
@@ -253,9 +239,12 @@ class Dispatch {
             if (err) {
                 return callback(err);
             }
-            if(results.affectedRows == 0){
+            if (results.affectedRows == 0) {
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This gps don't exist"}, false);
+                return callback({
+                    code: ERROR.NOT_FOUND,
+                    message: `El despacho ${id} no existe`
+                }, false);
             }
             return callback(null, true);
 
