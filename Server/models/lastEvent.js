@@ -22,7 +22,7 @@ class LastEvent {
                 return callback({code: ERROR.NOT_FOUND, message : "No hay resultados"});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "El evento no es unico"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "El evento no es único"});
             }
             let result = results[0];
             return callback(null, new LastEvent(result.id_event,result.time,result.description,result.ref_Dispatch, result.status));
