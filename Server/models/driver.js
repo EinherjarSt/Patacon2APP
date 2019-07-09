@@ -82,7 +82,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: `El conductor con run ${run} no existe`});
             }
             return callback(null, true);
         });
@@ -101,7 +101,7 @@ class Driver {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({code: ERROR.ER_DUP_ENTRY, message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY, message : `El conductor con run ${driver.run} ya existe`});
                 }
                 return callback(err);
             }
@@ -123,7 +123,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code:ERROR.NOT_FOUND, message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: `El conductor con run ${run} no existe`});
             }
             return callback(null, true);
         });
@@ -141,7 +141,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code:ERROR.NOT_FOUND, message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: `El conductor con run ${run} no existe`});
             }
             return callback(null, true);
         });

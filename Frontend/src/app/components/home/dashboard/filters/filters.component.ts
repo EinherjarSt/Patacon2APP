@@ -37,7 +37,7 @@ export class FiltersComponent implements OnInit {
 
   ngOnInit() {
     this.getDispatches()
-    this.selection.changed.subscribe(event => { this.selectedChangeEvent.emit(event.source.selected) });
+    //this.selection.changed.subscribe(event => { this.selectedChangeEvent.emit(event.source.selected) });
     this.refreshTimer = timer(1000, 15000).subscribe(
       () => this.refreshTable()
     );
@@ -168,6 +168,7 @@ export class FiltersComponent implements OnInit {
         });
         this.dataSource.data = filteredDispatches;
         this.selection = new SelectionModel<Filter>(true, newSelection);
+        this.selection.changed.subscribe(event => { this.selectedChangeEvent.emit(event.source.selected) });
       },
       error: (err) => {
         console.log(err);

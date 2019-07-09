@@ -7,7 +7,7 @@ app.put("/planification/add",
     passport.authenticate("jwt", {
         session: false
     }),
-    (req, res) => {
+    (req, res, next) => {
         let body = req.body;
         let kg = parseInt(body.kilograms);
         let rlocation = parseInt(body.ref_location);
@@ -16,7 +16,7 @@ app.put("/planification/add",
         
             Planification.addPlanification(newPlanification, (err, result) => {
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json({
                 message: "Planification has been added"
@@ -29,7 +29,7 @@ app.post("/planification/update",
     passport.authenticate("jwt", {
         session: false
     }),
-    (req, res) => {
+    (req, res, next) => {
         console.log("planification/update");
         console.log(req.body);
         let body = req.body;
@@ -41,7 +41,7 @@ app.post("/planification/update",
 
         Planification.updatePlanification(updatedPlanification, (err, result) => {
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json({
                 message: "Planification has been modified"
@@ -54,12 +54,12 @@ app.get("/planification/getall",
     passport.authenticate("jwt", {
         session: false
     }),
-    (req, res) => {
+    (req, res, next) => {
         console.log("planification/getall");
         Planification.getAllPlanifications((err, planifications) => {
             console.log(err);
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json(planifications);
         });
@@ -69,12 +69,12 @@ app.get("/planification/delete/:id",
     passport.authenticate("jwt", {
         session: false
     }),
-    (req, res) => {
+    (req, res, next) => {
         let idLocation = req.params.id;
         Planification.deletePlanification(idLocation,(err, resp) => {
             console.log(err);
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json(resp);
         });

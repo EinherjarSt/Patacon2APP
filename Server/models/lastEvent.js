@@ -1,4 +1,5 @@
 const pool = require('../common/mysql').pool;
+const ERROR = require('../common/error');
 
 class LastEvent {
     constructor(id_event,time,description,ref_Dispach, status) {
@@ -18,10 +19,10 @@ class LastEvent {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No hay resultados"});
             }
             if (results.length > 1) {
-                return callback({message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "El evento no es unico"});
             }
             let result = results[0];
             return callback(null, new LastEvent(result.id_event,result.time,result.description,result.ref_Dispatch, result.status));

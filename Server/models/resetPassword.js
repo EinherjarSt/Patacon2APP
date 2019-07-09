@@ -48,7 +48,7 @@ class ResetPassword
                 return callback({code: ERROR.NOT_FOUND, message : "No encuentro nada"});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "No es unico el codigo de verificacion"});
             }
             let result = results[0];
             //let thereIsAnUser = true;

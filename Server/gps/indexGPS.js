@@ -10,6 +10,7 @@ var gpsOptions = {
 // Global var that contain the route and info of gps
 GPS_DATA = {};
 const hasGoneOutOfRoute = {};
+const connectionStableshed = {};
 
 var server = gps.server(gpsOptions, function (device, connection) {
    setInterval(geofence, 1 * 1000 * 60);
@@ -37,6 +38,7 @@ var server = gps.server(gpsOptions, function (device, connection) {
     });
 
     device.on("login", function () {
+        connectionStableshed[device.uid] = connection;
         console.log("Hi! i'm " + device.uid);
         device.send(`**,imei:${device.uid},C,10s`);
         device.send(`**,imei:${device.uid},I,-4`);
@@ -65,12 +67,13 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
     connection.on('close', (hadError) => {
         console.log(`connection \with device ${device.uid} is close`);
-        //delete GPS_DATA[device.uid];
+        delete connectionStableshed[device.uid];
     });
 
     connection.on('error', (err) => {
         console.log("Ocurrio un error en la funcion connection.close");
         console.log(err);
+        connection.emit('close', true);
     });
 });
 
@@ -126,8 +129,9 @@ function outOfRoute() {
                     if (distance > 0.2 ){
                         console.log("Escribiendo en last");
                         if (!hasGoneOutOfRoute[dispatchInfo.id_dispatch]){
+                            console.log("Guardando eventos fuera de ruta")
                             hasGoneOutOfRoute[dispatchInfo.id_dispatch] = true;
-                            lastEvent.insertOutOfRouteEvent(dispatchInfo.id_truck, dispatchInfo.id_dispatch, (err, res) => {
+                            lastEvent.insertOutOfRouteEvent(dispatchInfo.licensePlate, dispatchInfo.id_dispatch, (err, res) => {
                                 if (err) {
                                     console.log(err);
                                 }
@@ -211,6 +215,9 @@ function geofence() {
                         }
                         if (res) {
                             element.dispatch.status = STATUS.IN_PATIO;
+                            // When the gps is in patio close the connection with gps. With it if a dispatch is asigned a gps
+                            // it can connect newly.
+                            connectionStableshed[key].end(); 
                         }
                     })
                 }
