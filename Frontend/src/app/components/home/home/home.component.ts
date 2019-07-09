@@ -72,6 +72,7 @@ export class HomeComponent implements OnInit {
                 this.playAudio();
               }
               this.eventNotRead.push(event.id_event);
+              console.log(event.id_event);
               this.countEventNotRead ++;
               
             }
@@ -124,7 +125,6 @@ export class HomeComponent implements OnInit {
   changeRead(){
     this.countEventNotRead =null;
     this.eventNotRead = [];
-    this.readEvents = [];
     this.activateAnimation = false;
     for (let i = 0; i < this.events.length; i++) {
       const event = this.events[i];
