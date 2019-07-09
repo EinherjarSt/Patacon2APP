@@ -90,7 +90,8 @@ BEGIN
   producer.name AS producerName,
   location.address AS producerLocation,
   truck.ref_gps AS truckGPSImei,
-  truck.licencePlate AS truckLicensePlate
+  truck.licencePlate AS truckLicensePlate,
+  planification.grapeVariety AS grapeVariety
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run
@@ -126,7 +127,8 @@ BEGIN
   truck.licencePlate AS truckLicensePlate,
   truck.brand AS truckBrand,
   truck.model AS truckModel,
-  truck.year AS truckYear
+  truck.year AS truckYear,
+  planification.grapeVariety AS grapeVariety
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run

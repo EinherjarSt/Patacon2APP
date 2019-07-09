@@ -8,18 +8,13 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { NotifierService } from 'angular-notifier';
 import { InsightsDataTable } from 'src/app/model-classes/insights_data_table';
 import { AngularCsv } from 'angular7-csv/dist/Angular-csv'
-@Component({
-  selector: 'app-general-summary',
-  templateUrl: './general-summary.component.html',
-  styleUrls: ['./general-summary.component.css'],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
 
-  ]
+@Component({
+  selector: 'app-summary-by-producer',
+  templateUrl: './summary-by-producer.component.html',
+  styleUrls: ['./summary-by-producer.component.css']
 })
-export class GeneralSummaryComponent implements OnInit {
+export class SummaryByProducerComponent implements OnInit {
 
   startDate: FormControl;
   endDate: FormControl;
@@ -28,7 +23,7 @@ export class GeneralSummaryComponent implements OnInit {
   canceledDispatches: number;
   messagesSent: number;
 
-  displayedColumns: string[] = ["dispatchDate", "producerName", "truckLicensePlate", "driverRun","stoppedTime", "unloadYardTime", "textMessagesSent","lastMessageSentDate","visitsCounter"]; 
+  displayedColumns: string[] = ["dispatchDate", "truckLicensePlate", "driverRun","stoppedTime", "unloadYardTime", "textMessagesSent","lastMessageSentDate", "nLinksVisited"]; 
   dataSource: MatTableDataSource<InsightsDataTable>;
 
 
@@ -41,18 +36,16 @@ export class GeneralSummaryComponent implements OnInit {
     title: 'Resumen general:',
     useBom: true,
     noDownload: false,
-    headers: ["Fecha", "Productor", "Camión", "Chofer","Tiempo detenido", "Tiempo en patio", "SMS enviados","Último mensaje enviado", "Contador de visitas"]
+    headers: ["Fecha", "Productor", "Camión", "Chofer","Tiempo detenido", "Tiempo en patio", "SMS enviados","Último mensaje enviado"]
   };
-  constructor(private insightsService: InsightsService, private notifierService: NotifierService) { }
 
-  
+  constructor( private insightsService: InsightsService, private notifierService: NotifierService ) { }
+
   ngOnInit() {
     this.startDate = new FormControl();
     this.endDate = new FormControl();
     this.dataSource = new MatTableDataSource();
-
   }
-
 
   getInsights() {
     if (this.startDate.value != undefined && this.endDate.value != undefined) {
@@ -96,7 +89,7 @@ export class GeneralSummaryComponent implements OnInit {
   getStatisticsTableInformation(startDate, endDate){
     this.insightsService.getDispatchesInsightsByDataRange(startDate, endDate).subscribe({
       next: (result) => {
-        console.log(result);
+        
         this.dataSource.data = result;
         
       console.log(result)},
@@ -111,10 +104,5 @@ export class GeneralSummaryComponent implements OnInit {
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
-
-
-
-
-
 
 }

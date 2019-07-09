@@ -40,10 +40,10 @@ p.copyright {
 
 #floating-panel {
   position: absolute;
-  min-width: 450px;
+  min-width: 500px;
   top: 10px;
   left: 20%;
-  height: 65px;
+  max-height: 165px;
   z-index: 5;
   padding: 5px;
   padding-left: 10px;
@@ -76,25 +76,20 @@ p.copyright {
   width: 100%;
   z-index: 5;
 }
-.item{
+
+.producer,.buttons{
   width: 100%;
-}
-.producer{
-  width: 100%;
-  padding-right: 10px;
-}
-.locations{
-  width: 100%;
+  padding-right: 5px;
 }
 .buttons{
-  width: 100%;
-  padding-top: 10px;
+  margin-top:20px;
 }
-.labelLocation{
+.locations,.labelLocation,.item{
   width: 100%;
 }
+
 .iconLocation{
-  font-size: 35px;
+  font-size: 40px;
   padding-top: 8px;
 }
 .label{

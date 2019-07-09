@@ -34,13 +34,13 @@ import { ResetPassword } from '../model-classes/reset_password';
           .set("email", email)
           .set("verification_code", verification_code);
 
-        console.log(verification_code);
+        //console.log(verification_code);
     
         return this.http
           .put<{ msg: string }>(env.api.concat("/resetpassword/addcode"), body)
           .pipe(
             map(result => {
-              console.log(result.msg);
+              //console.log(result.msg);
               return true;
             })
           );
@@ -58,7 +58,7 @@ import { ResetPassword } from '../model-classes/reset_password';
           .put<{ msg: string }>(env.api.concat("/resetpassword/addpassword"), body)
           .pipe(
             map(result => {
-              console.log(result.msg);
+              //console.log(result.msg);
               return true;
             })
           );
@@ -95,7 +95,7 @@ import { ResetPassword } from '../model-classes/reset_password';
       //const body = new HttpParams()
       //.set('email', email);
       //console.log(email);
-      console.log(verification_code);
+      //console.log(verification_code);
       return this.http.get<boolean>(env.api.concat("/resetpassword/get1/"+verification_code))
       .pipe(
       map(result => {
