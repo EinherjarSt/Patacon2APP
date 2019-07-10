@@ -117,11 +117,11 @@ BEGIN
 END //
 DELIMITER ;
 
---DROP TRIGGER create_dispatch_insights_row;
---CREATE TRIGGER create_dispatch_insights_row 
---AFTER INSERT ON dispatch
---FOR EACH ROW 
---INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL, 0);
+DROP TRIGGER create_dispatch_insights_row;
+CREATE TRIGGER create_dispatch_insights_row 
+AFTER INSERT ON dispatch
+FOR EACH ROW 
+INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL, 0);
 
 
 

@@ -11,7 +11,7 @@ import { timer, Subscription } from "rxjs";
 import { SMS } from 'src/app/services/sms.service';
 import * as moment from 'moment';
 import { InsightsService } from '../../../../services/insights.service';
-
+import { NotifierService } from 'angular-notifier';
 
 
 
@@ -22,7 +22,7 @@ import { InsightsService } from '../../../../services/insights.service';
 })
 export class FiltersComponent implements OnInit {
 
-  displayedColumns: string[] = ["select", "truck", "state", "destination", "actions"];
+  displayedColumns: string[] = ["select", "truck","grapeVariety", "state", "destination", "actions"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
   selectedDispatches: Filter[] = this.selection.selected;
@@ -30,7 +30,8 @@ export class FiltersComponent implements OnInit {
   refreshTimer: Subscription;
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog, private smsService: SMS,
-    private insightsService: InsightsService) { }
+    private insightsService: InsightsService, 
+    private notifierService: NotifierService) { }
 
   @ViewChild(MatSort) sort: MatSort;
   @Output() selectedChangeEvent = new EventEmitter<Filter[]>();
@@ -143,6 +144,7 @@ export class FiltersComponent implements OnInit {
       this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
         if (confirmation.confirmed) {
           this.smsService.sendSMS(idDispatch);
+          this.notifierService.notify('info', 'Se ha notificado al productor exitosamente');
 
         }
       });
@@ -198,7 +200,7 @@ export class FiltersComponent implements OnInit {
   }
 
   terminateDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+    this.openConfirmationDialog('¿Desea señalar como completado este despacho?').afterClosed().subscribe(
       confirmation => {
         if (confirmation.confirmed) {
           this._terminateDispatchAndCalculateInformation(dispatch_id, 'Terminado');
@@ -216,7 +218,16 @@ export class FiltersComponent implements OnInit {
 
             this.insightsService.setStatusTimesPerDispatch(dispatch_id,
               timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
-                res => this.refreshTable()
+                res => {
+                  this.refreshTable();
+                  if(endStatus == "Terminado") {
+                    this.notifierService.notify('info', 'El despacho ha sido completado exitosamente');
+                  }
+                  else if (endStatus == "Cancelado") {
+                    this.notifierService.notify('info', 'El despacho ha sido cancelado');
+                  }
+                  
+                }
 
               );
           }

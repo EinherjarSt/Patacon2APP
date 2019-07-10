@@ -16,6 +16,7 @@ import { Dispatch } from '../../../../model-classes/dispatch';
 import { Driver } from '../../../../model-classes/driver';
 import { Truck } from 'src/app/model-classes/truck';
 import * as moment from 'moment';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'edit-dispatch',
@@ -39,7 +40,8 @@ export class EditDispatchComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<EditDispatchComponent>,
     private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService, @Inject(MAT_DIALOG_DATA) public data: Dispatch,
-    private _driversService: DriversService, private _trucksService: TrucksService) {
+    private _driversService: DriversService, private _trucksService: TrucksService,
+    private notifierService: NotifierService) {
     this.title = "Editar despacho";
     this.dispatchData = data;
 
@@ -181,7 +183,7 @@ export class EditDispatchComponent implements OnInit {
 
     this._dispatchesService.editDispatch(dispatchData).subscribe({
       next: result => {
-        console.log(result);
+        this.notifierService.notify('info', 'El despacho ha sido editado exitosamente');
       },
       error: result => { }
     });
