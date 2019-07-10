@@ -48,10 +48,10 @@ class Planification {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND ,message : `No existe la planificacion ${planification_id}`});
+                return callback({code: ERROR.NOT_FOUND ,message : `No existe la planificación ${planification_id}`});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : `Esta planificacion se encuentra repetida`});
+                return callback({code: ERROR.NOT_UNIQUE, message : `Esta planificación se encuentra repetida`});
             }
             let result = results[0];
             return callback(null, new Planification(result.planification_id, result.ref_producer,result.ref_location,
@@ -82,7 +82,7 @@ class Planification {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "Esta plafinicacion no existe"});
+                return callback({code: ERROR.NOT_FOUND, message: "Esta plafinicación no existe"});
             }
             return callback(null, true);
         });
@@ -106,7 +106,7 @@ class Planification {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({code:err.code, message : `La planificacion esta duplicada`});
+                    return callback({code:err.code, message : `La planificación esta duplicada`});
                 }
                 return callback(err);
             }

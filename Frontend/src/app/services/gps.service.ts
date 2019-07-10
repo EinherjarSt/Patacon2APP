@@ -76,6 +76,18 @@ export class GpsService {
     );
   }
 
+  /** Request to server to get gps who don't have been assigned yet to a truck.
+   * @param data Data to send to backend
+   */
+
+  getAllGPSAvailableForTrucks(): Observable<Gps[]> {
+    return this.http.get<Gps[]>(env.api.concat("/gps/getall2")).pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
   /**
    * Get position only for gps that his imei are in gpsImei array
    * @param gpsImei: Array with imei of gps
