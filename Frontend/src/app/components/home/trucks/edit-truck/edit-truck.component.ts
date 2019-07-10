@@ -30,13 +30,13 @@ export class EditTruckComponent implements OnInit {
   //disabled: boolean;
 
   editTruckForm = new FormGroup({
-    licencePlate: new FormControl('', [Validators.required]),
+    licencePlate: new FormControl('', [Validators.required, (Validators.pattern(/^[A-Z]{2}[-][0-9]{4}|[A-Z]{4}[-][0-9]{2}/))]),
     gpsReference: new FormControl('', AutocompleteValidOption),
     driverReference: new FormControl('', AutocompleteValidOption),
     brand: new FormControl('', [Validators.required]),
     model: new FormControl('', [Validators.required]),
     year: new FormControl('', [Validators.required, Validators.pattern(/^\d{4}$/)]),
-    maxLoad: new FormControl('', [Validators.required]),
+    maxLoad: new FormControl('', [Validators.required, Validators.pattern(/^\d{5}$/)]),
     owner: new FormControl('', [Validators.required]),
     color: new FormControl('', [Validators.required])
   });
@@ -197,12 +197,21 @@ export class EditTruckComponent implements OnInit {
         console.log(truckData);
         this.dialogRef.close('Confirm');
       },
-      error: result => {console.log(result)}
+      error: result => {
+        console.log(result);
+        this.openFailureMessage();
+      }
     });
   }
 
   onCloseCancel(){
     this.dialogRef.close('Cancel');
+  }
+
+  openFailureMessage() {
+    this.snackBar.open("Ha ingresado elementos duplicados (GPS o Chofer).", "Cerrar", {
+      duration: 2000, verticalPosition: 'bottom'
+    });
   }
 
 

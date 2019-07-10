@@ -194,6 +194,7 @@ class Truck {
         {
             if(truck.ref_gps == 'undefined' && truck.ref_driver == 'undefined')
             {
+                //Query to add a truck without references to a GPS and a driver
                 pool.query(`CALL add_truck3(?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
@@ -215,6 +216,7 @@ class Truck {
             }
             else if(truck.ref_gps == 'undefined')
             {
+                //Query to add a truck without a GPS reference
                 pool.query(`CALL add_truck4(?, ?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
@@ -237,6 +239,7 @@ class Truck {
             }
             else if(truck.ref_driver == 'undefined')
             {
+                //Query to add a truck without a driver reference
                 pool.query(`CALL add_truck5(?, ?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
@@ -259,6 +262,7 @@ class Truck {
             }
             else
             {
+                //Query to add a truck with references to both GPS and a driver
                 pool.query(`CALL add_truck2(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
