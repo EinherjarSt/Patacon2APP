@@ -6,11 +6,20 @@ CREATE PROCEDURE `add_producer`(
 ) 
 BEGIN
 	DECLARE producer_num integer default 0;
+	DECLARE disabled integer;
+
+	SET disabled = 0;
 
 	SET producer_num = (SELECT COUNT(rut) FROM `producer` WHERE producer.rut = _rut);
 
+	SELECT producer.disabled INTO disabled 
+	FROM `producer` 
+	WHERE producer.rut = _rut;
+
 	IF( producer_num = 1) THEN
-		UPDATE `producer` SET `name` = _name, `disabled` = 0 WHERE `rut` = _rut;
+		IF(disabled = 1) THEN
+			UPDATE `producer` SET `name` = _name, `disabled` = 0 WHERE `rut` = _rut;
+		END IF;
 	ELSE
 		INSERT INTO `producer` (`name`,`rut`, `disabled`) VALUES (_name, _rut, 0);
 	END IF;
