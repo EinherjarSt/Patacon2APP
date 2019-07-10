@@ -11,7 +11,7 @@ passport.use(new LocalStrategy({
         passwordField: 'password'
     },
     function (email, password, done) {
-        //console.log(`LocalStrategy ${email} : ${password}`);
+        // console.log(`LocalStrategy ${email} : ${password}`);
         User.getUserByEmail(email, (err, user) => {
             if (err) {
                 return done(err);

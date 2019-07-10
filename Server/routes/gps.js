@@ -6,7 +6,7 @@ const GPSDevice = require('../models/gps');
 
 app.put('/gps/add', passport.authenticate('jwt', {
     session: false
-}), (req, res) => {
+}), (req, res, next) => {
     console.log("gps/add");
     console.log(req.body);
     let body = req.body;
@@ -14,7 +14,7 @@ app.put('/gps/add', passport.authenticate('jwt', {
     let newGPS = new GPSDevice(body.imei, body.simNumber, body.brand, body.model);
     GPSDevice.addGPS(newGPS, (err, result) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json({
             message: "GPS has been added"
@@ -24,7 +24,7 @@ app.put('/gps/add', passport.authenticate('jwt', {
 
 app.post('/gps/update', passport.authenticate('jwt', {
     session: false
-}), (req, res) => {
+}), (req, res, next) => {
     console.log("gps/update");
     console.log(req.body);
 
@@ -33,7 +33,7 @@ app.post('/gps/update', passport.authenticate('jwt', {
     let updatedGPS = new GPSDevice(body.imei, body.simNumber, body.brand, body.model);
     GPSDevice.updateGPS(updatedGPS, (err, result) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json({
             message: "GPS has been modified"
@@ -43,13 +43,13 @@ app.post('/gps/update', passport.authenticate('jwt', {
 
 app.get('/gps/get/:imei', passport.authenticate('jwt', {
     session: false
-}), (req, res) => {
+}), (req, res, next) => {
     console.log("gps/update");
 
     let imei = req.params.imei;
     GPSDevice.getGPS(imei, (err, gps) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json(gps);
     });
@@ -57,13 +57,12 @@ app.get('/gps/get/:imei', passport.authenticate('jwt', {
 
 app.get('/gps/getall', passport.authenticate('jwt', {
     session: false
-}), (req, res) => {
+}), (req, res, next) => {
     console.log("gps/getall");
 
     GPSDevice.getAllGPS((err, gps) =>{
         if (err){
-            console.log(err);
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json(gps);
     });
@@ -94,11 +93,11 @@ app.get('/gps/getposition', (req, res) => {
 
 app.post('/gps/delete', passport.authenticate('jwt', {
     session: false
-}), (req, res) => {
+}), (req, res, next) => {
     let body = req.body;
     GPSDevice.deleteGPS(body.imei, (err, result) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json({
             message: "GPS device has been deleted"

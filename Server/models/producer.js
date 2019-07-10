@@ -1,6 +1,7 @@
 const pool = require('../common/mysql').pool;
 const bcrypt = require('bcrypt');
 const Location = require('../models/location');
+const ERROR = require('../common/error');
 
 class Producer{
     constructor(name, rut){
@@ -19,7 +20,7 @@ class Producer{
                 return callback(err);
             }
             else if(results.length === 0){
-                return callback({message: "There are no registered producers with that RUT."});
+                return callback({message: "No existe ese productor"});
             }
 
             let result = results[0];
@@ -44,10 +45,10 @@ class Producer{
                 return callback(err);
             }
             else if(results.length === 0){
-                return callback({message: "There are no registered producers with that RUT."});
+                return callback({code: ERROR.NOT_FOUND, message: "No existe esta localizacion"});
             }
             else if(results.length > 1){
-                return callback({message: "There is an error in the database because the producer's RUT is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message: "La localizacion no es unica"});
             }
 
             let result = results[0];
@@ -99,12 +100,12 @@ class Producer{
             producer.rut
         ], function(err, result, fields){
             if(err){
-                return callback({message: "The producer doesn't exist"});
+                return callback(err);
             }
 
             if(result.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "The producer doesn't exist"});
+                return callback({ code: ERROR.NOT_FOUND ,message: "El producto no existe"});
             }
 
             return callback(null, true);
@@ -122,7 +123,7 @@ class Producer{
         ], function(err, result, fields){
             if(err){
                 if(err.code == "ER_DUP_ENTRY"){
-                    return callback({message: err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY, message: `Este productor ya existe`});
                 }
                 return callback(err);
             }
@@ -138,9 +139,6 @@ class Producer{
 
         pool.query('CALL delete_producer(?)', [rut], function(err, result, fields){
             if(err){
-                if(err.code == "ER_DUP_ENTRY"){
-                    return callback({message: err.sqlMessage});
-                }
                 return callback(err);
             }
 

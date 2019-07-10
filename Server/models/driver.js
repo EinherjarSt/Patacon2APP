@@ -47,6 +47,24 @@ class Driver {
             return callback(null, drivers);
         });
     }
+    
+    static getAllDrivers2(callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`SELECT * FROM driver WHERE has_truck_assigned = 0`, function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let drivers = [];
+            let disabled;
+            for (const driver of results) {
+                disabled = driver.disabled === 0 ? false: true;
+                drivers.push(new Driver(driver.run, driver.name, driver.surname, driver.surname2, driver.phoneNumber, disabled));
+            }
+            return callback(null, drivers);
+        });
+    }
 
     static updateDriver(driver, callback) {
         if(!callback || !(typeof callback === 'function')){
@@ -64,7 +82,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: `El conductor con run ${run} no existe`});
             }
             return callback(null, true);
         });
@@ -83,7 +101,7 @@ class Driver {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({code: ERROR.ER_DUP_ENTRY, message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY, message : `El conductor con run ${driver.run} ya existe`});
                 }
                 return callback(err);
             }
@@ -105,7 +123,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code:ERROR.NOT_FOUND, message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: `El conductor con run ${run} no existe`});
             }
             return callback(null, true);
         });
@@ -123,7 +141,7 @@ class Driver {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code:ERROR.NOT_FOUND, message: "This driver don't exist"});
+                return callback({code:ERROR.NOT_FOUND, message: `El conductor con run ${run} no existe`});
             }
             return callback(null, true);
         });
