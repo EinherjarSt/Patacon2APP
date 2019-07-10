@@ -9,7 +9,7 @@ app.get('/resetpassword/get/:email', function (req, res) {
     let email = req.params.email;
     ResetPassword.getUserByEmail(email, (err, result) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json(result);
     });
@@ -20,7 +20,7 @@ app.get('/resetpassword/get1/:verification_code', function (req, res) {
     console.log("/resetpassword/get/verification_code");
     ResetPassword.getVerificationCode(verification_code, (err, result) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json(result);
     });
@@ -33,7 +33,7 @@ app.put('/resetpassword/addcode', function (req, res) {
         //let newCode = new ResetPassword(body.email, null, body.verification_code);
         ResetPassword.addVerificationCode(newCode, (err, result) => {
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json({
                 message: "Code and email has been added"
@@ -56,7 +56,7 @@ app.put('/resetpassword/addpassword', function (req, res) {
         //let newPassword = new ResetPassword(null, hashedPassword, body.verification_code);
         ResetPassword.addNewPassword(newPassword, (err, result) => {
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json({
                 message: "Code and email has been added"

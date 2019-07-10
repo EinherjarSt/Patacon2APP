@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
   events: Event[];
   lastEventTimer: Subscription;
   menuItems: any[];
+  userType : String;
   eventNotRead: number[] =[];
   countEventNotRead: number=0;
   readEvents: number[] =[];
@@ -50,11 +51,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.userType = this.auth.getUserType();
     this.lastEventTimer = timer(1000,15000).subscribe(() => {
       this.dashboardService.getNevents(18).subscribe(data =>{
         this.events = data
       },e=>{},()=>{
-        console.log(this.activateAnimation);
         if(this.activateAnimation){ 
           this.animateCSS('.bell','tada',()=>{});
           this.playAudio();
@@ -65,12 +66,13 @@ export class HomeComponent implements OnInit {
 
           if(!this.readEvents.includes(event.id_event)){
             if(!this.eventNotRead.includes(event.id_event)){
-              if(event.description.substr(0,1)=='¡'){
+              if(event.description.substr(0,1)==='¡' && !this.activateAnimation){
                 this.activateAnimation =true;
                 this.animateCSS('.bell','tada',()=>{});
                 this.playAudio();
               }
               this.eventNotRead.push(event.id_event);
+              console.log(event.id_event);
               this.countEventNotRead ++;
               
             }
@@ -84,6 +86,7 @@ export class HomeComponent implements OnInit {
   logout(){
     this.auth.logout();
     this.router.navigate(['login']);
+    this.lastEventTimer.unsubscribe();
   }
 
   configureAccount(){
@@ -122,7 +125,6 @@ export class HomeComponent implements OnInit {
   changeRead(){
     this.countEventNotRead =null;
     this.eventNotRead = [];
-    this.readEvents = [];
     this.activateAnimation = false;
     for (let i = 0; i < this.events.length; i++) {
       const event = this.events[i];
@@ -154,6 +156,12 @@ export class HomeComponent implements OnInit {
         console.log("Audio bloqueado");
         })
     }
+  }
+  
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.lastEventTimer.unsubscribe();
   }
 
 }

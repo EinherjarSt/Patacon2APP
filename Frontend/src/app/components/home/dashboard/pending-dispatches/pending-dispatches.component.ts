@@ -5,6 +5,10 @@ import { Filter } from 'src/app/model-classes/filter';
 import { DispatchDetailsComponent } from '../dispatch-details/dispatch-details.component';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { ConfirmationDialogComponent } from 'src/app/components/core/confirmation-dialog/confirmation-dialog.component';
+import { SMS } from 'src/app/services/sms.service';
+import { InsightsService } from '../../../../services/insights.service';
+import { timer, Subscription } from "rxjs";
+
 
 
 @Component({
@@ -15,14 +19,19 @@ import { ConfirmationDialogComponent } from 'src/app/components/core/confirmatio
 export class PendingDispatchesComponent implements OnInit {
 
   dateFormat = 'd/M/yy HH:mm';
-  displayedColumns: string[] = ["truck","destination", "arrivalAtVineyardDatetime", "options"];
+  displayedColumns: string[] = ["truck","destination", "arrivalAtVineyardDatetime", "actions"];
   isDataLoading: boolean;
   dataSource = new MatTableDataSource<Filter>();
+  refreshTimer: Subscription;
 
-  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog) { }
+  constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog,
+    private smsService: SMS, private insightsService: InsightsService) { }
 
   ngOnInit() {
-    this.getDispatches()
+    this.getDispatches();
+    this.refreshTimer = timer(1000, 15000).subscribe(
+      () => this.refreshTable()
+    );
 
   }
 
@@ -45,16 +54,6 @@ export class PendingDispatchesComponent implements OnInit {
     return dispatches.filter(dispatch => dispatch.dispatchStatus.localeCompare('Pendiente') == 0);
   }
 
-  startDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this._dispatchesService.startDispatch(dispatch_id).subscribe(
-          res => this.refreshTable());
-      }
-
-    });
-  }
-
   refreshTable() {
     this.getDispatches();
   }
@@ -75,6 +74,52 @@ export class PendingDispatchesComponent implements OnInit {
   }
 
 
+  cancelDispatch(dispatch_id) {
+    
+    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+      confirmation => {
+        if (confirmation.confirmed) {
+          this._terminateDispatchAndCalculateInformation(dispatch_id, 'Cancelado');
+        }
+
+      });
+
+  }
+
+  
+
+  _terminateDispatchAndCalculateInformation(dispatch_id, endStatus) {
+    this._dispatchesService.terminateDispatch(dispatch_id, endStatus).subscribe(
+      res => {
+        this.insightsService.calculateTotalTimePerStatus(dispatch_id).subscribe(
+          timePerStatus => {
+
+            this.insightsService.setStatusTimesPerDispatch(dispatch_id,
+              timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
+                res => this.refreshTable()
+
+              );
+          }
+
+        );
+
+      }
+    );
+  }
+
+  startDispatch(dispatch_id) {
+    this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
+      if (confirmation.confirmed) {
+        this._dispatchesService.startDispatch(dispatch_id).subscribe(
+          res =>{
+            this.smsService.sendSMS(dispatch_id);
+            this.refreshTable();
+
+          } );
+      }
+
+    });
+  }
 
   openDispatchDetailsDialog(dispatch: Filter) {
 

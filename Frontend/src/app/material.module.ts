@@ -65,8 +65,7 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatProgressSpinnerModule,
         MatExpansionModule,
         MatTooltipModule,
-        MatTabsModule,   
-        MatStepperModule,
+        MatTabsModule, 
         MatBadgeModule
     ],
     exports: [
@@ -100,7 +99,6 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
         MatStepperModule,
         MatTooltipModule,
         MatTabsModule,
-        MatStepperModule,
         MatBadgeModule
 
     ]
