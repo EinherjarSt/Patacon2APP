@@ -69,6 +69,22 @@ class GPSDevice {
         });
     }
 
+    static getAllGPS2(callback){
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`SELECT * FROM gps WHERE has_truck_assigned = 0`, function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            let gpsDevice = []
+            for (const device of results) {
+                gpsDevice.push(new GPSDevice(device.imei, device.simNumber, device.brand, device.model));
+            }
+            return callback(null, gpsDevice);
+        });
+    }
+
     static updateGPS(gpsDevice, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');

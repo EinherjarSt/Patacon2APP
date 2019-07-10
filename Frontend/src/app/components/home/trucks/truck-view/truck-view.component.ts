@@ -6,6 +6,7 @@ import { TrucksService } from '../../../../services/trucks.service';
 import { Truck } from '../../../../model-classes/truck';
 import { EditTruckComponent } from "../edit-truck/edit-truck.component";
 import { NotifierService } from 'angular-notifier';
+import { TruckDetailsComponent } from '../truck-details/truck-details.component';
 
 @Component({
   selector: 'app-truck-view',
@@ -22,7 +23,8 @@ export class TruckViewComponent implements OnInit {
     "brand",
     "model",
     "year",
-    "details", 
+    "update", 
+    "details",
     "delete"
   ];
   dataSource: MatTableDataSource<Truck>;
@@ -84,6 +86,20 @@ export class TruckViewComponent implements OnInit {
       if(confirmation === "Confirm") { 
         this.refreshTable();
         this.notifier.notify('info', 'Camión editado exitosamente');
+      }
+    });
+  }
+
+  openDetailsDialog(truck: Truck) {
+    console.log("Entro a openDetailsDialog en truck-view.component.ts");
+
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = truck;
+
+    this.dialog.open(TruckDetailsComponent, dialogConfig).afterClosed().subscribe(confirmation => {
+      if(confirmation === "Confirm") { 
+        this.refreshTable();
+        this.notifier.notify('info', 'Camión visto exitosamente');
       }
     });
   }
