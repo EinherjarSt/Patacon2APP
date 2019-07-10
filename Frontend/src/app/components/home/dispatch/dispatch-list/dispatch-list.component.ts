@@ -58,7 +58,7 @@ export class DispatchListComponent implements OnInit {
 
     if(this.userType == "Coordinador"){
       this.displayedColumns = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-      "arrivalAtPataconDatetime","start", "cancel", "terminate", "send"];
+      "arrivalAtPataconDatetime","actions"];
     }
   }
 

@@ -84,9 +84,13 @@ class Location{
             throw new Error('There is not a callback funtion. Please provide them');
         }
 
-        let query = pool.query('DELETE FROM location WHERE id_location = ?', [id_location], function(err, results, fields){
+        let query = pool.query('CALL delete_location(?)', [id_location], function(err, results, fields){
             if(err){
                 return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({code: ERROR.NOT_FOUND, message: "La localizacion no existe"});
             }
             
             return callback(null, true);
