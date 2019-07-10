@@ -81,6 +81,7 @@
           <mat-label>Carga Máxima</mat-label>
           <input matInput placeholder="" formControlName="maxLoad" maxlength="15" />
           <mat-error *ngIf="hasError('maxLoad', 'required')">Debe ingresar el valor de carga máxima</mat-error>
+          <mat-error *ngIf="hasError('maxLoad', 'pattern')">La carga maxima debe ser un valor entre 10000 y 99999</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
       </div>

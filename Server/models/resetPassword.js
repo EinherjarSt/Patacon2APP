@@ -4,19 +4,31 @@ const nodemailer = require('../../node_modules/nodemailer');
 
 class ResetPassword
 {
-    constructor (email, password, verification_code)
+    /* constructor (email, password, verification_code)
     {
         //this.id_reset = id_reset;
         this.email = email;
         this.password = password;
         this.verification_code = verification_code;
+    } */
+    constructor(run, name, surname, surname2, email, password, position, disabled = false, verification_code) {
+        this.run = run;
+        this.name = name;
+        this.surname = surname;
+        this.surname2 = surname2;
+        this.email = email;
+        this.password = password;
+        this.position = position;
+        this.disabled = disabled;
+        this.verification_code = verification_code;
+
     }
 
     static getUserByEmail(email, callback) {
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        let query = pool.query(`SELECT * FROM reset_password WHERE email = ?`, [email], function (err, results, fields) {
+        let query = pool.query(`SELECT * FROM user WHERE email = ?`, [email], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
@@ -29,18 +41,16 @@ class ResetPassword
             let result = results[0];
             //let thereIsAnUser = true;
             //return callback(thereIsAnUser);
-            return callback(null, new ResetPassword(result.email, null, null));
+            return callback(null, new ResetPassword(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled, result.verification_code));
             //return true;
         });
     }
 
     static getVerificationCode(verification_code, callback) {
-        //console.log(verification_code);
-        //console.log("/resetpassword/get/verification_code en models");
         if(!callback || !(typeof callback === 'function')){
             throw new Error('There is not a callback function. Please provide them');
         }
-        let query = pool.query(`SELECT * FROM reset_password WHERE verification_code = ?`, [verification_code], function (err, results, fields) {
+        let query = pool.query(`SELECT * FROM user WHERE verification_code = ?`, [verification_code], function (err, results, fields) {
             if (err) {
                 return callback(err);
             }
@@ -53,7 +63,7 @@ class ResetPassword
             let result = results[0];
             //let thereIsAnUser = true;
             //return callback(thereIsAnUser);
-            return callback(null, new ResetPassword(result.email, result.password, result.verification_code));
+            return callback(null, new ResetPassword(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled, result.verification_code));
             //return true;
         });
     }
@@ -62,10 +72,8 @@ class ResetPassword
     {
         var email_user = reset.email;
         var ver_code_for_email = reset.verification_code;
-        //let ver_code_for_email =
-        //console.log("asidjaskjasdkjdk en resetPassword.js models");
-        //var verification_code = makeCode(8);
-        pool.query(`CALL add_ver_code2(?, ?)`, [
+        //pool.query(`CALL add_ver_code2(?, ?)`, [
+        pool.query(`CALL add_ver_code_in_user(?, ?)`, [
             reset.verification_code, 
             reset.email
         ], function (err, results, fields) {
@@ -124,7 +132,8 @@ class ResetPassword
         //let ver_code_for_email =
         //console.log("asidjaskjasdkjdk en resetPassword.js models");
         //var verification_code = makeCode(8);
-        pool.query(`CALL add_new_password(?, ?)`, [
+        //pool.query(`CALL add_new_password(?, ?)`, [
+        pool.query(`CALL update_password_in_user(?, ?)`, [
             reset.verification_code, 
             reset.password
         ], function (err, results, fields) {
@@ -142,63 +151,6 @@ class ResetPassword
             return callback(null, true);
         });
     }
-
-
-    /* static getEmailByCode(code, callback) {
-        console.log("resetPassword.js en models");
-        console.log(code);
-        if(!callback || !(typeof callback === 'function')){
-            throw new Error('There is not a callback function. Please provide them');
-        }
-        let query = pool.query(`SELECT * FROM user WHERE verification_code = ?`, [code], function (err, results, fields) {
-            if (err) {
-                return callback(err);
-            }
-            if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
-            }
-            if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the email is not unique"});
-            }
-            let result = results[0];
-            return callback(null, new ResetPassword(result.email, result.password, result.verification_code));
-        });
-    } */
-
-    /* static getEmailVerificationCode(reset, callback)
-    {
-        console.log("asidjaskjasdkjdk en resetPassword.js models");
-        //var verification_code = makeCode(8);
-        pool.query(`CALL get_email_ver_code1(?, ?)`, [
-            reset.verification_code
-        ], function (err, results, fields) {
-            console.log(err);
-            if (err) {
-                if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
-                }
-                return callback(err);
-            }
-            return callback(null, true);
-        });
-    } */
-
-    /* static addNewPasswordToResetPassword(password, email, callback)
-    {
-        //var verification_code = makeCode(8);
-        pool.query(`CALL add_password(?, ?)`, [
-            password, 
-            email
-        ], function (err, results, fields) {
-            if (err) {
-                if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
-                }
-                return callback(err);
-            }
-            return callback(null, true);
-    });
-    } */
 }
 
 module.exports = ResetPassword;
