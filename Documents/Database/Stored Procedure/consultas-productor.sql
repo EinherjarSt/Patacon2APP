@@ -19,6 +19,8 @@ BEGIN
 	IF( producer_num = 1) THEN
 		IF(disabled = 1) THEN
 			UPDATE `producer` SET `name` = _name, `disabled` = 0 WHERE `rut` = _rut;
+		ELSE
+			INSERT INTO `producer` (`name`,`rut`, `disabled`) VALUES (_name, _rut, 0);
 		END IF;
 	ELSE
 		INSERT INTO `producer` (`name`,`rut`, `disabled`) VALUES (_name, _rut, 0);
@@ -74,5 +76,29 @@ CREATE PROCEDURE `update_location`(
       `manager` = _manager,
       `managerPhoneNumber` = _managerPhoneNumber
        WHERE `location`.`id_location` = _id_location;
+END//
+
+DROP PROCEDURE IF EXISTS `delete_location`//
+CREATE PROCEDURE `delete_location`(
+	IN `_id_location` int(11)
+) 
+BEGIN
+	DECLARE producer_id VARCHAR(13);
+	DECLARE location_num integer default 0;
+
+	SELECT location.ref_producer INTO producer_id
+	FROM location
+	WHERE location.id_location = _id_location;
+
+	SELECT COUNT(location.address) INTO location_num
+	FROM location
+	WHERE location.ref_producer = producer_id;
+
+	IF(location_num > 1) THEN
+		DELETE FROM location WHERE id_location = _id_location;
+	ELSE
+		SIGNAL SQLSTATE '45000'
+ 		SET MESSAGE_TEXT = 'No se puede eliminar la única ubicación que tiene el productor';
+	END IF;
 END//
 DELIMITER ;
