@@ -57,7 +57,10 @@
               </div>
               <div fxFlex="70" class="desc">
 
-                <label class="label"> <b>{{producerName}}</b></label> <br><label> {{locationName}}</label>
+                <label class="label"> <b>{{producerName}}</b>
+                </label> <br>
+                <div>{{locationName}}</div>
+                <div>{{this.total | number}} km</div>
               </div>
             </div>
           </div>
@@ -69,6 +72,7 @@
               <button mat-raised-button (click)="changeState()">Cancelar</button>
             </div>
           </div>
+          
         </ng-template>
 
         <ng-template #elseBlock>
@@ -82,7 +86,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-
+              <div>Distancia: {{this.total | number}} km</div>
             </div>
             <div class="locations">
               <mat-form-field>
@@ -103,6 +107,7 @@
               <button mat-raised-button (click)="changeState()">Cancelar</button>
             </div>
           </div>
+          
         </ng-template>
       
         <!--<b>Inicio: </b>

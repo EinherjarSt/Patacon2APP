@@ -4,8 +4,9 @@
 </div>
 <div class="map-content">
   <agm-map [latitude]="center.latitude" [longitude]="center.longitude">
-    <!--agm-marker  [latitude]="gpsPosition[this.info.truckGPSImei].location?.latitude" [longitude]="gpsPosition[this.info.truckGPSImei].location?.longitude"-->
-    <!--/agm-marker-->
+    <agm-marker *ngIf="gpsPosition" [latitude]="gpsPosition[info.truckGPSImei].location?.latitude"
+      [longitude]="gpsPosition[info.truckGPSImei].location?.longitude">
+    </agm-marker>
   </agm-map>
 </div>
 <div class="title"> <b>Información</b> </div>

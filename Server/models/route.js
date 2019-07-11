@@ -162,12 +162,6 @@ class Route{
             if (err) {
                 return callback(err);
             }
-            if (results.length === 0) {
-                return callback({message : "There isn't result"});
-            }
-            if (results.length > 1) {
-                return callback({message : "There is an error in database because the user is not unique"});
-            }
             return callback(null, true);
         });
     }

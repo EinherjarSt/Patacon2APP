@@ -7,16 +7,14 @@ app.put('/truck/add',
     passport.authenticate('jwt', {
         session: false
     }),
-    (req, res) => {
-        console.log("truck/add");
-        console.log(req.body);
+    (req, res, next) => {
         let body = req.body;
         let newTruck = new Truck(0, body.licencePlate, body.ref_driver, body.ref_gps,
         body.brand, body.model, body.year, body.maxLoad, 
         body.owner, body.color);
         Truck.addTruck(newTruck, (err, result) => {
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json({
                 message: "Truck has been added",
@@ -25,18 +23,17 @@ app.put('/truck/add',
         });
     }
 );
-
 app.post('/truck/update',
     passport.authenticate("jwt", {
         session: false
     }),
-    (req, res) => {
+    (req, res, next) => {
         let body = req.body;
         let updatedTruck = new Truck(body.id_truck, body.licencePlate, body.driverReference, body.gpsReference,
                             body.brand, body.model, body.year, body.maxLoad, body.owner, body.color);
         Truck.updateTruck(updatedTruck, (err, result) => {
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json({
                 message: "Truck has been modified"
@@ -47,12 +44,12 @@ app.post('/truck/update',
 
 app.post('/truck/disable', passport.authenticate('jwt', {
     session: false
-}), (req, res) => {
+}), (req, res, next) => {
     let body = req.body;
     let disabled = body.disabled === 'true' ? true : false;
     Truck.disableTruck(body.licencePlate, disabled, (err, result) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json({
             message: "Truck has been deleted (disabled)"
@@ -64,21 +61,22 @@ app.get('/truck/getall',
     passport.authenticate("jwt", {
         session: false
     }),
-    (req, res) => {
+
+    (req, res, next) => {
         Truck.getAllTrucks((err, trucks) => {
             if (err) {
-                return res.status(400).json(err);
+                return next(err);
             }
             return res.json(trucks);
         });
     }
 );
 
-app.get('/truck/get/:licencePlate', (req, res) => {
+app.get('/truck/get/:licencePlate', (req, res, next) => {
     let licencePlate = req.params.licencePlate;
     Truck.getTruckByLicencePlate(licencePlate, (err, truck) => {
         if (err) {
-            return res.status(400).json(err);
+            return next(err);
         }
         return res.json(truck);
     });

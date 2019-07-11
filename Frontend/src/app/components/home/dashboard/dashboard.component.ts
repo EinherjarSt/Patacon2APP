@@ -11,7 +11,6 @@ import { GpsService } from "../../../services/gps.service";
 import { timer, Subscription } from "rxjs";
 import { trigger, transition, animate, style } from "@angular/animations";
 import { Filter } from "src/app/model-classes/filter";
-import { element } from 'protractor';
 declare const google: any;
 
 @Component({
@@ -67,6 +66,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
             console.log(err);
           }
         });
+      }
+      else{
+        this.gpsKey = null;
+        this.gpsPosition = null;
       }
     });
   }

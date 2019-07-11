@@ -67,6 +67,7 @@ export class DispatchesService {
       );
   }
 
+  
 
   deleteDispatch(dispatch_id: any): Observable<boolean> {
 
@@ -178,33 +179,11 @@ export class DispatchesService {
   terminateDispatch(dispatchId, endStatus) {
 
     const body = new HttpParams().set("endStatus", endStatus);
-    this._http.put<Dispatch>(env.api.concat(`/despachos/terminar/` + dispatchId), body).subscribe(
-
-      response => {
-
-        this._insightsService.calculateTotalTimePerStatus(dispatchId).subscribe(
-          timePerStatus => {
-            
-            const body = new HttpParams().set("stoppedTime", this._durationToString(timePerStatus.stopped)).
-              set("inUnloadYardTime", this._durationToString(timePerStatus.inUnloadYard));
-
-            this._http.put<any>(env.api.concat(`/informacion/editar_tiempo_por_estado/` + dispatchId), body).subscribe(
-              res => {}
-            )
-          }
-        );
-      }
-
-    );
+    return this._http.put<Dispatch>(env.api.concat(`/despachos/terminar/` + dispatchId), body);
 
   }
 
-  _durationToString(duration) {
-    let seconds = duration.seconds();
-    let minutes = duration.minutes();
-    let hours = duration.hours() + 24 * duration.days() + 24 * 30 * duration.months();
-    return `${hours}:${minutes}:${seconds}`
-  }
+  
 
 
 

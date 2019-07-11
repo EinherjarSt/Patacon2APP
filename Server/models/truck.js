@@ -1,4 +1,5 @@
 const pool = require('../common/mysql').pool;
+const ERROR = require('../common/error');
 
 class Truck {
     constructor(id_truck, licencePlate, ref_driver, ref_gps, brand, model, year, maxLoad, owner, color, disabled, available) {
@@ -145,7 +146,7 @@ class Truck {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This truck don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: `El camion ${licencePlate} no existe`});
             }
             return callback(null, true);
         });
@@ -172,7 +173,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -195,7 +196,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -218,7 +219,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -242,7 +243,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -265,10 +266,10 @@ class Truck {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : `No existe el camion${licensePlate}`});
             }
             if (results.length > 1) {
-                return callback({message : "There is an error in database because the truck is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : `Existen multiples camiones con la misma licencia ${licencePlate}`});
             }
             let result = results[0];
             return callback(null, new Truck(result.id_truck, result.licencePlate, result.ref_driver, result.ref_gps, 
