@@ -54,7 +54,6 @@ import { ChartsModule } from 'ng2-charts';
 import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pending-dispatches.component';
 import { AddLocationComponent } from './producers/add-location/add-location.component';
 import { MatIconModule } from "@angular/material/icon";
-import { SummaryByProducerComponent } from './statistics/summary-by-producer/summary-by-producer.component';
 
 @NgModule({
   declarations: [
@@ -97,8 +96,7 @@ import { SummaryByProducerComponent } from './statistics/summary-by-producer/sum
     RoutesComponent,
     StatisticsComponent,
     PendingDispatchesComponent,
-    AddLocationComponent,
-    SummaryByProducerComponent
+    AddLocationComponent
     
   ],
   imports: [
