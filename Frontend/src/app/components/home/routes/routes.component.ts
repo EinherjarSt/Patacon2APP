@@ -101,9 +101,6 @@ export class RoutesComponent implements OnInit {
   onMapReady(map) {
     this.map = map;
     let $this = this;
-    google.maps.event.addListener(map, 'click', function (event) {
-      $this.onMapClick(event, map);
-    });
   }
 
   initMap(map, origin, destination, waypoints: {
@@ -161,27 +158,6 @@ export class RoutesComponent implements OnInit {
         alert('Could not display directions due to: ' + status);
       }
     });
-  }
-
-  onMapClick(event, map) {
-    console.log(event);
-    let marker1 = new google.maps.Marker({
-      map: map,
-      draggable: true,
-      position: event.latLng
-    });
-
-    console.log(event.latLng.lat());
-    console.log(event.latLng.lng());
-    var cascadiaFault = new google.maps.Polyline({
-      path: this.overviewPath
-    });
-    if (google.maps.geometry.poly.isLocationOnEdge(event.latLng, cascadiaFault, 1e-3)) {
-      console.log(1e-4);
-      console.log("Is in route")
-    }
-
-    //cascadiaFault.setMap(map);
   }
 
   selectChange(event) {
