@@ -117,6 +117,8 @@ export class AddTruckComponent implements OnInit {
   }
 
   private filterDriverOptions(value): Driver[] {
+    
+
     var filterValue: string;
     if (typeof value === 'string') {
       filterValue = value.toLowerCase();
@@ -124,37 +126,14 @@ export class AddTruckComponent implements OnInit {
     else {
       filterValue = '';
     }
-
     return this.driverOptions.filter(driverOption => this.driverToDisplayableString(driverOption).toLowerCase().includes(filterValue));
   }
 
 
   driverToDisplayableString(driver: Driver): string {
-    if (driver = null) 
-    { 
-      return 'No hay choferes disponibles para ser asignados';
-    }
     return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : '';
   }
 
-  /* onCloseConfirm() {
-    // Here add service to send data to backend
-    //console.log(this.form);
-    //console.log(this.form.value);
-    let truckData = this.addTruckForm.value;
-    console.log(truckData);
-    this.truckService.createTruck(truckData).subscribe({
-      next: result => {
-        console.log(result);
-        this.openSuccessMessage();
-        this.thisDialogRef.close('Confirm');
-      },
-      error: result => {
-        this.openFailureMessage();
-        console.log(result)
-      }
-    });
-  }  */
 
   onCloseConfirm() {
     this.thisDialogRef.close("Confirm");
