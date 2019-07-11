@@ -9,7 +9,6 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { GpsService } from '../../../../services/gps.service';
 import { DriversService } from '../../../../services/drivers.service';
-import { Truck } from 'src/app/model-classes/truck';
 import { AutocompleteValidOption } from '../truck.custom.validators';
 
 
@@ -23,11 +22,6 @@ export class EditTruckComponent implements OnInit {
 
   isDriverListDataLoading: boolean;
   isGpsListDataLoading: boolean;
-  //id_truck: string;
-  //run: string;
-  //imei: string;
-  //available: boolean;
-  //disabled: boolean;
 
   editTruckForm = new FormGroup({
     licencePlate: new FormControl('', [Validators.required, (Validators.pattern(/^[A-Z]{2}[-][0-9]{4}|[A-Z]{4}[-][0-9]{2}/))]),
@@ -53,8 +47,6 @@ export class EditTruckComponent implements OnInit {
   gpsFilteredOptions: Observable<Gps[]>;
 
   ngOnInit() {
-    //this.run = '';
-    //this.imei = '';
     this.getTruckData();
     this.getDriverOptions();
     this.getGpsOptions();
@@ -70,7 +62,6 @@ export class EditTruckComponent implements OnInit {
         this.isDriverListDataLoading = false;
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }
@@ -110,7 +101,6 @@ export class EditTruckComponent implements OnInit {
         this.isGpsListDataLoading = false;
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }
@@ -170,35 +160,21 @@ export class EditTruckComponent implements OnInit {
         this.editTruckForm.get('maxLoad').setValue(result.maxLoad);
         this.editTruckForm.get('owner').setValue(result.owner);
         this.editTruckForm.get('color').setValue(result.color);
-        /* console.log(result.licencePlate);
-        console.log(result.brand);
-        console.log(result.model);
-        console.log(result.year);
-        console.log(result.maxLoad);
-        console.log(result.owner);
-        console.log(result.color); */
-        console.log(result);
       },
       error: result => {
-        console.log(result);
       }
     });
   }
 
   onCloseConfirm() { 
-    //console.log('rut: '+this.run);
     let truckData = this.editTruckForm.value;
-    //console.log(this.editTruckForm.value);
     console.log("onCloseConfirm en editar");
     console.log(truckData);
     this.truckService.updateTruck(truckData).subscribe({
       next: result => {
-        console.log(result);
-        console.log(truckData);
         this.dialogRef.close('Confirm');
       },
       error: result => {
-        console.log(result);
         this.openFailureMessage();
       }
     });
