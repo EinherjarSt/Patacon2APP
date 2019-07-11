@@ -34,40 +34,6 @@ class Truck {
         });
     }
 
-    /* static getAllTrucksIncludeDisabled(callback) {
-        if(!callback || !(typeof callback === 'function')){
-            throw new Error('There is not a callback function. Please provide them');
-        }
-        pool.query(`SELECT * FROM truck`, function (err, results, fields) {
-            if (err) {
-                return callback(err);
-            }
-            let trucks = []
-            for (const truck of results) {
-                trucks.push(new Truck(truck.id_truck, truck.licencePlate, truck.brand, truck.model, 
-                    truck.year, truck.maxLoad, truck.owner, truck.color, truck.disabled, truck.available));
-            }
-            return callback(null, trucks);
-        });
-    } */
-
-    /*static deleteTruck(licencePlate, callback) {
-        if(!callback || !(typeof callback === 'function')){
-            throw new Error('There is not a callback function. Please provide them');
-        }
-        pool.query(`CALL delete_truck(?)`,[licencePlate], 
-        function (err, results, fields) {
-            if (err) {
-                if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
-                }
-                return callback(err);
-            }
-            return callback(null, true);
-
-        });
-    }*/
-
 
     static updateTruck(truck, callback) {
         if(!callback || !(typeof callback === 'function')){
@@ -306,7 +272,6 @@ class Truck {
                 return callback({code: ERROR.NOT_UNIQUE, message : `Existen multiples camiones con la misma licencia ${licencePlate}`});
             }
             let result = results[0];
-            console.log(result.licencePlate)
             return callback(null, new Truck(result.id_truck, result.licencePlate, result.ref_driver, result.ref_gps, 
                 result.brand, result.model, result.year, result.maxLoad, result.owner, result.color, result.disabled,
                 result.available));

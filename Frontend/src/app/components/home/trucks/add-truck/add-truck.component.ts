@@ -145,7 +145,6 @@ export class AddTruckComponent implements OnInit {
     this.truckService.createTruck(newTruck).subscribe(
       response => {
         console.log("Success", response);
-        console.log(newTruck);
         this.onCloseConfirm();
       },
       error => {

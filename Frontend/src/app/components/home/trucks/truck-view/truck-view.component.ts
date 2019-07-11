@@ -49,7 +49,6 @@ export class TruckViewComponent implements OnInit {
     this.trucksService.getAllTrucks().subscribe(
       data => {
         this.dataSource.data = data as Truck[];
-        console.log(data);
       },
       error => console.log("Error")
     );
@@ -77,7 +76,6 @@ export class TruckViewComponent implements OnInit {
   }
 
   openUpdateDialog(truck: Truck) {
-    console.log("Entro a openUpdateDialog en truck-view.component.ts");
 
     var dialogConfig = this.getDialogConfig();
     dialogConfig.data = truck;
@@ -91,7 +89,6 @@ export class TruckViewComponent implements OnInit {
   }
 
   openDetailsDialog(truck: Truck) {
-    console.log("Entro a openDetailsDialog en truck-view.component.ts");
 
     var dialogConfig = this.getDialogConfig();
     dialogConfig.data = truck;
@@ -104,46 +101,16 @@ export class TruckViewComponent implements OnInit {
     });
   }
 
-  /* openUpdateDialog(data: Truck) {
-    const dialogRef = this.dialog.open(EditTruckComponent, {
-      data: Truck,
-      width: "500px"
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.refreshTable();
-    });
-  }
- */
-    /* openDeleteDialog(truckData: Truck){
-    console.log(truckData);
-    console.log(truckData.licencePlate, truckData.disabled);
-    truckData.disabled = truckData.disabled ? false: true;
-    this.trucksService.disableTruck(truckData).subscribe({
-      next: result => {
-        console.log(result);
-        this.refreshTable();
-      },
-      error: result => {
-        console.log("error en componente para listar");
-      }
-    });
-    console.log(truckData.licencePlate, truckData.disabled);
-    this.refreshTable();
-  } */
-
   openDeleteDialog(truckData: Truck) {
     truckData.disabled = truckData.disabled ? false: true;
     this.openDeletionConfirmationDialog().afterClosed().subscribe(confirmation => {
       if(confirmation.confirmed) {
         this.trucksService.disableTruck(truckData).subscribe({
           next: result => {
-            console.log(result);
             this.refreshTable();
             this.notifier.notify('info', 'Camión eliminado exitosamente');
           },
           error: result => {
-            console.log("error en componente para listar");
           }
         }); 
         this.refreshTable();
@@ -171,23 +138,6 @@ export class TruckViewComponent implements OnInit {
   refreshTable() {
     this.getTruck();
   }
-
-  
-  /* deleteTruck(licencePlate: string) {
-    //Esto no borra el camion, solo lo oculta
-    this.openDeletionConfirmationDialog()
-      .afterClosed()
-      .subscribe(confirmation => {
-        if (confirmation.confirmed) {
-          this.trucksService.disableTruck(licencePlate).subscribe({
-            next: result => {
-              this.refreshTable();
-            },
-            error: result => {}
-          });
-        }
-      });
-  } */
 
 }
 

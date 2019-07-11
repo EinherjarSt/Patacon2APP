@@ -10,8 +10,7 @@ import { PlanificationListComponent } from './planification/planification-list/p
 import { DispatchListComponent } from './dispatch/dispatch-list/dispatch-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GpsComponent } from './gps/gps.component';
-import { GeneralSummaryComponent } from './statistics/general-summary/general-summary.component';
-import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
+
 import { StatisticsComponent } from './statistics/statistics.component';
 
 import { AuthGuard } from '../../guard/auth.guard';

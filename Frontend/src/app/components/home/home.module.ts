@@ -47,7 +47,6 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
 import { GeneralSummaryComponent } from './statistics/general-summary/general-summary.component';
-import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
 import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { UpdateLocationComponent } from './producers/update-location/update-location.component';
@@ -55,7 +54,6 @@ import { ChartsModule } from 'ng2-charts';
 import { PendingDispatchesComponent } from './dashboard/pending-dispatches/pending-dispatches.component';
 import { AddLocationComponent } from './producers/add-location/add-location.component';
 import { MatIconModule } from "@angular/material/icon";
-import { SummaryByProducerComponent } from './statistics/summary-by-producer/summary-by-producer.component';
 
 @NgModule({
   declarations: [
@@ -94,13 +92,11 @@ import { SummaryByProducerComponent } from './statistics/summary-by-producer/sum
     DispatchDetailsComponent,
     ConfigurationViewComponent,
     GeneralSummaryComponent,
-    SummaryByDriverComponent,
     UpdateLocationComponent,
     RoutesComponent,
     StatisticsComponent,
     PendingDispatchesComponent,
-    AddLocationComponent,
-    SummaryByProducerComponent
+    AddLocationComponent
     
   ],
   imports: [

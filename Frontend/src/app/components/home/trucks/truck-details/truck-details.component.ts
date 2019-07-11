@@ -24,24 +24,6 @@ export class TruckDetailsComponent implements OnInit {
   isDriverListDataLoading: boolean;
   isGpsListDataLoading: boolean;
   truckDetailsForm: FormGroup;
-  //id_truck: string;
-  //run: string;
-  //imei: string;
-  //available: boolean;
-  //disabled: boolean;
-
-  /*editTruckForm = new FormGroup({
-    licencePlate: new FormControl('', [Validators.required]),
-    gpsReference: new FormControl('', AutocompleteValidOption),
-    driverReference: new FormControl('', AutocompleteValidOption),
-    brand: new FormControl('', [Validators.required]),
-    model: new FormControl('', [Validators.required]),
-    year: new FormControl('', [Validators.required, Validators.pattern(/^\d{4}$/)]),
-    maxLoad: new FormControl('', [Validators.required]),
-    owner: new FormControl('', [Validators.required]),
-    color: new FormControl('', [Validators.required])
-  });*/
-
   constructor(private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<TruckDetailsComponent>, private _formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data, private driverService : DriversService, 
@@ -60,16 +42,6 @@ export class TruckDetailsComponent implements OnInit {
       maxLoad: new FormControl(''),
       owner: new FormControl(''),
       color: new FormControl('')
-      /*licencePlate: [],
-      gpsReference: [],
-      driverReference: [],
-      brand: [],
-      model: [],
-      year: [],
-      maxLoad: [],
-      owner: [],
-      color: [],*/
-
     });
   }
 
@@ -80,8 +52,6 @@ export class TruckDetailsComponent implements OnInit {
   gpsFilteredOptions: Observable<Gps[]>;
 
   ngOnInit() {
-    //this.run = '';
-    //this.imei = '';
     this.createForm();
     this.getTruckData();
     this.getDriverOptions();
@@ -139,7 +109,6 @@ export class TruckDetailsComponent implements OnInit {
         this.isGpsListDataLoading = false;
       },
       error: (err) => {
-        console.log(err);
       }
     });
   }
@@ -199,36 +168,11 @@ export class TruckDetailsComponent implements OnInit {
         this.truckDetailsForm.get('maxLoad').setValue(result.maxLoad);
         this.truckDetailsForm.get('owner').setValue(result.owner);
         this.truckDetailsForm.get('color').setValue(result.color);
-        /* console.log(result.licencePlate);
-        console.log(result.brand);
-        console.log(result.model);
-        console.log(result.year);
-        console.log(result.maxLoad);
-        console.log(result.owner);
-        console.log(result.color); */
-        console.log(result);
       },
       error: result => {
-        console.log(result);
       }
     });
   }
-
-  /*onCloseConfirm() { 
-    //console.log('rut: '+this.run);
-    let truckData = this.editTruckForm.value;
-    //console.log(this.editTruckForm.value);
-    console.log("onCloseConfirm en editar");
-    console.log(truckData);
-    this.truckService.updateTruck(truckData).subscribe({
-      next: result => {
-        console.log(result);
-        console.log(truckData);
-        this.dialogRef.close('Confirm');
-      },
-      error: result => {console.log(result)}
-    });
-  }*/
 
   onCloseCancel(){
     this.dialogRef.close('Cancel');
