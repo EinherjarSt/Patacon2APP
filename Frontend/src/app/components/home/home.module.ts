@@ -47,7 +47,6 @@ import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { EditDriverComponent } from './drivers/edit-driver/edit-driver.component';
 import { DispatchDetailsComponent } from './dashboard/dispatch-details/dispatch-details.component';
 import { GeneralSummaryComponent } from './statistics/general-summary/general-summary.component';
-import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary-by-driver.component';
 import { RoutesComponent } from './routes/routes.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { UpdateLocationComponent } from './producers/update-location/update-location.component';
@@ -94,7 +93,6 @@ import { SummaryByProducerComponent } from './statistics/summary-by-producer/sum
     DispatchDetailsComponent,
     ConfigurationViewComponent,
     GeneralSummaryComponent,
-    SummaryByDriverComponent,
     UpdateLocationComponent,
     RoutesComponent,
     StatisticsComponent,
