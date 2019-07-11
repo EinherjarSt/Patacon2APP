@@ -1,5 +1,6 @@
 const pool = require('../common/mysql').pool;
 const bcrypt = require('bcrypt');
+const ERROR = require('../common/error');
 
 class Dispatch {
 
@@ -193,21 +194,26 @@ class Dispatch {
         });
     }
 
-
     static startDispatch(dispatchId, callback) {
         if (!callback || !(typeof callback === 'function')) {
             throw new Error('There is not a callback function. Please provide them');
         }
-        pool.query(`CALL edit_dispatch_status(?, ?);`,
-            [dispatchId, 'En camino a viña'],
-            function (err, results, fields) {
+        pool.query(`CALL start_dispatch(?);`, [
+            dispatchId
+        ], function (err, results, fields) {
+            if (err) {
 
-                if (err) {
-                    return callback(err);
+                if (err.code == 'ER_SIGNAL_EXCEPTION') {
+                    return callback({
+                        code: ERROR.ALREADY_ASSIGNED,
+                        message: 'El camión o el chofer están asignados a un despacho ya en curso.'
+                    });
                 }
-                return callback(null, true);
+                return callback(err);
+            }
+            return callback(null, true);
 
-            });
+        });
     }
 
 
@@ -250,6 +256,9 @@ class Dispatch {
 
         });
     }
+
+
+    
 
 }
 

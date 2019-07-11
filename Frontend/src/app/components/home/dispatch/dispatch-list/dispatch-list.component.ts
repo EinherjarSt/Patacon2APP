@@ -18,7 +18,7 @@ import { ProducerviewService } from 'src/app/services/producerview.service';
 import { SMS } from 'src/app/services/sms.service';
 import { DispatchDetailsComponent } from '../../dashboard/dispatch-details/dispatch-details.component';
 import { AuthService } from '../../../../services/auth.service';
-
+import { NotifierService } from 'angular-notifier';
 
 /**
  * @title Table with sorting
@@ -48,7 +48,8 @@ export class DispatchListComponent implements OnInit {
     
     private smsService: SMS,
     private insightsService: InsightsService,
-    private auth : AuthService) { }
+    private auth : AuthService, 
+    private notifierService: NotifierService) { }
 
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
@@ -58,7 +59,7 @@ export class DispatchListComponent implements OnInit {
 
     if(this.userType == "Coordinador"){
       this.displayedColumns = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-      "arrivalAtPataconDatetime","start", "cancel", "terminate", "send"];
+      "arrivalAtPataconDatetime","actions"];
     }
   }
 
@@ -85,7 +86,10 @@ export class DispatchListComponent implements OnInit {
     this.openConfirmationDialog('¿Desea eliminar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
-          next: result => { this.refreshTable(); },
+          next: result => { 
+            this.refreshTable(); 
+            this.notifierService.notify('info', 'El despacho ha sido eliminado');
+          },
           error: result => { }
         });
       }
@@ -106,7 +110,7 @@ export class DispatchListComponent implements OnInit {
   }
 
   terminateDispatch(dispatch_id) {
-    this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
+    this.openConfirmationDialog('¿Desea señalar como completado este despacho?').afterClosed().subscribe(
       confirmation => {
         if (confirmation.confirmed) {
           this._terminateDispatchAndCalculateInformation(dispatch_id, 'Terminado');
@@ -125,7 +129,15 @@ export class DispatchListComponent implements OnInit {
 
             this.insightsService.setStatusTimesPerDispatch(dispatch_id,
               timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
-                res => this.refreshTable()
+                res => {
+                  this.refreshTable();
+                  if(endStatus == "Terminado") {
+                    this.notifierService.notify('info', 'El despacho ha sido completado exitosamente');
+                  }
+                  else if (endStatus == "Cancelado") {
+                    this.notifierService.notify('info', 'El despacho ha sido cancelado');
+                  }
+                }
 
               );
           }
@@ -143,7 +155,7 @@ export class DispatchListComponent implements OnInit {
           res =>{
             this.smsService.sendSMS(dispatch_id);
             this.refreshTable();
-
+            this.notifierService.notify('info', 'El despacho ahora está en tránsito hacia la viña');
           } );
       }
 
@@ -197,7 +209,7 @@ export class DispatchListComponent implements OnInit {
     this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.smsService.sendSMS(idDispatch);
-
+        this.notifierService.notify('info', 'Se ha notificado al productor exitosamente');
       }
     });
   });
@@ -235,12 +247,6 @@ export class DispatchListComponent implements OnInit {
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
-
-
-  public _terminateDispatch(dispatchId, endStatus) {
-    this.dispatchService.terminateDispatch(dispatchId, endStatus);
-  }
-
 }
 
 

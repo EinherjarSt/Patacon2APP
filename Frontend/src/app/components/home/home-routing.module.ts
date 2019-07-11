@@ -15,6 +15,8 @@ import { SummaryByDriverComponent } from './statistics/summary-by-driver/summary
 import { StatisticsComponent } from './statistics/statistics.component';
 
 import { AuthGuard } from '../../guard/auth.guard';
+import { RoleGuard } from '../../guard/role.guard';
+
 import { RoutesComponent } from './routes/routes.component';
 
 
@@ -26,14 +28,19 @@ const routes: Routes = [
     canActivateChild:[AuthGuard],
     children:[
     {path: '',component: DashboardComponent},
-     {path: 'usuarios',component: UsersComponent},
+     {path: 'usuarios',component: UsersComponent, canActivate: [RoleGuard], 
+      data: { expectedRole1: 'SysAdmin', expectedRole2: ''} },
      {path: 'configcuenta/:id',component:ConfigurationViewComponent},
-     {path: 'productores', component: ProducersComponent},
-     {path: 'choferes',component: DriversComponent},
-     {path: 'camiones', component: TrucksComponent},
+     {path: 'productores', component: ProducersComponent, canActivate: [RoleGuard],
+      data: { expectedRole1: 'SysAdmin', expectedRole2: 'Coordinador'}},
+     {path: 'choferes',component: DriversComponent, canActivate: [RoleGuard],
+     data: { expectedRole1: 'SysAdmin', expectedRole2: 'Encargado de Flota'}},
+     {path: 'camiones', component: TrucksComponent, canActivate: [RoleGuard],
+     data: { expectedRole1: 'SysAdmin', expectedRole2:'Encargado de Flota'}},
      {path: 'despachos/:id', component: DispatchListComponent},
      {path: 'planificacion',component: PlanificationListComponent},
-     {path: 'gps', component: GpsComponent},
+     {path: 'gps', component: GpsComponent, canActivate: [RoleGuard],
+     data: { expectedRole1: 'SysAdmin', expectedRole2:'Encargado de Flota'}},
      {path: 'routes', component: RoutesComponent},
      {path: 'estadisticas', component: StatisticsComponent}
     ]

@@ -8,7 +8,7 @@ import { ConfirmationDialogComponent } from 'src/app/components/core/confirmatio
 import { SMS } from 'src/app/services/sms.service';
 import { InsightsService } from '../../../../services/insights.service';
 import { timer, Subscription } from "rxjs";
-
+import { NotifierService } from 'angular-notifier';
 
 
 @Component({
@@ -25,7 +25,8 @@ export class PendingDispatchesComponent implements OnInit {
   refreshTimer: Subscription;
 
   constructor(private _dispatchesService: DispatchesService, private dialog: MatDialog,
-    private smsService: SMS, private insightsService: InsightsService) { }
+    private smsService: SMS, private insightsService: InsightsService, 
+    private notifierService: NotifierService) { }
 
   ngOnInit() {
     this.getDispatches();
@@ -96,7 +97,16 @@ export class PendingDispatchesComponent implements OnInit {
 
             this.insightsService.setStatusTimesPerDispatch(dispatch_id,
               timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
-                res => this.refreshTable()
+                res => { 
+                  this.refreshTable();
+                  if(endStatus == "Terminado") {
+                    this.notifierService.notify('info', 'El despacho ha sido completado exitosamente');
+                  }
+                  else if (endStatus == "Cancelado") {
+                    this.notifierService.notify('info', 'El despacho ha sido cancelado');
+                  }
+                
+                }
 
               );
           }
@@ -114,7 +124,7 @@ export class PendingDispatchesComponent implements OnInit {
           res =>{
             this.smsService.sendSMS(dispatch_id);
             this.refreshTable();
-
+            this.notifierService.notify('info', 'El despacho ahora está en tránsito hacia la viña');
           } );
       }
 

@@ -28,6 +28,7 @@ import { TrucksComponent } from './trucks/trucks.component';
 import { TruckViewComponent } from './trucks/truck-view/truck-view.component';
 import { AddTruckComponent } from './trucks/add-truck/add-truck.component';
 import { EditTruckComponent } from './trucks/edit-truck/edit-truck.component';
+import { TruckDetailsComponent } from './trucks/truck-details/truck-details.component';
 
 import { PlanificationListComponent } from './planification/planification-list/planification-list.component';
 import { DetailsComponent } from './planification/planification-list/details/details.component';
@@ -74,6 +75,7 @@ import { SummaryByProducerComponent } from './statistics/summary-by-producer/sum
     DispatchListComponent,
     TruckViewComponent,
     AddTruckComponent,
+    TruckDetailsComponent,
     UpdateProducerComponent,
     PlanificationListComponent,
     DetailsComponent,
@@ -121,6 +123,7 @@ import { SummaryByProducerComponent } from './statistics/summary-by-producer/sum
     AddDriverComponent,
     AddProducerComponent,
     AddTruckComponent,
+    TruckDetailsComponent,
     UpdateProducerComponent,
     DetailsComponent,
     AddPlanificationComponent,

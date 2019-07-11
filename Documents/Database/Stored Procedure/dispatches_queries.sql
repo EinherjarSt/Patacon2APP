@@ -71,6 +71,42 @@ END //
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS start_dispatch;
+DELIMITER //
+CREATE PROCEDURE start_dispatch (  
+  IN dispatch_id INT
+)
+BEGIN
+  DECLARE areDriverAndTruckAvailable TINYINT;
+  
+  SELECT @driverId:=dispatch.ref_driver, @truckId:=dispatch.ref_truck
+  FROM dispatch
+  WHERE dispatch.id_dispatch = dispatch_id; 
+
+
+  SELECT NOT EXISTS (
+
+    SELECT * FROM dispatch 
+    WHERE dispatch.status <> "Pendiente" 
+    AND dispatch.status <> "Terminado"
+    AND dispatch.status <> "Cancelado"
+    AND (dispatch.ref_truck = @truckId OR dispatch.ref_driver = @driverId)
+
+  ) INTO areDriverAndTruckAvailable;
+
+
+  IF(areDriverAndTruckAvailable = 1) THEN 
+    CALL edit_dispatch_status(dispatch_id, 'En camino a viña');
+  ELSE
+    SIGNAL SQLSTATE 'HY008'
+    SET MESSAGE_TEXT = 'El camión o el chofer está asignado a otro despacho ya en tránsito.';
+  END IF;
+
+END //
+DELIMITER ;
+
+
+
 
 DROP PROCEDURE IF EXISTS get_dispatches_with_full_info;
 DELIMITER //
@@ -147,3 +183,7 @@ CREATE PROCEDURE get_dispatches (
 BEGIN
   SELECT * FROM dispatch WHERE dispatch.ref_planification = planificationId;
 END //
+
+
+
+
