@@ -126,7 +126,7 @@ function outOfRoute() {
                     let distance = turf.pointToLineDistance(pt, turfLine);
                     console.log(distance + " KM");
                     console.log("Deberia haber terminado de calcular");
-                    if (distance > 0.2 ){
+                    if (distance > process.env.PATACON_OUT_OF_ROUTE_DISTANCE){
                         console.log("Escribiendo en last");
                         if (!hasGoneOutOfRoute[dispatchInfo.id_dispatch]){
                             console.log("Guardando eventos fuera de ruta")
@@ -167,7 +167,8 @@ function geofence() {
             if (!location) continue;
             console.log("geofence despues de if")
 
-            let radius = 0.2;
+            let radiusPatacon = process.env.PATACON_GEOFENCE_PATACON_DISTANCE;
+            let radiusVineyard = process.env.PATACON_GEOFENCE_VINEYARD_DISTANCE;
             let options = {
                 steps: 10,
                 units: 'kilometers',
@@ -178,17 +179,17 @@ function geofence() {
             console.log(location);
             let pt = turf.point([location.latitude, location.longitude]);
 
-            //evaluate geofence in start_position
+            //evaluate geofence in start_position (VINEYARD)
             let center = [route.start_position.lat, route.start_position.lng];
             console.log("start_position geofence " + center);
-            let geofence_vineyard = turf.circle(center, radius, options);
+            let geofence_vineyard = turf.circle(center, radiusVineyard, options);
 
             console.log(turf.booleanPointInPolygon(pt, geofence_vineyard));
 
-            // Evaluate geofence in end_point.
+            // Evaluate geofence in end_point. (PATACON)
             center = [route.end_position.lat, route.end_position.lng];
             console.log("end_positions geofence " + center);
-            let geofence_patacon = turf.circle(center, radius, options);
+            let geofence_patacon = turf.circle(center, radiusPatacon, options);
             console.log(turf.booleanPointInPolygon(pt, geofence_patacon));
 
             if (turf.booleanPointInPolygon(pt, geofence_vineyard)) {
