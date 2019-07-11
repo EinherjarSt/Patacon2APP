@@ -89,7 +89,6 @@ export class RoutesComponent implements OnInit {
   getProducersWithoutRoutes() {
     this.routeService.getProducersWithoutRoutes().subscribe(data => {
       this.producers = data;
-      console.log(data);
     });
   }
 
@@ -101,9 +100,6 @@ export class RoutesComponent implements OnInit {
   onMapReady(map) {
     this.map = map;
     let $this = this;
-    google.maps.event.addListener(map, 'click', function (event) {
-      $this.onMapClick(event, map);
-    });
   }
 
   initMap(map, origin, destination, waypoints: {
@@ -118,11 +114,9 @@ export class RoutesComponent implements OnInit {
       // How it is a callback the context of this change.
       this.directionsDisplay.addListener('directions_changed', function () {
        
-        console.log("direction");
-        console.log($this.directionsDisplay.getDirections());
         $this.some_method($this.directionsDisplay); 
         $this.computeTotalDistance($this.directionsDisplay.getDirections());
-        console.log("distancia:"+$this.total);
+
       });
     }
     this.directionsDisplay.setOptions({
@@ -143,7 +137,6 @@ export class RoutesComponent implements OnInit {
     var waypoints = display.directions.routes[0].legs[0].via_waypoint;
     this.overviewPath = display.getDirections().routes[0].overview_path;
     $this.computeTotalDistance($this.directionsDisplay.getDirections());
-    console.log(waypoints);
   };
 
   displayRoute(origin, destination, service, display, waypoints: {
@@ -163,29 +156,7 @@ export class RoutesComponent implements OnInit {
     });
   }
 
-  onMapClick(event, map) {
-    console.log(event);
-    let marker1 = new google.maps.Marker({
-      map: map,
-      draggable: true,
-      position: event.latLng
-    });
-
-    console.log(event.latLng.lat());
-    console.log(event.latLng.lng());
-    var cascadiaFault = new google.maps.Polyline({
-      path: this.overviewPath
-    });
-    if (google.maps.geometry.poly.isLocationOnEdge(event.latLng, cascadiaFault, 1e-3)) {
-      console.log(1e-4);
-      console.log("Is in route")
-    }
-
-    //cascadiaFault.setMap(map);
-  }
-
   selectChange(event) {
-    console.log(event);
     this.initMap(this.map, event, this.endSelect.location);
   }
 
@@ -220,7 +191,7 @@ export class RoutesComponent implements OnInit {
       },
       error => {
         this.notifier.notify('error', 'Error: No se ha podido agregar la ruta');
-        console.error('Error', error)});
+       console.error('Error', error)});
 
     this.panelVisible = false;
     this.routesInfo = null;
@@ -365,12 +336,14 @@ export class RoutesComponent implements OnInit {
   }
 
   computeTotalDistance(result) {
+    if(result!=undefined){
     this.total=0;
     var myroute = result.routes[0];
     for (var i = 0; i < myroute.legs.length; i++) {
       this.total += myroute.legs[i].distance.value;
     }
     this.total = this.total / 1000;
+  }
   }
 
   public hasError = (controlName: string, errorName: string) => {
