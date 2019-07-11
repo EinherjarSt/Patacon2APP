@@ -72,7 +72,6 @@ export class HomeComponent implements OnInit {
                 this.playAudio();
               }
               this.eventNotRead.push(event.id_event);
-              console.log(event.id_event);
               this.countEventNotRead ++;
               
             }
