@@ -33,7 +33,7 @@ export class DispatchListComponent implements OnInit {
   dispatches: Dispatch[];
   planificationId: number;
   public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-    "arrivalAtPataconDatetime", "delete", "edit","actions"];
+    "arrivalAtPataconDatetime", "edit", "delete","actions"];
   public dataSource = new MatTableDataSource<Dispatch>();
 
   @ViewChild(MatSort) sort: MatSort;
