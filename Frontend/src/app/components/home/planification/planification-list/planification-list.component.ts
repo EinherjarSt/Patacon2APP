@@ -13,7 +13,7 @@ import { DispatchesService } from 'src/app/services/dispatches.service';
 import { Dispatch } from 'src/app/model-classes/dispatch';
 import { dispatch } from 'rxjs/internal/observable/range';
 import { NotifierService } from 'angular-notifier';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-planification-list',
   templateUrl: './planification-list.component.html',
@@ -21,8 +21,8 @@ import { NotifierService } from 'angular-notifier';
 })
 export class PlanificationListComponent implements OnInit {
   planifications: Planification[];
-  displayedColumns: string[] = ['date', 'producer', 'location', 'variety', 'kg', 'dispatch','details', 'edit', 'delete'];
-  dataSource: MatTableDataSource<Planification>;
+  displayedColumns: string[] = ['date', 'producer', 'location', 'grapeVariety', 'kilograms', 'dispatch','details', 'edit', 'delete'];
+  dataSource: MatTableDataSource<Planification> = new MatTableDataSource<Planification>();
   private readonly notifier: NotifierService;
   userType: String;
 
@@ -53,7 +53,7 @@ export class PlanificationListComponent implements OnInit {
           element.ref_location = location;
         });
       });
-      this.dataSource = new MatTableDataSource<Planification>(this.planifications);
+      this.dataSource.data = this.planifications;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
@@ -62,12 +62,28 @@ export class PlanificationListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+
+  sortingCustomAccesor = (item, property) => {
+    switch(property) {
+      case 'date': {
+        let dateValues = item.date.split("-");
+        let utcDateString = dateValues[2] + "-" + dateValues[1] + "-" + dateValues[0];
+        return moment(utcDateString);
+      };
+      case 'producer': return item.ref_producer.name;
+      case 'location': return item.ref_location.address;
+      default: return item[property];
+    }
+  };
+
+
   ngOnInit() {
+    this.dataSource.sortingDataAccessor = this.sortingCustomAccesor;
     this.getProducers();
     this.userType = this.auth.getUserType();
 
     if(this.userType == "Encargado de Flota"){
-      this.displayedColumns = ['date', 'producer', 'location', 'variety', 'kg', 'details', 'dispatch'];
+      this.displayedColumns = ['date', 'producer', 'location', 'grapeVariety', 'kilograms', 'details', 'dispatch'];
     }
   }
   public doFilter = (value: string) => {

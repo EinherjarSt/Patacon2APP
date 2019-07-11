@@ -32,34 +32,48 @@ export class DispatchListComponent implements OnInit {
   dateFormat = 'd/M/yy HH:mm';
   dispatches: Dispatch[];
   planificationId: number;
-  public displayedColumns: string[] = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-    "arrivalAtPataconDatetime", "edit", "delete","actions"];
+
+  public displayedColumns: string[] = ["status", "driverReference", "shippedKilograms", "arrivalAtVineyardDatetime",
+    "arrivalAtPataconDatetime", "edit", "delete", "actions"];
+
+
   public dataSource = new MatTableDataSource<Dispatch>();
+
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isDataLoading: boolean;
 
-  userType : String;
+  userType: String;
 
   constructor(private dispatchesService: DispatchesService, private dialog: MatDialog,
     private route: ActivatedRoute,
     private dispatchService: DispatchesService,
-    
+
     private smsService: SMS,
     private insightsService: InsightsService,
-    private auth : AuthService, 
+    private auth: AuthService,
     private notifierService: NotifierService) { }
+
+
+  sortingCustomAccesor = (item, property) => {
+    switch(property) {
+      case 'arrivalAtPataconDatetime': {return moment(item.arrivalAtPataconDate + ' ' + item.arrivalAtPataconTime)};
+      case 'arrivalAtVineyardDatetime': {return moment(item.arrivalAtVineyardDate + ' ' + item.arrivalAtVineyardTime)};
+      default: return item[property];
+    }
+  };
 
   ngOnInit() {
     this.planificationId = parseInt(this.route.snapshot.paramMap.get('id'));
     this.getDispatches();
-    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = this.sortingCustomAccesor;
+      this.dataSource.sort = this.sort;
     this.userType = this.auth.getUserType();
 
-    if(this.userType == "Coordinador"){
-      this.displayedColumns = ["status", "driver", "shippedKilograms", "arrivalAtVineyardDatetime",
-      "arrivalAtPataconDatetime","actions"];
+    if (this.userType == "Coordinador") {
+      this.displayedColumns = ["status", "driverReference", "shippedKilograms", "arrivalAtVineyardDatetime",
+        "arrivalAtPataconDatetime", "actions"];
     }
   }
 
@@ -86,8 +100,8 @@ export class DispatchListComponent implements OnInit {
     this.openConfirmationDialog('¿Desea eliminar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.dispatchesService.deleteDispatch(dispatch_id).subscribe({
-          next: result => { 
-            this.refreshTable(); 
+          next: result => {
+            this.refreshTable();
             this.notifierService.notify('info', 'El despacho ha sido eliminado');
           },
           error: result => { }
@@ -98,7 +112,7 @@ export class DispatchListComponent implements OnInit {
   }
 
   cancelDispatch(dispatch_id) {
-    
+
     this.openConfirmationDialog('¿Desea cancelar este despacho?').afterClosed().subscribe(
       confirmation => {
         if (confirmation.confirmed) {
@@ -120,7 +134,7 @@ export class DispatchListComponent implements OnInit {
 
   }
 
- 
+
   _terminateDispatchAndCalculateInformation(dispatch_id, endStatus) {
     this.dispatchesService.terminateDispatch(dispatch_id, endStatus).subscribe(
       res => {
@@ -131,7 +145,7 @@ export class DispatchListComponent implements OnInit {
               timePerStatus.stopped, timePerStatus.inUnloadYard).subscribe(
                 res => {
                   this.refreshTable();
-                  if(endStatus == "Terminado") {
+                  if (endStatus == "Terminado") {
                     this.notifierService.notify('info', 'El despacho ha sido completado exitosamente');
                   }
                   else if (endStatus == "Cancelado") {
@@ -152,11 +166,11 @@ export class DispatchListComponent implements OnInit {
     this.openConfirmationDialog('¿Desea empezar este despacho?').afterClosed().subscribe(confirmation => {
       if (confirmation.confirmed) {
         this.dispatchesService.startDispatch(dispatch_id).subscribe(
-          res =>{
+          res => {
             this.smsService.sendSMS(dispatch_id);
             this.refreshTable();
             this.notifierService.notify('info', 'El despacho ahora está en tránsito hacia la viña');
-          } );
+          });
       }
 
     });
@@ -197,22 +211,22 @@ export class DispatchListComponent implements OnInit {
   sendSMS(idDispatch) {
     let message = "";
     //hacer consulta y agregar al mensaje los datos
-    this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data =>{
-      if(data!= null){
-        if(data.textMessagesSent!=null){
-        message = "Ha enviado "+data.textMessagesSent+ " mensaje(s) al productor.\n" +
-        "Último mensaje enviado: "+ moment(data.lastMessageSentDate).format('DD/MM/YYYY hh:mm a')+"\n\n";
+    this.insightsService.getDispatchInsightsData(idDispatch).subscribe(data => {
+      if (data != null) {
+        if (data.textMessagesSent != null) {
+          message = "Ha enviado " + data.textMessagesSent + " mensaje(s) al productor.\n" +
+            "Último mensaje enviado: " + moment(data.lastMessageSentDate).format('DD/MM/YYYY hh:mm a') + "\n\n";
+        }
       }
-      }
-    },e=>{},()=>{
-    message = message + "¿Desea enviar un nuevo sms?";
-    this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
-      if (confirmation.confirmed) {
-        this.smsService.sendSMS(idDispatch);
-        this.notifierService.notify('info', 'Se ha notificado al productor exitosamente');
-      }
+    }, e => { }, () => {
+      message = message + "¿Desea enviar un nuevo sms?";
+      this.openConfirmationDialog(message).afterClosed().subscribe(confirmation => {
+        if (confirmation.confirmed) {
+          this.smsService.sendSMS(idDispatch);
+          this.notifierService.notify('info', 'Se ha notificado al productor exitosamente');
+        }
+      });
     });
-  });
   }
 
   openEditDispatchDialog(dispatch: Dispatch) {

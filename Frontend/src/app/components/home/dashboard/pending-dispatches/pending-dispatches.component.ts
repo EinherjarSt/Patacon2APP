@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { DispatchesService } from '../../../../services/dispatches.service';
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { Filter } from 'src/app/model-classes/filter';
@@ -19,7 +19,7 @@ import { NotifierService } from 'angular-notifier';
 export class PendingDispatchesComponent implements OnInit {
 
   dateFormat = 'd/M/yy HH:mm';
-  displayedColumns: string[] = ["truck","destination", "arrivalAtVineyardDatetime", "actions"];
+  displayedColumns: string[] = ["truckLicensePlate","destination", "arrivalAtVineyardDatetime", "actions"];
   isDataLoading: boolean;
   dataSource = new MatTableDataSource<Filter>();
   refreshTimer: Subscription;
@@ -28,12 +28,26 @@ export class PendingDispatchesComponent implements OnInit {
     private smsService: SMS, private insightsService: InsightsService, 
     private notifierService: NotifierService) { }
 
+  @ViewChild(MatSort) sort: MatSort;
+
+  sortingCustomAccesor = (item, property) => {
+    switch(property) {
+      case 'destination': return item.producerName + ' ' + item.producerLocation;
+      default: return item[property];
+    }
+  };
+
   ngOnInit() {
     this.getDispatches();
+    this.dataSource.sortingDataAccessor = this.sortingCustomAccesor;
     this.refreshTimer = timer(1000, 15000).subscribe(
       () => this.refreshTable()
     );
 
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   

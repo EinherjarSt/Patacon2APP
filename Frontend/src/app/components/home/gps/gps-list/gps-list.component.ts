@@ -15,7 +15,7 @@ import { NotifierService } from 'angular-notifier';
 export class GpsListComponent implements OnInit {
   private readonly notifier: NotifierService;
   gps: Gps[];
-  displayedColumns: string[] = ["imei", "number", "brand", "model", "edit", "delete"];
+  displayedColumns: string[] = ["imei", "simNumber", "brand", "model", "edit", "delete"];
   dialogResult ="";
   dataSource = new MatTableDataSource<Gps>();
 

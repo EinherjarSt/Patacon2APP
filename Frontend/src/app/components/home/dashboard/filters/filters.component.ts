@@ -22,7 +22,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class FiltersComponent implements OnInit {
 
-  displayedColumns: string[] = ["select", "truck","grapeVariety", "state", "destination", "actions"];
+  displayedColumns: string[] = ["select", "truckLicensePlate","grapeVariety", "dispatchStatus", "destination", "actions"];
   dataSource = new MatTableDataSource<Filter>();
   selection = new SelectionModel<Filter>(true, []);
   selectedDispatches: Filter[] = this.selection.selected;
@@ -36,8 +36,17 @@ export class FiltersComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @Output() selectedChangeEvent = new EventEmitter<Filter[]>();
 
+
+  sortingCustomAccesor = (item, property) => {
+    switch(property) {
+      case 'destination': return item.producerName + ' ' + item.producerLocation;
+      default: return item[property];
+    }
+  };
+
   ngOnInit() {
-    this.getDispatches()
+    this.getDispatches();
+    this.dataSource.sortingDataAccessor = this.sortingCustomAccesor;
     //this.selection.changed.subscribe(event => { this.selectedChangeEvent.emit(event.source.selected) });
     this.refreshTimer = timer(1000, 15000).subscribe(
       () => this.refreshTable()
