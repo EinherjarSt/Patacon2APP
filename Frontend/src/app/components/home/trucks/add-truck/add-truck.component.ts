@@ -137,24 +137,6 @@ export class AddTruckComponent implements OnInit {
     return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : '';
   }
 
-  /* onCloseConfirm() {
-    // Here add service to send data to backend
-    //console.log(this.form);
-    //console.log(this.form.value);
-    let truckData = this.addTruckForm.value;
-    console.log(truckData);
-    this.truckService.createTruck(truckData).subscribe({
-      next: result => {
-        console.log(result);
-        this.openSuccessMessage();
-        this.thisDialogRef.close('Confirm');
-      },
-      error: result => {
-        this.openFailureMessage();
-        console.log(result)
-      }
-    });
-  }  */
 
   onCloseConfirm() {
     this.thisDialogRef.close("Confirm");
@@ -166,7 +148,6 @@ export class AddTruckComponent implements OnInit {
     this.truckService.createTruck(newTruck).subscribe(
       response => {
         console.log("Success", response);
-        console.log(newTruck);
         this.onCloseConfirm();
       },
       error => {

@@ -17,7 +17,6 @@ app.get('/resetpassword/get/:email', function (req, res) {
 
 app.get('/resetpassword/get1/:verification_code', function (req, res) {
     let verification_code = req.params.verification_code;
-    console.log("/resetpassword/get/verification_code");
     ResetPassword.getVerificationCode(verification_code, (err, result) => {
         if (err) {
             return res.status(400).json(err);
@@ -30,7 +29,6 @@ app.put('/resetpassword/addcode', function (req, res) {
     let body = req.body;
 
         let newCode = new ResetPassword(null, null, null, null, body.email, null, null, null, body.verification_code)
-        //let newCode = new ResetPassword(body.email, null, body.verification_code);
         ResetPassword.addVerificationCode(newCode, (err, result) => {
             if (err) {
                 return res.status(400).json(err);
@@ -53,7 +51,6 @@ app.put('/resetpassword/addpassword', function (req, res) {
             });
         }
         let newPassword = new ResetPassword(null, null, null, null, body.email, hashedPassword, null, null, body.verification_code);
-        //let newPassword = new ResetPassword(null, hashedPassword, body.verification_code);
         ResetPassword.addNewPassword(newPassword, (err, result) => {
             if (err) {
                 return res.status(400).json(err);

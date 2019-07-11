@@ -26,33 +26,11 @@ app.put('/truck/add',
     }
 );
 
-/* app.post('/truck/delete', 
-        passport.authenticate('jwt', {
-        session: false
-        }),
-        (req, res) => {
-            console.log("truck/delete");
-            console.log(req.body);
-            let body = req.body;
-            Truck.deleteTruck(body.licencePlate, (err, result) => {
-            if (err) {
-                return res.status(400).json(err);
-            }
-            return res.json({
-                message: "Truck has been deleted"
-            });
-    });
-    }
-); */
-
 app.post('/truck/update',
     passport.authenticate("jwt", {
         session: false
     }),
     (req, res) => {
-        console.log("truck/update");
-        console.log(req.body);
-
         let body = req.body;
         let updatedTruck = new Truck(body.id_truck, body.licencePlate, body.driverReference, body.gpsReference,
                             body.brand, body.model, body.year, body.maxLoad, body.owner, body.color);
@@ -70,10 +48,6 @@ app.post('/truck/update',
 app.post('/truck/disable', passport.authenticate('jwt', {
     session: false
 }), (req, res) => {
-    console.log("truck/disable");
-    console.log(req.body);+
-    console.log("borrar");
-    console.log(req.body.status);
     let body = req.body;
     let disabled = body.disabled === 'true' ? true : false;
     Truck.disableTruck(body.licencePlate, disabled, (err, result) => {
@@ -84,7 +58,6 @@ app.post('/truck/disable', passport.authenticate('jwt', {
             message: "Truck has been deleted (disabled)"
         });
     });
-    console.log("Truck deleted (disabled");
 })
 
 app.get('/truck/getall',
@@ -92,9 +65,7 @@ app.get('/truck/getall',
         session: false
     }),
     (req, res) => {
-        console.log("truck/getall");
         Truck.getAllTrucks((err, trucks) => {
-            console.log(err);
             if (err) {
                 return res.status(400).json(err);
             }
