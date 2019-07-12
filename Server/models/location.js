@@ -1,4 +1,5 @@
 const pool = require('../common/mysql').pool;
+const ERROR = require('../common/error');
 
 class Location{
 	constructor(id_location, ref_producer, address, latitude, longitude, manager, managerPhoneNumber){
@@ -26,7 +27,7 @@ class Location{
         ], function(err, result, fields){
         	if(err){
         		if(err.code == "ER_DUP:_ENTRY"){
-        			return callback({message: err.sqlMessage});
+        			return callback({code: err.code, message: `Esta localizacion esta duplicada`});
         		}
         		return callback(err);
         	}
@@ -64,10 +65,10 @@ class Location{
         		return callback(err);
         	}
         	else if(results.length === 0){
-        		return callback({message: "There are no registered locations with that id"});
+        		return callback({message: `No existen localizacion con el id ${id}`});
         	}
         	else if(results.length > 1){
-        		return callback({message: "There is a duplicate of the location or a location with the same id"});
+        		return callback({code: ERROR.NOT_UNIQUE, message: `La localizacion ${id} esta duplicada`});
         	}
 
         	let result = results[0];
@@ -83,9 +84,13 @@ class Location{
             throw new Error('There is not a callback funtion. Please provide them');
         }
 
-        let query = pool.query('DELETE FROM location WHERE id_location = ?', [id_location], function(err, results, fields){
+        let query = pool.query('CALL delete_location(?)', [id_location], function(err, results, fields){
             if(err){
                 return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({code: ERROR.NOT_FOUND, message: "La localizacion no existe"});
             }
             
             return callback(null, true);
@@ -106,12 +111,12 @@ class Location{
             location.managerPhoneNumber
         ], function(err, result, fields){
             if(err){
-                return callback({message: "The location doesn't exist"});
+                return callback(err);
             }
 
             if(result.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This Location doesn't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "La localizacion no existe"});
             }
 
             return callback(null, true);

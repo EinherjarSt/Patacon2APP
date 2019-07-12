@@ -29,13 +29,13 @@ export class AddTruckComponent implements OnInit {
     private truckService: TrucksService, private gpsService : GpsService)
   { 
     this.addTruckForm = new FormGroup({
-      licencePlate: new FormControl("",[Validators.required]),
+      licencePlate: new FormControl("",[Validators.required, (Validators.pattern(/^[A-Z]{2}[-][0-9]{4}|[A-Z]{4}[-][0-9]{2}/))]),
       ref_gps: new FormControl("", AutocompleteValidOption),
       ref_driver: new FormControl("", AutocompleteValidOption),
       brand: new FormControl("",[Validators.required]),
       model: new FormControl("",[Validators.required]),
       year: new FormControl("",[Validators.required, Validators.pattern(/^\d{4}$/)]),
-      maxLoad: new FormControl("",[Validators.required]),
+      maxLoad: new FormControl("",[Validators.required, Validators.pattern(/^\d{5}$/)]),
       owner: new FormControl("",[Validators.required]),
       color: new FormControl("",[Validators.required])
     });
@@ -52,7 +52,7 @@ export class AddTruckComponent implements OnInit {
   
   getGpsOptions() {
     this.isGpsListDataLoading = true;
-    this.gpsService.getAllGPS().subscribe({
+    this.gpsService.getAllGPSAvailableForTrucks().subscribe({
       next: (gps) => {
         this.gpsOptions = gps;
         this.setGpsAutocompleteFilteringCapabilities();
@@ -96,7 +96,7 @@ export class AddTruckComponent implements OnInit {
 
   getDriverOptions() {
     this.isDriverListDataLoading = true;
-    this.driverService.getAllDrivers().subscribe({
+    this.driverService.getAllDriversAvailableForNewTruck().subscribe({
       next: (driver) => {
         this.driverOptions = driver;
         this.setDriverAutocompleteFilteringCapabilities();
@@ -117,6 +117,8 @@ export class AddTruckComponent implements OnInit {
   }
 
   private filterDriverOptions(value): Driver[] {
+    
+
     var filterValue: string;
     if (typeof value === 'string') {
       filterValue = value.toLowerCase();
@@ -124,7 +126,6 @@ export class AddTruckComponent implements OnInit {
     else {
       filterValue = '';
     }
-
     return this.driverOptions.filter(driverOption => this.driverToDisplayableString(driverOption).toLowerCase().includes(filterValue));
   }
 
@@ -133,24 +134,6 @@ export class AddTruckComponent implements OnInit {
     return driver ? driver.name + ' ' + driver.surname + ' ' + driver.surname2 + ' / ' + driver.run : '';
   }
 
-  /* onCloseConfirm() {
-    // Here add service to send data to backend
-    //console.log(this.form);
-    //console.log(this.form.value);
-    let truckData = this.addTruckForm.value;
-    console.log(truckData);
-    this.truckService.createTruck(truckData).subscribe({
-      next: result => {
-        console.log(result);
-        this.openSuccessMessage();
-        this.thisDialogRef.close('Confirm');
-      },
-      error: result => {
-        this.openFailureMessage();
-        console.log(result)
-      }
-    });
-  }  */
 
   onCloseConfirm() {
     this.thisDialogRef.close("Confirm");
@@ -162,7 +145,6 @@ export class AddTruckComponent implements OnInit {
     this.truckService.createTruck(newTruck).subscribe(
       response => {
         console.log("Success", response);
-        console.log(newTruck);
         this.onCloseConfirm();
       },
       error => {

@@ -10,6 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
+  private currentUser: string;
 
   constructor(private http: HttpClient, private jwtHelper:JwtHelperService) { }
 
@@ -17,7 +18,7 @@ export class AuthService {
   *  If the token exist save it in localstorage with key access_token.
   */
   login(email: string, password: string): Observable<boolean> {
-
+    
     const body = new HttpParams()
     .set('email', email)
     .set('password', password);
@@ -43,7 +44,17 @@ export class AuthService {
     const token = localStorage.getItem('access_token');
     // Check whether the token is expired and return
     // true or false
-    // return !this.jwtHelper.isTokenExpired(token);
-    return token != undefined; //parche
+    return !this.jwtHelper.isTokenExpired(token);
+    //return token != undefined; //parche
+  }
+
+  public getTokenInfo(){
+    const token = localStorage.getItem('access_token');
+    return this.jwtHelper.decodeToken(token);
+  }
+
+  public getUserType(): String{
+    let tokenInfo = this.getTokenInfo();
+    return tokenInfo.position;
   }
 }

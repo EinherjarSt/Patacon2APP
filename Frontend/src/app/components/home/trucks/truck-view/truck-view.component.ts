@@ -6,6 +6,7 @@ import { TrucksService } from '../../../../services/trucks.service';
 import { Truck } from '../../../../model-classes/truck';
 import { EditTruckComponent } from "../edit-truck/edit-truck.component";
 import { NotifierService } from 'angular-notifier';
+import { TruckDetailsComponent } from '../truck-details/truck-details.component';
 
 @Component({
   selector: 'app-truck-view',
@@ -22,7 +23,8 @@ export class TruckViewComponent implements OnInit {
     "brand",
     "model",
     "year",
-    "details", 
+    "update", 
+    "details",
     "delete"
   ];
   dataSource: MatTableDataSource<Truck>;
@@ -47,7 +49,6 @@ export class TruckViewComponent implements OnInit {
     this.trucksService.getAllTrucks().subscribe(
       data => {
         this.dataSource.data = data as Truck[];
-        console.log(data);
       },
       error => console.log("Error")
     );
@@ -75,7 +76,6 @@ export class TruckViewComponent implements OnInit {
   }
 
   openUpdateDialog(truck: Truck) {
-    console.log("Entro a openUpdateDialog en truck-view.component.ts");
 
     var dialogConfig = this.getDialogConfig();
     dialogConfig.data = truck;
@@ -88,33 +88,18 @@ export class TruckViewComponent implements OnInit {
     });
   }
 
-  /* openUpdateDialog(data: Truck) {
-    const dialogRef = this.dialog.open(EditTruckComponent, {
-      data: Truck,
-      width: "500px"
-    });
+  openDetailsDialog(truck: Truck) {
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result == 'Confirm') this.refreshTable();
-    });
-  }
- */
-    /* openDeleteDialog(truckData: Truck){
-    console.log(truckData);
-    console.log(truckData.licencePlate, truckData.disabled);
-    truckData.disabled = truckData.disabled ? false: true;
-    this.trucksService.disableTruck(truckData).subscribe({
-      next: result => {
-        console.log(result);
+    var dialogConfig = this.getDialogConfig();
+    dialogConfig.data = truck;
+
+    this.dialog.open(TruckDetailsComponent, dialogConfig).afterClosed().subscribe(confirmation => {
+      if(confirmation === "Confirm") { 
         this.refreshTable();
-      },
-      error: result => {
-        console.log("error en componente para listar");
+        this.notifier.notify('info', 'Camión visto exitosamente');
       }
     });
-    console.log(truckData.licencePlate, truckData.disabled);
-    this.refreshTable();
-  } */
+  }
 
   openDeleteDialog(truckData: Truck) {
     truckData.disabled = truckData.disabled ? false: true;
@@ -122,12 +107,10 @@ export class TruckViewComponent implements OnInit {
       if(confirmation.confirmed) {
         this.trucksService.disableTruck(truckData).subscribe({
           next: result => {
-            console.log(result);
             this.refreshTable();
             this.notifier.notify('info', 'Camión eliminado exitosamente');
           },
           error: result => {
-            console.log("error en componente para listar");
           }
         }); 
         this.refreshTable();
@@ -155,23 +138,6 @@ export class TruckViewComponent implements OnInit {
   refreshTable() {
     this.getTruck();
   }
-
-  
-  /* deleteTruck(licencePlate: string) {
-    //Esto no borra el camion, solo lo oculta
-    this.openDeletionConfirmationDialog()
-      .afterClosed()
-      .subscribe(confirmation => {
-        if (confirmation.confirmed) {
-          this.trucksService.disableTruck(licencePlate).subscribe({
-            next: result => {
-              this.refreshTable();
-            },
-            error: result => {}
-          });
-        }
-      });
-  } */
 
 }
 

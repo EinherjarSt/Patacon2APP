@@ -11,7 +11,7 @@ passport.use(new LocalStrategy({
         passwordField: 'password'
     },
     function (email, password, done) {
-        //console.log(`LocalStrategy ${email} : ${password}`);
+        // console.log(`LocalStrategy ${email} : ${password}`);
         User.getUserByEmail(email, (err, user) => {
             if (err) {
                 return done(err);
@@ -50,7 +50,7 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: process.env.JWT_SECRET
+        secretOrKey: process.env.PATACON_JWT_SECRET
     },
     function (jwtPayload, done) {
         //console.log("JWTStrategy %j ", jwtPayload)

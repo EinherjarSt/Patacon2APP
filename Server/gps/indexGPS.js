@@ -2,17 +2,19 @@ var gps = require("gps-tracking");
 var GPSDevice = require("../models/gps");
 var gpsOptions = {
     'debug': true,
-    'port': 9001,
+    'port': process.env.PATACON_GPS_PORT,
     'device_adapter': require('./adapter-tk103'),
     'host': '0.0.0.0'
 }
 
 // Global var that contain the route and info of gps
 GPS_DATA = {};
-let geofenceTimer;
-let outOfRouteTimer;
+const hasGoneOutOfRoute = {};
+const connectionStableshed = {};
 
 var server = gps.server(gpsOptions, function (device, connection) {
+   setInterval(geofence, 1 * 1000 * 60);
+   setInterval(outOfRoute, 1 * 1000 * 60);
 
     device.on("login_request", function (device_id, msg_parts) {
         GPSDevice.getGPSWithRoute(device_id, (err, gpsResult) => {
@@ -31,21 +33,14 @@ var server = gps.server(gpsOptions, function (device, connection) {
 
             this.login_authorized(true);
             device.emit("login");
-                if(!geofenceTimer){
-                    console.log("Llamando geofence")
-                   geofenceTimer =  setInterval(geofence, 1*1000*60);
-                }
-                if (!outOfRouteTimer){
-                    console.log("Llamando outOfRoute")
-                    outOfRouteTimer = setInterval(outOfRoute, 5*1000*60);
-                }
         })
 
     });
 
     device.on("login", function () {
+        connectionStableshed[device.uid] = connection;
         console.log("Hi! i'm " + device.uid);
-        device.send(`**,imei:${device.uid},C,5s`);
+        device.send(`**,imei:${device.uid},C,10s`);
         device.send(`**,imei:${device.uid},I,-4`);
     });
 
@@ -55,23 +50,31 @@ var server = gps.server(gpsOptions, function (device, connection) {
         //After the ping is received, but before the data is saved
         console.log('data');
         console.log(gpsData);
-        // Global Object. Fill the information that is recived by gps
-        GPS_DATA[device.uid].location = {
-            signal: gpsData.signal,
-            latitude: gpsData.latitude,
-            longitude: gpsData.longitude,
-            velocity: gpsData.velocity,
-        };
+
+        if (gpsData.signal === 'F'){
+            GPS_DATA[device.uid].location = {
+                updated: true,
+                latitude: gpsData.latitude,
+                longitude: gpsData.longitude,
+                velocity: gpsData.velocity,
+                date: gpsData.date
+            };
+        }
+        else if (GPS_DATA[device.uid].location){
+            GPS_DATA[device.uid].location.updated = false;
+        }
     });
 
     connection.on('close', (hadError) => {
         console.log(`connection \with device ${device.uid} is close`);
-        delete GPS_DATA[device.uid];
-        if (!Object.hasOwnProperty(GPS_DATA)){
-            clearInterval(geofenceTimer);
-            clearInterval(outOfRouteTimer)
-        }
-    })
+        delete connectionStableshed[device.uid];
+    });
+
+    connection.on('error', (err) => {
+        console.log("Ocurrio un error en la funcion connection.close");
+        console.log(err);
+        connection.emit('close', true);
+    });
 });
 
 
@@ -88,9 +91,9 @@ const lastEvent = require('../models/lastEvent');
 
 const STATUS = {
     LOADING: 'Cargando',
-    TRAVELING_TO_PATACON:'En camino a Patacon',
-    IN_PATIO:'En patio',
-    TRAVELING_TO_VINEYARD:'En tránsito a viña'
+    TRAVELING_TO_PATACON: 'En camino a Patacon',
+    IN_PATIO: 'En patio',
+    TRAVELING_TO_VINEYARD: 'En camino a viña'
 }
 
 function outOfRoute() {
@@ -100,7 +103,9 @@ function outOfRoute() {
             const location = element.location;
             const route = element.route;
             const dispatchInfo = element.dispatch;
-            if (!location || location.signal === 'L' || dispatchInfo.status !== STATUS.TRAVELING_TO_PATACON) continue;
+            console.log("outOfRoute antes de if")
+            if (!location || dispatchInfo.status !== STATUS.TRAVELING_TO_PATACON) continue;
+            console.log("outOfRoute antes de if")
 
             googleMapsClient.directions({
                 origin: route.start_position,
@@ -121,15 +126,18 @@ function outOfRoute() {
                     let distance = turf.pointToLineDistance(pt, turfLine);
                     console.log(distance + " KM");
                     console.log("Deberia haber terminado de calcular");
-                    if (distance > 1){
+                    if (distance > process.env.PATACON_OUT_OF_ROUTE_DISTANCE){
                         console.log("Escribiendo en last");
-                        lastEvent.insertOutOfRouteEvent(dispatchInfo.id_truck, dispatchInfo.id_dispatch, (err, res) => {
-                            if (err){
-                                console.log(err);
-                            }
-
-                            console.log(res);
-                        });
+                        if (!hasGoneOutOfRoute[dispatchInfo.id_dispatch]){
+                            console.log("Guardando eventos fuera de ruta")
+                            hasGoneOutOfRoute[dispatchInfo.id_dispatch] = true;
+                            lastEvent.insertOutOfRouteEvent(dispatchInfo.licensePlate, dispatchInfo.id_dispatch, (err, res) => {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                console.log(res);
+                            });
+                        }
                     }
                 } else {
                     alert('Could not display directions due to: ' + status);
@@ -148,15 +156,19 @@ function cleanWaypoint(waypoints) {
 }
 
 function geofence() {
+    console.log("geofence");
     for (const key in GPS_DATA) {
         if (GPS_DATA.hasOwnProperty(key)) {
             const element = GPS_DATA[key];
             const location = element.location;
             const route = element.route;
             const dispatchInfo = element.dispatch;
-            if (!location || location.signal === 'L') continue;
+            console.log("geofence antes de if")
+            if (!location) continue;
+            console.log("geofence despues de if")
 
-            let radius = 1;
+            let radiusPatacon = process.env.PATACON_GEOFENCE_PATACON_DISTANCE;
+            let radiusVineyard = process.env.PATACON_GEOFENCE_VINEYARD_DISTANCE;
             let options = {
                 steps: 10,
                 units: 'kilometers',
@@ -166,53 +178,59 @@ function geofence() {
             };
             console.log(location);
             let pt = turf.point([location.latitude, location.longitude]);
-            
-            //evaluate geofence in start_position
+
+            //evaluate geofence in start_position (VINEYARD)
             let center = [route.start_position.lat, route.start_position.lng];
             console.log("start_position geofence " + center);
-            let geofence_vineyard = turf.circle(center, radius, options);
+            let geofence_vineyard = turf.circle(center, radiusVineyard, options);
 
             console.log(turf.booleanPointInPolygon(pt, geofence_vineyard));
 
-            // Evaluate geofence in end_point.
+            // Evaluate geofence in end_point. (PATACON)
             center = [route.end_position.lat, route.end_position.lng];
             console.log("end_positions geofence " + center);
-            let geofence_patacon = turf.circle(center, radius, options);
+            let geofence_patacon = turf.circle(center, radiusPatacon, options);
             console.log(turf.booleanPointInPolygon(pt, geofence_patacon));
 
-            if (turf.booleanPointInPolygon(pt, geofence_vineyard) && dispatchInfo.status !== STATUS.LOADING){
-                dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.LOADING, (err, res) => {
-                    console.log("Loading")
-                    if (err){
-                        console.log("Error al cambiar estado automaticamente");
-                        return;
-                    }
-                    if(res){
-                        element.dispatch.status = STATUS.LOADING;
-                    }
-                })
-            }
-            else if (turf.booleanPointInPolygon(pt, geofence_patacon) && dispatchInfo.status !== STATUS.IN_PATIO){
-                dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.IN_PATIO, (err, res) => {
-                    console.log("En patio")
-                    if (err){
-                        console.log("Error al cambiar estado automaticamente");
-                        return;
-                    }
-                    if(res){
-                        element.dispatch.status = STATUS.IN_PATIO;
-                    }
-                })
-            }
-            else if (dispatchInfo.status !== STATUS.TRAVELING_TO_PATACON && dispatchInfo.status !== STATUS.TRAVELING_TO_VINEYARD){
-                
+            if (turf.booleanPointInPolygon(pt, geofence_vineyard)) {
+                if (dispatchInfo.status === STATUS.TRAVELING_TO_VINEYARD) {
+
+                    dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.LOADING, (err, res) => {
+                        console.log("Loading")
+                        if (err) {
+                            console.log("Error al cambiar estado automaticamente");
+                            return;
+                        }
+                        if (res) {
+                            element.dispatch.status = STATUS.LOADING;
+                        }
+                    })
+                }
+            } else if (turf.booleanPointInPolygon(pt, geofence_patacon)) {
+                if (dispatchInfo.status === STATUS.TRAVELING_TO_PATACON) {
+                    dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.IN_PATIO, (err, res) => {
+                        console.log("En patio")
+                        if (err) {
+                            console.log("Error al cambiar estado automaticamente");
+                            return;
+                        }
+                        if (res) {
+                            element.dispatch.status = STATUS.IN_PATIO;
+                            // When the gps is in patio close the connection with gps. With it if a dispatch is asigned a gps
+                            // it can connect newly.
+                            connectionStableshed[key].end(); 
+                        }
+                    })
+                }
+            } else if (dispatchInfo.status === STATUS.LOADING) {
+
                 dispatch.editDispatchStatus(dispatchInfo.id_dispatch, STATUS.TRAVELING_TO_PATACON, (err, res) => {
                     console.log("Camino a patacon")
-                    if (err){
+                    if (err) {
                         console.log("Error al cambiar estado automaticamente");
                         return;
                     }
-                    if(res){
+                    if (res) {
                         element.dispatch.status = STATUS.TRAVELING_TO_PATACON;
                     }
                 })

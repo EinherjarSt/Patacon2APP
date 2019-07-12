@@ -88,16 +88,18 @@ BEGIN
   truck.licencePlate AS truckLicensePlate,
   dispatch.arrivalAtPataconDate AS dispatchDate,
   insights_data.textMessagesSent AS textMessagesSent,
+  insights_data.lastMessageSentDate AS lastMessageSentDate,
   insights_data.stoppedTime AS stoppedTime,
-  insights_data.unloadYardTime AS unloadYardTime
+  insights_data.unloadYardTime AS unloadYardTime,
+  insights_data.visitsCounter AS visitsCounter
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run
   INNER JOIN producer ON planification.ref_producer = producer.rut
   INNER JOIN truck ON dispatch.ref_truck = truck.id_truck
   INNER JOIN insights_data ON insights_data.refDispatch = dispatch.id_dispatch
-  WHERE dispatch.arrivalAtPataconDate >= startDate 
-  AND dispatch.arrivalAtPataconDate <= endDate;
+  WHERE dispatch.arrivalAtVineyardDate >= startDate 
+  AND dispatch.arrivalAtVineyardDate <= endDate;
 END //
 DELIMITER ;
 
@@ -115,7 +117,24 @@ BEGIN
 END //
 DELIMITER ;
 
---CREATE TRIGGER create_dispatch_insights_row 
---AFTER INSERT ON dispatch
---FOR EACH ROW 
---INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL);
+DROP TRIGGER create_dispatch_insights_row;
+CREATE TRIGGER create_dispatch_insights_row 
+AFTER INSERT ON dispatch
+FOR EACH ROW 
+INSERT INTO insights_data VALUES (NEW.id_dispatch, 0, 0, 0, NULL, 0);
+
+
+
+DROP PROCEDURE IF EXISTS incrementVisitsCounter;
+DELIMITER //
+CREATE PROCEDURE incrementVisitsCounter (  
+  IN dispatchId INT
+)
+BEGIN
+
+  UPDATE insights_data
+  SET visitsCounter = visitsCounter + 1
+  WHERE refDispatch = dispatchId;
+
+END //
+DELIMITER ;

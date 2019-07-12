@@ -71,6 +71,42 @@ END //
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS start_dispatch;
+DELIMITER //
+CREATE PROCEDURE start_dispatch (  
+  IN dispatch_id INT
+)
+BEGIN
+  DECLARE areDriverAndTruckAvailable TINYINT;
+  
+  SELECT @driverId:=dispatch.ref_driver, @truckId:=dispatch.ref_truck
+  FROM dispatch
+  WHERE dispatch.id_dispatch = dispatch_id; 
+
+
+  SELECT NOT EXISTS (
+
+    SELECT * FROM dispatch 
+    WHERE dispatch.status <> "Pendiente" 
+    AND dispatch.status <> "Terminado"
+    AND dispatch.status <> "Cancelado"
+    AND (dispatch.ref_truck = @truckId OR dispatch.ref_driver = @driverId)
+
+  ) INTO areDriverAndTruckAvailable;
+
+
+  IF(areDriverAndTruckAvailable = 1) THEN 
+    CALL edit_dispatch_status(dispatch_id, 'En camino a viña');
+  ELSE
+    SIGNAL SQLSTATE 'HY008'
+    SET MESSAGE_TEXT = 'El camión o el chofer está asignado a otro despacho ya en tránsito.';
+  END IF;
+
+END //
+DELIMITER ;
+
+
+
 
 DROP PROCEDURE IF EXISTS get_dispatches_with_full_info;
 DELIMITER //
@@ -90,16 +126,15 @@ BEGIN
   producer.name AS producerName,
   location.address AS producerLocation,
   truck.ref_gps AS truckGPSImei,
-  truck.licencePlate AS truckLicensePlate
+  truck.licencePlate AS truckLicensePlate,
+  planification.grapeVariety AS grapeVariety
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run
   INNER JOIN location ON planification.ref_location = location.id_location
   INNER JOIN producer ON planification.ref_producer = producer.rut
   INNER JOIN truck ON dispatch.ref_truck = truck.id_truck
-  WHERE dispatch.status <> 'Terminado' 
-  && dispatch.status <> 'Pendiente'
-  && truck.ref_gps IS NOT NULL;
+  WHERE truck.ref_gps IS NOT NULL;
 END //
 DELIMITER ;
 
@@ -128,7 +163,8 @@ BEGIN
   truck.licencePlate AS truckLicensePlate,
   truck.brand AS truckBrand,
   truck.model AS truckModel,
-  truck.year AS truckYear
+  truck.year AS truckYear,
+  planification.grapeVariety AS grapeVariety
   FROM dispatch
   INNER JOIN planification ON dispatch.ref_planification = planification.planification_id
   INNER JOIN driver ON dispatch.ref_driver = driver.run
@@ -147,3 +183,7 @@ CREATE PROCEDURE get_dispatches (
 BEGIN
   SELECT * FROM dispatch WHERE dispatch.ref_planification = planificationId;
 END //
+
+
+
+

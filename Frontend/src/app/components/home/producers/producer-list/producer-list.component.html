@@ -33,7 +33,7 @@
           <th mat-header-cell *matHeaderCellDef> Editar </th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="primary" (click)="openUpdateDialog(element.rut)">
-              <mat-icon class="mat-18">edit</mat-icon>
+              <mat-icon svgIcon="edit" class="mat-18"></mat-icon>
             </button>
           </td> 
         </ng-container>
@@ -42,7 +42,7 @@
           <th mat-header-cell *matHeaderCellDef> Eliminar </th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="warn" (click)="deleteProducer(element.rut)">
-              <mat-icon class="mat-18">delete</mat-icon>
+              <mat-icon svgIcon="delete" class="mat-18"></mat-icon>
             </button>
           </td>
         </ng-container>
@@ -53,7 +53,15 @@
                  [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
               
               <div class="locations-table">
+
+                <div class="add-button">
+                    <button mat-raised-button (click)="openAddLocationDialog(element.rut)"> 
+                      <mat-icon>add</mat-icon> Agregar ubicación
+                    </button>
+                </div>
+
                 <h6>Ubicaciones</h6>
+
                 <table mat-table [dataSource]="element.locations" class="mat-elevation-z8">
                   <ng-container matColumnDef="address">
                     <th mat-header-cell *matHeaderCellDef> Dirección </th>
@@ -73,7 +81,7 @@
                   <ng-container matColumnDef="location-details">
                     <th mat-header-cell *matHeaderCellDef> Editar </th>
                     <td mat-cell *matCellDef="let element">
-                      <button mat-icon-button color="primary" (click)="openLocationUpdateDialog(element.id_location)">
+                      <button mat-icon-button color="primary" (click)="openLocationUpdateDialog(element.id_location, element.latitude, element.longitude)">
                         <mat-icon class="mat-18">edit</mat-icon>
                       </button>
                     </td> 

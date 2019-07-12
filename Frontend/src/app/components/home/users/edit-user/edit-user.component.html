@@ -3,8 +3,9 @@
   <hr />
   <mat-dialog-content>
     <form [formGroup]="form">
-      <div class="container">
-        <mat-form-field appearance="standard">
+
+      <div class="form-div">
+        <mat-form-field appearance="standard" class="input">
           <mat-label>R.U.N</mat-label>
           <input
             matInput
@@ -14,10 +15,8 @@
           />
           <mat-hint></mat-hint>
         </mat-form-field>
-      </div>
 
-      <div class="container">
-        <mat-form-field appearance="standard">
+        <mat-form-field appearance="standard" class="input">
           <mat-label>Nombre</mat-label>
           <input matInput placeholder="" formControlName="name" maxlength="30"/>
           <mat-error *ngIf="hasError('name', 'required')">Debe ingresar un nombre</mat-error>
@@ -25,17 +24,15 @@
         </mat-form-field>
       </div>
 
-      <div class="container">
-        <mat-form-field appearance="standard">
+      <div class="form-div">
+        <mat-form-field appearance="standard" class="input">
           <mat-label>Apellido Paterno</mat-label>
           <input matInput placeholder="" formControlName="surname" maxlength="30"/>
           <mat-error *ngIf="hasError('surname', 'required')">Debe ingresar el apellido</mat-error>
           <mat-hint></mat-hint>
         </mat-form-field>
-      </div>
 
-      <div class="container">
-        <mat-form-field appearance="standard">
+        <mat-form-field appearance="standard" class="input">
           <mat-label>Apellido Materno</mat-label>
           <input matInput placeholder="" formControlName="surname2" maxlength="30"/>
           <mat-error *ngIf="hasError('surname2', 'required')">Debe ingresar el apellido</mat-error>
@@ -44,13 +41,28 @@
       </div>
 
       <div class="container">
+          <label>Tipo de usuario:</label>
+          <mat-radio-group formControlName="position" class="position-form">
+            <div>
+              <mat-radio-button value="SysAdmin">SysAdmin</mat-radio-button>
+            </div>
+            <div>
+              <mat-radio-button value="Encargado de Flota">Encargado de Flota</mat-radio-button>
+            </div>
+            <div>
+              <mat-radio-button value="Coordinador">Coordinador</mat-radio-button>
+            </div>
+          </mat-radio-group>
+        </div>
+
+      <div class="container">
         <mat-form-field appearance="standard">
           <mat-label>Correo electrónico</mat-label>
           <input
             matInput
             placeholder="ejemplo@patacon.cl"
             formControlName="email"
-            maxlength="30"
+            maxlength="50"
           />
           <mat-error *ngIf="hasError('email', 'required')">Debe ingresar el correo</mat-error>
           <mat-error *ngIf="hasError('email', 'email')">Debe ingresar un correo valido</mat-error>          <mat-hint></mat-hint>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SummaryByDriverComponent } from './summary-by-driver.component';
+import { AddLocationComponent } from './add-location.component';
 
-describe('SummaryByDriverComponent', () => {
-  let component: SummaryByDriverComponent;
-  let fixture: ComponentFixture<SummaryByDriverComponent>;
+describe('AddLocationComponent', () => {
+  let component: AddLocationComponent;
+  let fixture: ComponentFixture<AddLocationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SummaryByDriverComponent ]
+      declarations: [ AddLocationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SummaryByDriverComponent);
+    fixture = TestBed.createComponent(AddLocationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

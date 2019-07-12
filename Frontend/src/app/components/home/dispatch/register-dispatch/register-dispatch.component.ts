@@ -16,7 +16,7 @@ import { Driver } from '../../../../model-classes/driver';
 import { Dispatch } from '../../../../model-classes/dispatch';
 import * as moment from 'moment';
 import { Truck } from 'src/app/model-classes/truck';
-
+import { NotifierService } from 'angular-notifier';
 import { Inject } from '@angular/core';
 
 @Component({
@@ -38,7 +38,7 @@ export class RegisterDispatchComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar, private dialogRef: MatDialogRef<RegisterDispatchComponent>,
     private _formBuilder: FormBuilder, private _dispatchesService: DispatchesService,
-    private _driversService: DriversService, private _trucksService: TrucksService,
+    private _driversService: DriversService, private notifierService: NotifierService, private _trucksService: TrucksService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.title = "Registrar despacho";
   }
@@ -177,7 +177,6 @@ export class RegisterDispatchComponent implements OnInit {
 
     this.submitData(this._dispatchesService.formValuesToDispatchObject(this.registerDispatchForm.value));
     this.onCloseSubmit();
-    this.openSuccessMessage();
 
   }
 
@@ -185,7 +184,7 @@ export class RegisterDispatchComponent implements OnInit {
 
     this._dispatchesService.registerDispatch(dispatchData).subscribe({
       next: result => {
-        console.log(result);
+        this.notifierService.notify('info', 'El despacho ha sido registrado exitosamente');
       },
       error: result => { }
     });
@@ -202,11 +201,7 @@ export class RegisterDispatchComponent implements OnInit {
     return this.driverOptions.find(driverOption => driverOption.run == driverRut);
   }
 
-  openSuccessMessage() {
-    this.snackBar.open('El despacho ha sido registrado.', 'Cerrar', {
-      duration: 2000,
-    });
-  }
+  
 
   onCloseSubmit() {
     this.dialogRef.close({ confirmed: true });

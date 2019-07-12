@@ -75,3 +75,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 mat-form-field{
   padding: -10px;
 }
+
+.add-button{
+  padding-bottom: 15px;
+}

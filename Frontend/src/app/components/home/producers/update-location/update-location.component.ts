@@ -10,18 +10,23 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class UpdateLocationComponent implements OnInit {
   locationForm: FormGroup;
+  lat: number;
+  lng: number;
 
   constructor(public dialogRef: MatDialogRef<UpdateLocationComponent>, private producersService: ProducersService,
-    @Inject(MAT_DIALOG_DATA) private data, private fb: FormBuilder) { 
+    @Inject(MAT_DIALOG_DATA) private data: any, private fb: FormBuilder) { 
+
+      this.lat = +data.lat;
+      this.lng = +data.lng;
 
       this.locationForm = this.fb.group({
-        id_location : data,
+        id_location : data.location,
         ref_productor: new FormControl(''),
-        address: new FormControl(''),
+        address: new FormControl('', [Validators.required]),
         latitude: new FormControl(''),
         longitude: new FormControl(''),
-        manager: new FormControl(''),
-        managerPhoneNumber: new FormControl('')
+        manager: new FormControl('', [Validators.required]),
+        managerPhoneNumber: new FormControl('', [Validators.required, Validators.pattern(/^\d{9}$/)])
       });
     }
 
@@ -30,7 +35,7 @@ export class UpdateLocationComponent implements OnInit {
   }
 
   getLocationData(){
-    this.producersService.getLocation(this.data).subscribe({
+    this.producersService.getLocation(this.data.location).subscribe({
       next: result => {
         this.locationForm.get('ref_productor').setValue(result.ref_producer);
         this.locationForm.get('address').setValue(result.address);
@@ -60,6 +65,11 @@ export class UpdateLocationComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  mapClicked($event: any) {
+    this.locationForm.get('latitude').setValue($event.coords.lat);
+    this.locationForm.get('longitude').setValue($event.coords.lng);
   }
 
 }

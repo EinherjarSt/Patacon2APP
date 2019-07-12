@@ -60,6 +60,13 @@ export class InsightsService {
       
   }
 
+  public incrementVisitsCounter(dispatch_id) {
+    const body = new HttpParams();
+
+    return this._http
+      .put<{ dispatchCount: number }>(env.api.concat("/despachos/" + dispatch_id + "/incrementar_contador_de_visitas"), body);
+  }
+
   public getDispatchesInsightsByDataRange(startDate, endDate) {
     const body = new HttpParams().set('startDate', startDate)
     .set('endDate', endDate);
@@ -69,17 +76,34 @@ export class InsightsService {
       
   }
 
+  public setStatusTimesPerDispatch(dispatchId, stoppedDuration, inUnloadYardDuration){
+    const body = new HttpParams().set("stoppedTime", this._durationToString(stoppedDuration)).
+                  set("inUnloadYardTime", this._durationToString(inUnloadYardDuration));
+    
+                return this._http.put<any>(env.api.concat(`/informacion/editar_tiempo_por_estado/` + dispatchId), body);
+    
+  }
+
+  _durationToString(duration) {
+    let seconds = duration.seconds();
+    let minutes = duration.minutes();
+    let hours = duration.hours() + 24 * duration.days() + 24 * 30 * duration.months();
+    return `${hours}:${minutes}:${seconds}`
+  }
+
   calculateTotalTimePerStatus(dispatchId) {
     return this._lastEventsService.getAllEventsOfDispatch(dispatchId).pipe(
       map(events => {
         return {
-          stopped: this._calculateTotalTimeInStatus(events, 'Detenido'),
+          stopped: this._calculateTotalTimeInStatus(events, 'Detenido camino a Patacon'),
           inUnloadYard: this._calculateTotalTimeInStatus(events, 'En patio')
         };
       })
     );
 
   }
+
+
 
   _calculateTotalTimeInStatus(events, status) {
 

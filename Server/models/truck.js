@@ -1,4 +1,5 @@
 const pool = require('../common/mysql').pool;
+const ERROR = require('../common/error');
 
 class Truck {
     constructor(id_truck, licencePlate, ref_driver, ref_gps, brand, model, year, maxLoad, owner, color, disabled, available) {
@@ -32,40 +33,6 @@ class Truck {
             return callback(null, trucks);
         });
     }
-
-    /* static getAllTrucksIncludeDisabled(callback) {
-        if(!callback || !(typeof callback === 'function')){
-            throw new Error('There is not a callback function. Please provide them');
-        }
-        pool.query(`SELECT * FROM truck`, function (err, results, fields) {
-            if (err) {
-                return callback(err);
-            }
-            let trucks = []
-            for (const truck of results) {
-                trucks.push(new Truck(truck.id_truck, truck.licencePlate, truck.brand, truck.model, 
-                    truck.year, truck.maxLoad, truck.owner, truck.color, truck.disabled, truck.available));
-            }
-            return callback(null, trucks);
-        });
-    } */
-
-    /*static deleteTruck(licencePlate, callback) {
-        if(!callback || !(typeof callback === 'function')){
-            throw new Error('There is not a callback function. Please provide them');
-        }
-        pool.query(`CALL delete_truck(?)`,[licencePlate], 
-        function (err, results, fields) {
-            if (err) {
-                if (err.code == "ER_DUP_ENTRY"){
-                    return callback({message : err.sqlMessage});
-                }
-                return callback(err);
-            }
-            return callback(null, true);
-
-        });
-    }*/
 
 
     static updateTruck(truck, callback) {
@@ -179,7 +146,7 @@ class Truck {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ message: "This truck don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: `El camion ${licencePlate} no existe`});
             }
             return callback(null, true);
         });
@@ -194,6 +161,7 @@ class Truck {
         {
             if(truck.ref_gps == 'undefined' && truck.ref_driver == 'undefined')
             {
+                //Query to add a truck without references to a GPS and a driver
                 pool.query(`CALL add_truck3(?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
@@ -205,7 +173,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -215,6 +183,7 @@ class Truck {
             }
             else if(truck.ref_gps == 'undefined')
             {
+                //Query to add a truck without a GPS reference
                 pool.query(`CALL add_truck4(?, ?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
@@ -227,7 +196,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -237,6 +206,7 @@ class Truck {
             }
             else if(truck.ref_driver == 'undefined')
             {
+                //Query to add a truck without a driver reference
                 pool.query(`CALL add_truck5(?, ?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
@@ -249,7 +219,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -259,6 +229,7 @@ class Truck {
             }
             else
             {
+                //Query to add a truck with references to both GPS and a driver
                 pool.query(`CALL add_truck2(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
                     truck.licencePlate, 
                     truck.brand, 
@@ -272,7 +243,7 @@ class Truck {
                 ], function (err, results, fields) {
                     if (err) {
                         if (err.code == "ER_DUP_ENTRY"){
-                            return callback({message : err.sqlMessage});
+                            return callback({code: ERROR.ER_DUP_ENTRY, message : `Este camion ya se encuentra registrado`});
                         }
                         return callback(err);
                     }
@@ -295,13 +266,12 @@ class Truck {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : `No existe el camion${licensePlate}`});
             }
             if (results.length > 1) {
-                return callback({message : "There is an error in database because the truck is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : `Existen multiples camiones con la misma licencia ${licencePlate}`});
             }
             let result = results[0];
-            console.log(result.licencePlate)
             return callback(null, new Truck(result.id_truck, result.licencePlate, result.ref_driver, result.ref_gps, 
                 result.brand, result.model, result.year, result.maxLoad, result.owner, result.color, result.disabled,
                 result.available));

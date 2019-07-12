@@ -95,12 +95,33 @@ class InsightsData {
                     truckLicensePlate: dispatchInsight.truckLicensePlate,
                     dispatchDate: dispatchInsight.dispatchDate,
                     textMessagesSent: dispatchInsight.textMessagesSent,
+                    lastMessageSentDate: dispatchInsight.lastMessageSentDate,
                     stoppedTime: dispatchInsight.stoppedTime,
-                    unloadYardTime: dispatchInsight.unloadYardTime
+                    unloadYardTime: dispatchInsight.unloadYardTime,
+                    visitsCounter: dispatchInsight.visitsCounter
+                    
                 });
             }
 
             return callback(null, dispatchesInsights);
+        });
+    }
+
+    static incrementDispatchVisitsCounter(dispatchId, callback) {
+
+        if (!callback || !(typeof callback === 'function')) {
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL incrementVisitsCounter(?)`, [dispatchId], function (err, results, fields) {
+            console.log("Errores");
+            console.log(err);
+            if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ message: err.sqlMessage });
+                }
+                return callback(err);
+            }
+            return callback(null, true);
         });
     }
 
@@ -113,7 +134,7 @@ class InsightsData {
         pool.query(`CALL edit_time_per_status(?, ?, ?)`, [dispatchId, stoppedTime, inUnloadYardTime], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
-                    return callback({ message: err.sqlMessage });
+                    return callback({ code:err.code, message: `El despacho ${dispatchId} ya existe` });
                 }
                 return callback(err);
             }
@@ -130,7 +151,7 @@ class InsightsData {
         pool.query(`CALL edit_last_message_sent_data(?, ?)`, [dispatchId, datetime], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY") {
-                    return callback({ message: err.sqlMessage });
+                    return callback({ code:err.code, message: `El despacho ${dispatchId} ya existe` });
                 }
                 return callback(err);
             }

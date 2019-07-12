@@ -33,10 +33,10 @@ class User {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No hubieron resultados"});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "Este usuario esta duplicado"});
             }
             let result = results[0];
             return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, result.password, result.position, result.disabled));
@@ -52,10 +52,10 @@ class User {
                 return callback(err);
             }
             if (results.length === 0) {
-                return callback({code: ERROR.NOT_FOUND, message : "There isn't result"});
+                return callback({code: ERROR.NOT_FOUND, message : "No hubieron resultados"});
             }
             if (results.length > 1) {
-                return callback({code: ERROR.NOT_UNIQUE, message : "There is an error in database because the user is not unique"});
+                return callback({code: ERROR.NOT_UNIQUE, message : "Este usuario esta duplicado"});
             }
             let result = results[0];
             return callback(null, new User(result.run, result.name, result.surname, result.surname2, result.email, undefined,result.position, result.disabled));
@@ -101,11 +101,14 @@ class User {
             // console.log("fields:");
             // console.log(fields);
             if (err) {
+                if (err.code == "ER_DUP_ENTRY") {
+                    return callback({ code:err.code, message: `El rut o email ya existe` });
+                }
                 return callback(err);
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({ code: ERROR.NOT_FOUND, message: "This user don't exist"});
+                return callback({ code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
             }
             return callback(null, true);
         });
@@ -131,7 +134,7 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This user don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
             }
             return callback(null, true);
         });
@@ -152,7 +155,7 @@ class User {
         ], function (err, results, fields) {
             if (err) {
                 if (err.code == "ER_DUP_ENTRY"){
-                    return callback({code: ERROR.ER_DUP_ENTRY ,message : err.sqlMessage});
+                    return callback({code: ERROR.ER_DUP_ENTRY ,message : "El rut o el email se encuentra duplicado"});
                 }
                 return callback(err);
             }
@@ -173,12 +176,54 @@ class User {
             }
             if(results.affectedRows == 0){
                 // If don't exist a row
-                return callback({code: ERROR.NOT_FOUND, message: "This user don't exist"});
+                return callback({code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
             }
             return callback(null, true);
         });
     }
 
+    static verifyPassword2(run,password, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        let query = pool.query(`SELECT password FROM user WHERE run = ?`, [run], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if (results.length === 0) {
+                return callback({code: ERROR.NOT_FOUND, message : "No hubieron resultados"});
+            }
+            if (results.length > 1) {
+                return callback({code: ERROR.NOT_UNIQUE, message : "Este usuario esta duplicado"});
+            }
+            let result = results[0];
+            bcrypt.compare(password,result.password ,function(err, res) {
+                if(err){
+                    callback(err);
+                }
+                return callback(null, res);
+            });
+        });
+    }
+
+    static updatePassword(run,password, callback) {
+        if(!callback || !(typeof callback === 'function')){
+            throw new Error('There is not a callback function. Please provide them');
+        }
+        pool.query(`CALL update_password(?, ?)`, [
+            run,
+            password
+        ], function (err, results, fields) {
+            if (err) {
+                return callback(err);
+            }
+            if(results.affectedRows == 0){
+                // If don't exist a row
+                return callback({ code: ERROR.NOT_FOUND, message: "Este usuario no existe"});
+            }
+            return callback(null, true);
+        });
+    }
 }
 
 module.exports = User

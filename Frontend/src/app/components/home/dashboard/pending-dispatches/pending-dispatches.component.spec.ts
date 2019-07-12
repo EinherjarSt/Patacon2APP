@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LatestEventsComponent } from './latest-events.component';
+import { PendingDispatchesComponent } from './pending-dispatches.component';
 
-describe('LatestEventsComponent', () => {
-  let component: LatestEventsComponent;
-  let fixture: ComponentFixture<LatestEventsComponent>;
+describe('PendingDispatchesComponent', () => {
+  let component: PendingDispatchesComponent;
+  let fixture: ComponentFixture<PendingDispatchesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LatestEventsComponent ]
+      declarations: [ PendingDispatchesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LatestEventsComponent);
+    fixture = TestBed.createComponent(PendingDispatchesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

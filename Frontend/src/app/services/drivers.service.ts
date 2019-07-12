@@ -67,6 +67,19 @@ export class DriversService {
     );
   }
 
+  /** Request to server to get drivers who don't have been assigned to a truck.
+   * @param data Data to send to backend
+   */
+
+  getAllDriversAvailableForNewTruck(): Observable<Driver[]> {
+    return this.http.get<Driver[]>(env.api.concat("/driver/getall2")).pipe(
+      map(result => {
+        //console.log(result);
+        return result;
+      })
+    );
+  }
+
   getDriver(run: string): Observable<Driver>{
     const body = new HttpParams()
     .set('run', run);

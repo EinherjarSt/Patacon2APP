@@ -22,7 +22,7 @@
                 <mat-error *ngIf="hasError('password', 'required')">Debe ingresar la contraseña</mat-error>
               </mat-form-field>
               <p *ngIf= "this.errorText" class = "errorMessage">Correo o contraseña inválidos!</p>
-              <a href="" class="restore">¿Olvidaste tu contraseña?</a>
+              <a href="#/login/reset-password" class="restore">¿Olvidaste tu contraseña?</a>
               <button mat-button href="#" class="btn" type="submit" *ngIf="!this.hiddenText">
                 <div >Iniciar Sesión</div>
               </button>
