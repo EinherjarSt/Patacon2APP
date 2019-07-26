@@ -28,7 +28,7 @@ app.post('/login', function (req, res) {
                 }
                 const token = jwt.sign(user,
                     process.env.PATACON_JWT_SECRET, {
-                        expiresIn: 60 * 60
+                        expiresIn: 60 * 60 * 24 // 24 horas
                     }
                 );
 
